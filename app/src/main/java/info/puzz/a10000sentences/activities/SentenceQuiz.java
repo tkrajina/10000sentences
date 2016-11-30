@@ -1,10 +1,13 @@
-package info.puzz.a10000sentences;
+package info.puzz.a10000sentences.activities;
 
 import android.databinding.BaseObservable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import info.puzz.a10000sentences.utils.StringUtils;
+import info.puzz.a10000sentences.utils.WordChunk;
 
 public class SentenceQuiz extends BaseObservable {
 

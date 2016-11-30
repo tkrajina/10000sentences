@@ -1,6 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    }
+
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
     defaultConfig {
@@ -35,6 +42,15 @@ dependencies {
 
     compile 'com.joanzapata.iconify:android-iconify:2.2.2'
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
+
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    compile 'com.google.code.gson:gson:2.6.2'
 
     testCompile 'junit:junit:4.12'
 }

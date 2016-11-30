@@ -1,8 +1,10 @@
-package info.puzz.a10000sentences;
+package info.puzz.a10000sentences.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+
+import info.puzz.a10000sentences.R;
 
 /**
  * Created by puzz on 02/11/2016.

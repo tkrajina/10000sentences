@@ -1,4 +1,4 @@
-package info.puzz.a10000sentences;
+package info.puzz.a10000sentences.utils;
 
 import lombok.ToString;
 
