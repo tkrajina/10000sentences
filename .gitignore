@@ -1,0 +1,13 @@
+.gradle
+/local.properties
+.DS_Store
+/*/build/*
+/build/*
+*.sw*
+*.class
+*.bin
+/.idea/*
+*.iml
+*.out
+logcat.*
+tmp*
