@@ -2,7 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+        <variable name="quiz" type="info.puzz.a10000sentences.SentenceQuiz" />
+    </data>
 
     <LinearLayout
         android:id="@+id/activity_main2"
@@ -46,7 +48,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sonst noch irgendwelche schlauen Einfälle?" />
+                android:text="@{quiz.getQuizSentence()}" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -66,12 +68,12 @@
                 <Button
                     android:id="@+id/answer1"
                     android:layout_gravity="center"
-                    android:text="abc" />
+                    android:text="@{quiz.answers[0]}" />
 
                 <Button
                     android:id="@+id/answer2"
                     android:layout_gravity="center_horizontal"
-                    android:text="schlauen" />
+                    android:text="@{quiz.answers[1]}" />
             </TableRow>
 
             <TableRow android:layout_width="match_parent">
@@ -79,12 +81,12 @@
                 <Button
                     android:id="@+id/answer3"
                     android:layout_gravity="center_horizontal"
-                    android:text="cde" />
+                    android:text="@{quiz.answers[2]}" />
 
                 <Button
                     android:id="@+id/answer4"
                     android:layout_gravity="center_horizontal"
-                    android:text="efg" />
+                    android:text="@{quiz.answers[3]}" />
             </TableRow>
 
         </TableLayout>

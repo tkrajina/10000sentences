@@ -6,4 +6,6 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_sentence_quiz">SentenceQuizActivity</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

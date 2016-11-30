@@ -1,23 +1,19 @@
 package info.puzz.a10000sentences;
 
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
-
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.fonts.FontAwesomeIcons;
-
-import java.util.List;
 
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
 
 public class SentenceQuizActivity extends AppCompatActivity {
 
     ActivitySentenceQuizBinding binding;
-    private List<WordChunk> chunks;
+
+    private SentenceQuiz quiz;
+    private Button[] answerButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +21,24 @@ public class SentenceQuizActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sentence_quiz);
         //FontAwesomeIcons.fa_volume_up
 
-        String sentence = "Sonst noch irgendwelche schlauen Einfälle?";
-        chunks = StringUtils.getWordChunks(sentence);
+        binding.setQuiz(new SentenceQuiz("Sonst noch irgendwelche schlauen Einfälle?", 4));
 
-        Button[] answerButtons = new Button[] { binding.answer1, binding.answer2, binding.answer3, binding.answer4, };
+        answerButtons = new Button[] { binding.answer1, binding.answer2, binding.answer3, binding.answer4, };
+        for (final Button answerButton : answerButtons) {
+            answerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    submitResponse(answerButton.getText().toString());
+                }
+            });
+        }
+    }
 
-        // This isn't working, why?:
-/*        binding.iconSomething.setImageDrawable(new IconDrawable(this, FontAwesomeIcons.fa_share)
-                        .colorRes(R.color.colorAccent)
-                        .actionBarSize());*/
+    private void submitResponse(String text) {
+        binding.getQuiz().guessWord(text);
+        if (binding.getQuiz().isFinished()) {
+            DialogUtils.showYesNoButton(this, "Yes!", null);
+        }
     }
 
 /*    @Override
