@@ -7,11 +7,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class LanguageVO {
-    String abbrev;
-    String abbrev3;
-    String family;
-    String name;
-    String nativeName;
-    boolean rightToLeft;
+public class SenteceCollectionVO {
+    String knownLanguage;
+    String targetLanguage;
+    String filename;
 }
