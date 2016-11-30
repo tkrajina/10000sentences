@@ -64,10 +64,12 @@
             <TableRow android:layout_width="match_parent">
 
                 <Button
+                    android:id="@+id/answer1"
                     android:layout_gravity="center"
                     android:text="abc" />
 
                 <Button
+                    android:id="@+id/answer2"
                     android:layout_gravity="center_horizontal"
                     android:text="schlauen" />
             </TableRow>
@@ -75,10 +77,12 @@
             <TableRow android:layout_width="match_parent">
 
                 <Button
+                    android:id="@+id/answer3"
                     android:layout_gravity="center_horizontal"
                     android:text="cde" />
 
                 <Button
+                    android:id="@+id/answer4"
                     android:layout_gravity="center_horizontal"
                     android:text="efg" />
             </TableRow>
