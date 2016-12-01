@@ -81,8 +81,8 @@ public class TatoebaImporter {
 
         HashSet<Integer> sentencesFound = new HashSet<>();
 
-        String outFilename = Paths.get(outputDir, String.format("%s-%s.csv", knownLanguage.getAbbrev(), targetLanguage.getAbbrev())).toString();
-        FileOutputStream out = new FileOutputStream(outFilename);
+        String outFilename = String.format("%s-%s.csv", knownLanguage.getAbbrev(), targetLanguage.getAbbrev());
+        FileOutputStream out = new FileOutputStream(Paths.get(outputDir, outFilename).toString());
 
         {
             FileInputStream fstream = new FileInputStream("tmp_files/links.csv");

@@ -8,4 +8,5 @@
     <string name="title_activity_sentence_quiz">SentenceQuizActivity</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="download_senteces">Download sentences</string>
 </resources>
