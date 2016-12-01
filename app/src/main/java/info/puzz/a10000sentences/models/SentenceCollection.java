@@ -17,11 +17,11 @@ public class SentenceCollection extends Model {
     public String collectionID;
 
     @Column(name = "known_lang")
-    String knownLanguage;
+    public String knownLanguage;
 
     @Column(name = "target_lang")
-    String targetLanguage;
+    public String targetLanguage;
 
     @Column(name = "filename")
-    String filename;
+    public String filename;
 }

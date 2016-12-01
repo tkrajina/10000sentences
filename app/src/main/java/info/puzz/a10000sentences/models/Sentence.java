@@ -17,5 +17,5 @@ public class Sentence extends Model {
     public int sentenceId;
 
     @Column(name = "text")
-    String text;
+    public String text;
 }

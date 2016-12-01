@@ -17,13 +17,13 @@ public class Language extends Model {
     public String languageId;
 
     @Column(name = "family")
-    String family;
+    public String family;
 
     @Column(name = "name")
-    String name;
+    public String name;
 
     @Column(name = "native_name")
-    String nativeName;
+    public String nativeName;
 
     @Column(name = "rtl")
     boolean rightToLeft;
