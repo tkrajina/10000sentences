@@ -13,5 +13,8 @@ import lombok.experimental.Accessors;
 @Table(name = "sentence")
 public class Sentence {
     @Column(name = "sentence_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-    public int languageId;
+    public int sentenceId;
+
+    @Column(name = "text")
+    String text;
 }

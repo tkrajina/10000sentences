@@ -14,4 +14,13 @@ import lombok.experimental.Accessors;
 public class SentenceCollection {
     @Column(name = "collection_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public String collectionID;
+
+    @Column(name = "known_lang")
+    String knownLanguage;
+
+    @Column(name = "target_lang")
+    String targetLanguage;
+
+    @Column(name = "filename")
+    String filename;
 }

@@ -14,4 +14,16 @@ import lombok.experimental.Accessors;
 public class Language {
     @Column(name = "language_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public String languageId;
+
+    @Column(name = "family")
+    String family;
+
+    @Column(name = "name")
+    String name;
+
+    @Column(name = "native_name")
+    String nativeName;
+
+    @Column(name = "rtl")
+    boolean rightToLeft;
 }
