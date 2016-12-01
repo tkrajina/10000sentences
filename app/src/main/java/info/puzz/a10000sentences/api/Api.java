@@ -5,10 +5,11 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import temp.DBG;
 
 public class Api {
     private static SentencesService instance;
+
+    public static final String BASE_URL = "https://storage.googleapis.com/10000sentences/";
 
     public static SentencesService instance() {
         if (instance == null) {
@@ -23,11 +24,9 @@ public class Api {
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .build();
 
-        DBG.todo("hardcode:");
-        String baseUrl = "https://storage.googleapis.com/10000sentences/";
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
-                .baseUrl(baseUrl)
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit.create(SentencesService.class);

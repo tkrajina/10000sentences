@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class SenteceCollectionVO {
+public class SentenceCollectionVO {
     String knownLanguage;
     String targetLanguage;
     String filename;

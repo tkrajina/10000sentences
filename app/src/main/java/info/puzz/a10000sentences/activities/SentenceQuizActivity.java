@@ -1,11 +1,7 @@
 package info.puzz.a10000sentences.activities;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +10,11 @@ import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.apimodels.InfoVO;
 import info.puzz.a10000sentences.apimodels.LanguageVO;
+import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
+import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
+import info.puzz.a10000sentences.models.Language;
+import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,7 +58,21 @@ public class SentenceQuizActivity extends BaseActivity {
                 Log.i(TAG, String.valueOf(response.body()));
                 InfoVO info = response.body();
                 for (LanguageVO languageVO : info.getLanguages()) {
-                    
+                    Language language = new Language()
+                            .setLanguageId(languageVO.getAbbrev())
+                            .setFamily(languageVO.getFamily())
+                            .setName(languageVO.getName())
+                            .setNativeName(languageVO.getNativeName())
+                            .setRightToLeft(languageVO.isRightToLeft());
+                    Dao.saveLanguage(language);
+                }
+                for (SentenceCollectionVO collectionVO : info.getSentenceCollections()) {
+                    SentenceCollection col = new SentenceCollection()
+                            .setCollectionID(String.format("%s-%s", collectionVO.getKnownLanguage(), collectionVO.getTargetLanguage()))
+                            .setKnownLanguage(collectionVO.getKnownLanguage())
+                            .setTargetLanguage(collectionVO.getTargetLanguage())
+                            .setFilename(collectionVO.getFilename());
+                    Dao.saveCollection(col);
                 }
             }
 

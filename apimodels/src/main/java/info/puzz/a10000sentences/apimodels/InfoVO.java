@@ -12,17 +12,18 @@ import lombok.experimental.Accessors;
 @ToString
 public class InfoVO {
     List<LanguageVO> languages;
-    List<SenteceCollectionVO> sentences;
+    List<SentenceCollectionVO> sentenceCollections;
 
     public InfoVO() {
         super();
     }
 
-    public InfoVO getAddSentencesCollection(SenteceCollectionVO sentenceCollection) {
-        if (sentences == null) {
-            sentences = new ArrayList<>();
+    public InfoVO addSentencesCollection(SentenceCollectionVO sentenceCollection) {
+        if (sentenceCollections == null) {
+            sentenceCollections = new ArrayList<>();
         }
-        sentences.add(sentenceCollection);
+        sentenceCollections.add(sentenceCollection);
         return this;
     }
+
 }
