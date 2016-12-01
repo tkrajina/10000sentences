@@ -12,22 +12,25 @@ public class Api {
 
     public static SentencesService instance() {
         if (instance == null) {
-
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .readTimeout(60, TimeUnit.SECONDS)
-                    .connectTimeout(60, TimeUnit.SECONDS)
-                    .build();
-
-            DBG.todo("hardcode:");
-            String baseUrl = "";
-            Retrofit retrofit = new Retrofit.Builder()
-                    .client(client)
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            instance = retrofit.create(SentencesService.class);
+            instance = initInstance();
         }
         return instance;
+    }
+
+    private static SentencesService initInstance() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .build();
+
+        DBG.todo("hardcode:");
+        String baseUrl = "https://storage.googleapis.com/10000sentences/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(SentencesService.class);
     }
 
 }

@@ -14,6 +14,10 @@ public class InfoVO {
     List<LanguageVO> languages;
     List<SenteceCollectionVO> sentences;
 
+    public InfoVO() {
+        super();
+    }
+
     public InfoVO getAddSentencesCollection(SenteceCollectionVO sentenceCollection) {
         if (sentences == null) {
             sentences = new ArrayList<>();

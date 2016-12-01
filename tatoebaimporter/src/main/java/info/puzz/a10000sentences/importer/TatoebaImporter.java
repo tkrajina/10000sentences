@@ -1,10 +1,13 @@
 package info.puzz.a10000sentences.importer;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -16,6 +19,9 @@ import info.puzz.a10000sentences.apimodels.SenteceCollectionVO;
 import info.puzz.a10000sentences.language.Languages;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 public class TatoebaImporter {
 
@@ -31,17 +37,20 @@ public class TatoebaImporter {
      tar -xvf links.tar
      */
     public static void main(String[] args) throws Exception {
+        String bucketFiles = "bucket_files";
+        new File(bucketFiles).mkdirs();
         InfoVO info = new InfoVO()
                 .setLanguages(Languages.getLanguages())
-                .getAddSentencesCollection(importSentences("eng", "ita"))
-                .getAddSentencesCollection(importSentences("eng", "ara"))
-                .getAddSentencesCollection(importSentences("eng", "deu"))
-                .getAddSentencesCollection(importSentences("eng", "spa"));
-        System.out.println(info);
-        System.out.println(OBJECT_MAPPER.writeValueAsString(info));
+                .getAddSentencesCollection(importSentences(bucketFiles, "eng", "ita"))
+                .getAddSentencesCollection(importSentences(bucketFiles, "eng", "ara"))
+                .getAddSentencesCollection(importSentences(bucketFiles, "eng", "deu"))
+                .getAddSentencesCollection(importSentences(bucketFiles, "eng", "spa"));
+
+        String infoFilename = Paths.get(bucketFiles, "info.json").toString();
+        FileUtils.writeByteArrayToFile(new File(infoFilename), OBJECT_MAPPER.writeValueAsBytes(info));
     }
 
-    private static SenteceCollectionVO importSentences(String knownLanguageAbbrev3, String targetLanguageAbbrev3) throws IOException {
+    private static SenteceCollectionVO importSentences(String outputDir, String knownLanguageAbbrev3, String targetLanguageAbbrev3) throws IOException {
         long started = System.currentTimeMillis();
 
         LanguageVO knownLanguage = Languages.getLanguageByAbbrev(knownLanguageAbbrev3);
@@ -73,7 +82,7 @@ public class TatoebaImporter {
 
         HashSet<Integer> sentencesFound = new HashSet<>();
 
-        String outFilename = String.format("%s-%s.csv", knownLanguage.getAbbrev(), targetLanguage.getAbbrev());
+        String outFilename = Paths.get(outputDir, String.format("%s-%s.csv", knownLanguage.getAbbrev(), targetLanguage.getAbbrev())).toString();
         FileOutputStream out = new FileOutputStream(outFilename);
 
         {

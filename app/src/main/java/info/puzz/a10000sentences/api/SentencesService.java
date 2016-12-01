@@ -5,6 +5,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface SentencesService {
-    @GET("info")
+    @GET("info.json")
     Call<InfoVO> info();
 }
