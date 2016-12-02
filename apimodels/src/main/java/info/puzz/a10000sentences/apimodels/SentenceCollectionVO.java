@@ -11,4 +11,5 @@ public class SentenceCollectionVO {
     String knownLanguage;
     String targetLanguage;
     String filename;
+    int count;
 }

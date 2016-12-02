@@ -1,5 +1,9 @@
 package info.puzz.a10000sentences.importer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.commons.io.FileUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,11 +25,6 @@ import info.puzz.a10000sentences.apimodels.LanguageVO;
 import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
 import info.puzz.a10000sentences.apimodels.SentenceVO;
 import info.puzz.a10000sentences.language.Languages;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 
 public class TatoebaImporter {
 
@@ -134,13 +133,14 @@ public class TatoebaImporter {
         }
         out.close();
 
-        System.out.println(String.format("Found %d, but included %d sentences in %ds", sentences.size(), totalSentencesIncluded,
-                TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - started)));
+        System.out.println(String.format("Found %d, but included %d sentences in %ds", sentences.size(),
+                totalSentencesIncluded, TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - started)));
         System.out.println("Results written to: " + outFilename);
 
         return new SentenceCollectionVO()
                 .setKnownLanguage(knownLanguage.getAbbrev())
                 .setTargetLanguage(targetLanguage.getAbbrev())
+                .setCount(totalSentencesIncluded)
                 .setFilename(outFilename);
     }
 
