@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 @ToString
 @Table(name = "sentence")
 public class Sentence extends Model {
+
     @Column(name = "sentence_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public String sentenceId;
 
@@ -24,4 +25,8 @@ public class Sentence extends Model {
 
     @Column(name = "target")
     public String targetSentence;
+
+    @Column(name = "target")
+    public int status = SentenceStatus.UNKNOWN.getStatus();
+
 }

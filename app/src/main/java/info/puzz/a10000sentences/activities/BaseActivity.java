@@ -46,7 +46,7 @@ public class BaseActivity extends AppCompatActivity {
                             .setName(languageVO.getName())
                             .setNativeName(languageVO.getNativeName())
                             .setRightToLeft(languageVO.isRightToLeft());
-                    Dao.saveLanguage(language);
+                    Dao.importLanguage(language);
                 }
                 for (SentenceCollectionVO collectionVO : info.getSentenceCollections()) {
                     SentenceCollection col = new SentenceCollection()
@@ -54,7 +54,7 @@ public class BaseActivity extends AppCompatActivity {
                             .setKnownLanguage(collectionVO.getKnownLanguage())
                             .setTargetLanguage(collectionVO.getTargetLanguage())
                             .setFilename(collectionVO.getFilename());
-                    Dao.saveCollection(col);
+                    Dao.importCollection(col);
                 }
             }
 

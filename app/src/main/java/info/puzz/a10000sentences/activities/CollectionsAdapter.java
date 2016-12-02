@@ -1,8 +1,6 @@
 package info.puzz.a10000sentences.activities;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -15,14 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 import info.puzz.a10000sentences.CollectionActivity;
-import info.puzz.a10000sentences.DownloaderAsyncTask;
 import info.puzz.a10000sentences.R;
-import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.SentenceCollectionBinding;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.SentenceCollection;
-import info.puzz.a10000sentences.utils.DialogUtils;
 
 public class CollectionsAdapter extends ArrayAdapter<SentenceCollection> {
 

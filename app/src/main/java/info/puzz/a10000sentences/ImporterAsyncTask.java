@@ -24,15 +24,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 import temp.DBG;
 
-public class DownloaderAsyncTask extends AsyncTask<String, Integer, Void> {
+public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
 
-    private static final java.lang.String TAG = DownloaderAsyncTask.class.getSimpleName();
+    private static final java.lang.String TAG = ImporterAsyncTask.class.getSimpleName();
 
     private final BaseActivity activity;
     private final ProgressDialog progressDialog;
     private final SentenceCollection collection;
 
-    public DownloaderAsyncTask(BaseActivity activity, SentenceCollection collection) {
+    public ImporterAsyncTask(BaseActivity activity, SentenceCollection collection) {
         this.activity = activity;
         this.collection = collection;
 
@@ -94,7 +94,7 @@ public class DownloaderAsyncTask extends AsyncTask<String, Integer, Void> {
     }
 
     private void importSentences(List<Sentence> sentences) {
-        Dao.saveSentences(sentences);
+        Dao.importSentences(sentences);
         sentences.clear();
     }
 

@@ -1,9 +1,16 @@
 package info.puzz.a10000sentences.dao;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Model;
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
@@ -14,20 +21,54 @@ public class Dao {
         throw new Exception();
     }
 
-    public static void saveLanguage(Language language) {
+    public static void importLanguage(Language language) {
         language.save();
     }
 
-    public static void saveCollection(SentenceCollection col) {
+    public static void importCollection(SentenceCollection col) {
+/*        SentenceCollection sentenceCollection = new Select()
+                .from(SentenceCollection.class)
+                .where("collection_id = ?", col.getCollectionID())
+                .executeSingle();
+        if (sentenceCollection != null) {
+            // If some fields needs to be preserved copy them here:
+            sentenceCollection.save();
+        } else {
+            col.save();
+        }*/
         col.save();
     }
 
-    public static void saveSentences(List<Sentence> sentences) {
+    public static void importSentences(List<Sentence> sentences) {
+
+        List<String> ids = new ArrayList<>();
+        for (Sentence sentence : sentences) {
+            ids.add(sentence.getSentenceId());
+        }
+
+        List<Sentence> existingSentences = new Select()
+                .from(Sentence.class)
+                .where(
+                        String.format("sentence_id in (%s)", StringUtils.repeat("? ", sentences.size()).trim().replace(" ", ",")),
+                        ids.toArray(new String[ids.size()]))
+                .execute();
+
+        Map<String, Sentence> existingSentencesMap = new HashMap<>();
+        for (Sentence model : existingSentences) {
+            existingSentencesMap.put(model.getSentenceId(), model);
+        }
+
         ActiveAndroid.beginTransaction();
         try {
-            // TODO: Load existing sentences and preserve fields
             for (Sentence sentence : sentences) {
-                sentence.save();
+                if (existingSentencesMap.containsKey(sentence.getSentenceId())) {
+                    Sentence existingSentence = existingSentencesMap.get(sentence.getSentenceId());
+                    existingSentence.setTargetSentence(sentence.getTargetSentence());
+                    existingSentence.setKnownSentence(sentence.getKnownSentence());
+                    existingSentence.save();
+                } else {
+                    sentence.save();
+                }
             }
             ActiveAndroid.setTransactionSuccessful();
         } finally {

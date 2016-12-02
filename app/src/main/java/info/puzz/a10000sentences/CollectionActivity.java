@@ -1,6 +1,5 @@
 package info.puzz.a10000sentences;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -94,7 +93,7 @@ public class CollectionActivity extends BaseActivity {
 
                             String url = Api.BASE_URL + filename;
 
-                            new DownloaderAsyncTask(CollectionActivity.this, binding.getSentenceCollection()).execute(url);
+                            new ImporterAsyncTask(CollectionActivity.this, binding.getSentenceCollection()).execute(url);
                         }
                     }
                 });
