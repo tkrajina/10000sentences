@@ -21,6 +21,8 @@ import temp.DBG;
 
 public class CollectionActivity extends BaseActivity {
 
+    private static final String TAG = CollectionActivity.class.getSimpleName();
+
     private static final String ARG_COLLECTION_ID = "arg_collection_id";
 
     ActivityCollectionBinding binding;
@@ -42,7 +44,7 @@ public class CollectionActivity extends BaseActivity {
             DBG.todo();
         }
 
-        binding.setCollection(collection);
+        binding.setSentenceCollection(collection);
         binding.setKnownLanguage(Dao.getLanguage(collection.getKnownLanguage()));
         binding.setTargetLanguage(Dao.getLanguage(collection.getTargetLanguage()));
 
@@ -63,7 +65,7 @@ public class CollectionActivity extends BaseActivity {
     private void randomSentence() {
         Sentence randomSentence = new Select()
                 .from(Sentence.class)
-                .where("collection_id = ?", binding.getCollection().getCollectionID())
+                .where("collection_id = ?", binding.getSentenceCollection().getCollectionID())
                 .orderBy("random()")
                 .executeSingle();
         SentenceQuizActivity.start(this, randomSentence.getSentenceId());
@@ -77,7 +79,7 @@ public class CollectionActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (i == DialogInterface.BUTTON_POSITIVE) {
-                            String filename = binding.getCollection().getFilename();
+                            String filename = binding.getSentenceCollection().getFilename();
 
                             if (filename.indexOf("/") > 0) {
                                 String[] parts = filename.split("\\/");
@@ -86,7 +88,7 @@ public class CollectionActivity extends BaseActivity {
 
                             String url = Api.BASE_URL + filename;
 
-                            new DownloaderAsyncTask(CollectionActivity.this).execute(url);
+                            new DownloaderAsyncTask(CollectionActivity.this, binding.getSentenceCollection()).execute(url);
                         }
                     }
                 });

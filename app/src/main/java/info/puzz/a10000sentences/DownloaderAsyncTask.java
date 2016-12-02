@@ -17,6 +17,7 @@ import java.util.List;
 import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Sentence;
+import info.puzz.a10000sentences.models.SentenceCollection;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,9 +30,11 @@ public class DownloaderAsyncTask extends AsyncTask<String, Integer, Void> {
 
     private final BaseActivity activity;
     private final ProgressDialog progressDialog;
+    private final SentenceCollection collection;
 
-    public DownloaderAsyncTask(BaseActivity activity) {
+    public DownloaderAsyncTask(BaseActivity activity, SentenceCollection collection) {
         this.activity = activity;
+        this.collection = collection;
 
         this.activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 
@@ -84,6 +87,7 @@ public class DownloaderAsyncTask extends AsyncTask<String, Integer, Void> {
         String knownSentence = parts[1];
         String targetSentence = parts[2];
         return new Sentence()
+                .setCollectionId(collection.getCollectionID())
                 .setSentenceId(sentenceId)
                 .setKnownSentence(knownSentence)
                 .setTargetSentence(targetSentence);

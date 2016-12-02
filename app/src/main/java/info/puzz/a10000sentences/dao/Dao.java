@@ -48,15 +48,10 @@ public class Dao {
     }
 
     public static SentenceCollection getCollection(String collectionId) {
-        List<SentenceCollection> res = new Select()
+        return new Select()
                 .from(SentenceCollection.class)
                 .where("collection_id = ?", collectionId)
-                .limit(1)
-                .execute();
-        if (res.size() == 0) {
-            return null;
-        }
-        return res.get(0);
+                .executeSingle();
     }
 
     public static Language getLanguage(String languageID) {
