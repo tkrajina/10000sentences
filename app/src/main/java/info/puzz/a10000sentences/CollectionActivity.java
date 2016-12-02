@@ -16,6 +16,7 @@ import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import temp.DBG;
 
@@ -43,11 +44,6 @@ public class CollectionActivity extends BaseActivity {
         if (collection == null) {
             DBG.todo();
         }
-
-        DBG.todo("Move this to a better place");
-        int rows = SQLiteUtils.intQuery("select count(*) from sentence", null);
-        collection.count = rows;
-        collection.save();
 
         binding.setSentenceCollection(collection);
         binding.setKnownLanguage(Dao.getLanguage(collection.getKnownLanguage()));

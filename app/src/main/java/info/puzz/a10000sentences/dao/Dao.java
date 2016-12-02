@@ -4,6 +4,7 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
+import com.activeandroid.util.SQLiteUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,6 +16,7 @@ import java.util.Map;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceStatus;
 
 public class Dao {
     private Dao() throws Exception {
@@ -105,5 +107,25 @@ public class Dao {
             return null;
         }
         return res.get(0);
+    }
+
+    public static void reloadCollectionCounter(SentenceCollection collection) {
+        int rows = SQLiteUtils.intQuery(
+                "select count(*) from sentence where collection_id = ?",
+                new String[] {collection.getCollectionID()});
+        int todoRows = SQLiteUtils.intQuery(
+                "select count(*) from sentence where collection_id = ? and status = ?",
+                new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.TODO.getStatus())});
+        int againRows = SQLiteUtils.intQuery(
+                "select count(*) from sentence where collection_id = ? and status = ?",
+                new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.AGAIN.getStatus())});
+        int doneRows = SQLiteUtils.intQuery(
+                "select count(*) from sentence where collection_id = ? and status = ?",
+                new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.DONE.getStatus())});
+        collection.count = rows;
+        collection.todoCount = todoRows;
+        collection.againCount = againRows;
+        collection.doneCount = doneRows;
+        collection.save();
     }
 }

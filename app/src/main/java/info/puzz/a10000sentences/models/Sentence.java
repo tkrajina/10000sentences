@@ -26,7 +26,7 @@ public class Sentence extends Model {
     @Column(name = "target")
     public String targetSentence;
 
-    @Column(name = "target")
-    public int status = SentenceStatus.UNKNOWN.getStatus();
+    @Column(name = "status")
+    public int status = SentenceStatus.TODO.getStatus();
 
 }

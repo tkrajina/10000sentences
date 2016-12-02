@@ -75,6 +75,8 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
             DBG.todo(e);
         }
 
+        Dao.reloadCollectionCounter(collection);
+
         return null;
     }
 

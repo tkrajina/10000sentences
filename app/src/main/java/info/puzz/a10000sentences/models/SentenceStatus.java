@@ -1,19 +1,24 @@
 package info.puzz.a10000sentences.models;
 
+import info.puzz.a10000sentences.R;
 import lombok.Getter;
 
 public enum SentenceStatus {
-    UNKNOWN(0),
-    AGAIN(1),
-    EASY(2),
-    GOOD(3),
+
+    TODO(0, R.string.todo),
+    AGAIN(1, R.string.retry_again),
+    DONE(2, R.string.done),
 
     ;
 
     @Getter
     private final int status;
 
-    SentenceStatus(int status) {
+    @Getter
+    private final int descResId;
+
+    SentenceStatus(int status, int descResId) {
         this.status = status;
+        this.descResId = descResId;
     }
 }

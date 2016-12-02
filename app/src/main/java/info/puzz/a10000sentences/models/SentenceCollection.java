@@ -27,4 +27,13 @@ public class SentenceCollection extends Model {
 
     @Column(name = "count")
     public int count;
+
+    @Column(name = "todo_count")
+    public int todoCount;
+
+    @Column(name = "again_count")
+    public int againCount;
+
+    @Column(name = "done_count")
+    public int doneCount;
 }
