@@ -19,7 +19,7 @@
         tools:context="info.puzz.a10000sentences.CollectionActivity">
 
         <TextView
-            android:text="@{sentenceCollection.collectionID}"
+            android:text="@{sentenceCollection.count + &quot;abc&quot;}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

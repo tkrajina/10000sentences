@@ -24,4 +24,7 @@ public class SentenceCollection extends Model {
 
     @Column(name = "filename")
     public String filename;
+
+    @Column(name = "count")
+    public int count;
 }

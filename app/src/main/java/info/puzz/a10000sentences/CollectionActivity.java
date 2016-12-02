@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.activeandroid.query.Select;
+import com.activeandroid.util.SQLiteUtils;
 
 import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.activities.SentenceQuizActivity;
@@ -43,6 +44,11 @@ public class CollectionActivity extends BaseActivity {
         if (collection == null) {
             DBG.todo();
         }
+
+        DBG.todo("Move this to a better place");
+        int rows = SQLiteUtils.intQuery("select count(*) from sentence", null);
+        collection.count = rows;
+        collection.save();
 
         binding.setSentenceCollection(collection);
         binding.setKnownLanguage(Dao.getLanguage(collection.getKnownLanguage()));
