@@ -6,17 +6,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
 
 public class SentenceQuiz extends BaseObservable {
 
     private final List<WordChunk> chunks;
+    private final Sentence sentence;
     private int currentChunk;
     public String[] answers;
 
-    public SentenceQuiz(String sentence, int answersNo) {
-        chunks = StringUtils.getWordChunks(sentence);
+    public SentenceQuiz(Sentence sentence, int answersNo) {
+        this.sentence = sentence;
+        chunks = StringUtils.getWordChunks(sentence.targetSentence);
         currentChunk = 0;
         answers = new String[answersNo];
         resetRandomAnswers();
@@ -29,7 +32,7 @@ public class SentenceQuiz extends BaseObservable {
                 res.append(" ");
             }
             WordChunk chunk = chunks.get(i);
-            if (i > currentChunk) {
+            if (i >= currentChunk) {
                 res.append(chunk.chunk.replace(chunk.word, "???"));
             } else {
                 res.append(chunk.chunk);
@@ -72,4 +75,7 @@ public class SentenceQuiz extends BaseObservable {
         }
     }
 
+    public Sentence getSentence() {
+        return sentence;
+    }
 }

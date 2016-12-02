@@ -58,7 +58,7 @@ public class SentenceQuizActivity extends BaseActivity {
             DBG.todo();
         }
 
-        binding.setQuiz(new SentenceQuiz(sentence.targetSentence, 4));
+        binding.setQuiz(new SentenceQuiz(sentence, 4));
 
         answerButtons = new Button[] { binding.answer1, binding.answer2, binding.answer3, binding.answer4, };
         for (final Button answerButton : answerButtons) {
