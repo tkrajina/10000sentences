@@ -7,10 +7,14 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 
+import com.activeandroid.query.Select;
+
 import info.puzz.a10000sentences.activities.BaseActivity;
+import info.puzz.a10000sentences.activities.SentenceQuizActivity;
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
+import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import temp.DBG;
@@ -57,7 +61,12 @@ public class CollectionActivity extends BaseActivity {
     }
 
     private void randomSentence() {
-        DialogUtils.showWarningDialog(this, "bu", "be");
+        Sentence randomSentence = new Select()
+                .from(Sentence.class)
+                .where("collection_id = ?", binding.getCollection().getCollectionID())
+                .orderBy("random()")
+                .executeSingle();
+        SentenceQuizActivity.start(this, randomSentence.getSentenceId());
     }
 
     private void downloadSentences() {
