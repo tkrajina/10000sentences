@@ -25,6 +25,7 @@ import info.puzz.a10000sentences.language.Languages;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class TatoebaImporter {
 
@@ -101,8 +102,10 @@ public class TatoebaImporter {
                     TatoebaSentence targetSentence = targetLanguageSentences.get(sentence2);
                     if (knownSentence != null && targetSentence != null) {
                         //System.out.println(targetSentence.id + ":" + knownSentence + " <-> " + targetSentence);
+                        String id = String.format("%s-%s-%d", knownLanguage.getAbbrev(), targetLanguage.getAbbrev(), targetSentence.id);
                         sentences.add(new SentenceVO()
-                                .setSentenceId(targetSentence.id)
+                                .setSentenceId(id)
+                                .setTargetSentenceId(targetSentence.id)
                                 .setKnownSentence(knownSentence.text)
                                 .setTargetSentence(targetSentence.text));
                         sentencesFound.add(sentence1);
@@ -115,7 +118,7 @@ public class TatoebaImporter {
         Collections.sort(sentences, new Comparator<SentenceVO>() {
             @Override
             public int compare(SentenceVO s1, SentenceVO s2) {
-                return s1.getSentenceId() - s2.getSentenceId();
+                return s1.getTargetSentenceId() - s2.getTargetSentenceId();
             }
         });
 

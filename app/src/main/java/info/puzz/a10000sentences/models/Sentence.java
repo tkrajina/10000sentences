@@ -14,8 +14,14 @@ import lombok.experimental.Accessors;
 @Table(name = "sentence")
 public class Sentence extends Model {
     @Column(name = "sentence_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-    public int sentenceId;
+    public String sentenceId;
 
-    @Column(name = "text")
-    public String text;
+    @Column(name = "collection_id")
+    public String collectionId;
+
+    @Column(name = "known")
+    public String knownSentence;
+
+    @Column(name = "target")
+    public String targetSentence;
 }
