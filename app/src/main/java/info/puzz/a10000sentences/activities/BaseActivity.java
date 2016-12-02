@@ -6,6 +6,9 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import java.security.SecureRandom;
+import java.util.Random;
+
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.apimodels.InfoVO;
 import info.puzz.a10000sentences.apimodels.LanguageVO;
@@ -19,6 +22,8 @@ import retrofit2.Response;
 
 public class BaseActivity extends AppCompatActivity {
 
+    private static final Random RANDOM = new SecureRandom(String.valueOf(System.currentTimeMillis()).getBytes());
+
     private static final String TAG = BaseActivity.class.getSimpleName();
 
     protected boolean isNetworkAvailable() {
@@ -28,7 +33,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     void reloadLanguages() {
-        Call<InfoVO> info = Api.instance().info();
+        Call<InfoVO> info = Api.instance().info(RANDOM.nextInt());
         info.enqueue(new Callback<InfoVO>() {
             @Override
             public void onResponse(Call<InfoVO> call, Response<InfoVO> response) {
