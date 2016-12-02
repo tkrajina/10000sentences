@@ -44,6 +44,7 @@ public class DownloaderAsyncTask extends AsyncTask<String, Integer, Void> {
     @Override
     protected Void doInBackground(String... strings) {
         String url = strings[0];
+        publishProgress(0);
 
         OkHttpClient httpClient = new OkHttpClient();
         Call call = httpClient.newCall(new Request.Builder().url(url).get().build());
@@ -60,10 +61,8 @@ public class DownloaderAsyncTask extends AsyncTask<String, Integer, Void> {
             while ((line = reader.readLine()) != null) {
                 n += 1;
                 sentences.add(parseSentence(line));
-                if (sentences.size() == 100) {
+                if (sentences.size() == 50) {
                     importSentences(sentences);
-                }
-                if (n % 1000 == 0) {
                     publishProgress(n);
                 }
             }
@@ -98,7 +97,7 @@ public class DownloaderAsyncTask extends AsyncTask<String, Integer, Void> {
     @Override
     protected void onProgressUpdate(Integer... values) {
         Integer lines = values[0];
-        progressDialog.setMessage(String.valueOf(lines));
+        progressDialog.setMessage(String.format("Imported %d sentences", lines.intValue()));
     }
 
     @Override
