@@ -47,4 +47,27 @@ public class Dao {
                 .execute();
     }
 
+    public static SentenceCollection getCollection(String collectionId) {
+        List<SentenceCollection> res = new Select()
+                .from(SentenceCollection.class)
+                .where("collection_id = ?", collectionId)
+                .limit(1)
+                .execute();
+        if (res.size() == 0) {
+            return null;
+        }
+        return res.get(0);
+    }
+
+    public static Language getLanguage(String languageID) {
+        List<Language> res = new Select()
+                .from(Language.class)
+                .where("language_id = ?", languageID)
+                .limit(1)
+                .execute();
+        if (res.size() == 0) {
+            return null;
+        }
+        return res.get(0);
+    }
 }

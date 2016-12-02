@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import info.puzz.a10000sentences.CollectionActivity;
 import info.puzz.a10000sentences.DownloaderAsyncTask;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.api.Api;
@@ -52,22 +53,14 @@ public class CollectionsAdapter extends ArrayAdapter<SentenceCollection> {
             binding = DataBindingUtil.getBinding(convertView);
         }
 
-        binding.setKnownLanguage(languages.get(collections[position].getKnownLanguage()));
-        binding.setTargetLanguage(languages.get(collections[position].getTargetLanguage()));
+        final SentenceCollection collection = collections[position];
+
+        binding.setKnownLanguage(languages.get(collection.getKnownLanguage()));
+        binding.setTargetLanguage(languages.get(collection.getTargetLanguage()));
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogUtils.showYesNoButton(
-                        (Activity) getContext(),
-                        getContext().getString(R.string.download_senteces),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (i == DialogInterface.BUTTON_POSITIVE) {
-                                    download(collections[position]);
-                                }
-                            }
-                        });
+                CollectionActivity.start((BaseActivity) getContext(), collection.getCollectionID());
             }
 
         });
@@ -75,16 +68,4 @@ public class CollectionsAdapter extends ArrayAdapter<SentenceCollection> {
         return binding.getRoot();
     }
 
-    private void download(SentenceCollection collection) {
-        String filename = collection.getFilename();
-
-        if (filename.indexOf("/") > 0) {
-            String[] parts = filename.split("\\/");
-            filename = parts[parts.length - 1];
-        }
-
-        String url = Api.BASE_URL + filename;
-
-        new DownloaderAsyncTask((BaseActivity) getContext()).execute(url);
-    }
 }
