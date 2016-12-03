@@ -16,15 +16,24 @@ import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.utils.DebugUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import temp.DBG;
 
 public class BaseActivity extends AppCompatActivity {
 
     private static final Random RANDOM = new SecureRandom(String.valueOf(System.currentTimeMillis()).getBytes());
 
     private static final String TAG = BaseActivity.class.getSimpleName();
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DBG.todo("Remove:");
+        DebugUtils.backupDatabase(this, "10000sentences.db");
+    }
 
     protected boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
