@@ -22,15 +22,16 @@
             android:name="AA_MODELS"
             android:value="info.puzz.a10000sentences.models.Language,info.puzz.a10000sentences.models.Sentence,info.puzz.a10000sentences.models.SentenceCollection" />
 
-        <activity android:name=".activities.CollectionsActivity">
+        <activity
+            android:name=".activities.CollectionsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SentenceQuizActivity"></activity>
-        <activity android:name=".CollectionActivity"></activity>
+        <activity android:name=".activities.SentenceQuizActivity" />
+        <activity android:name=".CollectionActivity" />
     </application>
 
 </manifest>
