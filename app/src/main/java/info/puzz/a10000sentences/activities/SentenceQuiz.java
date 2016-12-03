@@ -9,6 +9,7 @@ import java.util.List;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
+import temp.DBG;
 
 public class SentenceQuiz extends BaseObservable {
 
@@ -16,6 +17,8 @@ public class SentenceQuiz extends BaseObservable {
     private final Sentence sentence;
     private int currentChunk;
     public String[] answers;
+
+    int incorrectAnswersGiven = 0;
 
     public SentenceQuiz(Sentence sentence, int answersNo) {
         this.sentence = sentence;
@@ -47,15 +50,25 @@ public class SentenceQuiz extends BaseObservable {
         }
         boolean guessed = StringUtils.equalsIgnoreCase(chunks.get(currentChunk).word, word);
         if (guessed) {
-            currentChunk += 1;
+            ++ currentChunk;
             resetRandomAnswers();
             notifyChange();
+        } else {
+            ++ incorrectAnswersGiven;
         }
         return guessed;
     }
 
     public boolean isFinished() {
         return currentChunk >= chunks.size();
+    }
+
+    public boolean canBeMarkedAsDone() {
+        if (!isFinished()) {
+            return false;
+        }
+        DBG.todo();
+        return 1F * incorrectAnswersGiven / chunks.size() < 0.3;
     }
 
     public void resetRandomAnswers() {

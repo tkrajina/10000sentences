@@ -18,4 +18,5 @@
     <string name="correct">Correct!</string>
     <string name="repeat_later">Repeat later</string>
     <string name="next">Next</string>
+    <string name="too_many_errors">Too many errors :(</string>
 </resources>

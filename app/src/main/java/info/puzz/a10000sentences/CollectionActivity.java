@@ -66,12 +66,7 @@ public class CollectionActivity extends BaseActivity {
     }
 
     private void randomSentence() {
-        Sentence randomSentence = new Select()
-                .from(Sentence.class)
-                .where("collection_id = ?", binding.getSentenceCollection().getCollectionID())
-                .orderBy("random()")
-                .executeSingle();
-        SentenceQuizActivity.start(this, randomSentence.getSentenceId());
+        SentenceQuizActivity.startRandom(this, binding.getSentenceCollection().getCollectionID());
     }
 
     private void downloadSentences() {

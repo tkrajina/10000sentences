@@ -2,6 +2,7 @@ package info.puzz.a10000sentences.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.tool.Binding;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import com.activeandroid.query.Select;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
 import info.puzz.a10000sentences.models.Sentence;
+import info.puzz.a10000sentences.models.SentenceStatus;
 import temp.DBG;
 
 public class SentenceQuizActivity extends BaseActivity {
@@ -28,6 +30,16 @@ public class SentenceQuizActivity extends BaseActivity {
         Intent intent = new Intent(activity, SentenceQuizActivity.class)
                 .putExtra(ARG_SENTENCE_ID, sentenceId);
         activity.startActivity(intent);
+    }
+
+    public static <T extends BaseActivity> void startRandom(T activity, String collectionId) {
+        Sentence randomSentence = new Select()
+                .from(Sentence.class)
+                .where("collection_id = ?", collectionId)
+                .orderBy("random()")
+                .executeSingle();
+
+        start(activity, randomSentence.getSentenceId());
     }
 
     @Override
@@ -66,8 +78,42 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     private void finalizeSentence() {
+        if (binding.getQuiz().canBeMarkedAsDone()) {
+            binding.finalMessage.setText(R.string.correct);
+            binding.next.setVisibility(View.VISIBLE);
+        } else {
+            binding.finalMessage.setText(R.string.too_many_errors);
+            binding.next.setVisibility(View.GONE);
+        }
         binding.quizButtons.setVisibility(View.GONE);
         binding.finalButtons.setVisibility(View.VISIBLE);
+
+        binding.repeatLater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                repeatSentenceLater();
+            }
+        });
+        binding.next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nextSentence();
+            }
+        });
+    }
+
+    private void nextSentence() {
+        Sentence sentence = binding.getQuiz().getSentence();
+        sentence.status = SentenceStatus.TODO.getStatus();
+        sentence.save();
+        startRandom(this, binding.getQuiz().getSentence().getCollectionId());
+    }
+
+    private void repeatSentenceLater() {
+        Sentence sentence = binding.getQuiz().getSentence();
+        sentence.status = SentenceStatus.AGAIN.getStatus();
+        sentence.save();
+        startRandom(this, binding.getQuiz().getSentence().getCollectionId());
     }
 
 /*    @Override
