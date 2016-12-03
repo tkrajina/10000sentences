@@ -14,4 +14,5 @@
     <string name="todo">To do...</string>
     <string name="retry_again">Retry later</string>
     <string name="done">Done</string>
+    <string name="finalize_sentence_title">What next?</string>
 </resources>

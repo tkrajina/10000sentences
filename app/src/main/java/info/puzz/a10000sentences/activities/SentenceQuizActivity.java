@@ -3,6 +3,7 @@ package info.puzz.a10000sentences.activities;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import info.puzz.a10000sentences.apimodels.LanguageVO;
 import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
+import info.puzz.a10000sentences.databinding.SentenceFinalizeOptionsBinding;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
@@ -74,8 +76,16 @@ public class SentenceQuizActivity extends BaseActivity {
     private void submitResponse(String text) {
         binding.getQuiz().guessWord(text);
         if (binding.getQuiz().isFinished()) {
-            DialogUtils.showYesNoButton(this, "Yes!", null);
+            finalizeSentence();
         }
+    }
+
+    private void finalizeSentence() {
+        SentenceFinalizeOptionsBinding finalizeBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.sentence_finalize_options, null, false);
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.finalize_sentence_title)
+                .setView(finalizeBinding.getRoot())
+                .show();
     }
 
 /*    @Override
