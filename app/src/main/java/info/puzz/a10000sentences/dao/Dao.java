@@ -28,16 +28,17 @@ public class Dao {
     }
 
     public static void importCollection(SentenceCollection col) {
-/*        SentenceCollection sentenceCollection = new Select()
+        SentenceCollection sentenceCollection = new Select()
                 .from(SentenceCollection.class)
                 .where("collection_id = ?", col.getCollectionID())
                 .executeSingle();
         if (sentenceCollection != null) {
-            // If some fields needs to be preserved copy them here:
-            sentenceCollection.save();
+            sentenceCollection
+                    .setFilename(col.getFilename())
+                    .save();
         } else {
             col.save();
-        }*/
+        }
         col.save();
     }
 

@@ -9,6 +9,7 @@ import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionsBinding;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import temp.DBG;
 
 public class CollectionsActivity extends BaseActivity {
 
@@ -19,10 +20,15 @@ public class CollectionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collections);
 
-        List<SentenceCollection> cols = Dao.getCollections();
-
+        DBG.todo("Remove this");
         reloadLanguages();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        List<SentenceCollection> cols = Dao.getCollections();
         binding.collectionsList.setAdapter(new CollectionsAdapter(this, cols));
     }
 }
