@@ -59,6 +59,7 @@
         </LinearLayout>
 
         <TableLayout
+            android:id="@+id/quiz_buttons"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="*">
@@ -95,23 +96,33 @@
 
         </TableLayout>
 
-<!--        <LinearLayout
-            android:orientation="horizontal"
+        <LinearLayout
+            android:id="@+id/final_buttons"
+            android:visibility="gone"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:text="@string/correct"
+                android:textSize="@dimen/title_size"
+                android:textColor="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
             <Button
-                android:text="jkljkl"
+                android:id="@+id/repeat_later"
+                android:text="@string/repeat_later"
                 android:layout_width="fill_parent"
-                android:layout_weight="1"
                 android:layout_height="wrap_content" />
             <Button
-                android:text="jkljkl"
+                android:id="@+id/next"
+                android:text="@string/next"
                 android:layout_width="fill_parent"
-                android:layout_weight="1"
                 android:layout_height="wrap_content" />
 
-        </LinearLayout>-->
+        </LinearLayout>
 
     </LinearLayout>
 

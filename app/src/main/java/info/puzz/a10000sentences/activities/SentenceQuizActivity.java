@@ -3,29 +3,14 @@ package info.puzz.a10000sentences.activities;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.activeandroid.query.Select;
 
-import info.puzz.a10000sentences.CollectionActivity;
 import info.puzz.a10000sentences.R;
-import info.puzz.a10000sentences.api.Api;
-import info.puzz.a10000sentences.apimodels.InfoVO;
-import info.puzz.a10000sentences.apimodels.LanguageVO;
-import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
-import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
-import info.puzz.a10000sentences.databinding.SentenceFinalizeOptionsBinding;
-import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
-import info.puzz.a10000sentences.models.SentenceCollection;
-import info.puzz.a10000sentences.utils.DialogUtils;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import temp.DBG;
 
 public class SentenceQuizActivity extends BaseActivity {
@@ -81,11 +66,8 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     private void finalizeSentence() {
-        SentenceFinalizeOptionsBinding finalizeBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.sentence_finalize_options, null, false);
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.finalize_sentence_title)
-                .setView(finalizeBinding.getRoot())
-                .show();
+        binding.quizButtons.setVisibility(View.GONE);
+        binding.finalButtons.setVisibility(View.VISIBLE);
     }
 
 /*    @Override

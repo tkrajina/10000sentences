@@ -15,4 +15,7 @@
     <string name="retry_again">Retry later</string>
     <string name="done">Done</string>
     <string name="finalize_sentence_title">What next?</string>
+    <string name="correct">Correct!</string>
+    <string name="repeat_later">Repeat later</string>
+    <string name="next">Next</string>
 </resources>
