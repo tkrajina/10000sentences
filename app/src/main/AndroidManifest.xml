@@ -22,7 +22,13 @@
             android:name="AA_MODELS"
             android:value="" />
 
-        <activity android:name=".activities.CollectionsActivity">
+        <activity
+            android:name=".activities.CollectionsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".activities.SentenceQuizActivity" />
         <activity android:name=".CollectionActivity" />
@@ -30,11 +36,6 @@
             android:name=".TmpActivity"
             android:label="@string/title_activity_tmp"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
     </application>
 
