@@ -1,4 +1,4 @@
-package info.puzz.a10000sentences;
+package info.puzz.a10000sentences.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -6,17 +6,12 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 
-import com.activeandroid.query.Select;
-import com.activeandroid.util.SQLiteUtils;
-
-import info.puzz.a10000sentences.activities.BaseActivity;
-import info.puzz.a10000sentences.activities.SentenceQuizActivity;
+import info.puzz.a10000sentences.ImporterAsyncTask;
+import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
-import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
-import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import temp.DBG;
 

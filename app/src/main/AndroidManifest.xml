@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SentenceQuizActivity" />
-        <activity android:name=".CollectionActivity" />
+        <activity android:name=".activities.CollectionActivity" />
     </application>
 
 </manifest>
