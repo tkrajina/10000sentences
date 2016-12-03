@@ -61,18 +61,20 @@
         <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="1,2">
+            android:stretchColumns="*">
 
             <TableRow android:layout_width="match_parent">
 
                 <Button
                     android:id="@+id/answer1"
-                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:text="@{quiz.answers[0]}" />
 
                 <Button
                     android:id="@+id/answer2"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:text="@{quiz.answers[1]}" />
             </TableRow>
 
@@ -80,16 +82,36 @@
 
                 <Button
                     android:id="@+id/answer3"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:text="@{quiz.answers[2]}" />
 
                 <Button
                     android:id="@+id/answer4"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:text="@{quiz.answers[3]}" />
             </TableRow>
 
         </TableLayout>
+
+<!--        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="jkljkl"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <Button
+                android:text="jkljkl"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>-->
 
     </LinearLayout>
 
