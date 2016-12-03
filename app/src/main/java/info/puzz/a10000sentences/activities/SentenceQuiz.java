@@ -14,17 +14,25 @@ import temp.DBG;
 public class SentenceQuiz extends BaseObservable {
 
     private final List<WordChunk> chunks;
+    private final List<String> vocabChunks;
     private final Sentence sentence;
     private int currentChunk;
     public String[] answers;
 
     int incorrectAnswersGiven = 0;
 
-    public SentenceQuiz(Sentence sentence, int answersNo) {
+    public SentenceQuiz(Sentence sentence, int answersNo, List<Sentence> randomSentencesForVocab) {
         this.sentence = sentence;
         chunks = StringUtils.getWordChunks(sentence.targetSentence);
         currentChunk = 0;
         answers = new String[answersNo];
+        vocabChunks = new ArrayList<>();
+        DBG.todo("Check if empty");
+        for (Sentence s : randomSentencesForVocab) {
+            for (WordChunk wch : StringUtils.getWordChunks(s.targetSentence)) {
+                vocabChunks.add(wch.word);
+            }
+        }
         resetRandomAnswers();
     }
 
@@ -77,10 +85,13 @@ public class SentenceQuiz extends BaseObservable {
         }
         List<String> answ = new ArrayList<>();
         answ.add(chunks.get(currentChunk).word);
-        answ.add("aaa");
-        answ.add("bbb");
-        answ.add("ddd");
-        answ.add("eee");
+        for (String vocabChunk : vocabChunks) {
+            if (answ.size() < answers.length) {
+                if (!answ.contains(vocabChunk)) {
+                    answ.add(vocabChunk);
+                }
+            }
+        }
         answ = answ.subList(0, answers.length);
         Collections.shuffle(answ);
         for (int i = 0; i < answers.length; i++) {

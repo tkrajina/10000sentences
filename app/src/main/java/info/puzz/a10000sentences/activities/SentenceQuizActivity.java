@@ -2,16 +2,18 @@ package info.puzz.a10000sentences.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.tool.Binding;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.activeandroid.query.Select;
 
+import java.util.List;
+
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
 import info.puzz.a10000sentences.models.Sentence;
+import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import temp.DBG;
 
@@ -57,7 +59,19 @@ public class SentenceQuizActivity extends BaseActivity {
             DBG.todo();
         }
 
-        binding.setQuiz(new SentenceQuiz(sentence, 4));
+        SentenceCollection collection = new Select()
+                .from(SentenceCollection.class)
+                .where("collection_id = ?", sentence.collectionId)
+                .executeSingle();
+
+        List<Sentence> randomSentences = new Select()
+                .from(Sentence.class)
+                .where("collection_id = ?", collection.collectionID)
+                .orderBy("random()")
+                .limit(100)
+                .execute();
+
+        binding.setQuiz(new SentenceQuiz(sentence, 4, randomSentences));
 
         answerButtons = new Button[] { binding.answer1, binding.answer2, binding.answer3, binding.answer4, };
         for (final Button answerButton : answerButtons) {

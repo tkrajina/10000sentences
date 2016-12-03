@@ -10,7 +10,7 @@ public class SentenceQuizTest {
 
     @Test
     public void test() {
-        SentenceQuiz q = new SentenceQuiz(new Sentence().setTargetSentence("ovo je, samo test"), 4);
+        SentenceQuiz q = new SentenceQuiz(new Sentence().setTargetSentence("ovo je, samo test"), 4, randomSentences);
         Assert.assertFalse(q.guessWord("jkljkl"));
         Assert.assertFalse(q.isFinished());
         Assert.assertTrue(q.guessWord("ovo"));
