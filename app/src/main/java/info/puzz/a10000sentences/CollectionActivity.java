@@ -45,6 +45,8 @@ public class CollectionActivity extends BaseActivity {
             DBG.todo();
         }
 
+        Dao.reloadCollectionCounter(collection);
+
         binding.setSentenceCollection(collection);
         binding.setKnownLanguage(Dao.getLanguage(collection.getKnownLanguage()));
         binding.setTargetLanguage(Dao.getLanguage(collection.getTargetLanguage()));
