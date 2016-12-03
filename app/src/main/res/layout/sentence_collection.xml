@@ -28,19 +28,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="@{collection.count}"
+                android:text="@{String.valueOf(collection.count)}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="@{collection.todoCount}"
+                android:text="@{String.valueOf(collection.todoCount)}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="@{collection.againCount}"
+                android:text="@{String.valueOf(collection.againCount)}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="@{collection.doneCount}"
+                android:text="@{String.valueOf(collection.doneCount)}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
