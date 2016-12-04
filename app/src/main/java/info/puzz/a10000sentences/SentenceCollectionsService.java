@@ -1,5 +1,7 @@
 package info.puzz.a10000sentences;
 
+import android.widget.Toast;
+
 import com.activeandroid.query.Select;
 
 import java.security.SecureRandom;

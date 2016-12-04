@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import info.puzz.a10000sentences.Constants;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
@@ -75,8 +76,7 @@ public class SentenceQuiz extends BaseObservable {
         if (!isFinished()) {
             return false;
         }
-        DBG.todo();
-        return 1F * incorrectAnswersGiven / chunks.size() < 0.3;
+        return 1F * incorrectAnswersGiven / chunks.size() < 1 - Constants.MIN_WORDS_GUESSED;
     }
 
     public void resetRandomAnswers() {
