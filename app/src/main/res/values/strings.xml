@@ -20,4 +20,5 @@
     <string name="next">Next</string>
     <string name="too_many_errors">Too many errors :(</string>
     <string name="title_activity_tmp">TmpActivity</string>
+    <string name="start_quiz">Start quiz</string>
 </resources>

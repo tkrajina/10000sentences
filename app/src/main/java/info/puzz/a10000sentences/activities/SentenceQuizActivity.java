@@ -2,6 +2,7 @@ package info.puzz.a10000sentences.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.tool.Binding;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -82,6 +83,15 @@ public class SentenceQuizActivity extends BaseActivity {
                 }
             });
         }
+
+        binding.startQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.startQuizGroup.setVisibility(View.GONE);
+                binding.quizSentenceGroup.setVisibility(View.VISIBLE);
+                binding.quizButtons.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void submitResponse(String text) {

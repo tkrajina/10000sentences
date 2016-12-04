@@ -59,6 +59,20 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/start_quiz_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/start_quiz"
+                        android:text="@string/start_quiz"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/quiz_sentence_group"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -78,6 +92,7 @@
 
                 <TableLayout
                     android:id="@+id/quiz_buttons"
+                    android:visibility="gone"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:stretchColumns="*">
