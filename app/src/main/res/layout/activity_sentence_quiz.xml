@@ -1,130 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout>
 
     <data>
         <variable name="quiz" type="info.puzz.a10000sentences.activities.SentenceQuiz" />
     </data>
 
-    <LinearLayout
-        android:id="@+id/activity_main2"
+    <android.support.v4.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="info.puzz.a10000sentences.SentenceQuizActivity">
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
 
-        <LinearLayout
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{quiz.getSentence().knownSentence}" />
+            <include layout="@layout/appbar" />
 
+            <!-- body... -->
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:id="@+id/activity_main2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:context="info.puzz.a10000sentences.SentenceQuizActivity">
 
-                <ImageView
-                    android:id="@+id/icon_something"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{quiz.getSentence().knownSentence}" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/icon_something"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{quiz.getQuizSentence()}" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TableLayout
+                    android:id="@+id/quiz_buttons"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*">
+
+                    <TableRow android:layout_width="match_parent">
+
+                        <Button
+                            android:id="@+id/answer1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{quiz.answers[0]}" />
+
+                        <Button
+                            android:id="@+id/answer2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{quiz.answers[1]}" />
+                    </TableRow>
+
+                    <TableRow android:layout_width="match_parent">
+
+                        <Button
+                            android:id="@+id/answer3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{quiz.answers[2]}" />
+
+                        <Button
+                            android:id="@+id/answer4"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{quiz.answers[3]}" />
+                    </TableRow>
+
+                </TableLayout>
+
+                <LinearLayout
+                    android:id="@+id/final_buttons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/final_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/correct"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/title_size" />
+
+                    <Button
+                        android:id="@+id/repeat_later"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/repeat_later" />
+
+                    <Button
+                        android:id="@+id/next"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/next" />
+
+                </LinearLayout>
 
             </LinearLayout>
-        </LinearLayout>
+            <!-- ...body -->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        </android.support.design.widget.CoordinatorLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{quiz.getQuizSentence()}" />
+        <include layout="@layout/nav_view" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <TableLayout
-            android:id="@+id/quiz_buttons"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="*">
-
-            <TableRow android:layout_width="match_parent">
-
-                <Button
-                    android:id="@+id/answer1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{quiz.answers[0]}" />
-
-                <Button
-                    android:id="@+id/answer2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{quiz.answers[1]}" />
-            </TableRow>
-
-            <TableRow android:layout_width="match_parent">
-
-                <Button
-                    android:id="@+id/answer3"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{quiz.answers[2]}" />
-
-                <Button
-                    android:id="@+id/answer4"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{quiz.answers[3]}" />
-            </TableRow>
-
-        </TableLayout>
-
-        <LinearLayout
-            android:id="@+id/final_buttons"
-            android:visibility="gone"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/final_message"
-                android:text="@string/correct"
-                android:textSize="@dimen/title_size"
-                android:textColor="@color/colorAccent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center" />
-
-            <Button
-                android:id="@+id/repeat_later"
-                android:text="@string/repeat_later"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/next"
-                android:text="@string/next"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
+    </android.support.v4.widget.DrawerLayout>
 </layout>
