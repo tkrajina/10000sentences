@@ -31,8 +31,8 @@ public class SentenceCollection extends Model {
     @Column(name = "todo_count")
     public int todoCount;
 
-    @Column(name = "again_count")
-    public int againCount;
+    @Column(name = "repeat_count")
+    public int repeatCount;
 
     @Column(name = "done_count")
     public int doneCount;

@@ -1,8 +1,6 @@
 package info.puzz.a10000sentences.dao;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Model;
-import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.activeandroid.util.SQLiteUtils;
 
@@ -125,7 +123,7 @@ public class Dao {
                 new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.DONE.getStatus())});
         collection.count = rows;
         collection.todoCount = todoRows;
-        collection.againCount = againRows;
+        collection.repeatCount = againRows;
         collection.doneCount = doneRows;
         collection.save();
     }

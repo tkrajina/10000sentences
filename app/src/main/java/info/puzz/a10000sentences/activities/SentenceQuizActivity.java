@@ -11,6 +11,7 @@ import com.activeandroid.query.Select;
 import java.util.List;
 
 import info.puzz.a10000sentences.R;
+import info.puzz.a10000sentences.SentenceCollectionsService;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
@@ -28,20 +29,19 @@ public class SentenceQuizActivity extends BaseActivity {
     private SentenceQuiz quiz;
     private Button[] answerButtons;
 
-    public static <T extends BaseActivity> void start(T activity, String sentenceId) {
+    public static <T extends BaseActivity> void startSentence(T activity, String sentenceId) {
         Intent intent = new Intent(activity, SentenceQuizActivity.class)
                 .putExtra(ARG_SENTENCE_ID, sentenceId);
         activity.startActivity(intent);
     }
 
     public static <T extends BaseActivity> void startRandom(T activity, String collectionId) {
-        Sentence randomSentence = new Select()
-                .from(Sentence.class)
-                .where("collection_id = ?", collectionId)
-                .orderBy("random()")
+        SentenceCollection collection = new Select()
+                .from(SentenceCollection.class)
+                .where("collection_id=?", collectionId)
                 .executeSingle();
 
-        start(activity, randomSentence.getSentenceId());
+        startSentence(activity, SentenceCollectionsService.nextSentence(collection).sentenceId);
     }
 
     @Override
