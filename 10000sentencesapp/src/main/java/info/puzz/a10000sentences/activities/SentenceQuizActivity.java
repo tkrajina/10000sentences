@@ -2,7 +2,6 @@ package info.puzz.a10000sentences.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.tool.Binding;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -115,27 +114,20 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.repeatLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                repeatSentenceLater();
+                updateSentenceStatusAndGotoNext(SentenceStatus.AGAIN);
             }
         });
         binding.next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextSentence();
+                updateSentenceStatusAndGotoNext(SentenceStatus.DONE);
             }
         });
     }
 
-    private void nextSentence() {
+    private void updateSentenceStatusAndGotoNext(SentenceStatus status) {
         Sentence sentence = binding.getQuiz().getSentence();
-        sentence.status = SentenceStatus.TODO.getStatus();
-        sentence.save();
-        startRandom(this, binding.getQuiz().getSentence().getCollectionId());
-    }
-
-    private void repeatSentenceLater() {
-        Sentence sentence = binding.getQuiz().getSentence();
-        sentence.status = SentenceStatus.AGAIN.getStatus();
+        sentence.status = status.getStatus();
         sentence.save();
         startRandom(this, binding.getQuiz().getSentence().getCollectionId());
     }
