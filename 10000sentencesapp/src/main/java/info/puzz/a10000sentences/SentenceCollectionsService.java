@@ -3,11 +3,13 @@ package info.puzz.a10000sentences;
 import com.activeandroid.query.Select;
 
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Random;
 
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceHistory;
 import info.puzz.a10000sentences.models.SentenceStatus;
 
 public final class SentenceCollectionsService {
@@ -23,11 +25,24 @@ public final class SentenceCollectionsService {
             status = SentenceStatus.AGAIN.getStatus();
         }
 
-        return new Select()
+        List<Sentence> sentences = new Select()
                 .from(Sentence.class)
                 .where("collection_id=? and status=?", collection.getCollectionID(), status)
                 .orderBy("complexity")
-                .executeSingle();
+                .limit(200)
+                .execute();
+
+        return sentences.get(RANDOM.nextInt(sentences.size()));
     }
 
+    public static void updateStatus(Sentence sentence, SentenceStatus status) {
+        sentence.status = status.getStatus();
+        sentence.save();
+
+        SentenceHistory h = new SentenceHistory();
+        h.sentenceId = sentence.getSentenceId();
+        h.status = status.getStatus();
+        h.created = System.currentTimeMillis();
+        h.save();
+    }
 }

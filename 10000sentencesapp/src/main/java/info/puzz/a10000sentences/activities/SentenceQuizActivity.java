@@ -126,9 +126,7 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     private void updateSentenceStatusAndGotoNext(SentenceStatus status) {
-        Sentence sentence = binding.getQuiz().getSentence();
-        sentence.status = status.getStatus();
-        sentence.save();
+        SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), status);
         startRandom(this, binding.getQuiz().getSentence().getCollectionId());
     }
 
