@@ -22,7 +22,7 @@
             android:value="2" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="info.puzz.a10000sentences.models.Language,info.puzz.a10000sentences.models.Sentence,info.puzz.a10000sentences.models.SentenceCollection" />
+            android:value="info.puzz.a10000sentences.models.Language,info.puzz.a10000sentences.models.Sentence,info.puzz.a10000sentences.models.SentenceCollection,info.puzz.a10000sentences.models.SentenceHistory" />
 
         <activity
             android:name=".activities.CollectionsActivity"
