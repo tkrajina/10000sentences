@@ -103,10 +103,10 @@ public class SentenceQuizActivity extends BaseActivity {
     private void finalizeSentence() {
         if (binding.getQuiz().canBeMarkedAsDone()) {
             binding.finalMessage.setText(R.string.correct);
-            binding.next.setVisibility(View.VISIBLE);
+            binding.markAsDone.setVisibility(View.VISIBLE);
         } else {
             binding.finalMessage.setText(R.string.too_many_errors);
-            binding.next.setVisibility(View.GONE);
+            binding.markAsDone.setVisibility(View.GONE);
         }
         binding.quizButtons.setVisibility(View.GONE);
         binding.finalButtons.setVisibility(View.VISIBLE);
@@ -117,7 +117,7 @@ public class SentenceQuizActivity extends BaseActivity {
                 updateSentenceStatusAndGotoNext(SentenceStatus.AGAIN);
             }
         });
-        binding.next.setOnClickListener(new View.OnClickListener() {
+        binding.markAsDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updateSentenceStatusAndGotoNext(SentenceStatus.DONE);

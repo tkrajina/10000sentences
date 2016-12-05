@@ -9,7 +9,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="download_senteces">Download sentences</string>
-    <string name="random_sentence">RandomSentence</string>
+    <string name="random_sentence">Random sentence</string>
     <string name="download_collection">Download collection</string>
     <string name="todo">To do...</string>
     <string name="retry_again">Retry later</string>

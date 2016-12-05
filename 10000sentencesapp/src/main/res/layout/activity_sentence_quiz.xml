@@ -43,6 +43,8 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="@dimen/quiz_sentence_size"
                         android:text="@{quiz.getSentence().knownSentence}" />
 
                     <LinearLayout
@@ -80,6 +82,8 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="@dimen/quiz_sentence_size"
                         android:text="@{quiz.getQuizSentence()}" />
 
                     <LinearLayout
@@ -101,12 +105,14 @@
 
                         <Button
                             android:id="@+id/answer1"
+                            android:textSize="@dimen/quiz_button_text_size"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="@{quiz.answers[0]}" />
 
                         <Button
                             android:id="@+id/answer2"
+                            android:textSize="@dimen/quiz_button_text_size"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="@{quiz.answers[1]}" />
@@ -116,12 +122,14 @@
 
                         <Button
                             android:id="@+id/answer3"
+                            android:textSize="@dimen/quiz_button_text_size"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="@{quiz.answers[2]}" />
 
                         <Button
                             android:id="@+id/answer4"
+                            android:textSize="@dimen/quiz_button_text_size"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="@{quiz.answers[3]}" />
@@ -152,7 +160,7 @@
                         android:text="@string/repeat_later" />
 
                     <Button
-                        android:id="@+id/next"
+                        android:id="@+id/mark_as_done"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/next" />

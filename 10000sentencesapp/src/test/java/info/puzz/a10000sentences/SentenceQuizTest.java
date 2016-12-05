@@ -3,6 +3,9 @@ package info.puzz.a10000sentences;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import info.puzz.a10000sentences.activities.SentenceQuiz;
 import info.puzz.a10000sentences.models.Sentence;
 
@@ -10,6 +13,9 @@ public class SentenceQuizTest {
 
     @Test
     public void test() {
+        List<Sentence> randomSentences = new ArrayList<>();
+        randomSentences.add(new Sentence().setTargetSentence("jkl fdjkls euio fdhjklds fdsjkl jkl"));
+        randomSentences.add(new Sentence().setTargetSentence("cuxizo jdkl yyyy aaaa"));
         SentenceQuiz q = new SentenceQuiz(new Sentence().setTargetSentence("ovo je, samo test"), 4, randomSentences);
         Assert.assertFalse(q.guessWord("jkljkl"));
         Assert.assertFalse(q.isFinished());
