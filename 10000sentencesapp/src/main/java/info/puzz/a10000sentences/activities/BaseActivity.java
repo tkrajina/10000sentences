@@ -26,6 +26,7 @@ import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.utils.DebugUtils;
+import info.puzz.a10000sentences.utils.DialogUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -141,18 +142,16 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_collections) {
+            CollectionsActivity.start(this);
+        } else if (id == R.id.nav_reload) {
+            DialogUtils.showWarningDialog(this, "TODO", "");
+        } else if (id == R.id.nav_stats) {
+            DialogUtils.showWarningDialog(this, "TODO", "");
+        } else if (id == R.id.nav_about) {
+            DialogUtils.showWarningDialog(this, "TODO", "");
+        } else if (id == R.id.nav_help) {
+            DialogUtils.showWarningDialog(this, "TODO", "");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

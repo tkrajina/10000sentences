@@ -1,5 +1,6 @@
 package info.puzz.a10000sentences.activities;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
@@ -14,6 +15,11 @@ import temp.DBG;
 public class CollectionsActivity extends BaseActivity {
 
     ActivityCollectionsBinding binding;
+
+    public static <T extends BaseActivity> void start(T activity) {
+        Intent intent = new Intent(activity, CollectionsActivity.class);
+        activity.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

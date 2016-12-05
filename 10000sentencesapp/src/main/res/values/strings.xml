@@ -21,4 +21,10 @@
     <string name="too_many_errors">Too many errors :(</string>
     <string name="title_activity_tmp">TmpActivity</string>
     <string name="start_quiz">Start quiz</string>
+    <string name="app">App</string>
+    <string name="about">About</string>
+    <string name="help">Help</string>
+    <string name="stats">Stats</string>
+    <string name="reload_collections">Reload collections</string>
+    <string name="collections">Collections</string>
 </resources>
