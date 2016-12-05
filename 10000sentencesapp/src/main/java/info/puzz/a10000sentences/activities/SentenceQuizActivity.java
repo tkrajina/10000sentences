@@ -22,6 +22,7 @@ import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
+import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
 import temp.DBG;
@@ -143,9 +144,7 @@ public class SentenceQuizActivity extends BaseActivity {
                 showAlertDialog(strings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("translate", strings[which]);
-                        clipboard.setPrimaryClip(clip);
+                        ShareUtils.copyToClipboard(SentenceQuizActivity.this, strings[which]);
                     }
                 });
             }
@@ -157,9 +156,7 @@ public class SentenceQuizActivity extends BaseActivity {
                 showAlertDialog(strings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("translate", strings[which]);
-                        clipboard.setPrimaryClip(clip);
+                        ShareUtils.shareWithTranslate(SentenceQuizActivity.this, strings[which]);
                     }
                 });
             }
@@ -167,15 +164,24 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     private void showAlertDialog(String[] strings, DialogInterface.OnClickListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(SentenceQuizActivity.this);
-        builder.setTitle(R.string.select_text);
-        builder.setItems(strings, listener);
-        builder.show();
+        if (strings.length == 0) {
+            Toast.makeText(this, R.string.empty, Toast.LENGTH_SHORT).show();
+        } else if (strings.length == 1) {
+            listener.onClick(null, 0);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(SentenceQuizActivity.this);
+            builder.setTitle(R.string.select_text);
+            builder.setItems(strings, listener);
+            builder.show();
+        }
     }
 
     private String[] getStringsToTranslate() {
         String targetSentence = binding.getQuiz().getSentence().targetSentence;
         List<WordChunk> chunks = StringUtils.getWordChunks(targetSentence);
+        if (chunks.size() <= 1) {
+            return new String[] {targetSentence};
+        }
         String[] res = new String[chunks.size() + 1];
         res[0] = targetSentence;
         for (int i = 0; i < chunks.size(); i++) {

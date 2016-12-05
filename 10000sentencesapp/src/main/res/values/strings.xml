@@ -34,4 +34,5 @@
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="share">Share/translate</string>
     <string name="select_text">Select text</string>
+    <string name="empty">String empty</string>
 </resources>

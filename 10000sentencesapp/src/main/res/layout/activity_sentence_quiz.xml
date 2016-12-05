@@ -60,6 +60,11 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/colorPrimary" />
+
                 <LinearLayout
                     android:id="@+id/start_quiz_group"
                     android:layout_width="match_parent"
@@ -165,17 +170,27 @@
                         android:layout_height="wrap_content"
                         android:text="@string/next" />
 
-                    <Button
-                        android:id="@+id/copy_to_clipboard"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/copy_to_clipboard" />
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <Button
-                        android:id="@+id/share_translate"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/share" />
+                        <Button
+                            android:id="@+id/copy_to_clipboard"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/copy_to_clipboard" />
+
+                        <Button
+                            android:id="@+id/share_translate"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/share" />
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
