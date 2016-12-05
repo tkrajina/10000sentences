@@ -1,7 +1,5 @@
 package info.puzz.a10000sentences;
 
-import android.widget.Toast;
-
 import com.activeandroid.query.Select;
 
 import java.security.SecureRandom;
@@ -28,7 +26,7 @@ public final class SentenceCollectionsService {
         return new Select()
                 .from(Sentence.class)
                 .where("collection_id=? and status=?", collection.getCollectionID(), status)
-                .orderBy("random()")
+                .orderBy("complexity")
                 .executeSingle();
     }
 

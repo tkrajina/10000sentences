@@ -17,7 +17,7 @@ public class Sentence extends Model {
     @Column(name = "sentence_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public String sentenceId;
 
-    @Column(name = "collection_id")
+    @Column(name = "collection_id", index = true)
     public String collectionId;
 
     @Column(name = "known")
@@ -28,5 +28,8 @@ public class Sentence extends Model {
 
     @Column(name = "status")
     public int status = SentenceStatus.TODO.getStatus();
+
+    @Column(name = "complexity", index = true)
+    float complexity;
 
 }

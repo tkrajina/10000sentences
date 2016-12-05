@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import info.puzz.a10000sentences.apimodels.InfoVO;
 import info.puzz.a10000sentences.apimodels.LanguageVO;
@@ -27,6 +28,12 @@ import info.puzz.a10000sentences.apimodels.SentenceVO;
 import info.puzz.a10000sentences.language.Languages;
 
 public class TatoebaImporter {
+
+    /**
+     * If a sentence has more than this number of words => then the longer the sentence the more complex it is (i.e.
+     * it doesn't depend only on word frequences).
+     */
+    private static final float MIN_COMPLEX_SENTENCE = 6F;
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -60,6 +67,8 @@ public class TatoebaImporter {
         LanguageVO knownLanguage = Languages.getLanguageByAbbrev(knownLanguageAbbrev3);
         LanguageVO targetLanguage = Languages.getLanguageByAbbrev(targetLanguageAbbrev3);
 
+        WordCounter wordCounter = new WordCounter();
+
         Map<Integer, TatoebaSentence> targetLanguageSentences = new HashMap<>();
         Map<Integer, TatoebaSentence> knownLanguageSentences = new HashMap<>();
 
@@ -75,6 +84,7 @@ public class TatoebaImporter {
                 TatoebaSentence sentence = new TatoebaSentence().setId(sentenceId).setText(text);
                 if (targetLanguageAbbrev3.equals(lang)) {
                     targetLanguageSentences.put(sentenceId, sentence);
+                    wordCounter.countWordsInSentence(sentence.getText());
                 }
                 if (knownLanguageAbbrev3.equals(lang)) {
                     knownLanguageSentences.put(sentenceId, sentence);
@@ -83,6 +93,7 @@ public class TatoebaImporter {
         }
         System.out.println(String.format("Found %d known language sentences", knownLanguageSentences.size()));
         System.out.println(String.format("Found %d target language sentences", targetLanguageSentences.size()));
+        System.out.println(String.format("%d distinct words", wordCounter.size()));
 
         HashSet<Integer> sentencesFound = new HashSet<>();
 
@@ -121,11 +132,15 @@ public class TatoebaImporter {
             }
         });
 
+        for (SentenceVO sentence : sentences) {
+            calculateSentenceComplexity(sentence, wordCounter);
+        }
+
         int totalSentencesIncluded = 0;
         FileOutputStream out = new FileOutputStream(Paths.get(outputDir, outFilename).toString());
         write_loop:
         for (SentenceVO sentence : sentences) {
-            out.write((sentence.getSentenceId() + "\t" + sentence.getKnownSentence() + "\t" + sentence.getTargetSentence() + "\n").getBytes("utf-8"));
+            out.write((sentence.getSentenceId() + "\t" + sentence.getKnownSentence() + "\t" + sentence.getTargetSentence() + "\t" + sentence.getComplexity() + "\n").getBytes("utf-8"));
             totalSentencesIncluded += 1;
             if (totalSentencesIncluded > 15_000) {
                 break write_loop;
@@ -142,6 +157,22 @@ public class TatoebaImporter {
                 .setTargetLanguage(targetLanguage.getAbbrev())
                 .setCount(totalSentencesIncluded)
                 .setFilename(outFilename);
+    }
+
+    private static void calculateSentenceComplexity(SentenceVO sentence, WordCounter wordCounter) {
+        List<String> sentenceWords = WordUtils.getWords(sentence.getTargetSentence());
+        float sum = 0F;
+        for (String sentenceWord : sentenceWords) {
+            sum += wordCounter.getWordFrequency(sentenceWord);
+        }
+
+        float avg = sum / sentenceWords.size();
+
+        if (sentenceWords.size() > MIN_COMPLEX_SENTENCE) {
+            sentence.setComplexity(avg * sentenceWords.size() / MIN_COMPLEX_SENTENCE);
+        } else {
+            sentence.setComplexity(avg);
+        }
     }
 
 }

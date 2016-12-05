@@ -88,11 +88,13 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
         String sentenceId = parts[0];
         String knownSentence = parts[1];
         String targetSentence = parts[2];
+        float complexity = Float.parseFloat(parts[3]);
         return new Sentence()
                 .setCollectionId(collection.getCollectionID())
                 .setSentenceId(sentenceId)
                 .setKnownSentence(knownSentence)
-                .setTargetSentence(targetSentence);
+                .setTargetSentence(targetSentence)
+                .setComplexity(complexity);
     }
 
     private void importSentences(List<Sentence> sentences) {
