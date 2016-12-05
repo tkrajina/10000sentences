@@ -1,5 +1,10 @@
 package info.puzz.a10000sentences.activities;
 
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -17,6 +22,8 @@ import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
+import info.puzz.a10000sentences.utils.StringUtils;
+import info.puzz.a10000sentences.utils.WordChunk;
 import temp.DBG;
 
 public class SentenceQuizActivity extends BaseActivity {
@@ -129,6 +136,52 @@ public class SentenceQuizActivity extends BaseActivity {
                 updateSentenceStatusAndGotoNext(SentenceStatus.DONE);
             }
         });
+        binding.copyToClipboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] strings = getStringsToTranslate();
+                showAlertDialog(strings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("translate", strings[which]);
+                        clipboard.setPrimaryClip(clip);
+                    }
+                });
+            }
+        });
+        binding.shareTranslate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] strings = getStringsToTranslate();
+                showAlertDialog(strings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("translate", strings[which]);
+                        clipboard.setPrimaryClip(clip);
+                    }
+                });
+            }
+        });
+    }
+
+    private void showAlertDialog(String[] strings, DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(SentenceQuizActivity.this);
+        builder.setTitle(R.string.select_text);
+        builder.setItems(strings, listener);
+        builder.show();
+    }
+
+    private String[] getStringsToTranslate() {
+        String targetSentence = binding.getQuiz().getSentence().targetSentence;
+        List<WordChunk> chunks = StringUtils.getWordChunks(targetSentence);
+        String[] res = new String[chunks.size() + 1];
+        res[0] = targetSentence;
+        for (int i = 0; i < chunks.size(); i++) {
+            res[i+1] = chunks.get(i).word;
+        }
+        return res;
     }
 
     private void updateSentenceStatusAndGotoNext(SentenceStatus status) {

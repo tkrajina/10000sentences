@@ -165,6 +165,18 @@
                         android:layout_height="wrap_content"
                         android:text="@string/next" />
 
+                    <Button
+                        android:id="@+id/copy_to_clipboard"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/copy_to_clipboard" />
+
+                    <Button
+                        android:id="@+id/share_translate"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/share" />
+
                 </LinearLayout>
 
             </LinearLayout>
