@@ -24,7 +24,7 @@ public final class DebugUtils {
             if (sd.canWrite()) {
                 String currentDBPath = String.format("//data//%s//databases//%s",
                         packageName, databaseName);
-                String backupDBPath = String.format("debug_%s.sqlite", packageName);
+                String backupDBPath = String.format("debug_%s", databaseName);
                 File currentDB = new File(data, currentDBPath);
                 File backupDB = new File(sd, backupDBPath);
 

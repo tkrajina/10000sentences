@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +16,7 @@ import android.view.MenuItem;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import info.puzz.a10000sentences.BuildConfig;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.apimodels.InfoVO;
@@ -29,7 +29,6 @@ import info.puzz.a10000sentences.utils.DebugUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import temp.DBG;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,13 +39,16 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onPause() {
         super.onPause();
-        DBG.todo("Remove:");
-        DebugUtils.backupDatabase(this, "10000sentences.db");
+        if (BuildConfig.DEBUG) {
+            // Test db locally with:
+            //adb pull /sdcard/debug_10000sentences.db && sqlite3 debug_10000sentences.db
+            DebugUtils.backupDatabase(this, "10000sentences.db");
+        }
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -89,7 +91,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Call<InfoVO> call, Throwable t) {
-                Log.i(TAG, t.getMessage(), t);
+                Log.e(TAG, t.getMessage(), t);
             }
         });
     }
