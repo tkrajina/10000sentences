@@ -1,5 +1,6 @@
 package info.puzz.a10000sentences.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -65,10 +67,29 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     void reloadLanguages() {
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this, getString(R.string.no_newtork), Toast.LENGTH_SHORT);
+            return;
+        }
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Loading");
+        progressDialog.show();
+
         Call<InfoVO> info = Api.instance().info(RANDOM.nextInt());
         info.enqueue(new Callback<InfoVO>() {
             @Override
             public void onResponse(Call<InfoVO> call, Response<InfoVO> response) {
+                try {
+                    _onResponse(response);
+                    Toast.makeText(BaseActivity.this, getString(R.string.imported), Toast.LENGTH_SHORT).show();
+                } finally {
+                    progressDialog.hide();
+                }
+            }
+
+            private void _onResponse(Response<InfoVO> response) {
                 Log.i(TAG, String.valueOf(response.body()));
                 InfoVO info = response.body();
                 for (LanguageVO languageVO : info.getLanguages()) {
@@ -92,7 +113,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Call<InfoVO> call, Throwable t) {
+                progressDialog.hide();
                 Log.e(TAG, t.getMessage(), t);
+                Toast.makeText(BaseActivity.this, getString(R.string.error_retrieving), Toast.LENGTH_SHORT).show();
             }
         });
     }
