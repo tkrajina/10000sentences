@@ -1,1 +1,1 @@
-include ':app', ':apimodels', ':tatoebaimporter'
+include ':10000sentencesapp', ':apimodels', ':tatoebaimporter'
