@@ -11,7 +11,7 @@ import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionsBinding;
 import info.puzz.a10000sentences.models.SentenceCollection;
 
-public class CollectionsActivity extends BaseActivity {
+public class CollectionsActivity extends BaseActivity implements BaseActivity.OnCollectionsReloaded {
 
     ActivityCollectionsBinding binding;
 
@@ -34,7 +34,17 @@ public class CollectionsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
+        reloadCollections();
+    }
+
+    @Override
+    public void onCollectionsReloaded() {
+        reloadCollections();
+    }
+
+    private void reloadCollections() {
         List<SentenceCollection> cols = Dao.getCollections();
         binding.collectionsList.setAdapter(new CollectionsAdapter(this, cols));
     }
+
 }

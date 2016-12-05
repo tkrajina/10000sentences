@@ -25,13 +25,19 @@ public final class SentenceCollectionsService {
             status = SentenceStatus.AGAIN.getStatus();
         }
 
+        return getRandomSentenceByStatus(collection, status);
+    }
+
+    private static Sentence getRandomSentenceByStatus(SentenceCollection collection, int status) {
         List<Sentence> sentences = new Select()
                 .from(Sentence.class)
                 .where("collection_id=? and status=?", collection.getCollectionID(), status)
                 .orderBy("complexity")
                 .limit(200)
                 .execute();
-
+        if (sentences.size() == 0) {
+            return null;
+        }
         return sentences.get(RANDOM.nextInt(sentences.size()));
     }
 

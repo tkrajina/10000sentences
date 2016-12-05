@@ -30,4 +30,5 @@
     <string name="no_newtork">No network available</string>
     <string name="error_retrieving">Couldn\'t retrieve data</string>
     <string name="imported">Imported</string>
+    <string name="no_sentence_found">No sentences found</string>
 </resources>

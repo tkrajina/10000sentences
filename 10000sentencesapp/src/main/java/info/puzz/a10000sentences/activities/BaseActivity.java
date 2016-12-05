@@ -39,6 +39,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     private static final String TAG = BaseActivity.class.getSimpleName();
 
+    public interface OnCollectionsReloaded {
+        public void onCollectionsReloaded();
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -68,7 +72,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     void reloadLanguages() {
         if (!isNetworkAvailable()) {
-            Toast.makeText(this, getString(R.string.no_newtork), Toast.LENGTH_SHORT);
+            Toast.makeText(this, getString(R.string.no_newtork), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -108,6 +112,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                             .setTargetLanguage(collectionVO.getTargetLanguage())
                             .setFilename(collectionVO.getFilename());
                     Dao.importCollection(col);
+                }
+
+                if (BaseActivity.this instanceof OnCollectionsReloaded) {
+                    ((OnCollectionsReloaded) BaseActivity.this).onCollectionsReloaded();
                 }
             }
 
@@ -168,7 +176,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_collections) {
             CollectionsActivity.start(this);
         } else if (id == R.id.nav_reload) {
-            DialogUtils.showWarningDialog(this, "TODO", "");
+            reloadLanguages();
         } else if (id == R.id.nav_stats) {
             DialogUtils.showWarningDialog(this, "TODO", "");
         } else if (id == R.id.nav_about) {

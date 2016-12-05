@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 
@@ -41,7 +42,12 @@ public class SentenceQuizActivity extends BaseActivity {
                 .where("collection_id=?", collectionId)
                 .executeSingle();
 
-        startSentence(activity, SentenceCollectionsService.nextSentence(collection).sentenceId);
+        Sentence sentence = SentenceCollectionsService.nextSentence(collection);
+        if (sentence == null) {
+            Toast.makeText(activity, activity.getString(R.string.no_sentence_found), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        startSentence(activity, sentence.sentenceId);
     }
 
     @Override
