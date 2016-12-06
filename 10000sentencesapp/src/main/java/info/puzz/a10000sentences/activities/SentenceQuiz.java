@@ -45,7 +45,7 @@ public class SentenceQuiz extends BaseObservable {
             }
             WordChunk chunk = chunks.get(i);
             if (i >= currentChunk) {
-                res.append(chunk.chunk.replace(chunk.word, StringUtils.repeat('_', chunk.word.length())));
+                res.append(chunk.chunk.replace(chunk.word, StringUtils.repeat('_', 3)));
             } else {
                 res.append(chunk.chunk);
             }
