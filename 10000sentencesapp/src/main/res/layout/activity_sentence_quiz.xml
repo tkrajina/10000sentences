@@ -34,16 +34,47 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:context="info.puzz.a10000sentences.SentenceQuizActivity">
 
-                <LinearLayout
+                <RelativeLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/bottom"
                     android:layout_alignParentTop="true">
+
+                    <LinearLayout
+                        android:id="@+id/quiz_sentence_group"
+                        android:visibility="gone"
+                        android:layout_below="@+id/sentence_delimiter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:id="@+id/target_sentence"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="@dimen/quiz_sentence_size"
+                            android:text="@{quiz.getQuizSentence()}"
+                            />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/sentence_delimiter"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="@color/colorPrimary"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_above="@+id/sentence_delimiter"
+                        android:layout_alignParentStart="true">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -65,30 +96,7 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dip"
-                        android:background="@color/colorPrimary" />
-
-                    <LinearLayout
-                        android:id="@+id/quiz_sentence_group"
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/target_sentence"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textSize="@dimen/quiz_sentence_size"
-                            android:text="@{quiz.getQuizSentence()}"
-                            />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                </RelativeLayout>
                 <LinearLayout
                     android:id="@+id/bottom"
                     android:orientation="vertical"
