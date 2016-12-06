@@ -1,9 +1,6 @@
 package info.puzz.a10000sentences.activities;
 
 import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -25,6 +22,7 @@ import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
+import info.puzz.a10000sentences.utils.NumberUtils;
 import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
@@ -77,21 +75,13 @@ public class SentenceQuizActivity extends BaseActivity {
             DBG.todo();
         }
 
-        SentenceCollection collection = new Select()
-                .from(SentenceCollection.class)
-                .where("collection_id = ?", sentence.collectionId)
-                .executeSingle();
-
-        List<Sentence> randomSentences = new Select()
-                .from(Sentence.class)
-                .where("collection_id = ?", collection.collectionID)
-                .orderBy("random()")
-                .limit(100)
-                .execute();
+        SentenceCollection collection = Dao.getCollection(sentence.collectionId);
+        List<Sentence> randomSentences = Dao.getRandomSentences(collection);
 
         Language targetLanguage = Dao.getLanguage(collection.targetLanguage);
 
         binding.setQuiz(new SentenceQuiz(sentence, 4, randomSentences));
+        binding.setCollection(collection);
 
         if (targetLanguage.isRightToLeft()) {
             binding.targetSentence.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
@@ -127,8 +117,10 @@ public class SentenceQuizActivity extends BaseActivity {
             for (Button b : answerButtons) {
                 b.setTextColor(originalButtonColor);
             }
+            binding.correctCounter.setText(1 + NumberUtils.parseInt(binding.correctCounter.getText().toString(), 0) + " ");
         } else {
             answerButton.setTextColor(ContextCompat.getColor(this, R.color.error));
+            binding.incorrectCounter.setText(1 + NumberUtils.parseInt(binding.incorrectCounter.getText().toString(), 0) + " ");
         }
 
         if (binding.getQuiz().isFinished()) {

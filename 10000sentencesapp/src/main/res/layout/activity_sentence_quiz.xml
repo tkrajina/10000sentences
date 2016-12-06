@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+        <variable name="collection" type="info.puzz.a10000sentences.models.SentenceCollection" />
         <variable name="quiz" type="info.puzz.a10000sentences.activities.SentenceQuiz" />
     </data>
 
@@ -94,6 +95,56 @@
                                 android:layout_height="20dp" />
 
                         </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true">
+                        <TextView
+                            android:text="@{String.valueOf(collection.todoCount) + &quot; &quot;}"
+                            android:textSize="@dimen/smaller_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="@{String.valueOf(collection.doneCount) + &quot; &quot;}"
+                            android:textSize="@dimen/smaller_text"
+                            android:textColor="@color/active"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="@{String.valueOf(collection.repeatCount) + &quot; &quot;}"
+                            android:textSize="@dimen/smaller_text"
+                            android:textColor="@color/error"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="@{String.valueOf(collection.ignoreCount)}"
+                            android:textSize="@dimen/smaller_text"
+                            android:textColor="@color/inactive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true">
+                        <TextView
+                            android:id="@+id/correct_counter"
+                            android:textSize="@dimen/smaller_text"
+                            android:textColor="@color/active"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/incorrect_counter"
+                            android:textSize="@dimen/smaller_text"
+                            android:textColor="@color/error"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                 </RelativeLayout>
