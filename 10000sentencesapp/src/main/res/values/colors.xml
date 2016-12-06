@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="active">#0fc669</color>
     <color name="inactive">#b5b5b5</color>
+    <color name="wrong">#b5b5b5</color>
+    <color name="error">#ff4242</color>
 </resources>

@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class SentenceQuizActivity extends BaseActivity {
 
     private SentenceQuiz quiz;
     private Button[] answerButtons;
+    private Integer originalButtonColor;
 
     public static <T extends BaseActivity> void startSentence(T activity, String sentenceId) {
         Intent intent = new Intent(activity, SentenceQuizActivity.class)
@@ -100,7 +102,7 @@ public class SentenceQuizActivity extends BaseActivity {
             answerButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    submitResponse(answerButton.getText().toString());
+                    submitResponse(answerButton, answerButton.getText().toString());
                 }
             });
         }
@@ -115,8 +117,20 @@ public class SentenceQuizActivity extends BaseActivity {
         });
     }
 
-    private void submitResponse(String text) {
-        binding.getQuiz().guessWord(text);
+    private void submitResponse(Button answerButton, String text) {
+        if (originalButtonColor == null) {
+            originalButtonColor = answerButton.getCurrentTextColor();
+        }
+
+        boolean guessed = binding.getQuiz().guessWord(text);
+        if (guessed) {
+            for (Button b : answerButtons) {
+                b.setTextColor(originalButtonColor);
+            }
+        } else {
+            answerButton.setTextColor(ContextCompat.getColor(this, R.color.error));
+        }
+
         if (binding.getQuiz().isFinished()) {
             finalizeSentence();
         }

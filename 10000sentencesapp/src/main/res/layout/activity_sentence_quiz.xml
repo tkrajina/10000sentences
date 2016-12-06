@@ -112,14 +112,12 @@
 
                         <Button
                             android:id="@+id/answer1"
-                            android:textSize="@dimen/quiz_button_text_size"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="@{quiz.answers[0]}" />
 
                         <Button
                             android:id="@+id/answer2"
-                            android:textSize="@dimen/quiz_button_text_size"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="@{quiz.answers[1]}" />
@@ -129,14 +127,12 @@
 
                         <Button
                             android:id="@+id/answer3"
-                            android:textSize="@dimen/quiz_button_text_size"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="@{quiz.answers[2]}" />
 
                         <Button
                             android:id="@+id/answer4"
-                            android:textSize="@dimen/quiz_button_text_size"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="@{quiz.answers[3]}" />
