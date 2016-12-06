@@ -39,6 +39,9 @@
             android:name=".activities.CollectionActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activities.SentencesActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activities.HtmlActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

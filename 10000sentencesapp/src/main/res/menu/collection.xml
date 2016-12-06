@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_done_sentences"
+        android:orderInCategory="100"
+        android:title="@string/done_sentences"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_todo_sentences"
+        android:orderInCategory="100"
+        android:title="@string/todo_sentences"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_ignored_sentences"
+        android:orderInCategory="100"
+        android:title="@string/ignored_sentences"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_repeat_sentences"
+        android:orderInCategory="100"
+        android:title="@string/repeat_sentences"
+        app:showAsAction="never" />
+</menu>

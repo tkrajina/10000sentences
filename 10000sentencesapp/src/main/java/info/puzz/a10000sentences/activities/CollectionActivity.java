@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import info.puzz.a10000sentences.ImporterAsyncTask;
@@ -11,6 +13,7 @@ import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
+import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import temp.DBG;
@@ -96,5 +99,30 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
     public void onCollectionReloaded() {
         Dao.reloadCollectionCounter(binding.getSentenceCollection());
         binding.notifyChange();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.collection, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_done_sentences:
+                SentencesActivity.start(this);
+                break;
+            case R.id.action_todo_sentences:
+                SentencesActivity.start(this);
+                break;
+            case R.id.action_ignored_sentences:
+                SentencesActivity.start(this);
+                break;
+            case R.id.action_repeat_sentences:
+                SentencesActivity.start(this);
+                break;
+        }
+        return true;
     }
 }
