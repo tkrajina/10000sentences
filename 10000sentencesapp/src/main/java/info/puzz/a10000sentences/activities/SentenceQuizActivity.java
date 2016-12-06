@@ -18,7 +18,9 @@ import java.util.List;
 
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.SentenceCollectionsService;
+import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
+import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
@@ -85,7 +87,13 @@ public class SentenceQuizActivity extends BaseActivity {
                 .limit(100)
                 .execute();
 
+        Language targetLanguage = Dao.getLanguage(collection.targetLanguage);
+
         binding.setQuiz(new SentenceQuiz(sentence, 4, randomSentences));
+
+        if (targetLanguage.isRightToLeft()) {
+            binding.targetSentence.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        }
 
         answerButtons = new Button[] { binding.answer1, binding.answer2, binding.answer3, binding.answer4, };
         for (final Button answerButton : answerButtons) {
