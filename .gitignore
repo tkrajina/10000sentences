@@ -1,5 +1,7 @@
 .gradle
+*.sqlite
 bucket_files/*
+debug_*
 /local.properties
 .DS_Store
 /*/build/*

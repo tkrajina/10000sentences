@@ -17,4 +17,9 @@ public class SentenceVO {
     int targetSentenceId;
     String knownSentence;
     String targetSentence;
+
+    /**
+     * Calculated based on sentence length and words frequency.
+     */
+    float complexity;
 }

@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">10,000 sentences</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_sentence_quiz">SentenceQuizActivity</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="download_senteces">Download sentences</string>
+    <string name="random_sentence">Random sentence</string>
+    <string name="download_collection">Download collection</string>
+    <string name="todo">To do...</string>
+    <string name="retry_again">Retry later</string>
+    <string name="done">Done</string>
+    <string name="finalize_sentence_title">What next?</string>
+    <string name="correct">Correct!</string>
+    <string name="repeat_later">Repeat later &amp; next sentence</string>
+    <string name="next">Next</string>
+    <string name="too_many_errors">Too many errors :(</string>
+    <string name="title_activity_tmp">TmpActivity</string>
+    <string name="start_quiz">Start quiz</string>
+    <string name="app">App</string>
+    <string name="about">About</string>
+    <string name="help">Help</string>
+    <string name="stats">Stats</string>
+    <string name="reload_collections">Reload collections</string>
+    <string name="collections">Collections</string>
+    <string name="no_newtork">No network available</string>
+    <string name="error_retrieving">Couldn\'t retrieve data</string>
+    <string name="imported">Imported</string>
+    <string name="no_sentence_found">No sentences found</string>
+    <string name="copy_to_clipboard">To clipboard</string>
+    <string name="share">Share/translate</string>
+    <string name="select_text">Select text</string>
+    <string name="empty">String empty</string>
+    <string name="ignored">Ignore</string>
+    <string name="todo_sentences">to do</string>
+    <string name="done_sentences">done</string>
+    <string name="repeat_sentences">repeat</string>
+    <string name="ignored_sentences">ignored</string>
+    <string name="ignore_sentence">Ignore this sentence</string>
+</resources>
