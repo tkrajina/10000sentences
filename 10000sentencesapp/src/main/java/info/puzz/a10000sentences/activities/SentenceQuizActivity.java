@@ -125,10 +125,8 @@ public class SentenceQuizActivity extends BaseActivity {
             for (Button b : answerButtons) {
                 b.setTextColor(originalButtonColor);
             }
-            binding.correctCounter.setText(1 + NumberUtils.parseInt(binding.correctCounter.getText().toString(), 0) + " ");
         } else {
             answerButton.setTextColor(ContextCompat.getColor(this, R.color.error));
-            binding.incorrectCounter.setText(1 + NumberUtils.parseInt(binding.incorrectCounter.getText().toString(), 0) + " ");
         }
 
         if (binding.getQuiz().isFinished()) {

@@ -10,6 +10,7 @@ import info.puzz.a10000sentences.Constants;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
+import lombok.Getter;
 import temp.DBG;
 
 public class SentenceQuiz extends BaseObservable {
@@ -21,6 +22,7 @@ public class SentenceQuiz extends BaseObservable {
     public String[] answers;
 
     int incorrectAnswersGiven = 0;
+    int correctAnswersGiven = 0;
 
     public SentenceQuiz(Sentence sentence, int answersNo, List<Sentence> randomSentencesForVocab) {
         this.sentence = sentence;
@@ -62,6 +64,7 @@ public class SentenceQuiz extends BaseObservable {
             ++ currentChunk;
             resetRandomAnswers();
             notifyChange();
+            ++ correctAnswersGiven;
         } else {
             ++ incorrectAnswersGiven;
         }
@@ -101,5 +104,13 @@ public class SentenceQuiz extends BaseObservable {
 
     public Sentence getSentence() {
         return sentence;
+    }
+
+    public int getIncorrectAnswersGiven() {
+        return incorrectAnswersGiven;
+    }
+
+    public int getCorrectAnswersGiven() {
+        return correctAnswersGiven;
     }
 }
