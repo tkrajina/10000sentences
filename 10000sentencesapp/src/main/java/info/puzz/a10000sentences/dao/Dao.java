@@ -66,6 +66,7 @@ public class Dao {
                     Sentence existingSentence = existingSentencesMap.get(sentence.getSentenceId());
                     existingSentence.setTargetSentence(sentence.getTargetSentence());
                     existingSentence.setKnownSentence(sentence.getKnownSentence());
+                    existingSentence.setComplexity(sentence.getComplexity());
                     existingSentence.save();
                 } else {
                     sentence.save();

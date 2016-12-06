@@ -36,6 +36,8 @@ public class TatoebaImporter {
      */
     private static final float MIN_COMPLEX_SENTENCE = 5F;
 
+    private static final float MAX_SENTENCE_LENGTH = 100;
+
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     /*
@@ -114,7 +116,7 @@ public class TatoebaImporter {
                 if (!sentencesFound.contains(sentence1) && !sentencesFound.contains(sentence2)) {
                     TatoebaSentence knownSentence = knownLanguageSentences.get(sentence1);
                     TatoebaSentence targetSentence = targetLanguageSentences.get(sentence2);
-                    if (knownSentence != null && targetSentence != null) {
+                    if (knownSentence != null && targetSentence != null && knownSentence.text.length() < MAX_SENTENCE_LENGTH) {
                         //System.out.println(targetSentence.id + ":" + knownSentence + " <-> " + targetSentence);
                         String id = String.format("%s-%s-%d", knownLanguage.getAbbrev(), targetLanguage.getAbbrev(), targetSentence.id);
                         sentences.add(new SentenceVO()
