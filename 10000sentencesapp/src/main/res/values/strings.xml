@@ -40,4 +40,5 @@
     <string name="done_sentences">done</string>
     <string name="repeat_sentences">repeat</string>
     <string name="ignored_sentences">ignored</string>
+    <string name="ignore_sentence">Ignore this sentence</string>
 </resources>

@@ -159,6 +159,12 @@ public class SentenceQuizActivity extends BaseActivity {
                 updateSentenceStatusAndGotoNext(SentenceStatus.DONE);
             }
         });
+        binding.ignoreSentence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateSentenceStatusAndGotoNext(SentenceStatus.IGNORE);
+            }
+        });
         binding.copyToClipboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
