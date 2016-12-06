@@ -3,6 +3,7 @@ package info.puzz.a10000sentences.activities;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +21,13 @@ import info.puzz.a10000sentences.models.SentenceCollection;
 
 public class CollectionsAdapter extends ArrayAdapter<SentenceCollection> {
 
-    private final SentenceCollection[] collections;
     Map<String, Language> languages = new HashMap<>();
 
     public <T extends BaseActivity> CollectionsAdapter(T activity, List<SentenceCollection> cols) {
-        this(activity, cols.toArray(new SentenceCollection[cols.size()]));
-    }
-
-    public <T extends BaseActivity> CollectionsAdapter(T activity, SentenceCollection[] cols) {
         super(activity, R.layout.sentence_collection, cols);
         for (Language language : Dao.getLanguages()) {
             languages.put(language.getLanguageId(), language);
         }
-        collections = cols;
     }
 
     @NonNull
@@ -47,10 +42,17 @@ public class CollectionsAdapter extends ArrayAdapter<SentenceCollection> {
             binding = DataBindingUtil.getBinding(convertView);
         }
 
-        final SentenceCollection collection = collections[position];
+        final SentenceCollection collection = getItem(position);
+
+        if (collection.isDownloaded()) {
+            binding.progress.setTextColor(ContextCompat.getColor(getContext(), R.color.active));
+        } else {
+            binding.progress.setTextColor(ContextCompat.getColor(getContext(), R.color.inactive));
+        }
 
         binding.setKnownLanguage(languages.get(collection.getKnownLanguage()));
         binding.setTargetLanguage(languages.get(collection.getTargetLanguage()));
+        binding.setCollection(getItem(position));
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

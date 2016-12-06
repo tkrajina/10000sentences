@@ -4,6 +4,8 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -27,4 +29,11 @@ public class Language extends Model {
 
     @Column(name = "rtl")
     boolean rightToLeft;
+
+    public String formatNativeName() {
+        if (nativeName.contains(",")) {
+            return StringUtils.capitalize(nativeName.split(",")[0]);
+        }
+        return StringUtils.capitalize(nativeName);
+    }
 }

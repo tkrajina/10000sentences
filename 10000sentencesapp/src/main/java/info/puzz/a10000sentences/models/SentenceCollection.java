@@ -36,4 +36,16 @@ public class SentenceCollection extends Model {
 
     @Column(name = "done_count")
     public int doneCount;
+
+    public boolean isDownloaded() {
+        return count > 0;
+    }
+
+    public String formatProgress() {
+        if (isDownloaded()) {
+            return String.format("%d of 10,000 sentences", doneCount);
+        } else {
+            return "Not downloaded";
+        }
+    }
 }
