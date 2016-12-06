@@ -33,6 +33,11 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collection);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         String collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
         SentenceCollection collection = Dao.getCollection(collectionId);

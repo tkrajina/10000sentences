@@ -50,5 +50,7 @@ public final class SentenceCollectionsService {
         h.status = status.getStatus();
         h.created = System.currentTimeMillis();
         h.save();
+
+        Dao.reloadCollectionCounter(Dao.getCollection(sentence.collectionId));
     }
 }
