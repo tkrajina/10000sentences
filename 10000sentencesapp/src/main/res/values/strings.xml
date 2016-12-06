@@ -31,7 +31,7 @@
     <string name="error_retrieving">Couldn\'t retrieve data</string>
     <string name="imported">Imported</string>
     <string name="no_sentence_found">No sentences found</string>
-    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="copy_to_clipboard">To clipboard</string>
     <string name="share">Share/translate</string>
     <string name="select_text">Select text</string>
     <string name="empty">String empty</string>
