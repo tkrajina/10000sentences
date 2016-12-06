@@ -16,7 +16,7 @@ public final class SentenceCollectionsService {
 
     private static final Random RANDOM = new SecureRandom(String.valueOf(System.currentTimeMillis()).getBytes());
 
-    public static Sentence nextSentence(SentenceCollection collection) {
+    public static Sentence nextSentence(SentenceCollection collection, String exceptSentenceId) {
         Dao.reloadCollectionCounter(collection);
 
         int status = SentenceStatus.TODO.getStatus();
@@ -25,13 +25,13 @@ public final class SentenceCollectionsService {
             status = SentenceStatus.AGAIN.getStatus();
         }
 
-        return getRandomSentenceByStatus(collection, status);
+        return getRandomSentenceByStatus(collection, status, exceptSentenceId);
     }
 
-    private static Sentence getRandomSentenceByStatus(SentenceCollection collection, int status) {
+    private static Sentence getRandomSentenceByStatus(SentenceCollection collection, int status, String exceptSentenceId) {
         List<Sentence> sentences = new Select()
                 .from(Sentence.class)
-                .where("collection_id=? and status=?", collection.getCollectionID(), status)
+                .where("collection_id=? and status=? and sentence_id!=?", collection.getCollectionID(), status, String.valueOf(exceptSentenceId))
                 .orderBy("- complexity")
                 .limit(200)
                 .execute();

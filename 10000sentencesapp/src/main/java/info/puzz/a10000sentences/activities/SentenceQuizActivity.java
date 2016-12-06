@@ -44,13 +44,13 @@ public class SentenceQuizActivity extends BaseActivity {
         activity.startActivity(intent);
     }
 
-    public static <T extends BaseActivity> void startRandom(T activity, String collectionId) {
+    public static <T extends BaseActivity> void startRandom(T activity, String collectionId, String exceptSentenceId) {
         SentenceCollection collection = new Select()
                 .from(SentenceCollection.class)
                 .where("collection_id=?", collectionId)
                 .executeSingle();
 
-        Sentence sentence = SentenceCollectionsService.nextSentence(collection);
+        Sentence sentence = SentenceCollectionsService.nextSentence(collection, exceptSentenceId);
         if (sentence == null) {
             Toast.makeText(activity, activity.getString(R.string.no_sentence_found), Toast.LENGTH_SHORT).show();
             return;
@@ -191,8 +191,9 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     private void updateSentenceStatusAndGotoNext(SentenceStatus status) {
-        SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), status);
-        startRandom(this, binding.getQuiz().getSentence().getCollectionId());
+        Sentence sentence = binding.getQuiz().getSentence();
+        SentenceCollectionsService.updateStatus(sentence, status);
+        startRandom(this, sentence.collectionId, sentence.sentenceId);
     }
 
 /*    @Override

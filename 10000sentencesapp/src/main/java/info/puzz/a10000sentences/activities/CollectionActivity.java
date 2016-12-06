@@ -61,7 +61,7 @@ public class CollectionActivity extends BaseActivity {
     }
 
     private void randomSentence() {
-        SentenceQuizActivity.startRandom(this, binding.getSentenceCollection().getCollectionID());
+        SentenceQuizActivity.startRandom(this, binding.getSentenceCollection().getCollectionID(), null);
     }
 
     private void downloadSentences() {
