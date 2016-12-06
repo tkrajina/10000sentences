@@ -15,7 +15,7 @@ import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import temp.DBG;
 
-public class CollectionActivity extends BaseActivity {
+public class CollectionActivity extends BaseActivity implements ImporterAsyncTask.CollectionReloadedListener {
 
     private static final String TAG = CollectionActivity.class.getSimpleName();
 
@@ -41,7 +41,6 @@ public class CollectionActivity extends BaseActivity {
         }
 
         Dao.reloadCollectionCounter(collection);
-
         binding.setSentenceCollection(collection);
         binding.setKnownLanguage(Dao.getLanguage(collection.getKnownLanguage()));
         binding.setTargetLanguage(Dao.getLanguage(collection.getTargetLanguage()));
@@ -81,9 +80,16 @@ public class CollectionActivity extends BaseActivity {
 
                             String url = Api.BASE_URL + filename;
 
-                            new ImporterAsyncTask(CollectionActivity.this, binding.getSentenceCollection()).execute(url);
+                            new ImporterAsyncTask(CollectionActivity.this, binding.getSentenceCollection(), CollectionActivity.this)
+                                    .execute(url);
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onCollectionReloaded() {
+        Dao.reloadCollectionCounter(binding.getSentenceCollection());
+        binding.notifyChange();
     }
 }

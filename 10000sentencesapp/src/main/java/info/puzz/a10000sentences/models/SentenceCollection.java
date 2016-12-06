@@ -37,6 +37,9 @@ public class SentenceCollection extends Model {
     @Column(name = "done_count")
     public int doneCount;
 
+    @Column(name = "ignore_count")
+    public int ignoreCount;
+
     public boolean isDownloaded() {
         return count > 0;
     }

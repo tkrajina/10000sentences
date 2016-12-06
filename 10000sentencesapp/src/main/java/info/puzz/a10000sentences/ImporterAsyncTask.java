@@ -31,10 +31,16 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
     private final BaseActivity activity;
     private final ProgressDialog progressDialog;
     private final SentenceCollection collection;
+    private final CollectionReloadedListener listener;
 
-    public ImporterAsyncTask(BaseActivity activity, SentenceCollection collection) {
+    public interface CollectionReloadedListener {
+        void onCollectionReloaded();
+    }
+
+    public ImporterAsyncTask(BaseActivity activity, SentenceCollection collection, CollectionReloadedListener listener) {
         this.activity = activity;
         this.collection = collection;
+        this.listener = listener;
 
         this.activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 
@@ -113,6 +119,9 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
         progressDialog.hide();
         // Reenable orientation change
         this.activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        if (listener != null) {
+            listener.onCollectionReloaded();
+        }
     }
 
 }
