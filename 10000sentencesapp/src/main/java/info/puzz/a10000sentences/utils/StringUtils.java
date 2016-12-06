@@ -50,4 +50,12 @@ public final class StringUtils {
         }
         return false;
     }
+
+    public static CharSequence repeat(char c, int length) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            res.append(c);
+        }
+        return res.toString();
+    }
 }
