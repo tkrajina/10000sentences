@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class TatoebaImporter {
      * If a sentence has more than this number of words => then the longer the sentence the more complex it is (i.e.
      * it doesn't depend only on word frequences).
      */
-    private static final float MIN_COMPLEX_SENTENCE = 6F;
+    private static final float MIN_COMPLEX_SENTENCE = 5F;
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -55,6 +56,9 @@ public class TatoebaImporter {
                 .addSentencesCollection(importSentences(bucketFiles, "eng", "ita"))
                 .addSentencesCollection(importSentences(bucketFiles, "eng", "ara"))
                 .addSentencesCollection(importSentences(bucketFiles, "eng", "deu"))
+                .addSentencesCollection(importSentences(bucketFiles, "eng", "fra"))
+                .addSentencesCollection(importSentences(bucketFiles, "eng", "rus"))
+                .addSentencesCollection(importSentences(bucketFiles, "eng", "por"))
                 .addSentencesCollection(importSentences(bucketFiles, "eng", "spa"));
 
         String infoFilename = Paths.get(bucketFiles, "info.json").toString();
@@ -93,7 +97,7 @@ public class TatoebaImporter {
         }
         System.out.println(String.format("Found %d known language sentences", knownLanguageSentences.size()));
         System.out.println(String.format("Found %d target language sentences", targetLanguageSentences.size()));
-        System.out.println(String.format("%d distinct words", wordCounter.size()));
+        System.out.println(String.format("%d distinct words, %d words", wordCounter.size(), wordCounter.count.intValue()));
 
         HashSet<Integer> sentencesFound = new HashSet<>();
 
@@ -125,48 +129,61 @@ public class TatoebaImporter {
             }
         }
 
+        // Order by id, so that older ids are deployed in the database (they are more likely to be
+        // without errors:
         Collections.sort(sentences, new Comparator<SentenceVO>() {
             @Override
             public int compare(SentenceVO s1, SentenceVO s2) {
                 return s1.getTargetSentenceId() - s2.getTargetSentenceId();
             }
         });
+        sentences = sentences.subList(0, Math.min(15_000, sentences.size()));
 
         for (SentenceVO sentence : sentences) {
             calculateSentenceComplexity(sentence, wordCounter);
         }
+        Collections.sort(sentences, new Comparator<SentenceVO>() {
+            @Override
+            public int compare(SentenceVO s1, SentenceVO s2) {
+                return - Float.compare(s1.getComplexity(), s2.getComplexity());
+            }
+        });
 
-        int totalSentencesIncluded = 0;
         FileOutputStream out = new FileOutputStream(Paths.get(outputDir, outFilename).toString());
-        write_loop:
         for (SentenceVO sentence : sentences) {
             out.write((sentence.getSentenceId() + "\t" + sentence.getKnownSentence() + "\t" + sentence.getTargetSentence() + "\t" + sentence.getComplexity() + "\n").getBytes("utf-8"));
-            totalSentencesIncluded += 1;
-            if (totalSentencesIncluded > 15_000) {
-                break write_loop;
-            }
         }
         out.close();
 
-        System.out.println(String.format("Found %d, but included %d sentences in %ds", sentences.size(),
-                totalSentencesIncluded, TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - started)));
+        System.out.println(String.format("Found %d entences in %ds", sentences.size(), TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - started)));
         System.out.println("Results written to: " + outFilename);
 
         return new SentenceCollectionVO()
                 .setKnownLanguage(knownLanguage.getAbbrev())
                 .setTargetLanguage(targetLanguage.getAbbrev())
-                .setCount(totalSentencesIncluded)
+                .setCount(sentences.size())
                 .setFilename(outFilename);
     }
 
     private static void calculateSentenceComplexity(SentenceVO sentence, WordCounter wordCounter) {
         List<String> sentenceWords = WordUtils.getWords(sentence.getTargetSentence());
-        float sum = 0F;
-        for (String sentenceWord : sentenceWords) {
-            sum += wordCounter.getWordFrequency(sentenceWord);
+
+        int[] counters = new int[sentenceWords.size()];
+        for (int i = 0; i < sentenceWords.size(); i++) {
+            counters[i] = wordCounter.getWordCount(sentenceWords.get(i));
         }
 
-        float avg = sum / sentenceWords.size();
+        Arrays.sort(counters);
+        if (counters.length > 3) {
+            // First are the less frequent words, ignore the 30% more frequent:
+            counters = Arrays.copyOfRange(counters, 0, (int) (counters.length * 0.70));
+        }
+
+        int sum = 0;
+        for (int counter : counters) {
+            sum += counter;
+        }
+        float avg = sum / ((float) counters.length);
 
         if (sentenceWords.size() > MIN_COMPLEX_SENTENCE) {
             sentence.setComplexity(avg * sentenceWords.size() / MIN_COMPLEX_SENTENCE);

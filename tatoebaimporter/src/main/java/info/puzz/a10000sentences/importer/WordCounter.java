@@ -34,14 +34,18 @@ public class WordCounter {
             counter.addAndGet(1);
         }
     }
-    
-    public float getWordFrequency(String word) {
+
+    public int getWordCount(String word) {
         word = word.toLowerCase();
         AtomicInteger c = wordCounter.get(word);
         if (c == null) {
-            return 0F;
+            return 0;
         }
-        return c.floatValue() / count.floatValue();
+        return c.intValue();
+    }
+    
+    public float getWordFrequency(String word) {
+        return getWordCount(word) / count.floatValue();
     }
 
     public int size() {
