@@ -105,6 +105,14 @@ public class SentenceQuizActivity extends BaseActivity {
                 binding.quizButtons.setVisibility(View.VISIBLE);
             }
         });
+
+        DBG.todo("Move this somewhere else:");
+        if (targetLanguage.languageId.equals("ar")) {
+            for (Button answerButton : answerButtons) {
+                answerButton.setTextSize(answerButton.getTextSize() * 1.2F);
+            }
+            binding.targetSentence.setTextSize(binding.targetSentence.getTextSize() * 1.2F);
+        }
     }
 
     private void submitResponse(Button answerButton, String text) {
