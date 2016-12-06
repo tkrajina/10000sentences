@@ -23,11 +23,10 @@
             <include layout="@layout/appbar" />
 
             <!-- body... -->
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/activity_main2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -36,163 +35,177 @@
                 tools:context="info.puzz.a10000sentences.SentenceQuizActivity">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textSize="@dimen/quiz_sentence_size"
-                        android:text="@{quiz.getSentence().knownSentence}" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/icon_something"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dip"
-                    android:background="@color/colorPrimary" />
-
-                <LinearLayout
-                    android:id="@+id/start_quiz_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <Button
-                        android:id="@+id/start_quiz"
-                        android:text="@string/start_quiz"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/quiz_sentence_group"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/target_sentence"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textSize="@dimen/quiz_sentence_size"
-                        android:text="@{quiz.getQuizSentence()}"
-                        />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <TableLayout
-                    android:id="@+id/quiz_buttons"
-                    android:visibility="gone"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:stretchColumns="*">
-
-                    <TableRow android:layout_width="match_parent">
-
-                        <Button
-                            android:id="@+id/answer1"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{quiz.answers[0]}" />
-
-                        <Button
-                            android:id="@+id/answer2"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{quiz.answers[1]}" />
-                    </TableRow>
-
-                    <TableRow android:layout_width="match_parent">
-
-                        <Button
-                            android:id="@+id/answer3"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{quiz.answers[2]}" />
-
-                        <Button
-                            android:id="@+id/answer4"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{quiz.answers[3]}" />
-                    </TableRow>
-
-                </TableLayout>
-
-                <LinearLayout
-                    android:id="@+id/final_buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/final_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/correct"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/title_size" />
+                        android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/repeat_later"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/repeat_later" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="@dimen/quiz_sentence_size"
+                            android:text="@{quiz.getSentence().knownSentence}" />
 
-                    <Button
-                        android:id="@+id/mark_as_done"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/icon_something"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/next" />
+                        android:layout_height="1dip"
+                        android:background="@color/colorPrimary" />
 
                     <LinearLayout
-                        android:orientation="horizontal"
+                        android:id="@+id/quiz_sentence_group"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/target_sentence"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="@dimen/quiz_sentence_size"
+                            android:text="@{quiz.getQuizSentence()}"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true">
+
+                    <LinearLayout
+                        android:id="@+id/start_quiz_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/start_quiz"
+                            android:text="@string/start_quiz"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+
+                    <TableLayout
+                        android:id="@+id/quiz_buttons"
+                        android:visibility="gone"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="*">
+
+                        <TableRow android:layout_width="match_parent">
+
+                            <Button
+                                android:id="@+id/answer1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{quiz.answers[0]}" />
+
+                            <Button
+                                android:id="@+id/answer2"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{quiz.answers[1]}" />
+                        </TableRow>
+
+                        <TableRow android:layout_width="match_parent">
+
+                            <Button
+                                android:id="@+id/answer3"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{quiz.answers[2]}" />
+
+                            <Button
+                                android:id="@+id/answer4"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{quiz.answers[3]}" />
+                        </TableRow>
+
+                    </TableLayout>
+
+                    <LinearLayout
+                        android:id="@+id/final_buttons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/final_message"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/correct"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/title_size" />
 
                         <Button
-                            android:id="@+id/copy_to_clipboard"
+                            android:id="@+id/repeat_later"
                             android:layout_width="fill_parent"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="@string/copy_to_clipboard" />
+                            android:text="@string/repeat_later" />
 
                         <Button
-                            android:id="@+id/share_translate"
+                            android:id="@+id/mark_as_done"
                             android:layout_width="fill_parent"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="@string/share" />
+                            android:text="@string/next" />
 
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <Button
+                                android:id="@+id/copy_to_clipboard"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="@string/copy_to_clipboard" />
+
+                            <Button
+                                android:id="@+id/share_translate"
+                                android:layout_width="fill_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="@string/share" />
+
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                 </LinearLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
             <!-- ...body -->
 
         </android.support.design.widget.CoordinatorLayout>

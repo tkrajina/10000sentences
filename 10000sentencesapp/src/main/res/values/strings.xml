@@ -16,7 +16,7 @@
     <string name="done">Done</string>
     <string name="finalize_sentence_title">What next?</string>
     <string name="correct">Correct!</string>
-    <string name="repeat_later">Repeat later</string>
+    <string name="repeat_later">Repeat later &amp; next sentence</string>
     <string name="next">Next</string>
     <string name="too_many_errors">Too many errors :(</string>
     <string name="title_activity_tmp">TmpActivity</string>
