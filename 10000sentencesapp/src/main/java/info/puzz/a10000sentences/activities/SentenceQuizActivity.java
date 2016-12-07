@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -127,6 +129,32 @@ public class SentenceQuizActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         speech.shutdown();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.sentence, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_done_sentence:
+                SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.DONE);
+                break;
+            case R.id.action_todo_sentence:
+                SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.TODO);
+                break;
+            case R.id.action_ignored_sentence:
+                SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.IGNORE);
+                break;
+            case R.id.action_repeat_sentence:
+                SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.REPEAT);
+                break;
+        }
+        CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
+        return true;
     }
 
     private void submitResponse(Button answerButton, String text) {

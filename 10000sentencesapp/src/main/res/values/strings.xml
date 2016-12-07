@@ -44,4 +44,8 @@
     <string name="tts_not_inititialized">Text to speech not (yet) initialized</string>
     <string name="tts_language_not_available">Text to speech language not installed</string>
     <string name="settings">Settings</string>
+    <string name="done_sentence">Mark as DONE</string>
+    <string name="todo_sentence">Mark as TODO</string>
+    <string name="ignored_sentence">Mark as IGNORED</string>
+    <string name="repeat_sentence">Mark as REPEAT</string>
 </resources>
