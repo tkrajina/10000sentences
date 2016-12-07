@@ -141,13 +141,14 @@ public class TatoebaImporter {
         Collections.sort(sentences, new Comparator<SentenceVO>() {
             @Override
             public int compare(SentenceVO s1, SentenceVO s2) {
-                return - Float.compare(s1.getComplexity(), s2.getComplexity());
+                return Float.compare(s1.getComplexity(), s2.getComplexity());
             }
         });
 
         FileOutputStream out = new FileOutputStream(Paths.get(outputDir, outFilename).toString());
-        for (SentenceVO sentence : sentences) {
-            out.write((sentence.getSentenceId() + "\t" + sentence.getKnownSentence() + "\t" + sentence.getTargetSentence() + "\t" + sentence.getComplexity() + "\n").getBytes("utf-8"));
+        for (int i = 0; i < sentences.size(); i++) {
+            SentenceVO sentence = sentences.get(i);
+            out.write((sentence.getSentenceId() + "\t" + sentence.getKnownSentence() + "\t" + sentence.getTargetSentence() + "\t" + (i + 1) + "\n").getBytes("utf-8"));
         }
         out.close();
 
@@ -181,7 +182,7 @@ public class TatoebaImporter {
         }
         float avg = sum / ((float) counters.length);
 
-        sentence.setComplexity((float) (avg * Math.pow(0.95, sentenceWords.size())));
+        sentence.setComplexity(- (float) (avg * Math.pow(0.95, sentenceWords.size())));
     }
 
 }
