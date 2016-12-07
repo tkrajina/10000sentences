@@ -2,6 +2,7 @@ package info.puzz.a10000sentences.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -192,9 +193,15 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_settings) {
             SettingsActivity.start(this);
         } else if (id == R.id.nav_about) {
-            DialogUtils.showWarningDialog(this, "TODO", "");
+            try {
+                PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), 0);
+                HtmlActivity.start(this, getString(R.string.help), getString(R.string.info_contents, info.versionName, String.valueOf(info.versionCode)));
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
         } else if (id == R.id.nav_help) {
             DialogUtils.showWarningDialog(this, "TODO", "");
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
