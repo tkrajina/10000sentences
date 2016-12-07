@@ -8,6 +8,7 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Locale;
 
+import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.models.Language;
 import lombok.Getter;
@@ -16,10 +17,12 @@ public class Speech {
 
     private static final String TAG = Speech.class.getSimpleName();
 
+    private TextToSpeech tts;
+
     private final Context context;
-    private final TextToSpeech tts;
     private final Locale locale;
     private final boolean languageFound;
+    private final boolean enabled;
 
     @Getter
     private boolean initialized = false;
@@ -28,6 +31,10 @@ public class Speech {
         this.context = context;
         this.locale = findLocale(language);
         this.languageFound = locale != null;
+        this.enabled = Preferences.isUseTTS(context);
+        if (!this.enabled) {
+            return;
+        }
         tts = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
@@ -35,7 +42,7 @@ public class Speech {
             }
         });
         tts.setPitch(1);
-        tts.setSpeechRate(0.5F);
+        tts.setSpeechRate(0.75F);
         tts.setLanguage(locale);
     }
 
@@ -58,6 +65,9 @@ public class Speech {
     }
 
     public void speech(String speech) {
+        if (!enabled) {
+            return;
+        }
         if (!languageFound) {
             Toast.makeText(context, R.string.tts_language_not_available, Toast.LENGTH_SHORT).show();
             return;
