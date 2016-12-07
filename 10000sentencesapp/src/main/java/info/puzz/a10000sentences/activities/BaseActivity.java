@@ -179,6 +179,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             reloadLanguages();
         } else if (id == R.id.nav_stats) {
             DialogUtils.showWarningDialog(this, "TODO", "");
+        } else if (id == R.id.nav_settings) {
+            SettingsActivity.start(this);
         } else if (id == R.id.nav_about) {
             DialogUtils.showWarningDialog(this, "TODO", "");
         } else if (id == R.id.nav_help) {
