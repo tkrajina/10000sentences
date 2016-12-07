@@ -117,7 +117,7 @@ public class TatoebaImporter {
                                 .setSentenceId(id)
                                 .setTargetSentenceId(targetSentence.id)
                                 .setKnownSentence(knownSentence.text)
-                                .setTargetSentence(targetSentence.text));
+                                .setTargetSentence(WordUtils.removeNonspacingChars(targetSentence.text)));
                         sentencesFound.add(sentence1);
                         sentencesFound.add(sentence2);
                     }
