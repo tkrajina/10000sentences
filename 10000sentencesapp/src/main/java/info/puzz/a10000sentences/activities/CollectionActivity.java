@@ -3,6 +3,7 @@ package info.puzz.a10000sentences.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,14 +45,13 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         super.onResume();
 
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
-        SentenceCollection collection = Dao.getCollection(collectionId);
+        final SentenceCollection collection = Dao.getCollection(collectionId);
         if (collection == null) {
             Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
             CollectionsActivity.start(this);
             return;
         }
 
-        Dao.reloadCollectionCounter(collection);
         binding.setSentenceCollection(collection);
         binding.setKnownLanguage(Dao.getLanguage(collection.getKnownLanguage()));
         binding.setTargetLanguage(Dao.getLanguage(collection.getTargetLanguage()));
@@ -68,6 +68,19 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
                 downloadSentences();
             }
         });
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... _) {
+                Dao.reloadCollectionCounter(collection);
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void _) {
+                binding.randomSentence.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
+            }
+        }.execute();
+
     }
 
     private void randomSentence() {
