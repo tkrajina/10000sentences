@@ -118,7 +118,7 @@ public class Dao {
                 new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.TODO.getStatus())});
         int againRows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ? and status = ?",
-                new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.AGAIN.getStatus())});
+                new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.REPEAT.getStatus())});
         int doneRows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ? and status = ?",
                 new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.DONE.getStatus())});

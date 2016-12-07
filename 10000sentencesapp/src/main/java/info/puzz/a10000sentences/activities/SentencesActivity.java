@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
 import java.util.List;
@@ -14,13 +15,22 @@ import info.puzz.a10000sentences.databinding.ActivityCollectionsBinding;
 import info.puzz.a10000sentences.databinding.ActivitySentencesBinding;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceStatus;
 
 public class SentencesActivity extends BaseActivity implements BaseActivity.OnCollectionsReloaded {
 
+    private static final String ARG_COLLECTION_ID = "arg_collection_id";
+    private static final String ARG_SENTENCE_STATUS = "arg_sentence_status";
+
     ActivitySentencesBinding binding;
 
-    public static <T extends BaseActivity> void start(T activity) {
-        Intent intent = new Intent(activity, SentencesActivity.class);
+    private String collectionId;
+    private int sentenceStatus;
+
+    public static <T extends BaseActivity> void start(T activity, String collectionID, SentenceStatus status) {
+        Intent intent = new Intent(activity, SentencesActivity.class)
+                .putExtra(ARG_COLLECTION_ID, collectionID)
+                .putExtra(ARG_SENTENCE_STATUS, status.getStatus());
         activity.startActivity(intent);
     }
 
@@ -28,6 +38,9 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sentences);
+
+        collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
+        sentenceStatus = getIntent().getIntExtra(ARG_SENTENCE_STATUS, SentenceStatus.TODO.getStatus());
 
         if (Dao.getLanguages().size() == 0) {
             reloadLanguages();
@@ -47,7 +60,11 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
     }
 
     private void reloadCollections() {
-        binding.sentencesList.setAdapter(new SentencesAdapter(this, new Select().from(Sentence.class)));
+        From select = new Select()
+                .from(Sentence.class)
+                .where("collection_id=? and status=?", collectionId, sentenceStatus)
+                .orderBy("complexity");
+        binding.sentencesList.setAdapter(new SentencesAdapter(this, select));
     }
 
 }

@@ -24,7 +24,7 @@ public final class SentenceCollectionsService {
         int status = SentenceStatus.TODO.getStatus();
         if (RANDOM.nextInt(maxRepeat) < collection.repeatCount) {
             // New sentence:
-            status = SentenceStatus.AGAIN.getStatus();
+            status = SentenceStatus.REPEAT.getStatus();
         }
 
         return getRandomSentenceByStatus(collection, status, exceptSentenceId);

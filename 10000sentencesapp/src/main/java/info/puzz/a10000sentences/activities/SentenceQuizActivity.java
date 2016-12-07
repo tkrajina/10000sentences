@@ -165,7 +165,7 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.repeatLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateSentenceStatusAndGotoNext(SentenceStatus.AGAIN);
+                updateSentenceStatusAndGotoNext(SentenceStatus.REPEAT);
             }
         });
         binding.markAsDone.setOnClickListener(new View.OnClickListener() {

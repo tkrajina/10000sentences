@@ -13,8 +13,8 @@ import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
-import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import temp.DBG;
 
@@ -25,6 +25,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
     private static final String ARG_COLLECTION_ID = "arg_collection_id";
 
     ActivityCollectionBinding binding;
+    private String collectionId;
 
     public static <T extends BaseActivity> void start(T activity, String collectionId) {
         Intent intent = new Intent(activity, CollectionActivity.class);
@@ -42,7 +43,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
     protected void onResume() {
         super.onResume();
 
-        String collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
+        collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
         SentenceCollection collection = Dao.getCollection(collectionId);
         if (collection == null) {
             DBG.todo();
@@ -111,16 +112,16 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done_sentences:
-                SentencesActivity.start(this);
+                SentencesActivity.start(this, collectionId, SentenceStatus.DONE);
                 break;
             case R.id.action_todo_sentences:
-                SentencesActivity.start(this);
+                SentencesActivity.start(this, collectionId, SentenceStatus.TODO);
                 break;
             case R.id.action_ignored_sentences:
-                SentencesActivity.start(this);
+                SentencesActivity.start(this, collectionId, SentenceStatus.IGNORE);
                 break;
             case R.id.action_repeat_sentences:
-                SentencesActivity.start(this);
+                SentencesActivity.start(this, collectionId, SentenceStatus.REPEAT);
                 break;
         }
         return true;

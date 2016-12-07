@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum SentenceStatus {
 
     TODO(0, R.string.todo),
-    AGAIN(1, R.string.retry_again),
+    REPEAT(1, R.string.retry_again),
     DONE(2, R.string.done),
     IGNORE(100, R.string.ignored),
 
