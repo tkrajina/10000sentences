@@ -54,7 +54,7 @@ public class SentenceQuizActivity extends BaseActivity {
                 .where("collection_id=?", collectionId)
                 .executeSingle();
 
-        Sentence sentence = SentenceCollectionsService.nextSentence(collection, exceptSentenceId);
+        Sentence sentence = SentenceCollectionsService.nextSentence(activity, collection, exceptSentenceId);
         if (sentence == null) {
             Toast.makeText(activity, activity.getString(R.string.no_sentence_found), Toast.LENGTH_SHORT).show();
             return;
@@ -140,7 +140,7 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     private void finalizeSentence() {
-        if (binding.getQuiz().canBeMarkedAsDone()) {
+        if (binding.getQuiz().canBeMarkedAsDone(this)) {
             binding.finalMessage.setText(R.string.correct);
             binding.markAsDone.setVisibility(View.VISIBLE);
         } else {
