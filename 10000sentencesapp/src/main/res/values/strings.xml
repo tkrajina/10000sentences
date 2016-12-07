@@ -11,7 +11,7 @@
     <string name="download_senteces">Download sentences</string>
     <string name="random_sentence">Random sentence</string>
     <string name="download_collection">Download collection</string>
-    <string name="todo">To do...</string>
+    <string name="todo">Todo</string>
     <string name="retry_again">Retry later</string>
     <string name="done">Done</string>
     <string name="finalize_sentence_title">What next?</string>
@@ -51,4 +51,5 @@
     <string name="unexpected_error">An unexpected error happened</string>
     <string name="info_contents" formatted="false"><![CDATA[<p>     This application is open source and licensed under the Apache 2.0 license. The source is available here: <a href=\"https://github.com/tkrajina/10000sentences\">github.com/tkrajina/10000sentences</a>. </p> <p>     All the language learning materials are retrieved and prepared from the <a href=\"https://tatoeba.org\">Tatoeba website</a>, and is licensed as Creative Commons Attribution 2.0.  </p> <hr> <p>     Version: <strong>%s / %s</version> </p>]]></string>
     <string name="help_contents">TODO</string>
+    <string name="repeat">Repeat</string>
 </resources>

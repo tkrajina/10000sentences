@@ -66,7 +66,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                             <TextView
-                                android:text="@string/todo_sentences"
+                                android:text="@string/todo"
                                 android:gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
@@ -84,7 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                             <TextView
-                                android:text="@string/done_sentences"
+                                android:text="@string/done"
                                 android:textColor="@color/active"
                                 android:gravity="center"
                                 android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                             <TextView
-                                android:text="@string/repeat_sentences"
+                                android:text="@string/repeat"
                                 android:textColor="@color/error"
                                 android:gravity="center"
                                 android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                             <TextView
-                                android:text="@string/ignored_sentences"
+                                android:text="@string/ignored"
                                 android:textColor="@color/inactive"
                                 android:gravity="center"
                                 android:layout_width="wrap_content"
