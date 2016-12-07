@@ -31,7 +31,7 @@
     <string name="error_retrieving">Couldn\'t retrieve data</string>
     <string name="imported">Imported</string>
     <string name="no_sentence_found">No sentences found</string>
-    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="copy_to_clipboard">To clipboard</string>
     <string name="share">Share/translate</string>
     <string name="select_text">Select text</string>
     <string name="empty">String empty</string>
@@ -40,4 +40,8 @@
     <string name="done_sentences">done</string>
     <string name="repeat_sentences">repeat</string>
     <string name="ignored_sentences">ignored</string>
+    <string name="ignore_sentence">Ignore this sentence</string>
+    <string name="tts_not_inititialized">Text to speech not (yet) initialized</string>
+    <string name="tts_language_not_available">Text to speech language not installed</string>
+    <string name="settings">Settings</string>
 </resources>

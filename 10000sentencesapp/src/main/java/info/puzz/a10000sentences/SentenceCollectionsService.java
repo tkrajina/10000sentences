@@ -1,5 +1,8 @@
 package info.puzz.a10000sentences;
 
+import android.content.Context;
+import android.os.AsyncTask;
+
 import com.activeandroid.query.Select;
 
 import java.security.SecureRandom;
@@ -16,11 +19,10 @@ public final class SentenceCollectionsService {
 
     private static final Random RANDOM = new SecureRandom(String.valueOf(System.currentTimeMillis()).getBytes());
 
-    public static Sentence nextSentence(SentenceCollection collection, String exceptSentenceId) {
-        Dao.reloadCollectionCounter(collection);
-
+    public static Sentence nextSentence(Context context, SentenceCollection collection, String exceptSentenceId) {
+        int maxRepeat = Preferences.getMaxRepeat(context);
         int status = SentenceStatus.TODO.getStatus();
-        if (RANDOM.nextInt(Constants.MAX_REPEAT_SENTENCES) < collection.repeatCount) {
+        if (RANDOM.nextInt(maxRepeat) < collection.repeatCount) {
             // New sentence:
             status = SentenceStatus.AGAIN.getStatus();
         }
@@ -41,7 +43,7 @@ public final class SentenceCollectionsService {
         return sentences.get(RANDOM.nextInt(sentences.size()));
     }
 
-    public static void updateStatus(Sentence sentence, SentenceStatus status) {
+    public static void updateStatus(final Sentence sentence, SentenceStatus status) {
         sentence.status = status.getStatus();
         sentence.save();
 
@@ -51,6 +53,12 @@ public final class SentenceCollectionsService {
         h.created = System.currentTimeMillis();
         h.save();
 
-        Dao.reloadCollectionCounter(Dao.getCollection(sentence.collectionId));
+        new AsyncTask<String, Void, Void>() {
+            @Override
+            protected Void doInBackground(String... strings) {
+                Dao.reloadCollectionCounter(Dao.getCollection(sentence.collectionId));
+                return null;
+            }
+        }.execute();
     }
 }

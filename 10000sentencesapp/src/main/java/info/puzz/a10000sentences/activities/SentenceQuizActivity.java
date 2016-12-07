@@ -1,9 +1,6 @@
 package info.puzz.a10000sentences.activities;
 
 import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -26,6 +23,7 @@ import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.ShareUtils;
+import info.puzz.a10000sentences.utils.Speech;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
 import temp.DBG;
@@ -41,6 +39,8 @@ public class SentenceQuizActivity extends BaseActivity {
     private SentenceQuiz quiz;
     private Button[] answerButtons;
     private Integer originalButtonColor;
+    private Speech speech;
+    private Language targetLanguage;
 
     public static <T extends BaseActivity> void startSentence(T activity, String sentenceId) {
         Intent intent = new Intent(activity, SentenceQuizActivity.class)
@@ -54,7 +54,7 @@ public class SentenceQuizActivity extends BaseActivity {
                 .where("collection_id=?", collectionId)
                 .executeSingle();
 
-        Sentence sentence = SentenceCollectionsService.nextSentence(collection, exceptSentenceId);
+        Sentence sentence = SentenceCollectionsService.nextSentence(activity, collection, exceptSentenceId);
         if (sentence == null) {
             Toast.makeText(activity, activity.getString(R.string.no_sentence_found), Toast.LENGTH_SHORT).show();
             return;
@@ -77,21 +77,13 @@ public class SentenceQuizActivity extends BaseActivity {
             DBG.todo();
         }
 
-        SentenceCollection collection = new Select()
-                .from(SentenceCollection.class)
-                .where("collection_id = ?", sentence.collectionId)
-                .executeSingle();
+        SentenceCollection collection = Dao.getCollection(sentence.collectionId);
+        List<Sentence> randomSentences = Dao.getRandomSentences(collection);
 
-        List<Sentence> randomSentences = new Select()
-                .from(Sentence.class)
-                .where("collection_id = ?", collection.collectionID)
-                .orderBy("random()")
-                .limit(100)
-                .execute();
-
-        Language targetLanguage = Dao.getLanguage(collection.targetLanguage);
+        targetLanguage = Dao.getLanguage(collection.targetLanguage);
 
         binding.setQuiz(new SentenceQuiz(sentence, 4, randomSentences));
+        binding.setCollection(collection);
 
         if (targetLanguage.isRightToLeft()) {
             binding.targetSentence.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
@@ -115,12 +107,34 @@ public class SentenceQuizActivity extends BaseActivity {
                 binding.quizButtons.setVisibility(View.VISIBLE);
             }
         });
+
+        DBG.todo("Move this somewhere else:");
+        if (targetLanguage.languageId.equals("ar")) {
+            for (Button answerButton : answerButtons) {
+                answerButton.setTextSize(answerButton.getTextSize() * 1.2F);
+            }
+            binding.targetSentence.setTextSize(binding.targetSentence.getTextSize() * 1.2F);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        speech = new Speech(this, targetLanguage);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        speech.shutdown();
     }
 
     private void submitResponse(Button answerButton, String text) {
         if (originalButtonColor == null) {
             originalButtonColor = answerButton.getCurrentTextColor();
         }
+
+        speech.speech(text);
 
         boolean guessed = binding.getQuiz().guessWord(text);
         if (guessed) {
@@ -132,12 +146,13 @@ public class SentenceQuizActivity extends BaseActivity {
         }
 
         if (binding.getQuiz().isFinished()) {
+            speech.speech(binding.getQuiz().getSentence().targetSentence);
             finalizeSentence();
         }
     }
 
     private void finalizeSentence() {
-        if (binding.getQuiz().canBeMarkedAsDone()) {
+        if (binding.getQuiz().canBeMarkedAsDone(this)) {
             binding.finalMessage.setText(R.string.correct);
             binding.markAsDone.setVisibility(View.VISIBLE);
         } else {
@@ -157,6 +172,12 @@ public class SentenceQuizActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 updateSentenceStatusAndGotoNext(SentenceStatus.DONE);
+            }
+        });
+        binding.ignoreSentence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateSentenceStatusAndGotoNext(SentenceStatus.IGNORE);
             }
         });
         binding.copyToClipboard.setOnClickListener(new View.OnClickListener() {

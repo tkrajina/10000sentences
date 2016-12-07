@@ -1,12 +1,14 @@
 package info.puzz.a10000sentences.activities;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
+import android.preference.Preference;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import info.puzz.a10000sentences.Constants;
+import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
@@ -21,6 +23,7 @@ public class SentenceQuiz extends BaseObservable {
     public String[] answers;
 
     int incorrectAnswersGiven = 0;
+    int correctAnswersGiven = 0;
 
     public SentenceQuiz(Sentence sentence, int answersNo, List<Sentence> randomSentencesForVocab) {
         this.sentence = sentence;
@@ -45,7 +48,7 @@ public class SentenceQuiz extends BaseObservable {
             }
             WordChunk chunk = chunks.get(i);
             if (i >= currentChunk) {
-                res.append(chunk.chunk.replace(chunk.word, StringUtils.repeat('_', chunk.word.length())));
+                res.append(chunk.chunk.replace(chunk.word, StringUtils.repeat('_', 3)));
             } else {
                 res.append(chunk.chunk);
             }
@@ -62,6 +65,7 @@ public class SentenceQuiz extends BaseObservable {
             ++ currentChunk;
             resetRandomAnswers();
             notifyChange();
+            ++ correctAnswersGiven;
         } else {
             ++ incorrectAnswersGiven;
         }
@@ -72,11 +76,11 @@ public class SentenceQuiz extends BaseObservable {
         return currentChunk >= chunks.size();
     }
 
-    public boolean canBeMarkedAsDone() {
+    public boolean canBeMarkedAsDone(Context context) {
         if (!isFinished()) {
             return false;
         }
-        return 1F * incorrectAnswersGiven / chunks.size() < 1 - Constants.MIN_WORDS_GUESSED;
+        return 1F * incorrectAnswersGiven / chunks.size() < 1 - Preferences.getMinCorrectWords(context) / 100F;
     }
 
     public void resetRandomAnswers() {
@@ -101,5 +105,13 @@ public class SentenceQuiz extends BaseObservable {
 
     public Sentence getSentence() {
         return sentence;
+    }
+
+    public int getIncorrectAnswersGiven() {
+        return incorrectAnswersGiven;
+    }
+
+    public int getCorrectAnswersGiven() {
+        return correctAnswersGiven;
     }
 }

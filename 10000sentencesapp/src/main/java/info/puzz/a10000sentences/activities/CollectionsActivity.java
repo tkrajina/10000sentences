@@ -13,6 +13,8 @@ import info.puzz.a10000sentences.models.SentenceCollection;
 
 public class CollectionsActivity extends BaseActivity implements BaseActivity.OnCollectionsReloaded {
 
+    private static final String TAG = CollectionActivity.class.getSimpleName();
+
     ActivityCollectionsBinding binding;
 
     public static <T extends BaseActivity> void start(T activity) {
@@ -28,6 +30,7 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
         if (Dao.getLanguages().size() == 0) {
             reloadLanguages();
         }
+
     }
 
     @Override

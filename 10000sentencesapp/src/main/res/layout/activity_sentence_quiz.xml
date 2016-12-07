@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+        <variable name="collection" type="info.puzz.a10000sentences.models.SentenceCollection" />
         <variable name="quiz" type="info.puzz.a10000sentences.activities.SentenceQuiz" />
     </data>
 
@@ -96,6 +97,56 @@
                         </LinearLayout>
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true">
+                        <TextView
+                            android:text="@{String.valueOf(collection.todoCount) + &quot; &quot;}"
+                            android:textSize="@dimen/smaller_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="@{String.valueOf(collection.doneCount) + &quot; &quot;}"
+                            android:textSize="@dimen/smaller_text"
+                            android:textColor="@color/active"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="@{String.valueOf(collection.repeatCount) + &quot; &quot;}"
+                            android:textSize="@dimen/smaller_text"
+                            android:textColor="@color/error"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="@{String.valueOf(collection.ignoreCount)}"
+                            android:textSize="@dimen/smaller_text"
+                            android:textColor="@color/inactive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true">
+                        <TextView
+                            android:text="@{quiz.getCorrectAnswersGiven() + &quot; &quot;}"
+                            android:textSize="@dimen/smaller_text"
+                            android:textColor="@color/active"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="@{quiz.getIncorrectAnswersGiven() + &quot; &quot;}"
+                            android:textSize="@dimen/smaller_text"
+                            android:textColor="@color/error"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
                 </RelativeLayout>
                 <LinearLayout
                     android:id="@+id/bottom"
@@ -112,6 +163,7 @@
                         android:orientation="horizontal">
                         <Button
                             android:id="@+id/start_quiz"
+                            android:maxLines="1"
                             android:text="@string/start_quiz"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -129,12 +181,14 @@
 
                             <Button
                                 android:id="@+id/answer1"
+                                android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@{quiz.answers[0]}" />
 
                             <Button
                                 android:id="@+id/answer2"
+                                android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@{quiz.answers[1]}" />
@@ -144,12 +198,14 @@
 
                             <Button
                                 android:id="@+id/answer3"
+                                android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@{quiz.answers[2]}" />
 
                             <Button
                                 android:id="@+id/answer4"
+                                android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@{quiz.answers[3]}" />
@@ -174,13 +230,22 @@
                             android:textSize="@dimen/title_size" />
 
                         <Button
+                            android:id="@+id/ignore_sentence"
+                            android:maxLines="1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ignore_sentence" />
+
+                        <Button
                             android:id="@+id/repeat_later"
+                            android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/repeat_later" />
 
                         <Button
                             android:id="@+id/mark_as_done"
+                            android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/next" />
@@ -192,6 +257,7 @@
 
                             <Button
                                 android:id="@+id/copy_to_clipboard"
+                                android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
@@ -199,6 +265,7 @@
 
                             <Button
                                 android:id="@+id/share_translate"
+                                android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"

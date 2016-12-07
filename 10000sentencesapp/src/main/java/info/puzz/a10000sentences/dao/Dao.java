@@ -132,4 +132,13 @@ public class Dao {
         collection.ignoreCount = ignoreRows;
         collection.save();
     }
+
+    public static List<Sentence> getRandomSentences(SentenceCollection collection) {
+        return new Select()
+                .from(Sentence.class)
+                .where("collection_id = ?", collection.collectionID)
+                .orderBy("random()")
+                .limit(100)
+                .execute();
+    }
 }
