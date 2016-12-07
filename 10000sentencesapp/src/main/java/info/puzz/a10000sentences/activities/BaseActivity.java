@@ -15,6 +15,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.FontAwesomeIcons;
+
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -140,6 +143,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        setupMenuIcon(navigationView, R.id.nav_collections, FontAwesomeIcons.fa_list);
+        setupMenuIcon(navigationView, R.id.nav_reload, FontAwesomeIcons.fa_refresh);
+        setupMenuIcon(navigationView, R.id.nav_stats, FontAwesomeIcons.fa_line_chart);
+        setupMenuIcon(navigationView, R.id.nav_settings, FontAwesomeIcons.fa_toggle_on);
+        setupMenuIcon(navigationView, R.id.nav_about, FontAwesomeIcons.fa_info);
+        setupMenuIcon(navigationView, R.id.nav_help, FontAwesomeIcons.fa_question);
     }
 
     @Override
@@ -190,5 +200,14 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setupMenuIcon(NavigationView navigationView, int menuResId, FontAwesomeIcons icon) {
+        MenuItem menuItem = navigationView.getMenu().findItem(menuResId);
+        setupMenuIcon(menuItem, icon);
+    }
+
+    private void setupMenuIcon(MenuItem menuItem, FontAwesomeIcons icon) {
+        menuItem.setIcon(new IconDrawable(this, icon).colorRes(R.color.colorPrimary).actionBarSize());
     }
 }
