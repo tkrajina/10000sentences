@@ -24,6 +24,7 @@ import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.NumberUtils;
 import info.puzz.a10000sentences.utils.ShareUtils;
+import info.puzz.a10000sentences.utils.Speech;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
 import temp.DBG;
@@ -39,6 +40,7 @@ public class SentenceQuizActivity extends BaseActivity {
     private SentenceQuiz quiz;
     private Button[] answerButtons;
     private Integer originalButtonColor;
+    private Speech speech;
 
     public static <T extends BaseActivity> void startSentence(T activity, String sentenceId) {
         Intent intent = new Intent(activity, SentenceQuizActivity.class)
@@ -113,6 +115,9 @@ public class SentenceQuizActivity extends BaseActivity {
             }
             binding.targetSentence.setTextSize(binding.targetSentence.getTextSize() * 1.2F);
         }
+
+        speech = new Speech(this, targetLanguage);
+        speech.speech(sentence.targetSentence);
     }
 
     private void submitResponse(Button answerButton, String text) {

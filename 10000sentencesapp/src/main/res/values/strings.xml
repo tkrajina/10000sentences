@@ -41,4 +41,6 @@
     <string name="repeat_sentences">repeat</string>
     <string name="ignored_sentences">ignored</string>
     <string name="ignore_sentence">Ignore this sentence</string>
+    <string name="tts_not_inititialized">Text to speech not (yet) initialized</string>
+    <string name="tts_language_not_available">Text to speech language not installed</string>
 </resources>
