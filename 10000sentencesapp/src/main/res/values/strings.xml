@@ -36,10 +36,10 @@
     <string name="select_text">Select text</string>
     <string name="empty">String empty</string>
     <string name="ignored">Ignore</string>
-    <string name="todo_sentences">to do</string>
-    <string name="done_sentences">done</string>
-    <string name="repeat_sentences">repeat</string>
-    <string name="ignored_sentences">ignored</string>
+    <string name="todo_sentences">TODO sentences</string>
+    <string name="done_sentences">DONE sentences</string>
+    <string name="repeat_sentences">REPEAT sentences</string>
+    <string name="ignored_sentences">IGNORED sentences</string>
     <string name="ignore_sentence">Ignore this sentence</string>
     <string name="tts_not_inititialized">Text to speech not (yet) initialized</string>
     <string name="tts_language_not_available">Text to speech language not installed</string>
