@@ -1,9 +1,11 @@
 package info.puzz.a10000sentences.utils;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 import info.puzz.a10000sentences.R;
@@ -32,17 +34,23 @@ public class Speech {
                 Speech.this.initialized = true;
             }
         });
+        tts.setPitch(1);
+        tts.setSpeechRate(0.5F);
         tts.setLanguage(locale);
     }
 
-    private Locale findLocale(Language language) {
+    private static Locale findLocale(Language language) {
+        return findLocale(language.languageId);
+    }
+
+    private static Locale findLocale(String languageID) {
         for (Locale locale : Locale.getAvailableLocales()) {
-            if (org.apache.commons.lang3.StringUtils.isEmpty(locale.getCountry()) && StringUtils.equals(locale.getLanguage(), language.getLanguageId())) {
+            if (org.apache.commons.lang3.StringUtils.isEmpty(locale.getCountry()) && StringUtils.equals(locale.getLanguage(), languageID)) {
                 return locale;
             }
         }
         for (Locale locale : Locale.getAvailableLocales()) {
-            if (StringUtils.equals(locale.getLanguage(), language.getLanguageId())) {
+            if (StringUtils.equals(locale.getLanguage(), languageID)) {
                 return locale;
             }
         }
@@ -59,15 +67,15 @@ public class Speech {
             return;
         }
 
+/*        Bundle bundle = new Bundle();
+        bundle.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, 1F);
+        tts.speak(speech, TextToSpeech.QUEUE_FLUSH, bundle, null);*/
+        tts.setLanguage(locale);
         tts.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     public static void main(String[] args) {
-        for (Locale locale : Locale.getAvailableLocales()) {
-            System.out.println(locale.getLanguage());
-            System.out.println(locale.getCountry());
-            System.out.println();
-        }
+        System.out.println(findLocale("de"));
     }
 
 }

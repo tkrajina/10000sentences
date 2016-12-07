@@ -102,6 +102,7 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.startQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                speech.speech(binding.getQuiz().getSentence().targetSentence);
                 binding.startQuizGroup.setVisibility(View.GONE);
                 binding.quizSentenceGroup.setVisibility(View.VISIBLE);
                 binding.quizButtons.setVisibility(View.VISIBLE);
@@ -117,7 +118,6 @@ public class SentenceQuizActivity extends BaseActivity {
         }
 
         speech = new Speech(this, targetLanguage);
-        speech.speech(sentence.targetSentence);
     }
 
     private void submitResponse(Button answerButton, String text) {
