@@ -49,11 +49,19 @@ public class SentencesAdapter extends ArrayAdapter<Sentence> {
             binding = DataBindingUtil.getBinding(convertView);
         }
 
-        binding.setSentence(getItem(position));
+        final Sentence sentence = getItem(position);
+        binding.setSentence(sentence);
 
         if (position == offset - 2) {
             loadMore();
         }
+        
+        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SentenceQuizActivity.startSentence((BaseActivity) getContext(), sentence.sentenceId);
+            }
+        });
 
         return binding.getRoot();
     }
