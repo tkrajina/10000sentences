@@ -195,13 +195,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_about) {
             try {
                 PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), 0);
-                HtmlActivity.start(this, getString(R.string.help), getString(R.string.info_contents, info.versionName, String.valueOf(info.versionCode)));
+                HtmlActivity.start(this, getString(R.string.about), getString(R.string.info_contents, info.versionName, String.valueOf(info.versionCode)));
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
         } else if (id == R.id.nav_help) {
-            DialogUtils.showWarningDialog(this, "TODO", "");
-
+            HtmlActivity.start(this, getString(R.string.help), getString(R.string.help_contents));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

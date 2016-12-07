@@ -50,4 +50,5 @@
     <string name="repeat_sentence">Mark as REPEAT</string>
     <string name="unexpected_error">An unexpected error happened</string>
     <string name="info_contents" formatted="false"><![CDATA[<p>     This application is open source and licensed under the Apache 2.0 license. The source is available here: <a href=\"https://github.com/tkrajina/10000sentences\">github.com/tkrajina/10000sentences</a>. </p> <p>     All the language learning materials are retrieved and prepared from the <a href=\"https://tatoeba.org\">Tatoeba website</a>, and is licensed as Creative Commons Attribution 2.0.  </p> <hr> <p>     Version: <strong>%s / %s</version> </p>]]></string>
+    <string name="help_contents">TODO</string>
 </resources>
