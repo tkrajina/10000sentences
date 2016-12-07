@@ -48,4 +48,5 @@
     <string name="todo_sentence">Mark as TODO</string>
     <string name="ignored_sentence">Mark as IGNORED</string>
     <string name="repeat_sentence">Mark as REPEAT</string>
+    <string name="unexpected_error">An unexpected error happened</string>
 </resources>

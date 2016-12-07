@@ -3,6 +3,7 @@ package info.puzz.a10000sentences;
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.activeandroid.util.Log;
 
@@ -22,7 +23,6 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import temp.DBG;
 
 public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
 
@@ -78,7 +78,8 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
             importSentences(sentences);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
-            DBG.todo(e);
+            Toast.makeText(activity, R.string.error_retrieving, Toast.LENGTH_SHORT).show();
+            return null;
         }
 
         Dao.reloadCollectionCounter(collection);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import info.puzz.a10000sentences.ImporterAsyncTask;
 import info.puzz.a10000sentences.R;
@@ -16,7 +17,6 @@ import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.DialogUtils;
-import temp.DBG;
 
 public class CollectionActivity extends BaseActivity implements ImporterAsyncTask.CollectionReloadedListener {
 
@@ -46,7 +46,9 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
         SentenceCollection collection = Dao.getCollection(collectionId);
         if (collection == null) {
-            DBG.todo();
+            Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
+            CollectionsActivity.start(this);
+            return;
         }
 
         Dao.reloadCollectionCounter(collection);
