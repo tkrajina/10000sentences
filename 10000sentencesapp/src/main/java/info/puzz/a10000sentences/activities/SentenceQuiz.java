@@ -88,8 +88,9 @@ public class SentenceQuiz extends BaseObservable {
             return;
         }
         List<String> answ = new ArrayList<>();
-        answ.add(chunks.get(currentChunk).word);
+        answ.add(chunks.get(currentChunk).word.toLowerCase());
         for (String vocabChunk : vocabChunks) {
+            vocabChunk = vocabChunk.toLowerCase();
             if (answ.size() < answers.length) {
                 if (!answ.contains(vocabChunk)) {
                     answ.add(vocabChunk);
