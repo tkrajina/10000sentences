@@ -1,16 +1,17 @@
 package info.puzz.a10000sentences.activities;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
+import android.preference.Preference;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import info.puzz.a10000sentences.Constants;
+import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
-import lombok.Getter;
 import temp.DBG;
 
 public class SentenceQuiz extends BaseObservable {
@@ -75,11 +76,11 @@ public class SentenceQuiz extends BaseObservable {
         return currentChunk >= chunks.size();
     }
 
-    public boolean canBeMarkedAsDone() {
+    public boolean canBeMarkedAsDone(Context context) {
         if (!isFinished()) {
             return false;
         }
-        return 1F * incorrectAnswersGiven / chunks.size() < 1 - Constants.MIN_WORDS_GUESSED;
+        return 1F * incorrectAnswersGiven / chunks.size() < 1 - Preferences.getMinCorrectWords(context) / 100F;
     }
 
     public void resetRandomAnswers() {

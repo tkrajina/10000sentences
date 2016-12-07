@@ -1,5 +1,6 @@
 package info.puzz.a10000sentences;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.activeandroid.query.Select;
@@ -18,9 +19,10 @@ public final class SentenceCollectionsService {
 
     private static final Random RANDOM = new SecureRandom(String.valueOf(System.currentTimeMillis()).getBytes());
 
-    public static Sentence nextSentence(SentenceCollection collection, String exceptSentenceId) {
+    public static Sentence nextSentence(Context context, SentenceCollection collection, String exceptSentenceId) {
+        int maxRepeat = Preferences.getMaxRepeat(context);
         int status = SentenceStatus.TODO.getStatus();
-        if (RANDOM.nextInt(Constants.MAX_REPEAT_SENTENCES) < collection.repeatCount) {
+        if (RANDOM.nextInt(maxRepeat) < collection.repeatCount) {
             // New sentence:
             status = SentenceStatus.AGAIN.getStatus();
         }

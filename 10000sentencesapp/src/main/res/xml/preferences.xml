@@ -2,13 +2,21 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
-    <EditTextPreference
-        android:key="username"
-        android:summary="Please provide your username"
-        android:title="Your Name" />
     <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="applicationUpdates"
-        android:summary="This option if selected will allow the application to check for latest versions."
-        android:title="Application Updates" />
+        android:defaultValue="true"
+        android:key="use_tts"
+        android:summary="Use Android text-to-speech service (for available languages)"
+        android:title="Text to speech" />
+    <EditTextPreference
+        android:key="max_repeat"
+        android:defaultValue="10"
+        android:numeric="integer"
+        android:summary="If you have more than this number of sentences which are marked as 'repeat', no new sentences will be given in quizes."
+        android:title="Max repeat sentences" />
+    <EditTextPreference
+        android:key="min_correct_words"
+        android:defaultValue="90"
+        android:numeric="integer"
+        android:summary="In quizes this is the minimum percentage of words needed for a sentence to be marked as 'done'."
+        android:title="Minimum correct words (percentage)" />
 </PreferenceScreen>
