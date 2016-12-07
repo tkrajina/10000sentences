@@ -30,12 +30,6 @@ import info.puzz.a10000sentences.language.Languages;
 
 public class TatoebaImporter {
 
-    /**
-     * If a sentence has more than this number of words => then the longer the sentence the more complex it is (i.e.
-     * it doesn't depend only on word frequences).
-     */
-    private static final float MIN_COMPLEX_SENTENCE = 5F;
-
     private static final float MAX_SENTENCE_LENGTH = 100;
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -187,11 +181,7 @@ public class TatoebaImporter {
         }
         float avg = sum / ((float) counters.length);
 
-        if (sentenceWords.size() > MIN_COMPLEX_SENTENCE) {
-            sentence.setComplexity(avg * sentenceWords.size() / MIN_COMPLEX_SENTENCE);
-        } else {
-            sentence.setComplexity(avg);
-        }
+        sentence.setComplexity((float) (avg * Math.pow(0.95, sentenceWords.size())));
     }
 
 }
