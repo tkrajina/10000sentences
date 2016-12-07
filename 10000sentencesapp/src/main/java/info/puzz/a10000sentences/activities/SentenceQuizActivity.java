@@ -22,7 +22,6 @@ import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
-import info.puzz.a10000sentences.utils.NumberUtils;
 import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.Speech;
 import info.puzz.a10000sentences.utils.StringUtils;
@@ -41,6 +40,7 @@ public class SentenceQuizActivity extends BaseActivity {
     private Button[] answerButtons;
     private Integer originalButtonColor;
     private Speech speech;
+    private Language targetLanguage;
 
     public static <T extends BaseActivity> void startSentence(T activity, String sentenceId) {
         Intent intent = new Intent(activity, SentenceQuizActivity.class)
@@ -80,7 +80,7 @@ public class SentenceQuizActivity extends BaseActivity {
         SentenceCollection collection = Dao.getCollection(sentence.collectionId);
         List<Sentence> randomSentences = Dao.getRandomSentences(collection);
 
-        Language targetLanguage = Dao.getLanguage(collection.targetLanguage);
+        targetLanguage = Dao.getLanguage(collection.targetLanguage);
 
         binding.setQuiz(new SentenceQuiz(sentence, 4, randomSentences));
         binding.setCollection(collection);
@@ -102,7 +102,6 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.startQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                speech.speech(binding.getQuiz().getSentence().targetSentence);
                 binding.startQuizGroup.setVisibility(View.GONE);
                 binding.quizSentenceGroup.setVisibility(View.VISIBLE);
                 binding.quizButtons.setVisibility(View.VISIBLE);
@@ -116,14 +115,26 @@ public class SentenceQuizActivity extends BaseActivity {
             }
             binding.targetSentence.setTextSize(binding.targetSentence.getTextSize() * 1.2F);
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         speech = new Speech(this, targetLanguage);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        speech.shutdown();
     }
 
     private void submitResponse(Button answerButton, String text) {
         if (originalButtonColor == null) {
             originalButtonColor = answerButton.getCurrentTextColor();
         }
+
+        speech.speech(text);
 
         boolean guessed = binding.getQuiz().guessWord(text);
         if (guessed) {
@@ -135,6 +146,7 @@ public class SentenceQuizActivity extends BaseActivity {
         }
 
         if (binding.getQuiz().isFinished()) {
+            speech.speech(binding.getQuiz().getSentence().targetSentence);
             finalizeSentence();
         }
     }

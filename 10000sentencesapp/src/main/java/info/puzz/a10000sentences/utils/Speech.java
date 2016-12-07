@@ -84,6 +84,10 @@ public class Speech {
         tts.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
     }
 
+    public void shutdown() {
+        tts.shutdown();
+    }
+
     public static void main(String[] args) {
         System.out.println(findLocale("de"));
     }
