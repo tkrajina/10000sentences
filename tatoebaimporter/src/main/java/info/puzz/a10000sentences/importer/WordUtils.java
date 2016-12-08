@@ -11,7 +11,7 @@ public class WordUtils {
         ArrayList<String> res = new ArrayList<>();
         StringBuilder currentWord = new StringBuilder();
         for (char c : str.toCharArray()) {
-            if (Character.isLetter(c)) {
+            if (Character.isLetter(c) || Character.isDigit(c)) {
                 currentWord.append(c);
             } else {
                 if (currentWord.length() > 0) {

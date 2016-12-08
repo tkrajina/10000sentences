@@ -20,7 +20,7 @@ public final class StringUtils {
         StringBuilder res = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
             char ch = str.charAt(i);
-            if (Character.isLetter(ch)) {
+            if (Character.isLetter(ch) || Character.isDigit(ch)) {
                 res.append(ch);
             } else {
                 res.append(' ');
