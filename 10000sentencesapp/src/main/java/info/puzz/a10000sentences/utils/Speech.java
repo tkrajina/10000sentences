@@ -85,7 +85,9 @@ public class Speech {
     }
 
     public void shutdown() {
-        tts.shutdown();
+        if (tts != null) {
+            tts.shutdown();
+        }
     }
 
     public static void main(String[] args) {
