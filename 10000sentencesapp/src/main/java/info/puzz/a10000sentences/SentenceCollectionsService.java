@@ -35,7 +35,7 @@ public final class SentenceCollectionsService {
                 .from(Sentence.class)
                 .where("collection_id=? and status=? and sentence_id!=?", collection.getCollectionID(), status, String.valueOf(exceptSentenceId))
                 .orderBy("complexity")
-                .limit(200)
+                .limit(20)
                 .execute();
         if (sentences.size() == 0) {
             return null;
