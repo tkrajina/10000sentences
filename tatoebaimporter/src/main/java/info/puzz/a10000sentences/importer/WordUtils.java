@@ -28,9 +28,7 @@ public class WordUtils {
 
     /**
      * Removes nonspacing chars. Those are, for example accents used in arabic, but <strong>not</strong>
-     * accents used in Croatian (šđčćž) or Italian (éí).
-     * @param s
-     * @return
+     * diacritics used in Croatian (šđčćž...) or Italian accents (éì...).
      */
     public static String removeNonspacingChars(String s) {
         StringBuilder res = new StringBuilder();
