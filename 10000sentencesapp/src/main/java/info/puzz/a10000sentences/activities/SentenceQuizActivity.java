@@ -16,6 +16,7 @@ import com.activeandroid.query.Select;
 
 import java.util.List;
 
+import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.SentenceCollectionsService;
 import info.puzz.a10000sentences.dao.Dao;
@@ -160,6 +161,10 @@ public class SentenceQuizActivity extends BaseActivity {
     private void submitResponse(Button answerButton, String text) {
         if (originalButtonColor == null) {
             originalButtonColor = answerButton.getCurrentTextColor();
+        }
+
+        if (Preferences.isWordToClipboard(this)) {
+            ShareUtils.copyToClipboard(this, text);
         }
 
         speech.speech(text);
