@@ -51,6 +51,7 @@ public class TatoebaImporter {
                 .setLanguages(Languages.getLanguages())
                 .addSentencesCollection(importSentences(bucketFiles, "eng", "ita"))
                 .addSentencesCollection(importSentences(bucketFiles, "eng", "ara"))
+                .addSentencesCollection(importSentences(bucketFiles, "eng", "heb"))
                 .addSentencesCollection(importSentences(bucketFiles, "eng", "deu"))
                 .addSentencesCollection(importSentences(bucketFiles, "eng", "fra"))
                 .addSentencesCollection(importSentences(bucketFiles, "eng", "rus"))
