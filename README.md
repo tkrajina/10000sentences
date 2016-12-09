@@ -12,6 +12,15 @@ Text-to-speech is available for some languages (depending on your Android phone 
 
 All words can be shared/opened with Google Translate (or any other translate app) or AnkiDroid (or any other flashcard or spaced repetition app). If you use Google translate, enable "Tap to translate" and then just use the "To clipboard" option to show the Google Translate widget.
 
+Sentences can be marked as:
+
+- TODO -- meaning that you haven't exercised with them
+- DONE -- meaning that you guessed all words correctly
+- REPEAT -- meaning that you tried, but failed, to guess words correctly
+- IGNORE -- meaning that you decided you don't want this sentence to show in your quizes
+
+The app will allow only a certain number of REPEAT sentences. If you reach that number, no new sentences will be shown to you. Only when you fix REPEAT sentences (i.e. succes in guessing all the words), new ones will be evailable for you.
+
 ## TODO
 
 * Skip sentences for advances users who feel the first sentences are too easy.
