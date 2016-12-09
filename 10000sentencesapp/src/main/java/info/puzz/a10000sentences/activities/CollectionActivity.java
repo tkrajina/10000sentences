@@ -70,6 +70,12 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
                 downloadSentences();
             }
         });
+        binding.allSentences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                allSentences();
+            }
+        });
 
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -80,9 +86,14 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             @Override
             protected void onPostExecute(Void _) {
                 binding.randomSentence.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
+                binding.allSentences.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
             }
         }.execute();
 
+    }
+
+    private void allSentences() {
+        SentencesActivity.start(this, binding.getSentenceCollection().collectionID, null);
     }
 
     private void randomSentence() {
@@ -119,6 +130,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         Dao.reloadCollectionCounter(binding.getSentenceCollection());
         binding.notifyChange();
         binding.randomSentence.setVisibility(View.VISIBLE);
+        binding.allSentences.setVisibility(View.VISIBLE);
     }
 
     @Override

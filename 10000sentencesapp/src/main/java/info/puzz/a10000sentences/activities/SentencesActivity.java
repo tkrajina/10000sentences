@@ -21,6 +21,7 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
 
     private static final String ARG_COLLECTION_ID = "arg_collection_id";
     private static final String ARG_SENTENCE_STATUS = "arg_sentence_status";
+    public static final int STATUS_ALL = -1;
 
     ActivitySentencesBinding binding;
 
@@ -30,7 +31,7 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
     public static <T extends BaseActivity> void start(T activity, String collectionID, SentenceStatus status) {
         Intent intent = new Intent(activity, SentencesActivity.class)
                 .putExtra(ARG_COLLECTION_ID, collectionID)
-                .putExtra(ARG_SENTENCE_STATUS, status.getStatus());
+                .putExtra(ARG_SENTENCE_STATUS, status == null ? STATUS_ALL : status.getStatus());
         activity.startActivity(intent);
     }
 
@@ -61,9 +62,13 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
 
     private void reloadCollections() {
         From select = new Select()
-                .from(Sentence.class)
-                .where("collection_id=? and status=?", collectionId, sentenceStatus)
-                .orderBy("complexity");
+                .from(Sentence.class);
+        if (sentenceStatus == STATUS_ALL) {
+            select.where("collection_id=?", collectionId);
+        } else {
+            select.where("collection_id=? and status=?", collectionId, sentenceStatus);
+        }
+        select.orderBy("complexity");
         binding.sentencesList.setAdapter(new SentencesAdapter(this, select));
     }
 

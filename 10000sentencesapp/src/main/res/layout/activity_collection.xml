@@ -146,6 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true">
+
                     <Button
                         android:id="@+id/random_sentence"
                         android:visibility="gone"
@@ -154,10 +155,18 @@
                         android:text="@string/random_sentence" />
 
                     <Button
+                        android:id="@+id/all_sentences"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/all_sentences" />
+
+                    <Button
                         android:id="@+id/download"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/download_collection" />
+
                 </LinearLayout>
 
             </RelativeLayout>
