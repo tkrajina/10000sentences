@@ -23,7 +23,7 @@ The app will allow only a certain number of _REPEAT_ sentences. If you reach tha
 
 ## TODO
 
-* Skip sentences for advances users who feel the first sentences are too easy.
+* Skip sentences for advanced users who feel the first sentences are too easy.
 * Stats with graphs, goals, ...
 * Add more languages
 
