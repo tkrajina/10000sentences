@@ -53,6 +53,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             CollectionsActivity.start(this);
             return;
         }
+        setTitle(collection.targetLanguage);
 
         binding.setSentenceCollection(collection);
         binding.setKnownLanguage(Dao.getLanguage(collection.getKnownLanguage()));

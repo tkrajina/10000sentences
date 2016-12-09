@@ -108,6 +108,8 @@ public class SentenceQuizActivity extends BaseActivity {
         SentenceCollection collection = Dao.getCollection(sentence.collectionId);
         List<Sentence> randomSentences = Dao.getRandomSentences(collection);
 
+        setTitle(collection.targetLanguage);
+
         targetLanguage = Dao.getLanguage(collection.targetLanguage);
 
         binding.setQuiz(new SentenceQuiz(sentence, 4, randomSentences));

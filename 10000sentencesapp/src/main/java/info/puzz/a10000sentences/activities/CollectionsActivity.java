@@ -31,6 +31,7 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
             reloadLanguages();
         }
 
+        setTitle(R.string.collections);
     }
 
     @Override

@@ -43,6 +43,8 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
         sentenceStatus = getIntent().getIntExtra(ARG_SENTENCE_STATUS, SentenceStatus.TODO.getStatus());
 
+        setTitle(R.string.sentences);
+
         if (Dao.getLanguages().size() == 0) {
             reloadLanguages();
         }
