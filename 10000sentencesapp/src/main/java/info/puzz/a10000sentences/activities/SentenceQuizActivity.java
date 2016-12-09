@@ -168,20 +168,26 @@ public class SentenceQuizActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_read_sentence:
+                speech.speech(binding.getQuiz().getSentence().targetSentence);
+                break;
             case R.id.action_done_sentence:
                 SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.DONE);
+                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
                 break;
             case R.id.action_todo_sentence:
                 SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.TODO);
+                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
                 break;
             case R.id.action_ignored_sentence:
                 SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.IGNORE);
+                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
                 break;
             case R.id.action_repeat_sentence:
                 SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.REPEAT);
+                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
                 break;
         }
-        CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
         return true;
     }
 
@@ -303,16 +309,4 @@ public class SentenceQuizActivity extends BaseActivity {
         }
     }
 
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-
-        MenuItem articlesItem = menu.findItem(R.id.action_settings);
-        articlesItem.setIcon(
-                new IconDrawable(this, FontAwesomeIcons.fa_share)
-                        .colorRes(R.color.colorAccent)
-                        .actionBarSize());
-
-        return true;
-    }*/
 }
