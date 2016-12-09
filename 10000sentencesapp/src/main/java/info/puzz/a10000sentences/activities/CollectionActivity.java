@@ -92,7 +92,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             @Override
             protected void onPostExecute(Void _) {
                 binding.randomSentence.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
-                binding.randomKnownSentence.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
+                binding.randomKnownSentence.setVisibility(collection.doneCount > 0 ? View.VISIBLE : View.GONE);
                 binding.allSentences.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
             }
         }.execute();
@@ -133,7 +133,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         Dao.reloadCollectionCounter(binding.getSentenceCollection());
         binding.notifyChange();
         binding.randomSentence.setVisibility(View.VISIBLE);
-        binding.randomKnownSentence.setVisibility(View.VISIBLE);
+        binding.randomKnownSentence.setVisibility(binding.getSentenceCollection().getDoneCount() > 0 ? View.VISIBLE : View.GONE);
         binding.allSentences.setVisibility(View.VISIBLE);
     }
 
