@@ -21,4 +21,10 @@
         android:orderInCategory="104"
         android:title="@string/repeat_sentences"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_remove_collecition"
+        android:orderInCategory="104"
+        android:title="@string/remove_collection"
+        android:visible="false"
+        app:showAsAction="never" />
 </menu>

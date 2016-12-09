@@ -2,7 +2,10 @@ package info.puzz.a10000sentences.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.text.InputType;
+import android.widget.EditText;
 
 import info.puzz.a10000sentences.R;
 
@@ -11,6 +14,11 @@ import info.puzz.a10000sentences.R;
  */
 
 public final class DialogUtils {
+
+    public interface OnInputDialogClickListener {
+        void onClick(DialogInterface dialogInterface, int which, String value);
+    }
+
     private DialogUtils() throws Exception {
         throw new Exception();
     }
@@ -31,4 +39,26 @@ public final class DialogUtils {
                 .setNegativeButton(R.string.no, listener)
                 .show();
     }
+
+    public static void showInputDialog(Activity activity, String message, final OnInputDialogClickListener listener) {
+        final EditText input = new EditText(activity);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        final DialogInterface.OnClickListener l = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int wh) {
+                if (listener != null) {
+                    listener.onClick(dialogInterface, wh, input.getText().toString());
+                }
+            }
+        };
+
+        new AlertDialog.Builder(activity)
+                .setTitle(message)
+                .setView(input)
+                .setPositiveButton(R.string.ok, l)
+                .setNegativeButton(R.string.cancel, l)
+                .show();
+    }
+
 }

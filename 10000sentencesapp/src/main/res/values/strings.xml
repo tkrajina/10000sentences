@@ -53,4 +53,11 @@
     <string name="help_contents">TODO</string>
     <string name="repeat">Repeat</string>
     <string name="app_description">Learn new words...</string>
+    <string name="remove_collection">Remove this collection</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="really_delete_collection" formatted="false"><![CDATA[Really delete collection?
+If you really want this, type: %s]]></string>
+    <string name="not_deleted">Not deleted</string>
+    <string name="collection_deleted">Collection deleted</string>
 </resources>

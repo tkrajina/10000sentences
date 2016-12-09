@@ -1,5 +1,6 @@
 package info.puzz.a10000sentences.activities;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -123,6 +124,9 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.collection, menu);
+
+        menu.findItem(R.id.action_remove_collecition).setVisible(binding.getSentenceCollection().count > 0);
+
         return true;
     }
 
@@ -141,7 +145,30 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             case R.id.action_repeat_sentences:
                 SentencesActivity.start(this, collectionId, SentenceStatus.REPEAT);
                 break;
+            case R.id.action_remove_collecition:
+                removeCollection();
+                break;
         }
         return true;
+    }
+
+    private void removeCollection() {
+        DialogUtils.showInputDialog(
+                this,
+                getString(R.string.really_delete_collection, binding.getSentenceCollection().getCollectionID()),
+                new DialogUtils.OnInputDialogClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which, String value) {
+                        if (which == Dialog.BUTTON_POSITIVE) {
+                            if (binding.getSentenceCollection().getCollectionID().equalsIgnoreCase(value)) {
+                                Dao.removeCollectionSentences(binding.getSentenceCollection());
+                                Toast.makeText(CollectionActivity.this, R.string.collection_deleted, Toast.LENGTH_SHORT).show();
+                                CollectionsActivity.start(CollectionActivity.this);
+                            } else {
+                                Toast.makeText(CollectionActivity.this, R.string.not_deleted, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
     }
 }

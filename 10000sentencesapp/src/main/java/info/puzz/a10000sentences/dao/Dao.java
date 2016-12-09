@@ -1,6 +1,7 @@
 package info.puzz.a10000sentences.dao;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.activeandroid.util.SQLiteUtils;
 
@@ -140,5 +141,13 @@ public class Dao {
                 .orderBy("random()")
                 .limit(100)
                 .execute();
+    }
+
+    public static void removeCollectionSentences(SentenceCollection collection) {
+        new Delete()
+                .from(Sentence.class)
+                .where("collection_id=?", collection.getCollectionID())
+                .execute();
+        reloadCollectionCounter(collection);
     }
 }
