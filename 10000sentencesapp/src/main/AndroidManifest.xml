@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
+    <uses-feature android:name="android.hardware.screen.portrait" />
+
     <application
         android:name=".Application"
         android:allowBackup="true"
@@ -25,6 +27,7 @@
 
         <activity
             android:name=".activities.CollectionsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,19 +37,23 @@
         </activity>
         <activity
             android:name=".activities.SentenceQuizActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CollectionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SentencesActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.HtmlActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SettingsActivity"
-            />
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
