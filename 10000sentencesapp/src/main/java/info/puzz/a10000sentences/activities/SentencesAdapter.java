@@ -3,6 +3,7 @@ package info.puzz.a10000sentences.activities;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,9 @@ public class SentencesAdapter extends ArrayAdapter<Sentence> {
         if (position == offset - 2) {
             loadMore();
         }
-        
+
+        binding.targetSentence.setTextColor(ContextCompat.getColor(getContext(), sentence.getSentenceStatus().getColor()));
+
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

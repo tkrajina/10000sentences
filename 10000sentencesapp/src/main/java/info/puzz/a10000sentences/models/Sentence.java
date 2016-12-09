@@ -32,4 +32,7 @@ public class Sentence extends Model {
     @Column(name = "complexity", index = true)
     float complexity;
 
+    public SentenceStatus getSentenceStatus() {
+        return SentenceStatus.fromStatus(status);
+    }
 }
