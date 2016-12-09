@@ -103,24 +103,24 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true">
                         <TextView
-                            android:text="@{String.valueOf(collection.todoCount) + &quot; &quot;}"
+                            android:text="@{collection.formatTodoCount() + &quot; &quot;}"
                             android:textSize="@dimen/smaller_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <TextView
-                            android:text="@{String.valueOf(collection.doneCount) + &quot; &quot;}"
+                            android:text="@{collection.formatDoneCount() + &quot; &quot;}"
                             android:textSize="@dimen/smaller_text"
                             android:textColor="@color/active"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <TextView
-                            android:text="@{String.valueOf(collection.repeatCount) + &quot; &quot;}"
+                            android:text="@{collection.formatRepeatCount() + &quot; &quot;}"
                             android:textSize="@dimen/smaller_text"
                             android:textColor="@color/error"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <TextView
-                            android:text="@{String.valueOf(collection.ignoreCount)}"
+                            android:text="@{collection.formatIgnoreCount()}"
                             android:textSize="@dimen/smaller_text"
                             android:textColor="@color/inactive"
                             android:layout_width="wrap_content"

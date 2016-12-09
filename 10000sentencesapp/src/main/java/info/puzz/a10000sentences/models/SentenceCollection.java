@@ -4,6 +4,10 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -13,6 +17,9 @@ import lombok.experimental.Accessors;
 @ToString
 @Table(name = "sentence_collection")
 public class SentenceCollection extends Model {
+
+    private static final NumberFormat NUMBER_FORMAT = NumberFormat.getNumberInstance(Locale.US);
+
     @Column(name = "collection_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public String collectionID;
 
@@ -46,9 +53,37 @@ public class SentenceCollection extends Model {
 
     public String formatProgress() {
         if (isDownloaded()) {
-            return String.format("%d of 10,000 sentences", doneCount);
+            return formatDoneCount() + " of 10,000 sentences";
         } else {
             return "Not downloaded";
         }
     }
+
+    public String formatCount() {
+        return formatCount(count);
+    }
+
+    public String formatDoneCount() {
+        return formatCount(doneCount);
+    }
+
+    public String formatTodoCount() {
+        return formatCount(todoCount);
+    }
+
+    public String formatIgnoreCount() {
+        return formatCount(ignoreCount);
+    }
+
+    public String formatRepeatCount() {
+        return formatCount(repeatCount);
+    }
+
+    private String formatCount(int count) {
+        if (count <= 10_000) {
+            return NUMBER_FORMAT.format(count);
+        }
+        return NUMBER_FORMAT.format(10_000) + "+";
+    }
+
 }
