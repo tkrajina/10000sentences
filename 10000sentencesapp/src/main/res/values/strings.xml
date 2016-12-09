@@ -61,4 +61,5 @@ If you really want this, type: %s]]></string>
     <string name="not_deleted">Not deleted</string>
     <string name="collection_deleted">Collection deleted</string>
     <string name="all_sentences">All sentences</string>
+    <string name="random_known_sentence">Random known sentence</string>
 </resources>

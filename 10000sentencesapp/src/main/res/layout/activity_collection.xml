@@ -159,7 +159,7 @@
                         android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/random_sentence" />
+                        android:text="@string/random_known_sentence" />
 
                     <Button
                         android:id="@+id/all_sentences"
