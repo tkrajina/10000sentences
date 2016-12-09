@@ -74,6 +74,9 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
                     importSentences(sentences);
                     publishProgress(n);
                 }
+                if (n % 1000 == 0) {
+                    Dao.reloadCollectionCounter(collection);
+                }
             }
             importSentences(sentences);
         } catch (Exception e) {
