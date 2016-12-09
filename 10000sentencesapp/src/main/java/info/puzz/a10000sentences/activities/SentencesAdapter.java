@@ -62,7 +62,7 @@ public class SentencesAdapter extends ArrayAdapter<Sentence> {
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SentenceQuizActivity.startSentence((BaseActivity) getContext(), sentence.sentenceId);
+                SentenceQuizActivity.startSentence((BaseActivity) getContext(), sentence.sentenceId, SentenceQuizActivity.Type.BACK_TO_COLLECTION);
             }
         });
 

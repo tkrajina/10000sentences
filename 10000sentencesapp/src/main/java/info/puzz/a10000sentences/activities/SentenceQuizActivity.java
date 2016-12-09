@@ -36,34 +36,51 @@ public class SentenceQuizActivity extends BaseActivity {
 
     private static final String TAG = SentenceQuizActivity.class.getSimpleName();
 
+    public static enum Type {
+        ONLY_KNOWN,
+        KNOWN_AND_UNKNOWN,
+        BACK_TO_COLLECTION,
+    }
+
     private static final String ARG_SENTENCE_ID = "arg_sentence_id";
+    private static final String ARG_TYPE = "arg_type";
 
     ActivitySentenceQuizBinding binding;
 
-    private SentenceQuiz quiz;
     private Button[] answerButtons;
     private Integer originalButtonColor;
     private Speech speech;
     private Language targetLanguage;
 
-    public static <T extends BaseActivity> void startSentence(T activity, String sentenceId) {
+    private Type type;
+    private String sentenceId;
+
+    public static <T extends BaseActivity> void startSentence(T activity, String sentenceId, Type type) {
         Intent intent = new Intent(activity, SentenceQuizActivity.class)
-                .putExtra(ARG_SENTENCE_ID, sentenceId);
+                .putExtra(ARG_SENTENCE_ID, sentenceId)
+                .putExtra(ARG_TYPE, type);
         activity.startActivity(intent);
     }
 
-    public static <T extends BaseActivity> void startRandom(T activity, String collectionId, String exceptSentenceId) {
+    public static <T extends BaseActivity> void startRandom(T activity, String collectionId, Type type, String exceptSentenceId) {
         SentenceCollection collection = new Select()
                 .from(SentenceCollection.class)
                 .where("collection_id=?", collectionId)
                 .executeSingle();
 
-        Sentence sentence = SentenceCollectionsService.nextSentence(activity, collection, exceptSentenceId);
+        Sentence sentence;
+        if (type == Type.ONLY_KNOWN) {
+            sentence = SentenceCollectionsService.getRandomKnownSentence(activity, collection, exceptSentenceId);
+        } else {
+            sentence = SentenceCollectionsService.nextSentence(activity, collection, exceptSentenceId);
+        }
+
         if (sentence == null) {
             Toast.makeText(activity, activity.getString(R.string.no_sentence_found), Toast.LENGTH_SHORT).show();
             return;
         }
-        startSentence(activity, sentence.sentenceId);
+
+        startSentence(activity, sentence.sentenceId, type);
     }
 
     @Override
@@ -73,7 +90,9 @@ public class SentenceQuizActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sentence_quiz);
         //FontAwesomeIcons.fa_volume_up
 
-        String sentenceId = getIntent().getStringExtra(ARG_SENTENCE_ID);
+        type = (Type) getIntent().getSerializableExtra(ARG_TYPE);
+        sentenceId = getIntent().getStringExtra(ARG_SENTENCE_ID);
+
         Sentence sentence = new Select()
                 .from(Sentence.class)
                 .where("sentence_id = ?", sentenceId)
@@ -271,9 +290,13 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     private void updateSentenceStatusAndGotoNext(SentenceStatus status) {
-        Sentence sentence = binding.getQuiz().getSentence();
-        SentenceCollectionsService.updateStatus(sentence, status);
-        startRandom(this, sentence.collectionId, sentence.sentenceId);
+        if (type == Type.BACK_TO_COLLECTION) {
+            CollectionActivity.start(this, binding.getQuiz().getSentence().getCollectionId());
+        } else {
+            Sentence sentence = binding.getQuiz().getSentence();
+            SentenceCollectionsService.updateStatus(sentence, status);
+            startRandom(this, sentence.collectionId, type, sentence.sentenceId);
+        }
     }
 
 /*    @Override

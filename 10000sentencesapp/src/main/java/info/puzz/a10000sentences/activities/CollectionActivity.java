@@ -58,10 +58,16 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         binding.setKnownLanguage(Dao.getLanguage(collection.getKnownLanguage()));
         binding.setTargetLanguage(Dao.getLanguage(collection.getTargetLanguage()));
 
+        binding.randomKnownSentence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SentenceQuizActivity.startRandom(CollectionActivity.this, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.ONLY_KNOWN, null);
+            }
+        });
         binding.randomSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                randomSentence();
+                SentenceQuizActivity.startRandom(CollectionActivity.this, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.KNOWN_AND_UNKNOWN, null);
             }
         });
         binding.download.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +92,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             @Override
             protected void onPostExecute(Void _) {
                 binding.randomSentence.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
+                binding.randomKnownSentence.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
                 binding.allSentences.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
             }
         }.execute();
@@ -94,10 +101,6 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
 
     private void allSentences() {
         SentencesActivity.start(this, binding.getSentenceCollection().collectionID, null);
-    }
-
-    private void randomSentence() {
-        SentenceQuizActivity.startRandom(this, binding.getSentenceCollection().getCollectionID(), null);
     }
 
     private void downloadSentences() {
@@ -130,6 +133,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         Dao.reloadCollectionCounter(binding.getSentenceCollection());
         binding.notifyChange();
         binding.randomSentence.setVisibility(View.VISIBLE);
+        binding.randomKnownSentence.setVisibility(View.VISIBLE);
         binding.allSentences.setVisibility(View.VISIBLE);
     }
 

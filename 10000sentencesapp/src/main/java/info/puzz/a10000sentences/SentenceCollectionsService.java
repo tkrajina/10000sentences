@@ -30,6 +30,14 @@ public final class SentenceCollectionsService {
         return getRandomSentenceByStatus(collection, status, exceptSentenceId);
     }
 
+    public static Sentence getRandomKnownSentence(Context context, SentenceCollection collection, String exceptSentenceId) {
+        return new Select()
+                .from(Sentence.class)
+                .where("collection_id=? and status=? and sentence_id<>?", collection.collectionID, SentenceStatus.DONE.getStatus(), String.valueOf(exceptSentenceId))
+                .orderBy("random()")
+                .executeSingle();
+    }
+
     private static Sentence getRandomSentenceByStatus(SentenceCollection collection, int status, String exceptSentenceId) {
         List<Sentence> sentences = new Select()
                 .from(Sentence.class)
