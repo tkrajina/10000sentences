@@ -56,6 +56,10 @@ public class SentenceQuizActivity extends BaseActivity {
     private String sentenceId;
 
     public static <T extends BaseActivity> void startSentence(T activity, String sentenceId, Type type) {
+        if (activity.getClass().equals(SentenceQuizActivity.class)) {
+            // if already in a quiz, just replace the current activity on the stack:
+            activity.finish();
+        }
         Intent intent = new Intent(activity, SentenceQuizActivity.class)
                 .putExtra(ARG_SENTENCE_ID, sentenceId)
                 .putExtra(ARG_TYPE, type);
