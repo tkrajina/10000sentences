@@ -10,21 +10,22 @@ At the moment the app has 8 languages, but more can be added easily. The sentenc
 
 Text-to-speech is available for some languages (depending on your Android phone and version).
 
-All words can be shared/opened with Google Translate (or any other translate app) or AnkiDroid (or any other flashcard or spaced repetition app). If you use Google translate, enable "Tap to translate" and then just use the "To clipboard" option to show the Google Translate widget.
+All words can be shared/opened with Google Translate (or any other translate app) or AnkiDroid (or any other flashcard or spaced repetition app). If you use Google translate, enable "Tap to translate" and then use the "To clipboard" option to show the Google Translate widget.
 
-Sentences can be marked as:
+Each sentences can be under one of the following statuses:
 
-- TODO -- meaning that you haven't exercised with them
-- DONE -- meaning that you guessed all words correctly
-- REPEAT -- meaning that you tried, but failed, to guess words correctly
-- IGNORE -- meaning that you decided you don't want this sentence to show in your quizes
+- _TODO_ -- meaning that you haven't exercised with them
+- _DONE_ -- meaning that you guessed all words correctly
+- _REPEAT_ -- meaning that you tried, but failed, to guess words correctly
+- _IGNORE_ -- meaning that you decided you don't want this sentence to show in your quizes
 
-The app will allow only a certain number of REPEAT sentences. If you reach that number, no new sentences will be shown to you. Only when you fix REPEAT sentences (i.e. succes in guessing all the words), new ones will be evailable for you.
+The app will allow only a certain number of _REPEAT_ sentences. If you reach that number, no new sentences will be shown to you. Only when you fix _REPEAT_ sentences (i.e. succeed in guessing all the words), new ones will be available for you.
 
 ## TODO
 
 * Skip sentences for advances users who feel the first sentences are too easy.
 * Stats with graphs, goals, ...
+* Add more languages
 
 ## Screenshots
 
@@ -39,4 +40,4 @@ The app will allow only a certain number of REPEAT sentences. If you reach that 
 
 # License
 
-GraphAnything is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+10,000 sentences is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
