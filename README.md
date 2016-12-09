@@ -12,7 +12,7 @@ Text-to-speech is available for some languages (depending on your Android phone 
 
 All words can be shared/opened with Google Translate (or any other translate app) or AnkiDroid (or any other flashcard or spaced repetition app). If you use Google translate, enable "Tap to translate" and then use the "To clipboard" option to show the Google Translate widget.
 
-Each sentences can be under one of the following statuses:
+Each sentence can be under one of the following statuses:
 
 - _TODO_ -- meaning that you haven't exercised with them
 - _DONE_ -- meaning that you guessed all words correctly
