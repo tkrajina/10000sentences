@@ -25,6 +25,7 @@ import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
+import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.Speech;
 import info.puzz.a10000sentences.utils.StringUtils;
@@ -68,6 +69,7 @@ public class SentenceQuizActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sentence_quiz);
         //FontAwesomeIcons.fa_volume_up
 
@@ -124,12 +126,14 @@ public class SentenceQuizActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         speech = new Speech(this, targetLanguage);
+        SleepUtils.disableSleep(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         speech.shutdown();
+        SleepUtils.enableSleep(this);
     }
 
     @Override

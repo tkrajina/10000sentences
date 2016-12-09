@@ -18,6 +18,7 @@ import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.DialogUtils;
+import info.puzz.a10000sentences.utils.SleepUtils;
 
 public class CollectionActivity extends BaseActivity implements ImporterAsyncTask.CollectionReloadedListener {
 
@@ -95,6 +96,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (i == DialogInterface.BUTTON_POSITIVE) {
+                            SleepUtils.disableSleep(CollectionActivity.this);
                             String filename = binding.getSentenceCollection().getFilename();
 
                             if (filename.indexOf("/") > 0) {
