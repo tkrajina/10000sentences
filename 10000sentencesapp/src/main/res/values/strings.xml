@@ -64,4 +64,5 @@ If you really want this, type: %s]]></string>
     <string name="random_known_sentence">Random known sentence</string>
     <string name="read_sentence">Read sentence</string>
     <string name="sentences">Sentences</string>
+    <string name="downloaded_colections">Downloaded collections</string>
 </resources>

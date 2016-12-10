@@ -14,12 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.widget.Toast;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import java.security.SecureRandom;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import info.puzz.a10000sentences.BuildConfig;
@@ -37,11 +40,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.R.attr.category;
+
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final Random RANDOM = new SecureRandom(String.valueOf(System.currentTimeMillis()).getBytes());
 
     private static final String TAG = BaseActivity.class.getSimpleName();
+
+    private boolean collectionNavigationSet;
 
     public interface OnCollectionsReloaded {
         public void onCollectionsReloaded();
@@ -151,6 +158,36 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         setupMenuIcon(navigationView, R.id.nav_settings, FontAwesomeIcons.fa_toggle_on);
         setupMenuIcon(navigationView, R.id.nav_about, FontAwesomeIcons.fa_info);
         setupMenuIcon(navigationView, R.id.nav_help, FontAwesomeIcons.fa_question);
+
+        setupCollectionsNavigation(navigationView);
+    }
+
+    private void setupCollectionsNavigation(NavigationView navigationView) {
+        if (collectionNavigationSet) {
+            return;
+        }
+        collectionNavigationSet = true;
+
+        SubMenu submenu = navigationView.getMenu().addSubMenu(R.string.downloaded_colections);
+        Map<String, Language> languages = Dao.getLanguagesByLanguageID();
+
+        for (final SentenceCollection collection : Dao.getCollections()) {
+            Language language = languages.get(collection.targetLanguage);
+            if (language == null) {
+                continue;
+            }
+            if (collection.todoCount == 0) {
+                continue;
+            }
+            MenuItem menu = submenu.add(language.name).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    CollectionActivity.start(BaseActivity.this, collection.collectionID);
+                    return true;
+                }
+            });
+            setupMenuIcon(menu, FontAwesomeIcons.fa_language);
+        }
     }
 
     @Override

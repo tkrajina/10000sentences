@@ -150,4 +150,12 @@ public class Dao {
                 .execute();
         reloadCollectionCounter(collection);
     }
+
+    public static Map<String, Language> getLanguagesByLanguageID() {
+        HashMap<String, Language> res = new HashMap<>();
+        for (Language language : getLanguages()) {
+            res.put(language.getLanguageId(), language);
+        }
+        return res;
+    }
 }
