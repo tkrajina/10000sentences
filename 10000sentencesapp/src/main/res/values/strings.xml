@@ -68,4 +68,5 @@ If you really want this, type: %s]]></string>
     <string name="speakers">speakers</string>
     <string name="open_in_tatoeba">Open in Tatoeba</string>
     <string name="error_opening_link">Error opening url</string>
+    <string name="for_speakers_of">...for speakers of:</string>
 </resources>
