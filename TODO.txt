@@ -1,20 +1,20 @@
 TODO:
-- go to previous sentence
-- collections API v2
-    - remove complexity (they are already ordered by complexity, it can be retrieved implicitly)
-    - both english->language and language->english
-    - add more languages
-    - show complexity/ord number in lower right corner
-- stats
-    - number of statuses changed daily
-    - counters daily
-    - time spend practicing daily
-    - graph
-    - per language or globally
-- help
-- night mode
-- show sentence alternatives
+    - stats
+        - number of statuses changed daily
+        - counters daily
+        - time spend practicing daily
+        - graph
+        - per language or globally
+    - help
+LATER:
+    - show sentence alternatives
+    - go to previous sentence
+    - night mode
 DONE:
-- order languages
-- collections in drawer navigation
-- status of the current sentence
+    - collections API v2
+        - remove complexity (they are already ordered by complexity, it can be retrieved implicitly)
+        - both english->language and language->english
+        - add more languages
+    - order languages
+    - collections in drawer navigation
+    - status of the current sentence
