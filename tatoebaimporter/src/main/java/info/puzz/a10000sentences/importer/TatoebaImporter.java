@@ -33,6 +33,7 @@ public class TatoebaImporter {
     private static final float MAX_SENTENCE_LENGTH = 100;
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    public static final int MAX_SENTENCES_NO = 12_000;
 
     /*
      wget  http://downloads.tatoeba.org/exports/sentences_detailed.tar.bz2
@@ -142,7 +143,7 @@ public class TatoebaImporter {
                 return s1.getTargetSentenceId() - s2.getTargetSentenceId();
             }
         });
-        sentences = sentences.subList(0, Math.min(15_000, sentences.size()));
+        sentences = sentences.subList(0, Math.min(MAX_SENTENCES_NO, sentences.size()));
 
         for (SentenceVO sentence : sentences) {
             calculateSentenceComplexity(sentence, wordCounter);
