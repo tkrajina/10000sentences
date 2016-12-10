@@ -34,6 +34,7 @@
                 <TextView
                     android:text="@{targetLanguage.name + &quot; &quot;}"
                     android:textStyle="bold|italic"
+                    android:textColor="@color/colorPrimary"
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
