@@ -65,16 +65,16 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
 
             List<Sentence> sentences = new ArrayList<>();
 
-            int n = 0;
+            int order = 0;
             String line;
             while ((line = reader.readLine()) != null) {
-                n += 1;
-                sentences.add(parseSentence(line));
+                order += 1;
+                sentences.add(parseSentence(order, line));
                 if (sentences.size() == 50) {
                     importSentences(sentences);
-                    publishProgress(n);
+                    publishProgress(order);
                 }
-                if (n % 1000 == 0) {
+                if (order % 1000 == 0) {
                     Dao.reloadCollectionCounter(collection);
                 }
             }
@@ -90,7 +90,7 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
         return null;
     }
 
-    private Sentence parseSentence(String line) {
+    private Sentence parseSentence(int order, String line) {
         if (StringUtils.isEmpty(line)) {
             return null;
         }
@@ -98,13 +98,13 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
         String sentenceId = parts[0];
         String knownSentence = parts[1];
         String targetSentence = parts[2];
-        float complexity = Float.parseFloat(parts[3]);
         return new Sentence()
                 .setCollectionId(collection.getCollectionID())
                 .setSentenceId(sentenceId)
                 .setKnownSentence(knownSentence)
                 .setTargetSentence(targetSentence)
-                .setComplexity(complexity);
+                // Complexity === order because the sentences are ordered in the collection file
+                .setComplexity(order);
     }
 
     private void importSentences(List<Sentence> sentences) {

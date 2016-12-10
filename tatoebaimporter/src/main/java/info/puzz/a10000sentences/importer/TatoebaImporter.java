@@ -155,9 +155,8 @@ public class TatoebaImporter {
         });
 
         FileOutputStream out = new FileOutputStream(Paths.get(outputDir, outFilename).toString());
-        for (int i = 0; i < sentences.size(); i++) {
-            SentenceVO sentence = sentences.get(i);
-            out.write((sentence.getSentenceId() + "\t" + sentence.getKnownSentence() + "\t" + sentence.getTargetSentence() + "\t" + (i + 1) + "\n").getBytes("utf-8"));
+        for (SentenceVO sentence : sentences) {
+            out.write((sentence.getSentenceId() + "\t" + sentence.getKnownSentence() + "\t" + sentence.getTargetSentence() + "\n").getBytes("utf-8"));
         }
         out.close();
 
