@@ -81,7 +81,7 @@ public class Dao {
     public static List<SentenceCollection> getCollections() {
         return new Select()
                 .from(SentenceCollection.class)
-                .orderBy("target_lang, known_lang")
+                .orderBy("-done_count, target_lang, known_lang")
                 .execute();
     }
 
