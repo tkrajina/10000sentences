@@ -147,6 +147,14 @@
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/sentence_status"
+                        android:text="@{quiz.getSentence().getSentenceStatus().toString()}"
+                        android:textSize="@dimen/smaller_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true" />
+
                 </RelativeLayout>
                 <LinearLayout
                     android:id="@+id/bottom"

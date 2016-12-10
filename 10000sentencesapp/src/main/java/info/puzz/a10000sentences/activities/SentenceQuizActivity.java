@@ -119,6 +119,8 @@ public class SentenceQuizActivity extends BaseActivity {
             binding.targetSentence.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
         }
 
+        binding.sentenceStatus.setTextColor(ContextCompat.getColor(this, binding.getQuiz().getSentence().getSentenceStatus().getColor()));
+
         answerButtons = new Button[] { binding.answer1, binding.answer2, binding.answer3, binding.answer4, };
         for (final Button answerButton : answerButtons) {
             answerButton.setOnClickListener(new View.OnClickListener() {
