@@ -25,7 +25,7 @@
     <string name="about">About</string>
     <string name="help">Help</string>
     <string name="stats">Stats</string>
-    <string name="reload_collections">Reload collections</string>
+    <string name="reload_languages">Reload languages</string>
     <string name="collections">Collections</string>
     <string name="no_newtork">No network available</string>
     <string name="error_retrieving">Couldn\'t retrieve data</string>

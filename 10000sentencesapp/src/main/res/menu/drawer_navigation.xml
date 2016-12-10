@@ -7,7 +7,7 @@
             android:title="@string/collections" />
         <item
             android:id="@+id/nav_reload"
-            android:title="@string/reload_collections" />
+            android:title="@string/reload_languages" />
         <item
             android:id="@+id/nav_stats"
             android:title="@string/stats" />
