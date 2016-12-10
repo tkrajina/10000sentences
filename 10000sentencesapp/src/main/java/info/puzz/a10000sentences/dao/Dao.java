@@ -38,7 +38,6 @@ public class Dao {
         } else {
             col.save();
         }
-        col.save();
     }
 
     public static void importSentences(List<Sentence> sentences) {
