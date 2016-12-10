@@ -18,11 +18,11 @@ public class InfoVO {
         super();
     }
 
-    public InfoVO addSentencesCollection(SentenceCollectionVO sentenceCollection) {
+    public InfoVO addSentencesCollection(List<SentenceCollectionVO> sentenceCollections) {
         if (sentenceCollections == null) {
             sentenceCollections = new ArrayList<>();
         }
-        sentenceCollections.add(sentenceCollection);
+        sentenceCollections.addAll(sentenceCollections);
         return this;
     }
 

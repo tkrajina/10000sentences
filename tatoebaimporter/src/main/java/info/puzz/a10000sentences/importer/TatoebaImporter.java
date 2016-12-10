@@ -49,18 +49,25 @@ public class TatoebaImporter {
 
         InfoVO info = new InfoVO()
                 .setLanguages(Languages.getLanguages())
-                .addSentencesCollection(importSentences(bucketFiles, "eng", "ron"))
-                .addSentencesCollection(importSentences(bucketFiles, "eng", "ita"))
-                .addSentencesCollection(importSentences(bucketFiles, "eng", "ara"))
-                .addSentencesCollection(importSentences(bucketFiles, "eng", "heb"))
-                .addSentencesCollection(importSentences(bucketFiles, "eng", "deu"))
-                .addSentencesCollection(importSentences(bucketFiles, "eng", "fra"))
-                .addSentencesCollection(importSentences(bucketFiles, "eng", "rus"))
-                .addSentencesCollection(importSentences(bucketFiles, "eng", "por"))
-                .addSentencesCollection(importSentences(bucketFiles, "eng", "spa"));
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ron"))
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ita"))
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ara"))
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "heb"))
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "deu"))
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "fra"))
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "rus"))
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "por"))
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "spa"));
 
         String infoFilename = Paths.get(bucketFiles, "info.json").toString();
         FileUtils.writeByteArrayToFile(new File(infoFilename), OBJECT_MAPPER.writeValueAsBytes(info));
+    }
+
+    private static List<SentenceCollectionVO> importSentencesBothWays(String outputDir, String lang1, String lang2) throws IOException {
+        ArrayList<SentenceCollectionVO> res = new ArrayList<>();
+        res.add(importSentences(outputDir, lang1, lang2));
+        res.add(importSentences(outputDir, lang2, lang1));
+        return res;
     }
 
     private static SentenceCollectionVO importSentences(String outputDir, String knownLanguageAbbrev3, String targetLanguageAbbrev3) throws IOException {
