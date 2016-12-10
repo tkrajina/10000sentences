@@ -2,13 +2,27 @@ package info.puzz.a10000sentences.utils;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
+/**
+ * Add:
+ *
+ * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+ *
+ * To manifest, then:
+ *
+ * adb pull /sdcard/debug_10000sentences.db && sqlite3 debug_10000sentences.db
+ *
+ * ...to use the database locally.
+ */
 public final class DebugUtils {
+
+    private static final String TAG = DebugUtils.class.getSimpleName();
 
     private DebugUtils() throws Exception {
         throw new Exception();
@@ -35,6 +49,8 @@ public final class DebugUtils {
                     src.close();
                     dst.close();
                 }
+            } else {
+                Log.e(TAG, "Cannot write to sdcart");
             }
         } catch (Exception e) {
             throw new Error(e);
