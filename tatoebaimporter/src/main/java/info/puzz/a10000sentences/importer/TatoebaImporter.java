@@ -50,6 +50,8 @@ public class TatoebaImporter {
 
         InfoVO info = new InfoVO()
                 .setLanguages(Languages.getLanguages())
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "tur"))
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ell"))
                 .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ron"))
                 .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ita"))
                 .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ara"))
@@ -68,11 +70,14 @@ public class TatoebaImporter {
         ArrayList<SentenceCollectionVO> res = new ArrayList<>();
         res.add(importSentences(outputDir, lang1, lang2));
         res.add(importSentences(outputDir, lang2, lang1));
+        System.out.println(res);
         return res;
     }
 
     private static SentenceCollectionVO importSentences(String outputDir, String knownLanguageAbbrev3, String targetLanguageAbbrev3) throws IOException {
         long started = System.currentTimeMillis();
+
+        System.out.println(String.format("Processing %s->%s", knownLanguageAbbrev3, targetLanguageAbbrev3));
 
         LanguageVO knownLanguage = Languages.getLanguageByAbbrev(knownLanguageAbbrev3);
         LanguageVO targetLanguage = Languages.getLanguageByAbbrev(targetLanguageAbbrev3);

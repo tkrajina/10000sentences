@@ -65,4 +65,6 @@ If you really want this, type: %s]]></string>
     <string name="read_sentence">Read sentence</string>
     <string name="sentences">Sentences</string>
     <string name="downloaded_colections">Downloaded collections</string>
+    <string name="for_">for</string>
+    <string name="speakers">speakers</string>
 </resources>

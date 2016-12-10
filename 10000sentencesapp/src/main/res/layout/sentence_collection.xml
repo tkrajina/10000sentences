@@ -31,11 +31,32 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+                <TextView
+                    android:text="@{targetLanguage.name + &quot; &quot;}"
+                    android:textStyle="bold|italic"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="@string/for_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="@{targetLanguage.name}"
+                    android:text="@{&quot; &quot; + knownLanguage.name + &quot; &quot;}"
                     android:textStyle="bold"
                     android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="@string/speakers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

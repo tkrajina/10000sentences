@@ -19,10 +19,10 @@ public class InfoVO {
     }
 
     public InfoVO addSentencesCollection(List<SentenceCollectionVO> sentenceCollections) {
-        if (sentenceCollections == null) {
-            sentenceCollections = new ArrayList<>();
+        if (this.sentenceCollections == null) {
+            this.sentenceCollections = new ArrayList<>();
         }
-        sentenceCollections.addAll(sentenceCollections);
+        this.sentenceCollections.addAll(sentenceCollections);
         return this;
     }
 
