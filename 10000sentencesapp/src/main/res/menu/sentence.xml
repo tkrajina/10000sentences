@@ -7,6 +7,11 @@
         android:title="@string/read_sentence"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/action_open_in_tatoteba"
+        android:orderInCategory="100"
+        android:title="@string/open_in_tatoeba"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_done_sentence"
         android:orderInCategory="100"
         android:title="@string/done_sentence"

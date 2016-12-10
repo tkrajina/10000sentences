@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +31,7 @@ import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.Speech;
 import info.puzz.a10000sentences.utils.StringUtils;
+import info.puzz.a10000sentences.utils.TatoebaUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
 import temp.DBG;
 
@@ -172,6 +175,9 @@ public class SentenceQuizActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_open_in_tatoteba:
+                openLink();
+                break;
             case R.id.action_read_sentence:
                 speech.speech(binding.getQuiz().getSentence().targetSentence);
                 break;
@@ -193,6 +199,17 @@ public class SentenceQuizActivity extends BaseActivity {
                 break;
         }
         return true;
+    }
+
+    private void openLink() {
+        try {
+            String url = TatoebaUtils.getTatotebaUrl(binding.getQuiz().getSentence());
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+            Toast.makeText(this, R.string.error_opening_link, Toast.LENGTH_SHORT);
+        }
     }
 
     private void submitResponse(Button answerButton, String text) {

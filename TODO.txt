@@ -13,6 +13,7 @@ TODO:
     - per language or globally
 - help
 - night mode
+- show sentence alternatives
 DONE:
 - order languages
 - collections in drawer navigation
