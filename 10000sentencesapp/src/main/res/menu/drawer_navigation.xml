@@ -16,7 +16,7 @@
             android:title="@string/settings" />
     </group>
 
-    <item android:title="@string/app">
+    <item>
         <menu>
             <item
                 android:id="@+id/nav_about"
