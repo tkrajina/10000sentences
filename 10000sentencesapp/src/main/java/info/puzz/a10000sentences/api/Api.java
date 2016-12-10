@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Api {
     private static SentencesService instance;
 
-    public static final String BASE_URL = "https://storage.googleapis.com/10000sentences/";
+    public static final String BASE_URL = "https://storage.googleapis.com/10000sentences/2/";
 
     public static SentencesService instance() {
         if (instance == null) {
