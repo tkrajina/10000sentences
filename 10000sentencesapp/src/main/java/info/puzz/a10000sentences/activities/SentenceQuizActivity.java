@@ -141,6 +141,12 @@ public class SentenceQuizActivity extends BaseActivity {
                 binding.quizButtons.setVisibility(View.VISIBLE);
             }
         });
+        binding.knownSentence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.getQuiz().nextKnownSentenceAlternative();
+            }
+        });
 
         DBG.todo("Move this somewhere else:");
         if (targetLanguage.languageId.equals("ar")) {

@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -35,6 +36,8 @@ public class TatoebaImporter {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     public static final int MAX_SENTENCES_NO = 12_000;
 
+    private static final char ALTERNATIVE_DELIMITER = '|';
+
     /*
      wget  http://downloads.tatoeba.org/exports/sentences_detailed.tar.bz2
      bzip2 -d sentences_detailed.tar.bz2
@@ -48,33 +51,106 @@ public class TatoebaImporter {
         String bucketFiles = "bucket_files";
         new File(bucketFiles).mkdirs();
 
+        String[] languages = new String[]{"ita", "epo", "lat", "tur", "ell", "ron", "ara", "heb", "deu", "fra", "rus", "por", "spa",};
+
+        System.out.println("Caching links");
+        Map<Integer, int[]> links = loadLinks();
+        System.out.println("Loading sentences");
+        Map<String, Map<Integer, TatoebaSentence>> sentencesPerLang = loadSentencesPerLanguage(languages);
+
         InfoVO info = new InfoVO()
-                .setLanguages(Languages.getLanguages())
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ita"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "tur"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ell"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ron"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ara"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "heb"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "deu"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "fra"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "rus"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "por"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "spa"));
+                .setLanguages(Languages.getLanguages());
+
+        for (String language : languages) {
+            info.addSentencesCollection(importSentencesBothWays(links, sentencesPerLang, bucketFiles, "eng", language));
+        }
 
         String infoFilename = Paths.get(bucketFiles, "info.json").toString();
         FileUtils.writeByteArrayToFile(new File(infoFilename), OBJECT_MAPPER.writeValueAsBytes(info));
     }
 
-    private static List<SentenceCollectionVO> importSentencesBothWays(String outputDir, String lang1, String lang2) throws IOException {
+    private static Map<String, Map<Integer, TatoebaSentence>> loadSentencesPerLanguage(String[] languages) throws Exception {
+        HashMap<String, Map<Integer, TatoebaSentence>> res = new HashMap<>();
+
+        Set<String> langs = new HashSet<>();
+        langs.add("eng");
+        for (String language : languages) {
+            langs.add(language);
+        }
+
+        FileInputStream fstream = new FileInputStream("tmp_files/sentences_detailed.csv");
+        BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split("\t");
+            int sentenceId = Integer.parseInt(parts[0]);
+            String lang = parts[1];
+            String text = parts[2];
+
+            if (langs.contains(lang)) {
+                if (!res.containsKey(lang)) {
+                    res.put(lang, new HashMap<Integer, TatoebaSentence>());
+                }
+                TatoebaSentence sentence = new TatoebaSentence()
+                        .setId(sentenceId)
+                        .setText(prepareSentenceText(text, lang));
+                res.get(lang).put(sentenceId, sentence);
+            }
+        }
+
+        return res;
+    }
+
+    private static String prepareSentenceText(String text, String lang) {
+        if ("ar".equals(lang) || "ara".equals(lang)) {
+            return WordUtils.removeNonspacingChars(text).replace(ALTERNATIVE_DELIMITER, ' ');
+        }
+        return text.replace(ALTERNATIVE_DELIMITER, ' ');
+    }
+
+    private static Map<Integer, int[]> loadLinks() throws Exception {
+        HashMap<Integer, int[]> res = new HashMap<>();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("tmp_files/links.csv")));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split("\t");
+            int sentence1 = Integer.parseInt(parts[0]);
+            int sentence2 = Integer.parseInt(parts[1]);
+
+            int[] related = res.get(sentence1);
+            if (related == null) {
+                res.put(sentence1, new int[] {sentence2});
+            } else {
+                int[] newRelated = new int[related.length + 1];
+                for (int i = 0; i < related.length; i++) {
+                    newRelated[i] = related[i];
+                }
+                newRelated[newRelated.length - 1] = sentence2;
+                res.put(sentence1, newRelated);
+            }
+        }
+
+        return res;
+    }
+
+    private static List<SentenceCollectionVO> importSentencesBothWays(
+            Map<Integer, int[]> links,
+            Map<String,
+            Map<Integer, TatoebaSentence>> sentencesPerLang, String outputDir,
+            String lang1, String lang2) throws IOException {
         ArrayList<SentenceCollectionVO> res = new ArrayList<>();
-        res.add(importSentences(outputDir, lang1, lang2));
-        res.add(importSentences(outputDir, lang2, lang1));
+        res.add(importSentences(links, sentencesPerLang, outputDir, lang1, lang2));
+        res.add(importSentences(links, sentencesPerLang, outputDir, lang2, lang1));
         System.out.println(res);
         return res;
     }
 
-    private static SentenceCollectionVO importSentences(String outputDir, String knownLanguageAbbrev3, String targetLanguageAbbrev3) throws IOException {
+    private static SentenceCollectionVO importSentences(
+            Map<Integer, int[]> links,
+            Map<String, Map<Integer, TatoebaSentence>> sentencesPerLang,
+            String outputDir,
+            String knownLanguageAbbrev3, String targetLanguageAbbrev3) throws IOException {
         long started = System.currentTimeMillis();
 
         System.out.println(String.format("Processing %s->%s", knownLanguageAbbrev3, targetLanguageAbbrev3));
@@ -84,59 +160,48 @@ public class TatoebaImporter {
 
         WordCounter wordCounter = new WordCounter();
 
-        Map<Integer, TatoebaSentence> targetLanguageSentences = new HashMap<>();
-        Map<Integer, TatoebaSentence> knownLanguageSentences = new HashMap<>();
+        Map<Integer, TatoebaSentence> targetLanguageSentences = sentencesPerLang.get(targetLanguageAbbrev3);
+        Map<Integer, TatoebaSentence> knownLanguageSentences = sentencesPerLang.get(knownLanguageAbbrev3);
 
-        {
-            FileInputStream fstream = new FileInputStream("tmp_files/sentences_detailed.csv");
-            BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split("\t");
-                int sentenceId = Integer.parseInt(parts[0]);
-                String lang = parts[1];
-                String text = parts[2];
-                TatoebaSentence sentence = new TatoebaSentence().setId(sentenceId).setText(text);
-                if (targetLanguageAbbrev3.equals(lang)) {
-                    targetLanguageSentences.put(sentenceId, sentence);
-                    wordCounter.countWordsInSentence(sentence.getText());
-                }
-                if (knownLanguageAbbrev3.equals(lang)) {
-                    knownLanguageSentences.put(sentenceId, sentence);
-                }
-            }
+        for (TatoebaSentence sentence : targetLanguageSentences.values()) {
+            wordCounter.countWordsInSentence(sentence.getText());
         }
         System.out.println(String.format("Found %d known language sentences", knownLanguageSentences.size()));
         System.out.println(String.format("Found %d target language sentences", targetLanguageSentences.size()));
         System.out.println(String.format("%d distinct words, %d words", wordCounter.size(), wordCounter.count.intValue()));
 
-        HashSet<Integer> sentencesFound = new HashSet<>();
-
         String outFilename = String.format("%s-%s.csv", knownLanguage.getAbbrev(), targetLanguage.getAbbrev());
         List<SentenceVO> sentences = new ArrayList<>();
 
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("tmp_files/links.csv")));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split("\t");
-                Integer sentence1 = Integer.parseInt(parts[0]);
-                Integer sentence2 = Integer.parseInt(parts[1]);
-                if (!sentencesFound.contains(sentence1) && !sentencesFound.contains(sentence2)) {
-                    TatoebaSentence knownSentence = knownLanguageSentences.get(sentence1);
-                    TatoebaSentence targetSentence = targetLanguageSentences.get(sentence2);
-                    if (knownSentence != null && targetSentence != null && knownSentence.text.length() < MAX_SENTENCE_LENGTH) {
-                        //System.out.println(targetSentence.id + ":" + knownSentence + " <-> " + targetSentence);
-                        String id = String.format("%s-%s-%d", knownLanguage.getAbbrev(), targetLanguage.getAbbrev(), targetSentence.id);
-                        sentences.add(new SentenceVO()
-                                .setSentenceId(id)
-                                .setTargetSentenceId(targetSentence.id)
-                                .setKnownSentence(knownSentence.text)
-                                .setTargetSentence(WordUtils.removeNonspacingChars(targetSentence.text)));
-                        sentencesFound.add(sentence1);
-                        sentencesFound.add(sentence2);
+        for (TatoebaSentence targetSentence : targetLanguageSentences.values()) {
+            if (targetSentence == null) {
+                continue;
+            }
+
+            int[] knownSentenceIds = links.get(targetSentence.getId());
+            if (knownSentenceIds == null) {
+                continue;
+            }
+
+            StringBuilder knownSentenceAlternatives = new StringBuilder();
+            int alternatives = 0;
+            for (int knownSentenceId : knownSentenceIds) {
+                TatoebaSentence knownSentence = knownLanguageSentences.get(knownSentenceId);
+                if (knownSentence != null) {
+                    if (knownSentenceAlternatives.length() > 0) {
+                        knownSentenceAlternatives.append(ALTERNATIVE_DELIMITER);
                     }
+                    knownSentenceAlternatives.append(knownSentence.getText());
+                    ++ alternatives;
                 }
+            }
+            if (alternatives > 0) {
+                String id = String.format("%s-%s-%d", knownLanguage.getAbbrev(), targetLanguage.getAbbrev(), targetSentence.id);
+                sentences.add(new SentenceVO()
+                        .setSentenceId(id)
+                        .setTargetSentenceId(targetSentence.id)
+                        .setKnownSentence(knownSentenceAlternatives.toString())
+                        .setTargetSentence(targetSentence.getText()));
             }
         }
 

@@ -24,6 +24,7 @@ public class SentenceQuiz extends BaseObservable {
 
     int incorrectAnswersGiven = 0;
     int correctAnswersGiven = 0;
+    private int currentKnownSentenceAlternative = 0;
 
     public SentenceQuiz(Sentence sentence, int answersNo, List<Sentence> randomSentencesForVocab) {
         this.sentence = sentence;
@@ -54,6 +55,16 @@ public class SentenceQuiz extends BaseObservable {
             }
         }
         return res.toString();
+    }
+    
+    public String getKnownSentence() {
+        String[] knownSentences = sentence.getKnownSentences();
+        return knownSentences[currentKnownSentenceAlternative % knownSentences.length];
+    }
+
+    public void nextKnownSentenceAlternative() {
+        ++ currentKnownSentenceAlternative;
+        notifyChange();
     }
 
     public boolean guessWord(String word) {
