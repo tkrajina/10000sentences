@@ -15,15 +15,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="AA_DB_NAME"
-            android:value="10000sentences.db" />
-        <meta-data
-            android:name="AA_DB_VERSION"
-            android:value="2" />
-        <meta-data
-            android:name="AA_MODELS"
-            android:value="info.puzz.a10000sentences.models.Language,info.puzz.a10000sentences.models.Sentence,info.puzz.a10000sentences.models.SentenceCollection,info.puzz.a10000sentences.models.SentenceHistory" />
+
+        <meta-data android:name="AA_DB_NAME" android:value="10000sentences.db" />
+        <meta-data android:name="AA_DB_VERSION" android:value="3" />
+        <meta-data android:name="AA_MODELS" android:value="info.puzz.a10000sentences.models.Language,info.puzz.a10000sentences.models.Sentence,info.puzz.a10000sentences.models.SentenceCollection,info.puzz.a10000sentences.models.SentenceHistory" />
 
         <activity
             android:name=".activities.CollectionsActivity"
