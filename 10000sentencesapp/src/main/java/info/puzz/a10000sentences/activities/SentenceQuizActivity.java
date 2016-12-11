@@ -14,10 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.activeandroid.query.Select;
-
 import java.util.List;
 
+import info.puzz.a10000sentences.Constants;
 import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.SentenceCollectionsService;
@@ -27,8 +26,8 @@ import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
-import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.ShareUtils;
+import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.Speech;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.TatoebaUtils;
@@ -138,12 +137,17 @@ public class SentenceQuizActivity extends BaseActivity {
             }
         });
 
-        DBG.todo("Move this somewhere else:");
-        if (targetLanguage.languageId.equals("ar")) {
-            for (Button answerButton : answerButtons) {
-                answerButton.setTextSize(answerButton.getTextSize() * 1.2F);
+        adjustFontSize();
+    }
+
+    private void adjustFontSize() {
+        for (String lang : Constants.LANGS_WITH_LARGER_FONTS) {
+            if (targetLanguage.languageId.equals(lang)) {
+                for (Button answerButton : answerButtons) {
+                    answerButton.setTextSize(answerButton.getTextSize() * 1.2F);
+                }
+                binding.targetSentence.setTextSize(binding.targetSentence.getTextSize() * 1.2F);
             }
-            binding.targetSentence.setTextSize(binding.targetSentence.getTextSize() * 1.2F);
         }
     }
 
