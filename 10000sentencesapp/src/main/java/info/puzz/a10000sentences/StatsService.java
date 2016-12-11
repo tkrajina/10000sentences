@@ -54,6 +54,7 @@ public final class StatsService {
             c.set(Calendar.HOUR_OF_DAY, 12);
             c.set(Calendar.MINUTE, 0);
             c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
             c.set(Calendar.DST_OFFSET, 0);
             c.set(Calendar.ZONE_OFFSET, 0);
             long time = c.getTimeInMillis();
