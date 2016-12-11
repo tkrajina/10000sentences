@@ -99,7 +99,9 @@ public class SentenceQuizActivity extends BaseActivity {
 
         Sentence sentence = Dao.getSentenceBySentenceId(sentenceId);
         if (sentence == null) {
-            DBG.todo();
+            Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
+            CollectionsActivity.start(this);
+            return;
         }
 
         SentenceCollection collection = Dao.getCollection(sentence.collectionId);
