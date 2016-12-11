@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.jjoe64.graphview.GraphView;
@@ -43,20 +44,28 @@ public class StatsActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_stats);
         setTitle(R.string.stats);
 
-        StatsService.Stats stats = StatsService.getStats(7);
+        new AsyncTask<Void, Void, StatsService.Stats>() {
+            @Override
+            protected StatsService.Stats doInBackground(Void... voids) {
+                return StatsService.getStats(7);
+            }
 
-        setupGraph(stats.getTimePerDay(), binding.timeGraph, new Formatter() {
             @Override
-            public String format(double value) {
-                return TimeUtils.formatDurationToHHMMSS((long) value, false);
+            protected void onPostExecute(StatsService.Stats stats) {
+                setupGraph(stats.getTimePerDay(), binding.timeGraph, new Formatter() {
+                    @Override
+                    public String format(double value) {
+                        return TimeUtils.formatDurationToHHMMSS((long) value, false);
+                    }
+                });
+                setupGraph(stats.getDonePerDay(), binding.doneCounterGraph, new Formatter() {
+                    @Override
+                    public String format(double value) {
+                        return String.format("%d", (int) value);
+                    }
+                });
             }
-        });
-        setupGraph(stats.getDonePerDay(), binding.doneCounterGraph, new Formatter() {
-            @Override
-            public String format(double value) {
-                return String.format("%d", (int) value);
-            }
-        });
+        }.execute();
     }
 
     private void setupGraph(DataPoint[] dataPoints, GraphView graph, final Formatter yAxisFormatter) {
