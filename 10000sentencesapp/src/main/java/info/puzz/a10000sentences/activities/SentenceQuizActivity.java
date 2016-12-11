@@ -162,6 +162,7 @@ public class SentenceQuizActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         speech = new Speech(this, targetLanguage);
+        // TODO: the time will be reset on orientation change!!!
         started = System.currentTimeMillis();
         SleepUtils.disableSleep(this);
     }
