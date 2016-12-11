@@ -33,7 +33,14 @@ public class Sentence extends Model {
     float complexity;
 
     public String[] getKnownSentences() {
-        return String.valueOf(knownSentence).split("\\|");
+        String[] res = String.valueOf(knownSentence).split("\\|");
+        if (res.length == 1) {
+            return res;
+        }
+        for (int i = 0; i < res.length; i++) {
+            res[i] += String.format(" [%d/%d]", i+1, res.length);
+        }
+        return res;
     }
 
     public String getFirstKnownSentence() {
