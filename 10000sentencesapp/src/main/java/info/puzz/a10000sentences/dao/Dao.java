@@ -158,4 +158,11 @@ public class Dao {
         }
         return res;
     }
+
+    public static Sentence getSentenceBySentenceId(String sentenceId) {
+        return new Select()
+                .from(Sentence.class)
+                .where("sentence_id = ?", sentenceId)
+                .executeSingle();
+    }
 }

@@ -70,10 +70,7 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     public static <T extends BaseActivity> void startRandom(T activity, String collectionId, Type type, String exceptSentenceId) {
-        SentenceCollection collection = new Select()
-                .from(SentenceCollection.class)
-                .where("collection_id=?", collectionId)
-                .executeSingle();
+        SentenceCollection collection = Dao.getCollection(collectionId);
 
         Sentence sentence;
         if (type == Type.ONLY_KNOWN) {
@@ -100,10 +97,7 @@ public class SentenceQuizActivity extends BaseActivity {
         type = (Type) getIntent().getSerializableExtra(ARG_TYPE);
         sentenceId = getIntent().getStringExtra(ARG_SENTENCE_ID);
 
-        Sentence sentence = new Select()
-                .from(Sentence.class)
-                .where("sentence_id = ?", sentenceId)
-                .executeSingle();
+        Sentence sentence = Dao.getSentenceBySentenceId(sentenceId);
         if (sentence == null) {
             DBG.todo();
         }
