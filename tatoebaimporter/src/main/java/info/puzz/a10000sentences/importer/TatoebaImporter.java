@@ -50,6 +50,8 @@ public class TatoebaImporter {
 
         InfoVO info = new InfoVO()
                 .setLanguages(Languages.getLanguages())
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "epo"))
+                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "lat"))
                 .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "tur"))
                 .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ell"))
                 .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ron"))
