@@ -31,6 +31,12 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:context="info.puzz.a10000sentences.activities.StatsActivity">
 
+
+                <com.jjoe64.graphview.GraphView
+                    android:id="@+id/done_counter_graph"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp" />
+
                 <TextView
                     android:text="stats"
                     android:layout_width="wrap_content"
