@@ -48,35 +48,72 @@ public class TatoebaImporter {
         String bucketFiles = "bucket_files";
         new File(bucketFiles).mkdirs();
 
+        System.out.println("Caching links");
+        Map<Integer, int[]> links = loadLinks();
+
         InfoVO info = new InfoVO()
                 .setLanguages(Languages.getLanguages())
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "epo"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "lat"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "tur"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ell"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ron"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ita"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "ara"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "heb"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "deu"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "fra"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "rus"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "por"))
-                .addSentencesCollection(importSentencesBothWays(bucketFiles, "eng", "spa"));
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "ita"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "epo"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "lat"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "tur"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "ell"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "ron"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "ara"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "heb"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "deu"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "fra"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "rus"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "por"))
+                .addSentencesCollection(importSentencesBothWays(links, bucketFiles, "eng", "spa"));
 
         String infoFilename = Paths.get(bucketFiles, "info.json").toString();
         FileUtils.writeByteArrayToFile(new File(infoFilename), OBJECT_MAPPER.writeValueAsBytes(info));
     }
 
-    private static List<SentenceCollectionVO> importSentencesBothWays(String outputDir, String lang1, String lang2) throws IOException {
+    private static Map<Integer, int[]> loadLinks() throws Exception {
+        HashMap<Integer, int[]> res = new HashMap<>();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("tmp_files/links.csv")));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split("\t");
+            int sentence1 = Integer.parseInt(parts[0]);
+            int sentence2 = Integer.parseInt(parts[1]);
+
+            int[] related = res.get(sentence1);
+            if (related == null) {
+                related = new int[] {-1, -1, -1, -1}; // Max 4 related sentences
+                res.put(sentence1, related);
+            }
+
+            related_loop:
+            for (int i = 0; i < related.length; i++) {
+                if (related[i] < 0) {
+                    related[i] = sentence2;
+                    break related_loop;
+                }
+            }
+        }
+
+        return res;
+    }
+
+    private static List<SentenceCollectionVO> importSentencesBothWays(
+            Map<Integer, int[]> links,
+            String outputDir,
+            String lang1, String lang2) throws IOException {
         ArrayList<SentenceCollectionVO> res = new ArrayList<>();
-        res.add(importSentences(outputDir, lang1, lang2));
-        res.add(importSentences(outputDir, lang2, lang1));
+        res.add(importSentences(links, outputDir, lang1, lang2));
+        res.add(importSentences(links, outputDir, lang2, lang1));
         System.out.println(res);
         return res;
     }
 
-    private static SentenceCollectionVO importSentences(String outputDir, String knownLanguageAbbrev3, String targetLanguageAbbrev3) throws IOException {
+    private static SentenceCollectionVO importSentences(
+            Map<Integer, int[]> links,
+            String outputDir,
+            String knownLanguageAbbrev3, String targetLanguageAbbrev3) throws IOException {
         long started = System.currentTimeMillis();
 
         System.out.println(String.format("Processing %s->%s", knownLanguageAbbrev3, targetLanguageAbbrev3));
@@ -117,27 +154,22 @@ public class TatoebaImporter {
         String outFilename = String.format("%s-%s.csv", knownLanguage.getAbbrev(), targetLanguage.getAbbrev());
         List<SentenceVO> sentences = new ArrayList<>();
 
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("tmp_files/links.csv")));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split("\t");
-                Integer sentence1 = Integer.parseInt(parts[0]);
-                Integer sentence2 = Integer.parseInt(parts[1]);
-                if (!sentencesFound.contains(sentence1) && !sentencesFound.contains(sentence2)) {
-                    TatoebaSentence knownSentence = knownLanguageSentences.get(sentence1);
-                    TatoebaSentence targetSentence = targetLanguageSentences.get(sentence2);
-                    if (knownSentence != null && targetSentence != null && knownSentence.text.length() < MAX_SENTENCE_LENGTH) {
-                        //System.out.println(targetSentence.id + ":" + knownSentence + " <-> " + targetSentence);
-                        String id = String.format("%s-%s-%d", knownLanguage.getAbbrev(), targetLanguage.getAbbrev(), targetSentence.id);
-                        sentences.add(new SentenceVO()
-                                .setSentenceId(id)
-                                .setTargetSentenceId(targetSentence.id)
-                                .setKnownSentence(knownSentence.text)
-                                .setTargetSentence(WordUtils.removeNonspacingChars(targetSentence.text)));
-                        sentencesFound.add(sentence1);
-                        sentencesFound.add(sentence2);
-                    }
+        for (Map.Entry<Integer, int[]> e : links.entrySet()) {
+            Integer sentence1 = e.getKey();
+            Integer sentence2 = e.getValue()[0];
+            if (!sentencesFound.contains(sentence1) && !sentencesFound.contains(sentence2)) {
+                TatoebaSentence knownSentence = knownLanguageSentences.get(sentence1);
+                TatoebaSentence targetSentence = targetLanguageSentences.get(sentence2);
+                if (knownSentence != null && targetSentence != null && knownSentence.text.length() < MAX_SENTENCE_LENGTH) {
+                    //System.out.println(targetSentence.id + ":" + knownSentence + " <-> " + targetSentence);
+                    String id = String.format("%s-%s-%d", knownLanguage.getAbbrev(), targetLanguage.getAbbrev(), targetSentence.id);
+                    sentences.add(new SentenceVO()
+                            .setSentenceId(id)
+                            .setTargetSentenceId(targetSentence.id)
+                            .setKnownSentence(knownSentence.text)
+                            .setTargetSentence(WordUtils.removeNonspacingChars(targetSentence.text)));
+                    sentencesFound.add(sentence1);
+                    sentencesFound.add(sentence2);
                 }
             }
         }
