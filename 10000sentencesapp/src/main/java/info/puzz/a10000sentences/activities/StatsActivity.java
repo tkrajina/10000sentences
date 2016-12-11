@@ -97,6 +97,13 @@ public class StatsActivity extends BaseActivity {
             public void setViewport(Viewport viewport) {}
         });
 
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            graph.getGridLabelRenderer().setNumHorizontalLabels(20);
+        } else {
+            graph.getGridLabelRenderer().setNumHorizontalLabels(10);
+        }
+        graph.getGridLabelRenderer().setNumVerticalLabels(4);
+
         double minX = series.getLowestValueX();
         double maxX = series.getHighestValueX();
         double minY = 0;
