@@ -78,11 +78,12 @@
                         android:layout_alignParentStart="true">
 
                         <TextView
+                            android:id="@+id/known_sentence"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:textSize="@dimen/quiz_sentence_size"
-                            android:text="@{quiz.getSentence().knownSentence}" />
+                            android:text="@{quiz.getKnownSentence()}" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"

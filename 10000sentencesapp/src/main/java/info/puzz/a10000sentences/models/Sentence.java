@@ -32,6 +32,21 @@ public class Sentence extends Model {
     @Column(name = "complexity", index = true)
     float complexity;
 
+    public String[] getKnownSentences() {
+        String[] res = String.valueOf(knownSentence).split("\\|");
+        if (res.length == 1) {
+            return res;
+        }
+        for (int i = 0; i < res.length; i++) {
+            res[i] += String.format(" [%d/%d]", i+1, res.length);
+        }
+        return res;
+    }
+
+    public String getFirstKnownSentence() {
+        return getKnownSentences()[0];
+    }
+
     public SentenceStatus getSentenceStatus() {
         return SentenceStatus.fromStatus(status);
     }

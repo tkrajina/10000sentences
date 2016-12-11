@@ -136,6 +136,12 @@ public class SentenceQuizActivity extends BaseActivity {
                 binding.quizButtons.setVisibility(View.VISIBLE);
             }
         });
+        binding.knownSentence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.getQuiz().nextKnownSentenceAlternative();
+            }
+        });
 
         adjustFontSize();
     }
