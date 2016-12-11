@@ -69,4 +69,6 @@ If you really want this, type: %s]]></string>
     <string name="open_in_tatoeba">Open in Tatoeba</string>
     <string name="error_opening_link">Error opening url</string>
     <string name="for_speakers_of">...for speakers of:</string>
+    <string name="time_spent_daily">Total time spent practicing</string>
+    <string name="sentences_markes_as_done">Sentences marked as DONE</string>
 </resources>

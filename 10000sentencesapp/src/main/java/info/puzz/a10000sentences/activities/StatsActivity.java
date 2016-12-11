@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LabelFormatter;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
@@ -27,6 +28,10 @@ public class StatsActivity extends BaseActivity {
 
     private Float graphFontSize = null;
 
+    private interface Formatter {
+        String format(double value);
+    }
+
     public static <T extends BaseActivity> void start(T activity) {
         Intent intent = new Intent(activity, StatsActivity.class);
         activity.startActivity(intent);
@@ -38,12 +43,30 @@ public class StatsActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_stats);
         setTitle(R.string.stats);
 
+        StatsService.Stats stats = StatsService.getStats(7);
+
+        setupGraph(stats.getTimePerDay(), binding.timeGraph, new Formatter() {
+            @Override
+            public String format(double value) {
+                return TimeUtils.formatDurationToHHMMSS((long) value, false);
+            }
+        });
+        setupGraph(stats.getDonePerDay(), binding.doneCounterGraph, new Formatter() {
+            @Override
+            public String format(double value) {
+                return String.format("%d", (int) value);
+            }
+        });
+    }
+
+    private void setupGraph(DataPoint[] dataPoints, GraphView graph, final Formatter yAxisFormatter) {
         if (graphFontSize == null) {
-            graphFontSize = binding.doneCounterGraph.getGridLabelRenderer().getTextSize();
+            graphFontSize = graph.getGridLabelRenderer().getTextSize();
         }
 
+        LineGraphSeries series = new LineGraphSeries<>(dataPoints);
 
-        binding.doneCounterGraph.getGridLabelRenderer().setLabelFormatter(new LabelFormatter() {
+        graph.getGridLabelRenderer().setLabelFormatter(new LabelFormatter() {
             public String lattestFormatted;
             Calendar cal = Calendar.getInstance();
             @Override
@@ -58,25 +81,17 @@ public class StatsActivity extends BaseActivity {
                     this.lattestFormatted = formatted;
                     return formatted;
                 }
-                return TimeUtils.formatDurationToHHMMSS((long) value, false);
+                return yAxisFormatter.format(value);
             }
 
             @Override
             public void setViewport(Viewport viewport) {}
         });
 
-/*        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding.doneCounterGraph.getGridLabelRenderer().setNumHorizontalLabels(20);
-        } else {
-            binding.doneCounterGraph.getGridLabelRenderer().setNumHorizontalLabels(10);
-        }*/
-
-        DataPoint[] dataPoints = StatsService.getStats(7);
-        LineGraphSeries series = new LineGraphSeries<>(dataPoints);
-
         double minX = series.getLowestValueX();
         double maxX = series.getHighestValueX();
-        double minY = 0; series.getLowestValueY();
+        double minY = 0;
+        series.getLowestValueY();
         double maxY = series.getHighestValueY();
 
         if (minX == maxX) {
@@ -88,21 +103,21 @@ public class StatsActivity extends BaseActivity {
             maxY = maxY * 1.5;
         }
 
-        binding.doneCounterGraph.getViewport().setMinX(minX);
-        binding.doneCounterGraph.getViewport().setMaxX(maxX);
-        binding.doneCounterGraph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(minX);
+        graph.getViewport().setMaxX(maxX);
+        graph.getViewport().setXAxisBoundsManual(true);
 
-        binding.doneCounterGraph.getViewport().setMinY(minY);
-        binding.doneCounterGraph.getViewport().setMaxY(maxY);
-        binding.doneCounterGraph.getViewport().setYAxisBoundsManual(true);
-        binding.doneCounterGraph.getGridLabelRenderer().setGridColor(Color.GRAY);
+        graph.getViewport().setMinY(minY);
+        graph.getViewport().setMaxY(maxY);
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getGridLabelRenderer().setGridColor(Color.GRAY);
 
         if (dataPoints.length < 6) {
             series.setDrawDataPoints(true);
             series.setDataPointsRadius(graphFontSize / dataPoints.length);
         }
 
-        binding.doneCounterGraph.addSeries(series);
+        graph.addSeries(series);
     }
 
     @Override

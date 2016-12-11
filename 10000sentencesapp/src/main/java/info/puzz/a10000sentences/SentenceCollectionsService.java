@@ -62,6 +62,7 @@ public final class SentenceCollectionsService {
 
                 SentenceHistory h = new SentenceHistory();
                 h.sentenceId = sentence.getSentenceId();
+                h.collectionId = sentence.collectionId;
                 h.status = status.getStatus();
                 h.created = System.currentTimeMillis();
                 h.time = (int) (System.currentTimeMillis() - started);

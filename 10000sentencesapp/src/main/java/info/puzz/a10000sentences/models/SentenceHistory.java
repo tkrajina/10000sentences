@@ -17,6 +17,9 @@ public class SentenceHistory extends Model {
     @Column(name = "sentence_id", index = true)
     public String sentenceId;
 
+    @Column(name = "collection_id")
+    public String collectionId;
+
     /** New status */
     @Column(name = "status")
     public int status;

@@ -15,13 +15,25 @@ import java.util.List;
 import java.util.Map;
 
 import info.puzz.a10000sentences.models.SentenceHistory;
+import lombok.Data;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 public final class StatsService {
+
+    @Data
+    @Accessors(chain = true)
+    @ToString
+    public static class Stats {
+        DataPoint[] timePerDay;
+        DataPoint[] donePerDay;
+    }
+
     public StatsService() throws Exception {
         throw new Exception();
     }
 
-    public static DataPoint[] getStats(int daysAgo) {
+    public static Stats getStats(int daysAgo) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -daysAgo);
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -34,6 +46,8 @@ public final class StatsService {
 
 
         Map<Long, List<Integer>> timeByDay = new HashMap<>();
+        Map<Long, Map<String, Integer>> doneByDay = new HashMap<>();
+
         for (SentenceHistory model : history) {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(model.created);
@@ -45,16 +59,29 @@ public final class StatsService {
             long time = c.getTimeInMillis();
             if (!timeByDay.containsKey(time)) {
                 timeByDay.put(time, new ArrayList<Integer>());
+                doneByDay.put(time, new HashMap<String, Integer>());
             }
             timeByDay.get(time).add(model.time);
+            doneByDay.get(time).put(model.collectionId, model.doneCount);
         }
 
-        List<DataPoint> data = new ArrayList<>();
+        List<DataPoint> timeDailyData = new ArrayList<>();
         for (Map.Entry<Long, List<Integer>> e : timeByDay.entrySet()) {
-            data.add(new DataPoint(e.getKey(), sum(e.getValue())));
+            timeDailyData.add(new DataPoint(e.getKey(), sum(e.getValue())));
+        }
+        
+        List<DataPoint> doneDailyData = new ArrayList<>();
+        for (Map.Entry<Long, Map<String, Integer>> e : doneByDay.entrySet()) {
+            int sum = 0;
+            for (Integer integer : e.getValue().values()) {
+                sum += integer.intValue();
+            }
+            doneDailyData.add(new DataPoint(e.getKey(), sum));
         }
 
-        return data.toArray(new DataPoint[data.size()]);
+        return new Stats()
+                .setTimePerDay(timeDailyData.toArray(new DataPoint[timeDailyData.size()]))
+                .setDonePerDay(doneDailyData.toArray(new DataPoint[doneDailyData.size()]));
     }
 
     private static final float avg(List<Integer> l) {
