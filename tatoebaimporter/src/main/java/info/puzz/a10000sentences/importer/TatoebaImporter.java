@@ -36,6 +36,8 @@ public class TatoebaImporter {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     public static final int MAX_SENTENCES_NO = 12_000;
 
+    private static final char ALTERNATIVE_DELIMITER = '|';
+
     /*
      wget  http://downloads.tatoeba.org/exports/sentences_detailed.tar.bz2
      bzip2 -d sentences_detailed.tar.bz2
@@ -89,12 +91,21 @@ public class TatoebaImporter {
                 if (!res.containsKey(lang)) {
                     res.put(lang, new HashMap<Integer, TatoebaSentence>());
                 }
-                TatoebaSentence sentence = new TatoebaSentence().setId(sentenceId).setText(text);
+                TatoebaSentence sentence = new TatoebaSentence()
+                        .setId(sentenceId)
+                        .setText(prepareSentenceText(text, lang));
                 res.get(lang).put(sentenceId, sentence);
             }
         }
 
         return res;
+    }
+
+    private static String prepareSentenceText(String text, String lang) {
+        if ("ar".equals(lang) || "ara".equals(lang)) {
+            return WordUtils.removeNonspacingChars(text).replace(ALTERNATIVE_DELIMITER, ' ');
+        }
+        return text.replace(ALTERNATIVE_DELIMITER, ' ');
     }
 
     private static Map<Integer, int[]> loadLinks() throws Exception {
@@ -109,16 +120,14 @@ public class TatoebaImporter {
 
             int[] related = res.get(sentence1);
             if (related == null) {
-                related = new int[] {-1, -1, -1, -1}; // Max 4 related sentences
-                res.put(sentence1, related);
-            }
-
-            related_loop:
-            for (int i = 0; i < related.length; i++) {
-                if (related[i] < 0) {
-                    related[i] = sentence2;
-                    break related_loop;
+                res.put(sentence1, new int[] {sentence2});
+            } else {
+                int[] newRelated = new int[related.length + 1];
+                for (int i = 0; i < related.length; i++) {
+                    newRelated[i] = related[i];
                 }
+                newRelated[newRelated.length - 1] = sentence2;
+                res.put(sentence1, newRelated);
             }
         }
 
@@ -161,28 +170,38 @@ public class TatoebaImporter {
         System.out.println(String.format("Found %d target language sentences", targetLanguageSentences.size()));
         System.out.println(String.format("%d distinct words, %d words", wordCounter.size(), wordCounter.count.intValue()));
 
-        HashSet<Integer> sentencesFound = new HashSet<>();
-
         String outFilename = String.format("%s-%s.csv", knownLanguage.getAbbrev(), targetLanguage.getAbbrev());
         List<SentenceVO> sentences = new ArrayList<>();
 
-        for (Map.Entry<Integer, int[]> e : links.entrySet()) {
-            Integer sentence1 = e.getKey();
-            Integer sentence2 = e.getValue()[0];
-            if (!sentencesFound.contains(sentence1) && !sentencesFound.contains(sentence2)) {
-                TatoebaSentence knownSentence = knownLanguageSentences.get(sentence1);
-                TatoebaSentence targetSentence = targetLanguageSentences.get(sentence2);
-                if (knownSentence != null && targetSentence != null && knownSentence.text.length() < MAX_SENTENCE_LENGTH) {
-                    //System.out.println(targetSentence.id + ":" + knownSentence + " <-> " + targetSentence);
-                    String id = String.format("%s-%s-%d", knownLanguage.getAbbrev(), targetLanguage.getAbbrev(), targetSentence.id);
-                    sentences.add(new SentenceVO()
-                            .setSentenceId(id)
-                            .setTargetSentenceId(targetSentence.id)
-                            .setKnownSentence(knownSentence.text)
-                            .setTargetSentence(WordUtils.removeNonspacingChars(targetSentence.text)));
-                    sentencesFound.add(sentence1);
-                    sentencesFound.add(sentence2);
+        for (TatoebaSentence targetSentence : targetLanguageSentences.values()) {
+            if (targetSentence == null) {
+                continue;
+            }
+
+            int[] knownSentenceIds = links.get(targetSentence.getId());
+            if (knownSentenceIds == null) {
+                continue;
+            }
+
+            StringBuilder knownSentenceAlternatives = new StringBuilder();
+            int alternatives = 0;
+            for (int knownSentenceId : knownSentenceIds) {
+                TatoebaSentence knownSentence = knownLanguageSentences.get(knownSentenceId);
+                if (knownSentence != null) {
+                    if (knownSentenceAlternatives.length() > 0) {
+                        knownSentenceAlternatives.append(ALTERNATIVE_DELIMITER);
+                    }
+                    knownSentenceAlternatives.append(knownSentence.getText());
+                    ++ alternatives;
                 }
+            }
+            if (alternatives > 0) {
+                String id = String.format("%s-%s-%d", knownLanguage.getAbbrev(), targetLanguage.getAbbrev(), targetSentence.id);
+                sentences.add(new SentenceVO()
+                        .setSentenceId(id)
+                        .setTargetSentenceId(targetSentence.id)
+                        .setKnownSentence(knownSentenceAlternatives.toString())
+                        .setTargetSentence(targetSentence.getText()));
             }
         }
 
