@@ -110,7 +110,7 @@ public class Dao {
         return res.get(0);
     }
 
-    public static void reloadCollectionCounter(SentenceCollection collection) {
+    public static SentenceCollection reloadCollectionCounter(SentenceCollection collection) {
         int rows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ?",
                 new String[] {collection.getCollectionID()});
@@ -132,6 +132,8 @@ public class Dao {
         collection.doneCount = doneRows;
         collection.ignoreCount = ignoreRows;
         collection.save();
+
+        return collection;
     }
 
     public static List<Sentence> getRandomSentences(SentenceCollection collection) {

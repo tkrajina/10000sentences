@@ -51,20 +51,26 @@ public final class SentenceCollectionsService {
         return sentences.get(RANDOM.nextInt(sentences.size()));
     }
 
-    public static void updateStatus(final Sentence sentence, SentenceStatus status) {
+    public static void updateStatus(final Sentence sentence, final SentenceStatus status, final long started) {
         sentence.status = status.getStatus();
         sentence.save();
-
-        SentenceHistory h = new SentenceHistory();
-        h.sentenceId = sentence.getSentenceId();
-        h.status = status.getStatus();
-        h.created = System.currentTimeMillis();
-        h.save();
 
         new AsyncTask<String, Void, Void>() {
             @Override
             protected Void doInBackground(String... strings) {
-                Dao.reloadCollectionCounter(Dao.getCollection(sentence.collectionId));
+                SentenceCollection collection = Dao.reloadCollectionCounter(Dao.getCollection(sentence.collectionId));
+
+                SentenceHistory h = new SentenceHistory();
+                h.sentenceId = sentence.getSentenceId();
+                h.status = status.getStatus();
+                h.created = System.currentTimeMillis();
+                h.time = (int) (System.currentTimeMillis() - started);
+                h.doneCount = collection.doneCount;
+                h.todoCount = collection.todoCount;
+                h.repeatCount = collection.repeatCount;
+                h.ignoreCount = collection.ignoreCount;
+                h.save();
+
                 return null;
             }
         }.execute();
