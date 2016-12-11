@@ -226,7 +226,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_reload) {
             reloadLanguages();
         } else if (id == R.id.nav_stats) {
-            DialogUtils.showWarningDialog(this, "TODO", "This is not finished, yet :(");
+            StatsActivity.start(this);
         } else if (id == R.id.nav_settings) {
             SettingsActivity.start(this);
         } else if (id == R.id.nav_about) {
