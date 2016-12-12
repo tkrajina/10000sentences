@@ -1,15 +1,12 @@
 package info.puzz.a10000sentences;
 
-import android.content.Intent;
-
-import com.activeandroid.Model;
 import com.activeandroid.query.Select;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.jjoe64.graphview.series.Series;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +17,13 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 public final class StatsService {
+
+    private static final Comparator<DataPoint> DATAPOINT_COMPARATOR = new Comparator<DataPoint>() {
+        @Override
+        public int compare(DataPoint dp1, DataPoint dp2) {
+            return Double.compare(dp1.getX(), dp2.getX());
+        }
+    };
 
     @Data
     @Accessors(chain = true)
@@ -43,7 +47,6 @@ public final class StatsService {
                 .where("created>?", cal.getTime().getTime())
                 .orderBy("created")
                 .execute();
-
 
         Map<Long, List<Integer>> timeByDay = new HashMap<>();
         Map<Long, Map<String, Integer>> doneByDay = new HashMap<>();
@@ -79,6 +82,9 @@ public final class StatsService {
             }
             doneDailyData.add(new DataPoint(e.getKey(), sum));
         }
+
+        Collections.sort(timeDailyData, DATAPOINT_COMPARATOR);
+        Collections.sort(doneDailyData, DATAPOINT_COMPARATOR);
 
         return new Stats()
                 .setTimePerDay(timeDailyData.toArray(new DataPoint[timeDailyData.size()]))
