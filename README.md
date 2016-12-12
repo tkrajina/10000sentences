@@ -33,7 +33,7 @@ There are many ways to use this application. If you are a serious learner, you w
 
 This application is best used in combination with a translator app (or a traditional dictionary) and a memory flashcard application (like AnkiDroid).
 
-A simple workflow:
+A simple workflow idea:
 
  * Train sentence by sentence
  * If unsure about a word meaning, use a translator app to translate it (see next section for more details)
