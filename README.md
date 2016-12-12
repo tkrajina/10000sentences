@@ -16,7 +16,7 @@ Each sentence can be under one of the following statuses:
 
 - _TODO_ -- meaning that you haven't exercised with them
 - _DONE_ -- meaning that you guessed all words correctly
-- _REPEAT_ -- meaning that you tried, but failed, to guess words correctly
+- _REPEAT_ -- meaning that you tried, but failed, to guess words correctly. The sentence will be retried (shown in quizes) until you succeed in guessing it.
 - _IGNORE_ -- meaning that you decided you don't want this sentence to show in your quizes
 
 The app will allow only a certain number of _REPEAT_ sentences. If you reach that number, no new sentences will be shown to you. Only when you fix _REPEAT_ sentences (i.e. succeed in guessing all the words), new ones will be available for you.
