@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import info.puzz.a10000sentences.models.SentenceHistory;
-import lombok.Data;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
 public final class StatsService {
 
@@ -25,12 +22,9 @@ public final class StatsService {
         }
     };
 
-    @Data
-    @Accessors(chain = true)
-    @ToString
     public static class Stats {
-        DataPoint[] timePerDay;
-        DataPoint[] donePerDay;
+        public DataPoint[] timePerDay;
+        public DataPoint[] donePerDay;
     }
 
     public StatsService() throws Exception {
@@ -86,9 +80,10 @@ public final class StatsService {
         Collections.sort(timeDailyData, DATAPOINT_COMPARATOR);
         Collections.sort(doneDailyData, DATAPOINT_COMPARATOR);
 
-        return new Stats()
-                .setTimePerDay(timeDailyData.toArray(new DataPoint[timeDailyData.size()]))
-                .setDonePerDay(doneDailyData.toArray(new DataPoint[doneDailyData.size()]));
+        Stats stats = new Stats();
+        stats.timePerDay = timeDailyData.toArray(new DataPoint[timeDailyData.size()]);
+        stats.donePerDay = doneDailyData.toArray(new DataPoint[doneDailyData.size()]);
+        return stats;
     }
 
     private static final float avg(List<Integer> l) {

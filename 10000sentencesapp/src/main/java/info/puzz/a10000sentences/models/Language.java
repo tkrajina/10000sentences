@@ -6,13 +6,6 @@ import com.activeandroid.annotation.Table;
 
 import org.apache.commons.lang3.StringUtils;
 
-import lombok.Data;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-
-@Data
-@Accessors(chain = true)
-@ToString
 @Table(name = "language")
 public class Language extends Model {
     @Column(name = "language_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
@@ -28,7 +21,7 @@ public class Language extends Model {
     public String nativeName;
 
     @Column(name = "rtl")
-    boolean rightToLeft;
+    public boolean rightToLeft;
 
     public String formatNativeName() {
         if (nativeName.contains(",")) {

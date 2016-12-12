@@ -4,17 +4,9 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import lombok.Data;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-
-@Data
-@Accessors(chain = true)
-@ToString
 @Table(name = "sentence_collection")
 public class SentenceCollection extends Model {
 

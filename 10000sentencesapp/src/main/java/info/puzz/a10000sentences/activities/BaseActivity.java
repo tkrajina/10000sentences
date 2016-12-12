@@ -105,20 +105,20 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 Log.i(TAG, String.valueOf(response.body()));
                 InfoVO info = response.body();
                 for (LanguageVO languageVO : info.getLanguages()) {
-                    Language language = new Language()
-                            .setLanguageId(languageVO.getAbbrev())
-                            .setFamily(languageVO.getFamily())
-                            .setName(languageVO.getName())
-                            .setNativeName(languageVO.getNativeName())
-                            .setRightToLeft(languageVO.isRightToLeft());
+                    Language language = new Language();
+                    language.languageId = languageVO.getAbbrev();
+                    language.family = languageVO.getFamily();
+                    language.name = languageVO.getName();
+                    language.nativeName = languageVO.getNativeName();
+                    language.rightToLeft = languageVO.isRightToLeft();
                     Dao.importLanguage(language);
                 }
                 for (SentenceCollectionVO collectionVO : info.getSentenceCollections()) {
-                    SentenceCollection col = new SentenceCollection()
-                            .setCollectionID(String.format("%s-%s", collectionVO.getKnownLanguage(), collectionVO.getTargetLanguage()))
-                            .setKnownLanguage(collectionVO.getKnownLanguage())
-                            .setTargetLanguage(collectionVO.getTargetLanguage())
-                            .setFilename(collectionVO.getFilename());
+                    SentenceCollection col = new SentenceCollection();
+                    col.collectionID = String.format("%s-%s", collectionVO.getKnownLanguage(), collectionVO.getTargetLanguage());
+                    col.knownLanguage = collectionVO.getKnownLanguage();
+                    col.targetLanguage = collectionVO.getTargetLanguage();
+                    col.filename = collectionVO.getFilename();
                     Dao.importCollection(col);
                 }
 

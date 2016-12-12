@@ -14,9 +14,9 @@ public class SentenceQuizTest {
     @Test
     public void test() {
         List<Sentence> randomSentences = new ArrayList<>();
-        randomSentences.add(new Sentence().setTargetSentence("jkl fdjkls euio fdhjklds fdsjkl jkl"));
-        randomSentences.add(new Sentence().setTargetSentence("cuxizo jdkl yyyy aaaa"));
-        SentenceQuiz q = new SentenceQuiz(new Sentence().setTargetSentence("ovo je, samo test"), 4, randomSentences);
+        randomSentences.add(new Sentence() {{ targetSentence = "jkl fdjkls euio fdhjklds fdsjkl jkl"; }});
+        randomSentences.add(new Sentence() {{ targetSentence = "cuxizo jdkl yyyy aaaa"; }});
+        SentenceQuiz q = new SentenceQuiz(new Sentence() {{ targetSentence = "ovo je, samo test"; }}, 4, randomSentences);
         Assert.assertFalse(q.guessWord("jkljkl"));
         Assert.assertFalse(q.isFinished());
         Assert.assertTrue(q.guessWord("ovo"));

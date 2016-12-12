@@ -1,17 +1,14 @@
 package info.puzz.a10000sentences.utils;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.Locale;
 
 import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.models.Language;
-import lombok.Getter;
 
 public class Speech {
 
@@ -24,7 +21,6 @@ public class Speech {
     private final boolean languageFound;
     private final boolean enabled;
 
-    @Getter
     private boolean initialized = false;
 
     public Speech(Context context, Language language) {

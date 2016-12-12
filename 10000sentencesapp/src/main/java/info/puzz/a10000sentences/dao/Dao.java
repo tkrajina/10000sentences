@@ -29,12 +29,11 @@ public class Dao {
     public static void importCollection(SentenceCollection col) {
         SentenceCollection sentenceCollection = new Select()
                 .from(SentenceCollection.class)
-                .where("collection_id = ?", col.getCollectionID())
+                .where("collection_id = ?", col.collectionID)
                 .executeSingle();
         if (sentenceCollection != null) {
-            sentenceCollection
-                    .setFilename(col.getFilename())
-                    .save();
+            sentenceCollection.filename = col.filename;
+            sentenceCollection.save();
         } else {
             col.save();
         }
@@ -44,7 +43,7 @@ public class Dao {
 
         List<String> ids = new ArrayList<>();
         for (Sentence sentence : sentences) {
-            ids.add(sentence.getSentenceId());
+            ids.add(sentence.sentenceId);
         }
 
         List<Sentence> existingSentences = new Select()
@@ -56,17 +55,17 @@ public class Dao {
 
         Map<String, Sentence> existingSentencesMap = new HashMap<>();
         for (Sentence model : existingSentences) {
-            existingSentencesMap.put(model.getSentenceId(), model);
+            existingSentencesMap.put(model.sentenceId, model);
         }
 
         ActiveAndroid.beginTransaction();
         try {
             for (Sentence sentence : sentences) {
-                if (existingSentencesMap.containsKey(sentence.getSentenceId())) {
-                    Sentence existingSentence = existingSentencesMap.get(sentence.getSentenceId());
-                    existingSentence.setTargetSentence(sentence.getTargetSentence());
-                    existingSentence.setKnownSentence(sentence.getKnownSentence());
-                    existingSentence.setComplexity(sentence.getComplexity());
+                if (existingSentencesMap.containsKey(sentence.sentenceId)) {
+                    Sentence existingSentence = existingSentencesMap.get(sentence.sentenceId);
+                    existingSentence.targetSentence = sentence.targetSentence;
+                    existingSentence.knownSentence = sentence.knownSentence;
+                    existingSentence.complexity = sentence.complexity;
                     existingSentence.save();
                 } else {
                     sentence.save();
@@ -113,19 +112,19 @@ public class Dao {
     public static SentenceCollection reloadCollectionCounter(SentenceCollection collection) {
         int rows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ?",
-                new String[] {collection.getCollectionID()});
+                new String[] {collection.collectionID});
         int todoRows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ? and status = ?",
-                new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.TODO.getStatus())});
+                new String[] {collection.collectionID, String.valueOf(SentenceStatus.TODO.getStatus())});
         int againRows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ? and status = ?",
-                new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.REPEAT.getStatus())});
+                new String[] {collection.collectionID, String.valueOf(SentenceStatus.REPEAT.getStatus())});
         int doneRows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ? and status = ?",
-                new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.DONE.getStatus())});
+                new String[] {collection.collectionID, String.valueOf(SentenceStatus.DONE.getStatus())});
         int ignoreRows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ? and status = ?",
-                new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.IGNORE.getStatus())});
+                new String[] {collection.collectionID, String.valueOf(SentenceStatus.IGNORE.getStatus())});
         collection.count = rows;
         collection.todoCount = todoRows;
         collection.repeatCount = againRows;
@@ -148,7 +147,7 @@ public class Dao {
     public static void removeCollectionSentences(SentenceCollection collection) {
         new Delete()
                 .from(Sentence.class)
-                .where("collection_id=?", collection.getCollectionID())
+                .where("collection_id=?", collection.collectionID)
                 .execute();
         reloadCollectionCounter(collection);
     }
@@ -156,7 +155,7 @@ public class Dao {
     public static Map<String, Language> getLanguagesByLanguageID() {
         HashMap<String, Language> res = new HashMap<>();
         for (Language language : getLanguages()) {
-            res.put(language.getLanguageId(), language);
+            res.put(language.languageId, language);
         }
         return res;
     }

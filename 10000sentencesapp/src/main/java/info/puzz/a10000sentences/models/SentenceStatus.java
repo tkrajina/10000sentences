@@ -1,7 +1,6 @@
 package info.puzz.a10000sentences.models;
 
 import info.puzz.a10000sentences.R;
-import lombok.Getter;
 
 public enum SentenceStatus {
 
