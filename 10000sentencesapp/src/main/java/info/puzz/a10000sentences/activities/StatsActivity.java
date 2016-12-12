@@ -130,7 +130,7 @@ public class StatsActivity extends BaseActivity {
 
         if (dataPoints.length < 6) {
             series.setDrawDataPoints(true);
-            series.setDataPointsRadius(graphFontSize / dataPoints.length);
+            series.setDataPointsRadius(graphFontSize / (2 * dataPoints.length));
         }
 
         graph.addSeries(series);
