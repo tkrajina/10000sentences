@@ -17,16 +17,23 @@ public final class StringUtils {
     }
 
     public static String getWord(String str) {
-        StringBuilder res = new StringBuilder();
-        for (int i = 0; i < str.length(); i++) {
+        int firstCharPos = -1;
+        int lastCharPos = -1;
+        for (int i = 0; i < str.toCharArray().length; i++) {
             char ch = str.charAt(i);
-            if (Character.isLetter(ch) || Character.isDigit(ch)) {
-                res.append(ch);
-            } else {
-                res.append(' ');
+            if (Character.isLetter(ch)) {
+                if (firstCharPos < 0) {
+                    firstCharPos = i;
+                }
+                lastCharPos = i;
             }
         }
-        return res.toString().replace("\\s+", " ").trim();
+
+        if (firstCharPos >= 0) {
+            return str.substring(firstCharPos, lastCharPos + 1);
+        }
+
+        return "";
     }
 
     public static void main(String[] args) {
