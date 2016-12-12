@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
+import org.markdown4j.Markdown4jProcessor;
+
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.databinding.ActivityHtmlBinding;
 
 public class HtmlActivity extends BaseActivity {
+
+    public static final Markdown4jProcessor MARKDOWN_PROCESSOR = new Markdown4jProcessor();
 
     private static final String TAG = HtmlActivity.class.getSimpleName();
 

@@ -20,8 +20,8 @@ import android.widget.Toast;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
+import java.io.IOException;
 import java.security.SecureRandom;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -35,12 +35,9 @@ import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.utils.DebugUtils;
-import info.puzz.a10000sentences.utils.DialogUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.R.attr.category;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -234,10 +231,16 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), 0);
                 HtmlActivity.start(this, getString(R.string.about), getString(R.string.info_contents, info.versionName, String.valueOf(info.versionCode)));
             } catch (Exception e) {
+                Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, e.getMessage(), e);
             }
         } else if (id == R.id.nav_help) {
-            HtmlActivity.start(this, getString(R.string.help), getString(R.string.help_contents));
+            try {
+                HtmlActivity.start(this, getString(R.string.help), HtmlActivity.MARKDOWN_PROCESSOR.process(getString(R.string.help_contents)));
+            } catch (IOException e) {
+                Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, e.getMessage(), e);
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
