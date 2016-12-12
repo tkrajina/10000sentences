@@ -56,6 +56,7 @@ Most Android phones have text-to-speech (TTS) available for some languages. Some
 * Skip sentences for advanced users who feel the first sentences are too easy.
 * Stats with graphs, goals, ...
 * Add more languages
+* Other quiz types (for example where the user must retype the words of a sentence, not only guess them)
 
 # Screenshots
 
