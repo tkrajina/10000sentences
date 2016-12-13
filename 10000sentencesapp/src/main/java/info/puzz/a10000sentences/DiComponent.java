@@ -3,6 +3,7 @@ package info.puzz.a10000sentences;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import info.puzz.a10000sentences.activities.AnnotationActivity;
 import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.activities.CollectionActivity;
 import info.puzz.a10000sentences.activities.CollectionsActivity;
@@ -23,8 +24,8 @@ public interface DiComponent {
     void injectActivity(SentenceQuizActivity activity);
     void injectActivity(SentencesActivity activity);
     void injectActivity(StatsActivity statsActivity);
+    void injectActivity(AnnotationActivity annotationActivity);
 
     void inject(ImporterAsyncTask importerAsyncTask);
     void inject(CollectionsAdapter collectionsAdapter);
-
 }
