@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-import dagger.Provides;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
@@ -23,7 +21,11 @@ public final class SentenceCollectionsService {
 
     private static final Random RANDOM = new SecureRandom(String.valueOf(System.currentTimeMillis()).getBytes());
 
-    @Inject Dao dao;
+    private final Dao dao;
+
+    public SentenceCollectionsService(Dao dao) {
+        this.dao = dao;
+    }
 
     public Sentence nextSentence(Context context, SentenceCollection collection, String exceptSentenceId) {
         int maxRepeat = Preferences.getMaxRepeat(context);

@@ -8,14 +8,15 @@ import info.puzz.a10000sentences.dao.Dao;
 
 @Module
 public class AppModule {
+
     @Provides @Singleton
     public Dao provideDao() {
         return new Dao();
     }
 
     @Provides @Singleton
-    public SentenceCollectionsService providesSentenceCollectionsService() {
-        return new SentenceCollectionsService();
+    public SentenceCollectionsService providesSentenceCollectionsService(Dao dao) {
+        return new SentenceCollectionsService(dao);
     }
 
 }

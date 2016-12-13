@@ -13,7 +13,9 @@ public class Application extends android.app.Application {
         super.onCreate();
         initIconify();
         initActiveAndroid();
-        COMPONENT = DaggerDiComponent.builder().build();
+        COMPONENT = DaggerDiComponent.builder()
+                .appModule(new AppModule())
+                .build();
     }
 
     private void initIconify() {
