@@ -34,6 +34,8 @@ public class AnnotationActivity extends BaseActivity {
     ActivityAnnotationBinding binding;
 
     private AnnotationsAdapter annotationsAdapter;
+    private String word;
+    private String collectionId;
 
     public static <T extends BaseActivity> void start(T activity, String word, String collectionId) {
         Intent intent = new Intent(activity, AnnotationActivity.class)
@@ -46,8 +48,8 @@ public class AnnotationActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String word = getIntent().getStringExtra(ARG_WORD);
-        String collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
+        word = getIntent().getStringExtra(ARG_WORD);
+        collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
 
         Application.COMPONENT.injectActivity(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_annotation);
@@ -98,6 +100,7 @@ public class AnnotationActivity extends BaseActivity {
     private void save() {
         Annotation annotation = new Annotation();
         annotation.annotation = binding.annotation.getText().toString();
+        annotation.collectionId = collectionId;
         annotationService.addWordToAnnotation(annotation, binding.getWord());
         Toast.makeText(this, R.string.annotation_saved, Toast.LENGTH_SHORT).show();
         onBackPressed();
