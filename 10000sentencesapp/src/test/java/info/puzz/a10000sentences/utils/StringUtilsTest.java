@@ -17,4 +17,14 @@ public final class StringUtilsTest {
         Assert.assertEquals("L-a", chunks.get(0).word);
         Assert.assertEquals("trezit", chunks.get(1).word);
     }
+
+    @Test
+    public void testSentenceWithNumbers() {
+        String sentence = "L-a 123 trezit.";
+        List<WordChunk> chunks = StringUtils.getWordChunks(sentence);
+        Assert.assertEquals(3, chunks.size());
+        Assert.assertEquals("L-a", chunks.get(0).word);
+        Assert.assertEquals("123", chunks.get(1).word);
+        Assert.assertEquals("trezit", chunks.get(2).word);
+    }
 }

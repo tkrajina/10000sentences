@@ -21,7 +21,7 @@ public final class StringUtils {
         int lastCharPos = -1;
         for (int i = 0; i < str.toCharArray().length; i++) {
             char ch = str.charAt(i);
-            if (Character.isLetter(ch)) {
+            if (Character.isLetter(ch) || Character.isDigit(ch)) {
                 if (firstCharPos < 0) {
                     firstCharPos = i;
                 }
@@ -33,7 +33,7 @@ public final class StringUtils {
             return str.substring(firstCharPos, lastCharPos + 1);
         }
 
-        return "";
+        return "<empty>";
     }
 
     public static void main(String[] args) {
