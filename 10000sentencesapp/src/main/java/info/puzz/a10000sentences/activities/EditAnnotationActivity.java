@@ -3,11 +3,15 @@ package info.puzz.a10000sentences.activities;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,6 +19,7 @@ import javax.inject.Inject;
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.activities.adapters.AnnotationsAdapter;
+import info.puzz.a10000sentences.activities.adapters.WordsAdapter;
 import info.puzz.a10000sentences.databinding.ActivityAnnotationsBinding;
 import info.puzz.a10000sentences.databinding.ActivityEditAnnotationBinding;
 import info.puzz.a10000sentences.logic.AnnotationService;
@@ -60,12 +65,8 @@ public class EditAnnotationActivity extends BaseActivity {
                 .from(WordAnnotation.class)
                 .where("annotation_id=?", annotationId)
                 .execute();
-        String[] words = new String[wordAnnotations.size()];
-        for (int i = 0; i < wordAnnotations.size(); i++) {
-            words[i] = wordAnnotations.get(i).word;
-        }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, words);
+        WordsAdapter adapter = new WordsAdapter(this, wordAnnotations, null);
         binding.annotationsList.setAdapter(adapter);
     }
 
@@ -74,4 +75,29 @@ public class EditAnnotationActivity extends BaseActivity {
         super.onResume();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_annotation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                save();
+                break;
+            case R.id.action_delete:
+                break;
+        }
+        return true;
+    }
+
+    private void save() {
+        Annotation annotation = Annotation.load(Annotation.class, binding.getAnnotation().getId());
+        annotation.annotation = binding.annotationText.getText().toString();
+        annotation.save();
+        Toast.makeText(this, R.string.annotation_saved, Toast.LENGTH_SHORT).show();
+        onBackPressed();
+    }
 }
