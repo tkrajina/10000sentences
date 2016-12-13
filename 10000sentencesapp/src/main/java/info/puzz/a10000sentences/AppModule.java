@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import info.puzz.a10000sentences.dao.Dao;
+import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 
 @Module
 public class AppModule {

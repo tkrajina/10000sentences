@@ -9,6 +9,7 @@ import info.puzz.a10000sentences.activities.CollectionsActivity;
 import info.puzz.a10000sentences.activities.CollectionsAdapter;
 import info.puzz.a10000sentences.activities.SentenceQuizActivity;
 import info.puzz.a10000sentences.activities.SentencesActivity;
+import info.puzz.a10000sentences.tasks.ImporterAsyncTask;
 
 @Singleton
 @Component(modules = {AppModule.class})

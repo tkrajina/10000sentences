@@ -14,9 +14,9 @@ import android.widget.Toast;
 import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
-import info.puzz.a10000sentences.ImporterAsyncTask;
+import info.puzz.a10000sentences.tasks.ImporterAsyncTask;
 import info.puzz.a10000sentences.R;
-import info.puzz.a10000sentences.SentenceCollectionsService;
+import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;

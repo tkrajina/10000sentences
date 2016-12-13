@@ -22,7 +22,7 @@ import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.Constants;
 import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.R;
-import info.puzz.a10000sentences.SentenceCollectionsService;
+import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
 import info.puzz.a10000sentences.models.Language;

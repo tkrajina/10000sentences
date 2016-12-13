@@ -1,4 +1,4 @@
-package info.puzz.a10000sentences;
+package info.puzz.a10000sentences.tasks;
 
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
@@ -17,6 +17,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import info.puzz.a10000sentences.Application;
+import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Sentence;

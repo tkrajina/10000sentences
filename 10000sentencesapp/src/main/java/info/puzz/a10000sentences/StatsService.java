@@ -28,7 +28,7 @@ public final class StatsService {
     @Data
     @Accessors(chain = true)
     @ToString
-    public static class Stats {
+    public class Stats {
         DataPoint[] timePerDay;
         DataPoint[] donePerDay;
     }
@@ -37,7 +37,7 @@ public final class StatsService {
         throw new Exception();
     }
 
-    public static Stats getStats(int daysAgo) {
+    public Stats getStats(int daysAgo) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -daysAgo);
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -91,7 +91,7 @@ public final class StatsService {
                 .setDonePerDay(doneDailyData.toArray(new DataPoint[doneDailyData.size()]));
     }
 
-    private static final float avg(List<Integer> l) {
+    private final float avg(List<Integer> l) {
         if (l.size() == 0) {
             return 0;
         }
@@ -99,7 +99,7 @@ public final class StatsService {
         return sum(l) + ((float) l.size());
     }
 
-    private static float sum(List<Integer> l) {
+    private float sum(List<Integer> l) {
         int s = 0;
         for (Integer i : l) {
             s += i.intValue();

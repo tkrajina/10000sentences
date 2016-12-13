@@ -1,4 +1,4 @@
-package info.puzz.a10000sentences;
+package info.puzz.a10000sentences.logic;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -11,6 +11,7 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
+import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
