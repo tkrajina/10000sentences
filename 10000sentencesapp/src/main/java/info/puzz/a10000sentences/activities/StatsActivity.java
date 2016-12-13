@@ -20,7 +20,7 @@ import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
-import info.puzz.a10000sentences.StatsService;
+import info.puzz.a10000sentences.logic.StatsService;
 import info.puzz.a10000sentences.databinding.ActivityStatsBinding;
 import info.puzz.a10000sentences.utils.TimeUtils;
 

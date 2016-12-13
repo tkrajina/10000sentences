@@ -1,4 +1,4 @@
-package info.puzz.a10000sentences;
+package info.puzz.a10000sentences.logic;
 
 import com.activeandroid.query.Select;
 import com.jjoe64.graphview.series.DataPoint;

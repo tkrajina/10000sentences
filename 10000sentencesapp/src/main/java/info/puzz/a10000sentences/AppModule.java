@@ -5,7 +5,9 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import info.puzz.a10000sentences.dao.Dao;
+import info.puzz.a10000sentences.logic.AnnotationService;
 import info.puzz.a10000sentences.logic.SentenceCollectionsService;
+import info.puzz.a10000sentences.logic.StatsService;
 
 @Module
 public class AppModule {
@@ -23,6 +25,11 @@ public class AppModule {
     @Provides @Singleton
     public StatsService providesStatsService() {
         return new StatsService();
+    }
+
+    @Provides @Singleton
+    public AnnotationService providesAnnotationService(Dao dao) {
+        return new AnnotationService(dao);
     }
 
 }
