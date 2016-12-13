@@ -32,7 +32,7 @@ public class WordsAdapter extends ArrayAdapter<WordAnnotation> {
     AnnotationService annotationService;
 
     public <T extends BaseActivity> WordsAdapter(T activity, Annotation annotation, List<WordAnnotation> words) {
-        super(activity, R.layout.sentence_collection, words);
+        super(activity, R.layout.annotation_word, words);
         Application.COMPONENT.inject(this);
         this.annotation = annotation;
     }
