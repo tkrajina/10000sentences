@@ -68,9 +68,11 @@ public class AnnotationsAdapter extends ArrayAdapter<Annotation> {
         return binding.getRoot();
     }
 
-    public void reload(From select) {
+    public int reloadAndGetSize(From select) {
         clear();
-        addAll(select.limit(PAGE_SIZE).<Annotation>execute());
+        List<Annotation> list = select.limit(PAGE_SIZE).<Annotation>execute();
+        addAll(list);
         notifyDataSetChanged();
+        return list.size();
     }
 }

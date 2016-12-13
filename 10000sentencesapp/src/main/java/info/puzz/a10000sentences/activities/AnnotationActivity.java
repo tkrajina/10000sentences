@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.activeandroid.query.From;
@@ -154,7 +155,8 @@ public class AnnotationActivity extends BaseActivity {
 
             @Override
             protected void onPostExecute(From from) {
-                annotationsAdapter.reload(from);
+                int size = annotationsAdapter.reloadAndGetSize(from);
+                binding.existingAnnotations.setVisibility(size > 0 ? View.VISIBLE : View.GONE);
             }
         };
         reloadingAsyncTask.execute();
