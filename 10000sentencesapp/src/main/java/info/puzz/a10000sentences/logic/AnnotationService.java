@@ -33,7 +33,9 @@ public class AnnotationService {
             annotation.created = System.currentTimeMillis();
             annotation.save();
         }
-        new WordAnnotation(word, annotation.getId()).save();
+        WordAnnotation wa = new WordAnnotation(word, annotation.getId());
+        wa.collectionId = annotation.collectionId;
+        wa.save();
 
         reloadGeneratedFields(annotation);
     }

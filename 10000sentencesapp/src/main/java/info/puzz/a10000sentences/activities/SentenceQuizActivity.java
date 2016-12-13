@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -13,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.activeandroid.query.Select;
 
 import java.util.List;
 
@@ -25,10 +28,12 @@ import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
+import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
+import info.puzz.a10000sentences.models.WordAnnotation;
 import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.Speech;
@@ -236,6 +241,7 @@ public class SentenceQuizActivity extends BaseActivity {
         }
 
         speech.speech(text);
+        showAnnotation(text);
 
         boolean guessed = binding.getQuiz().guessWord(text);
         if (guessed) {
@@ -250,6 +256,31 @@ public class SentenceQuizActivity extends BaseActivity {
             speech.speech(binding.getQuiz().getSentence().targetSentence);
             finalizeSentence();
         }
+    }
+
+    private void showAnnotation(final String text) {
+        new AsyncTask<Void, Void, Annotation>() {
+
+            @Override
+            protected Annotation doInBackground(Void... voids) {
+                WordAnnotation wordAnnotation = new Select()
+                        .from(WordAnnotation.class)
+                        .where("word=? and collection_id=?", text, binding.getQuiz().getSentence().collectionId)
+                        .executeSingle();
+                if (wordAnnotation != null) {
+                    return Annotation.load(Annotation.class, wordAnnotation.annotationId);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Annotation annotation) {
+                if (annotation != null) {
+                    binding.annotation.setText(String.format("%s: %s", text, annotation.annotation));
+                    binding.annotationGroup.setVisibility(View.VISIBLE);
+                }
+            }
+        }.execute();
     }
 
     private void finalizeSentence() {

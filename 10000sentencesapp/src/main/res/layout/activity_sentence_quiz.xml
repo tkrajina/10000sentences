@@ -157,6 +157,24 @@
                         android:layout_alignParentBottom="true" />
 
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/annotation_group"
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true">
+                    <TextView
+                        android:id="@+id/annotation"
+                        android:textSize="@dimen/smaller_text"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:textStyle="normal|bold"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/bottom"
                     android:orientation="vertical"

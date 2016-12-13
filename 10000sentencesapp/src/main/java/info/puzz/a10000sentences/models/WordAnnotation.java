@@ -34,6 +34,9 @@ public class WordAnnotation extends Model {
     @Column(name = "annotation_id")
     public long annotationId;
 
+    @Column(name = "collection_id")
+    public String collectionId;
+
     /**
      * Generated from {@link Annotation}
      */
