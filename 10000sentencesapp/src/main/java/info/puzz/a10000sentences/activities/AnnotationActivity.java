@@ -2,6 +2,7 @@ package info.puzz.a10000sentences.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
 import javax.inject.Inject;
@@ -36,6 +38,7 @@ public class AnnotationActivity extends BaseActivity {
     private AnnotationsAdapter annotationsAdapter;
     private String word;
     private String collectionId;
+    private AsyncTask<Void, Void, From> reloadingAsyncTask;
 
     public static <T extends BaseActivity> void start(T activity, String word, String collectionId) {
         Intent intent = new Intent(activity, AnnotationActivity.class)
@@ -89,6 +92,7 @@ public class AnnotationActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        DBG.todo("Share/copy to clipboard");
         switch (item.getItemId()) {
             case R.id.action_save:
                 save();
@@ -106,9 +110,34 @@ public class AnnotationActivity extends BaseActivity {
         onBackPressed();
     }
 
-    private void reloadAnnotations(String text) {
-        DBG.todo();
-        //annotationsAdapter.reload(text);
+    private void reloadAnnotations(final String text) {
+        if (reloadingAsyncTask != null) {
+            reloadingAsyncTask.cancel(true);
+        }
+
+        reloadingAsyncTask = new AsyncTask<Void, Void, From>() {
+            @Override
+            protected From doInBackground(Void... voids) {
+                StringBuilder likeFilter = new StringBuilder();
+                for (char c : text.toCharArray()) {
+                    if (Character.isLetter(c) || Character.isDigit(c) || Character.isSpaceChar(c)) {
+                        likeFilter.append(c);
+                    } else {
+                        likeFilter.append(' ');
+                    }
+                }
+                likeFilter.append('%');
+                return new Select()
+                        .from(Annotation.class)
+                        .where("annotation like ?", likeFilter.toString());
+            }
+
+            @Override
+            protected void onPostExecute(From from) {
+                annotationsAdapter.reload(from);
+            }
+        };
+        reloadingAsyncTask.execute();
     }
 
 }

@@ -65,7 +65,7 @@ public class AnnotationService {
             if (wordList.length() > 0) {
                 wordList.append(", ");
             }
-            wordList.append(word);
+            wordList.append(String.valueOf(word.word).toLowerCase());
         }
 
         for (WordAnnotation word : words) {
