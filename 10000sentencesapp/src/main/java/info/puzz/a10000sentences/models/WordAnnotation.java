@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-@Table(name = "sentence")
+@Table(name = "word_annotation")
 public class WordAnnotation extends Model {
 
     public WordAnnotation() {
