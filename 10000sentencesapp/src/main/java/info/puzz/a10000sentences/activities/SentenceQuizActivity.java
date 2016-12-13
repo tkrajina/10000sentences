@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.Constants;
 import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.R;
@@ -32,7 +35,6 @@ import info.puzz.a10000sentences.utils.Speech;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.TatoebaUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
-import temp.DBG;
 
 public class SentenceQuizActivity extends BaseActivity {
 
@@ -47,6 +49,8 @@ public class SentenceQuizActivity extends BaseActivity {
 
     private static final String ARG_SENTENCE_ID = "arg_sentence_id";
     private static final String ARG_TYPE = "arg_type";
+
+    @Inject Dao dao;
 
     ActivitySentenceQuizBinding binding;
 
@@ -69,8 +73,8 @@ public class SentenceQuizActivity extends BaseActivity {
         activity.startActivity(intent);
     }
 
-    public static <T extends BaseActivity> void startRandom(T activity, String collectionId, Type type, String exceptSentenceId) {
-        SentenceCollection collection = Dao.getCollection(collectionId);
+    public static <T extends BaseActivity> void startRandom(T activity, Dao dao, String collectionId, Type type, String exceptSentenceId) {
+        SentenceCollection collection = dao.getCollection(collectionId);
 
         Sentence sentence;
         if (type == Type.ONLY_KNOWN) {
@@ -90,6 +94,7 @@ public class SentenceQuizActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Application.COMPONENT.injectActivity(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sentence_quiz);
         //FontAwesomeIcons.fa_volume_up
@@ -97,17 +102,17 @@ public class SentenceQuizActivity extends BaseActivity {
         type = (Type) getIntent().getSerializableExtra(ARG_TYPE);
         sentenceId = getIntent().getStringExtra(ARG_SENTENCE_ID);
 
-        Sentence sentence = Dao.getSentenceBySentenceId(sentenceId);
+        Sentence sentence = dao.getSentenceBySentenceId(sentenceId);
         if (sentence == null) {
             Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
             CollectionsActivity.start(this);
             return;
         }
 
-        SentenceCollection collection = Dao.getCollection(sentence.collectionId);
-        List<Sentence> randomSentences = Dao.getRandomSentences(collection);
+        SentenceCollection collection = dao.getCollection(sentence.collectionId);
+        List<Sentence> randomSentences = dao.getRandomSentences(collection);
 
-        targetLanguage = Dao.getLanguage(collection.targetLanguage);
+        targetLanguage = dao.getLanguage(collection.targetLanguage);
         setTitle(targetLanguage.name);
 
         binding.setQuiz(new SentenceQuiz(sentence, 4, randomSentences));
@@ -334,7 +339,7 @@ public class SentenceQuizActivity extends BaseActivity {
         } else {
             Sentence sentence = binding.getQuiz().getSentence();
             SentenceCollectionsService.updateStatus(sentence, status, started);
-            startRandom(this, sentence.collectionId, type, sentence.sentenceId);
+            startRandom(this, dao, sentence.collectionId, type, sentence.sentenceId);
         }
     }
 

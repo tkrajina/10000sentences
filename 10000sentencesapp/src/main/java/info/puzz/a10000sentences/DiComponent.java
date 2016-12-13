@@ -3,10 +3,25 @@ package info.puzz.a10000sentences;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import info.puzz.a10000sentences.activities.BaseActivity;
+import info.puzz.a10000sentences.activities.CollectionActivity;
 import info.puzz.a10000sentences.activities.CollectionsActivity;
+import info.puzz.a10000sentences.activities.CollectionsAdapter;
+import info.puzz.a10000sentences.activities.SentenceQuizActivity;
+import info.puzz.a10000sentences.activities.SentencesActivity;
 
 @Singleton
 @Component(modules = {AppModule.class})
 public interface DiComponent {
-    void inject(CollectionsActivity activity);
+
+    void inject(BaseActivity baseActivity);
+
+    void injectActivity(CollectionsActivity activity);
+    void injectActivity(CollectionActivity activity);
+    void injectActivity(SentenceQuizActivity activity);
+    void injectActivity(SentencesActivity activity);
+
+    void inject(ImporterAsyncTask importerAsyncTask);
+    void inject(CollectionsAdapter collectionsAdapter);
+
 }

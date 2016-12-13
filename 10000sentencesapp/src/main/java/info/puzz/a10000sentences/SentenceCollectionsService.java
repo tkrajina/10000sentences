@@ -58,7 +58,7 @@ public final class SentenceCollectionsService {
         new AsyncTask<String, Void, Void>() {
             @Override
             protected Void doInBackground(String... strings) {
-                SentenceCollection collection = Dao.reloadCollectionCounter(Dao.getCollection(sentence.collectionId));
+                SentenceCollection collection = Dao.instance().reloadCollectionCounter(Dao.instance().getCollection(sentence.collectionId));
 
                 SentenceHistory h = new SentenceHistory();
                 h.sentenceId = sentence.getSentenceId();

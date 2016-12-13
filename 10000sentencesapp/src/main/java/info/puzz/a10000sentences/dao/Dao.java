@@ -25,11 +25,11 @@ public class Dao {
     public Dao() {
     }
 
-    public static void importLanguage(Language language) {
+    public void importLanguage(Language language) {
         language.save();
     }
 
-    public static void importCollection(SentenceCollection col) {
+    public void importCollection(SentenceCollection col) {
         SentenceCollection sentenceCollection = new Select()
                 .from(SentenceCollection.class)
                 .where("collection_id = ?", col.getCollectionID())
@@ -43,7 +43,7 @@ public class Dao {
         }
     }
 
-    public static void importSentences(List<Sentence> sentences) {
+    public void importSentences(List<Sentence> sentences) {
 
         List<String> ids = new ArrayList<>();
         for (Sentence sentence : sentences) {
@@ -81,27 +81,27 @@ public class Dao {
         }
     }
 
-    public static List<SentenceCollection> getCollections() {
+    public List<SentenceCollection> getCollections() {
         return new Select()
                 .from(SentenceCollection.class)
                 .orderBy("-done_count, target_lang, known_lang")
                 .execute();
     }
 
-    public static List<Language> getLanguages() {
+    public List<Language> getLanguages() {
         return new Select()
                 .from(Language.class)
                 .execute();
     }
 
-    public static SentenceCollection getCollection(String collectionId) {
+    public SentenceCollection getCollection(String collectionId) {
         return new Select()
                 .from(SentenceCollection.class)
                 .where("collection_id = ?", collectionId)
                 .executeSingle();
     }
 
-    public static Language getLanguage(String languageID) {
+    public Language getLanguage(String languageID) {
         List<Language> res = new Select()
                 .from(Language.class)
                 .where("language_id = ?", languageID)
@@ -113,7 +113,7 @@ public class Dao {
         return res.get(0);
     }
 
-    public static SentenceCollection reloadCollectionCounter(SentenceCollection collection) {
+    public SentenceCollection reloadCollectionCounter(SentenceCollection collection) {
         int rows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ?",
                 new String[] {collection.getCollectionID()});
@@ -139,7 +139,7 @@ public class Dao {
         return collection;
     }
 
-    public static List<Sentence> getRandomSentences(SentenceCollection collection) {
+    public List<Sentence> getRandomSentences(SentenceCollection collection) {
         return new Select()
                 .from(Sentence.class)
                 .where("collection_id = ?", collection.collectionID)
@@ -148,7 +148,7 @@ public class Dao {
                 .execute();
     }
 
-    public static void removeCollectionSentences(SentenceCollection collection) {
+    public void removeCollectionSentences(SentenceCollection collection) {
         new Delete()
                 .from(Sentence.class)
                 .where("collection_id=?", collection.getCollectionID())
@@ -156,7 +156,7 @@ public class Dao {
         reloadCollectionCounter(collection);
     }
 
-    public static Map<String, Language> getLanguagesByLanguageID() {
+    public Map<String, Language> getLanguagesByLanguageID() {
         HashMap<String, Language> res = new HashMap<>();
         for (Language language : getLanguages()) {
             res.put(language.getLanguageId(), language);
@@ -164,10 +164,17 @@ public class Dao {
         return res;
     }
 
-    public static Sentence getSentenceBySentenceId(String sentenceId) {
+    public Sentence getSentenceBySentenceId(String sentenceId) {
         return new Select()
                 .from(Sentence.class)
                 .where("sentence_id = ?", sentenceId)
                 .executeSingle();
+    }
+
+    /**
+     * @deprecated
+     */
+    public static Dao instance() {
+        return new Dao();
     }
 }

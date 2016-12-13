@@ -25,6 +25,9 @@ import java.security.SecureRandom;
 import java.util.Map;
 import java.util.Random;
 
+import javax.inject.Inject;
+
+import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.BuildConfig;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.api.Api;
@@ -47,6 +50,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean collectionNavigationSet;
 
+    @Inject
+    Dao dao;
+
     public interface OnCollectionsReloaded {
         public void onCollectionsReloaded();
     }
@@ -64,6 +70,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Application.COMPONENT.inject(this);
     }
 
     @Override
@@ -111,7 +118,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                             .setName(languageVO.getName())
                             .setNativeName(languageVO.getNativeName())
                             .setRightToLeft(languageVO.isRightToLeft());
-                    Dao.importLanguage(language);
+                    dao.importLanguage(language);
                 }
                 for (SentenceCollectionVO collectionVO : info.getSentenceCollections()) {
                     SentenceCollection col = new SentenceCollection()
@@ -119,7 +126,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                             .setKnownLanguage(collectionVO.getKnownLanguage())
                             .setTargetLanguage(collectionVO.getTargetLanguage())
                             .setFilename(collectionVO.getFilename());
-                    Dao.importCollection(col);
+                    dao.importCollection(col);
                 }
 
                 if (BaseActivity.this instanceof OnCollectionsReloaded) {
@@ -166,9 +173,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         collectionNavigationSet = true;
 
         SubMenu submenu = navigationView.getMenu().addSubMenu(R.string.downloaded_colections);
-        Map<String, Language> languages = Dao.getLanguagesByLanguageID();
+        Map<String, Language> languages = dao.getLanguagesByLanguageID();
 
-        for (final SentenceCollection collection : Dao.getCollections()) {
+        for (final SentenceCollection collection : dao.getCollections()) {
             Language language = languages.get(collection.targetLanguage);
             if (language == null) {
                 continue;

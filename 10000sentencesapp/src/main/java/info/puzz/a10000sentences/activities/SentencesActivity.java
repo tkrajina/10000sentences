@@ -7,14 +7,13 @@ import android.os.Bundle;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
-import java.util.List;
+import javax.inject.Inject;
 
+import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.dao.Dao;
-import info.puzz.a10000sentences.databinding.ActivityCollectionsBinding;
 import info.puzz.a10000sentences.databinding.ActivitySentencesBinding;
 import info.puzz.a10000sentences.models.Sentence;
-import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 
 public class SentencesActivity extends BaseActivity implements BaseActivity.OnCollectionsReloaded {
@@ -22,6 +21,8 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
     private static final String ARG_COLLECTION_ID = "arg_collection_id";
     private static final String ARG_SENTENCE_STATUS = "arg_sentence_status";
     public static final int STATUS_ALL = -1;
+
+    @Inject Dao dao;
 
     ActivitySentencesBinding binding;
 
@@ -38,6 +39,7 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Application.COMPONENT.injectActivity(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sentences);
 
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
@@ -45,7 +47,7 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
 
         setTitle(R.string.sentences);
 
-        if (Dao.getLanguages().size() == 0) {
+        if (dao.getLanguages().size() == 0) {
             reloadLanguages();
         }
     }

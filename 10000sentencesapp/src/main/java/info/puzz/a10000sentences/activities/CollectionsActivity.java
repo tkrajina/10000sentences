@@ -31,11 +31,11 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Application.COMPONENT.inject(this);
+        Application.COMPONENT.injectActivity(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collections);
 
-        if (Dao.getLanguages().size() == 0) {
+        if (dao.getLanguages().size() == 0) {
             reloadLanguages();
         }
 
@@ -55,7 +55,7 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
     }
 
     private void reloadCollections() {
-        List<SentenceCollection> cols = Dao.getCollections();
+        List<SentenceCollection> cols = dao.getCollections();
         binding.collectionsList.setAdapter(new CollectionsAdapter(this, cols));
     }
 

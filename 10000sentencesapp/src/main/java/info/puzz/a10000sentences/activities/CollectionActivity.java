@@ -11,6 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
+import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.ImporterAsyncTask;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.api.Api;
@@ -27,6 +30,8 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
 
     private static final String ARG_COLLECTION_ID = "arg_collection_id";
 
+    @Inject Dao dao;
+
     ActivityCollectionBinding binding;
     private String collectionId;
 
@@ -39,7 +44,9 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Application.COMPONENT.injectActivity(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collection);
+        Application.COMPONENT.injectActivity(this);
     }
 
     @Override
@@ -47,7 +54,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         super.onResume();
 
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
-        final SentenceCollection collection = Dao.getCollection(collectionId);
+        final SentenceCollection collection = dao.getCollection(collectionId);
         if (collection == null) {
             Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
             CollectionsActivity.start(this);
@@ -56,19 +63,19 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         setTitle(collection.targetLanguage);
 
         binding.setSentenceCollection(collection);
-        binding.setKnownLanguage(Dao.getLanguage(collection.getKnownLanguage()));
-        binding.setTargetLanguage(Dao.getLanguage(collection.getTargetLanguage()));
+        binding.setKnownLanguage(dao.getLanguage(collection.getKnownLanguage()));
+        binding.setTargetLanguage(dao.getLanguage(collection.getTargetLanguage()));
 
         binding.randomKnownSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SentenceQuizActivity.startRandom(CollectionActivity.this, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.ONLY_KNOWN, null);
+                SentenceQuizActivity.startRandom(CollectionActivity.this, dao, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.ONLY_KNOWN, null);
             }
         });
         binding.randomSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SentenceQuizActivity.startRandom(CollectionActivity.this, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.KNOWN_AND_UNKNOWN, null);
+                SentenceQuizActivity.startRandom(CollectionActivity.this, dao, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.KNOWN_AND_UNKNOWN, null);
             }
         });
         binding.download.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +94,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... _) {
-                Dao.reloadCollectionCounter(collection);
+                dao.reloadCollectionCounter(collection);
                 return null;
             }
             @Override
@@ -131,7 +138,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
 
     @Override
     public void onCollectionReloaded() {
-        Dao.reloadCollectionCounter(binding.getSentenceCollection());
+        dao.reloadCollectionCounter(binding.getSentenceCollection());
         binding.notifyChange();
         binding.randomSentence.setVisibility(View.VISIBLE);
         binding.randomKnownSentence.setVisibility(binding.getSentenceCollection().getDoneCount() > 0 ? View.VISIBLE : View.GONE);
@@ -178,7 +185,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
                     public void onClick(DialogInterface dialogInterface, int which, String value) {
                         if (which == Dialog.BUTTON_POSITIVE) {
                             if (binding.getSentenceCollection().getCollectionID().equalsIgnoreCase(value)) {
-                                Dao.removeCollectionSentences(binding.getSentenceCollection());
+                                dao.removeCollectionSentences(binding.getSentenceCollection());
                                 Toast.makeText(CollectionActivity.this, R.string.collection_deleted, Toast.LENGTH_SHORT).show();
                                 CollectionsActivity.start(CollectionActivity.this);
                             } else {

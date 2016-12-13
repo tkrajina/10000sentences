@@ -15,6 +15,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Sentence;
@@ -28,6 +30,9 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
 
     private static final java.lang.String TAG = ImporterAsyncTask.class.getSimpleName();
 
+    @Inject
+    Dao dao;
+
     private final BaseActivity activity;
     private final ProgressDialog progressDialog;
     private final SentenceCollection collection;
@@ -38,6 +43,7 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
     }
 
     public ImporterAsyncTask(BaseActivity activity, SentenceCollection collection, CollectionReloadedListener listener) {
+        Application.COMPONENT.inject(this);
         this.activity = activity;
         this.collection = collection;
         this.listener = listener;
@@ -75,7 +81,7 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
                     publishProgress(order);
                 }
                 if (order % 1000 == 0) {
-                    Dao.reloadCollectionCounter(collection);
+                    dao.reloadCollectionCounter(collection);
                 }
             }
             importSentences(sentences);
@@ -85,7 +91,7 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
             return null;
         }
 
-        Dao.reloadCollectionCounter(collection);
+        dao.reloadCollectionCounter(collection);
 
         return null;
     }
@@ -108,7 +114,7 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
     }
 
     private void importSentences(List<Sentence> sentences) {
-        Dao.importSentences(sentences);
+        dao.importSentences(sentences);
         sentences.clear();
     }
 
