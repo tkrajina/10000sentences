@@ -37,12 +37,19 @@
 
                 <TextView
                     android:text="@string/annotation_colon"
+                    android:textSize="@dimen/title_size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <EditText
                     android:id="@+id/annotation_text"
                     android:text="@{annotation.annotation}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="@string/words_colon"
+                    android:textSize="@dimen/title_size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
