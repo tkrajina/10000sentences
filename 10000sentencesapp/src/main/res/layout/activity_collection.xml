@@ -165,14 +165,16 @@
                         android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/random_sentence" />
+                        android:text="@string/random_sentence"
+                        android:textStyle="normal|bold" />
 
                     <Button
                         android:id="@+id/random_known_sentence"
                         android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/random_known_sentence" />
+                        android:text="@string/random_known_sentence"
+                        android:textStyle="normal|bold" />
 
                     <Button
                         android:id="@+id/all_sentences"
