@@ -62,6 +62,12 @@ public class AnnotationsActivity extends BaseActivity {
 
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         From sql = new Select()
                 .from(Annotation.class);
         if (!StringUtils.isEmpty(collectionId)) {
@@ -79,11 +85,6 @@ public class AnnotationsActivity extends BaseActivity {
 
     private void onAnnotationSelected(final Annotation annotation) {
         EditAnnotationActivity.start(this, annotation.getId());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
 }
