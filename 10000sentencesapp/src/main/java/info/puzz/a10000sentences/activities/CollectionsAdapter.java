@@ -26,7 +26,7 @@ public class CollectionsAdapter extends ArrayAdapter<SentenceCollection> {
     public <T extends BaseActivity> CollectionsAdapter(T activity, List<SentenceCollection> cols) {
         super(activity, R.layout.sentence_collection, cols);
         for (Language language : Dao.getLanguages()) {
-            languages.put(language.languageId, language);
+            languages.put(language.getLanguageId(), language);
         }
     }
 
@@ -50,13 +50,13 @@ public class CollectionsAdapter extends ArrayAdapter<SentenceCollection> {
             binding.progress.setTextColor(ContextCompat.getColor(getContext(), R.color.inactive));
         }
 
-        binding.setKnownLanguage(languages.get(collection.knownLanguage));
-        binding.setTargetLanguage(languages.get(collection.targetLanguage));
+        binding.setKnownLanguage(languages.get(collection.getKnownLanguage()));
+        binding.setTargetLanguage(languages.get(collection.getTargetLanguage()));
         binding.setCollection(getItem(position));
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CollectionActivity.start((BaseActivity) getContext(), collection.collectionID);
+                CollectionActivity.start((BaseActivity) getContext(), collection.getCollectionID());
             }
 
         });

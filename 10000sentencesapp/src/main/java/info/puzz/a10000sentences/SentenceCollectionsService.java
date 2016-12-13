@@ -41,7 +41,7 @@ public final class SentenceCollectionsService {
     private static Sentence getRandomSentenceByStatus(SentenceCollection collection, int status, String exceptSentenceId) {
         List<Sentence> sentences = new Select()
                 .from(Sentence.class)
-                .where("collection_id=? and status=? and sentence_id!=?", collection.collectionID, status, String.valueOf(exceptSentenceId))
+                .where("collection_id=? and status=? and sentence_id!=?", collection.getCollectionID(), status, String.valueOf(exceptSentenceId))
                 .orderBy("complexity")
                 .limit(20)
                 .execute();
@@ -61,7 +61,7 @@ public final class SentenceCollectionsService {
                 SentenceCollection collection = Dao.reloadCollectionCounter(Dao.getCollection(sentence.collectionId));
 
                 SentenceHistory h = new SentenceHistory();
-                h.sentenceId = sentence.sentenceId;
+                h.sentenceId = sentence.getSentenceId();
                 h.collectionId = sentence.collectionId;
                 h.status = status.getStatus();
                 h.created = System.currentTimeMillis();

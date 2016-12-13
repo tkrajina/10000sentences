@@ -98,14 +98,13 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
         String sentenceId = parts[0];
         String knownSentence = parts[1];
         String targetSentence = parts[2];
-        Sentence sentence = new Sentence();
-        sentence.collectionId = collection.collectionID;
-        sentence.sentenceId = sentenceId;
-        sentence.knownSentence = knownSentence;
-        sentence.targetSentence = targetSentence;
-        // Complexity === order because the sentences are ordered in the collection file
-        sentence.complexity = order;
-        return sentence;
+        return new Sentence()
+                .setCollectionId(collection.getCollectionID())
+                .setSentenceId(sentenceId)
+                .setKnownSentence(knownSentence)
+                .setTargetSentence(targetSentence)
+                // Complexity === order because the sentences are ordered in the collection file
+                .setComplexity(order);
     }
 
     private void importSentences(List<Sentence> sentences) {

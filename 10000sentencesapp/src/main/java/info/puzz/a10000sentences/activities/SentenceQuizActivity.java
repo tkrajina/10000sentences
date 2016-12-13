@@ -113,7 +113,7 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.setQuiz(new SentenceQuiz(sentence, 4, randomSentences));
         binding.setCollection(collection);
 
-        if (targetLanguage.rightToLeft) {
+        if (targetLanguage.isRightToLeft()) {
             binding.targetSentence.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
         }
 
@@ -330,7 +330,7 @@ public class SentenceQuizActivity extends BaseActivity {
 
     private void updateSentenceStatusAndGotoNext(SentenceStatus status) {
         if (type == Type.BACK_TO_COLLECTION) {
-            CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
+            CollectionActivity.start(this, binding.getQuiz().getSentence().getCollectionId());
         } else {
             Sentence sentence = binding.getQuiz().getSentence();
             SentenceCollectionsService.updateStatus(sentence, status, started);

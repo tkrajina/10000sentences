@@ -1,5 +1,8 @@
 package info.puzz.a10000sentences.utils;
 
+import lombok.ToString;
+
+@ToString
 public class WordChunk {
     public String chunk;
     public String word; // (only letters)

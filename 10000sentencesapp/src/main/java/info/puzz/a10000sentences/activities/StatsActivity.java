@@ -52,13 +52,13 @@ public class StatsActivity extends BaseActivity {
 
             @Override
             protected void onPostExecute(StatsService.Stats stats) {
-                setupGraph(stats.timePerDay, binding.timeGraph, new Formatter() {
+                setupGraph(stats.getTimePerDay(), binding.timeGraph, new Formatter() {
                     @Override
                     public String format(double value) {
                         return TimeUtils.formatDurationToHHMMSS((long) value, false);
                     }
                 });
-                setupGraph(stats.donePerDay, binding.doneCounterGraph, new Formatter() {
+                setupGraph(stats.getDonePerDay(), binding.doneCounterGraph, new Formatter() {
                     @Override
                     public String format(double value) {
                         return String.format("%d", (int) value);

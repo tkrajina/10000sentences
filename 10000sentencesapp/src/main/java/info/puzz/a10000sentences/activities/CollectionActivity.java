@@ -56,19 +56,19 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         setTitle(collection.targetLanguage);
 
         binding.setSentenceCollection(collection);
-        binding.setKnownLanguage(Dao.getLanguage(collection.knownLanguage));
-        binding.setTargetLanguage(Dao.getLanguage(collection.targetLanguage));
+        binding.setKnownLanguage(Dao.getLanguage(collection.getKnownLanguage()));
+        binding.setTargetLanguage(Dao.getLanguage(collection.getTargetLanguage()));
 
         binding.randomKnownSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SentenceQuizActivity.startRandom(CollectionActivity.this, binding.getSentenceCollection().collectionID, SentenceQuizActivity.Type.ONLY_KNOWN, null);
+                SentenceQuizActivity.startRandom(CollectionActivity.this, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.ONLY_KNOWN, null);
             }
         });
         binding.randomSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SentenceQuizActivity.startRandom(CollectionActivity.this, binding.getSentenceCollection().collectionID, SentenceQuizActivity.Type.KNOWN_AND_UNKNOWN, null);
+                SentenceQuizActivity.startRandom(CollectionActivity.this, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.KNOWN_AND_UNKNOWN, null);
             }
         });
         binding.download.setOnClickListener(new View.OnClickListener() {
@@ -92,9 +92,9 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             }
             @Override
             protected void onPostExecute(Void _) {
-                binding.randomSentence.setVisibility(collection.count > 0 ? View.VISIBLE : View.GONE);
+                binding.randomSentence.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
                 binding.randomKnownSentence.setVisibility(collection.doneCount > 0 ? View.VISIBLE : View.GONE);
-                binding.allSentences.setVisibility(collection.count > 0 ? View.VISIBLE : View.GONE);
+                binding.allSentences.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
             }
         }.execute();
 
@@ -113,7 +113,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (i == DialogInterface.BUTTON_POSITIVE) {
                             SleepUtils.disableSleep(CollectionActivity.this);
-                            String filename = binding.getSentenceCollection().filename;
+                            String filename = binding.getSentenceCollection().getFilename();
 
                             if (filename.indexOf("/") > 0) {
                                 String[] parts = filename.split("\\/");
@@ -134,7 +134,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         Dao.reloadCollectionCounter(binding.getSentenceCollection());
         binding.notifyChange();
         binding.randomSentence.setVisibility(View.VISIBLE);
-        binding.randomKnownSentence.setVisibility(binding.getSentenceCollection().doneCount > 0 ? View.VISIBLE : View.GONE);
+        binding.randomKnownSentence.setVisibility(binding.getSentenceCollection().getDoneCount() > 0 ? View.VISIBLE : View.GONE);
         binding.allSentences.setVisibility(View.VISIBLE);
     }
 
@@ -172,12 +172,12 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
     private void removeCollection() {
         DialogUtils.showInputDialog(
                 this,
-                getString(R.string.really_delete_collection, binding.getSentenceCollection().collectionID),
+                getString(R.string.really_delete_collection, binding.getSentenceCollection().getCollectionID()),
                 new DialogUtils.OnInputDialogClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which, String value) {
                         if (which == Dialog.BUTTON_POSITIVE) {
-                            if (binding.getSentenceCollection().collectionID.equalsIgnoreCase(value)) {
+                            if (binding.getSentenceCollection().getCollectionID().equalsIgnoreCase(value)) {
                                 Dao.removeCollectionSentences(binding.getSentenceCollection());
                                 Toast.makeText(CollectionActivity.this, R.string.collection_deleted, Toast.LENGTH_SHORT).show();
                                 CollectionsActivity.start(CollectionActivity.this);

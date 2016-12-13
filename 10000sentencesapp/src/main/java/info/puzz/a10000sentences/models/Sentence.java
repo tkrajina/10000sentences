@@ -4,6 +4,13 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import lombok.Data;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+
+@Data
+@Accessors(chain = true)
+@ToString
 @Table(name = "sentence")
 public class Sentence extends Model {
 
@@ -23,7 +30,7 @@ public class Sentence extends Model {
     public int status = SentenceStatus.TODO.getStatus();
 
     @Column(name = "complexity", index = true)
-    public float complexity;
+    float complexity;
 
     public String[] getKnownSentences() {
         String[] res = String.valueOf(knownSentence).split("\\|");
