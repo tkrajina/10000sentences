@@ -293,6 +293,18 @@ public class SentenceQuizActivity extends BaseActivity {
                 });
             }
         });
+        binding.annotateWords.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] strings = getStringsToTranslate();
+                showAlertDialog(strings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AnnotationActivity.start(SentenceQuizActivity.this, strings[which], binding.getQuiz().getSentence().collectionId);
+                    }
+                });
+            }
+        });
         binding.shareTranslate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

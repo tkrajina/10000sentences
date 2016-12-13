@@ -17,8 +17,8 @@
         android:theme="@style/AppTheme">
 
         <meta-data android:name="AA_DB_NAME" android:value="10000sentences.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="4" />
-        <meta-data android:name="AA_MODELS" android:value="info.puzz.a10000sentences.models.Language,info.puzz.a10000sentences.models.Sentence,info.puzz.a10000sentences.models.SentenceCollection,info.puzz.a10000sentences.models.SentenceHistory" />
+        <meta-data android:name="AA_DB_VERSION" android:value="6" />
+        <meta-data android:name="AA_MODELS" android:value="info.puzz.a10000sentences.models.Language,info.puzz.a10000sentences.models.Sentence,info.puzz.a10000sentences.models.SentenceCollection,info.puzz.a10000sentences.models.SentenceHistory,info.puzz.a10000sentences.models.Annotation,info.puzz.a10000sentences.models.WordAnnotation" />
 
         <activity
             android:name=".activities.CollectionsActivity"

@@ -246,6 +246,13 @@
                             android:text="@string/ignore_sentence" />
 
                         <Button
+                            android:id="@+id/annotate_words"
+                            android:maxLines="1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/annotate_words" />
+
+                        <Button
                             android:id="@+id/repeat_later"
                             android:maxLines="1"
                             android:layout_width="fill_parent"

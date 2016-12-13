@@ -35,10 +35,10 @@ public class AnnotationActivity extends BaseActivity {
 
     private AnnotationsAdapter annotationsAdapter;
 
-    public static <T extends BaseActivity> void start(T activity, String word, SentenceCollection collection) {
+    public static <T extends BaseActivity> void start(T activity, String word, String collectionId) {
         Intent intent = new Intent(activity, AnnotationActivity.class)
                 .putExtra(ARG_WORD, word)
-                .putExtra(ARG_COLLECTION_ID, collection.getCollectionID());
+                .putExtra(ARG_COLLECTION_ID, collectionId);
         activity.startActivity(intent);
     }
 
@@ -47,13 +47,14 @@ public class AnnotationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         String word = getIntent().getStringExtra(ARG_WORD);
-        String sentenceId = getIntent().getStringExtra(ARG_COLLECTION_ID);
+        String collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
 
         Application.COMPONENT.injectActivity(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_annotation);
+        binding.setWord(word);
         setTitle(R.string.annotation);
 
-        annotationsAdapter = new AnnotationsAdapter(this, new Select().from(Annotation.class).where("collection_id=?", sentenceId));
+        annotationsAdapter = new AnnotationsAdapter(this, new Select().from(Annotation.class).where("collection_id=?", collectionId));
         binding.annotationsList.setAdapter(annotationsAdapter);
 
         binding.annotation.addTextChangedListener(new TextWatcher() {
