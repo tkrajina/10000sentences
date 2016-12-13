@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
+import info.puzz.a10000sentences.activities.adapters.CollectionsAdapter;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionsBinding;
 import info.puzz.a10000sentences.models.SentenceCollection;

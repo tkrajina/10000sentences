@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
+import info.puzz.a10000sentences.activities.adapters.SentencesAdapter;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentencesBinding;
 import info.puzz.a10000sentences.models.Sentence;

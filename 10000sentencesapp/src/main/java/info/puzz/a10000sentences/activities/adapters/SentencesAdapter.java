@@ -1,4 +1,4 @@
-package info.puzz.a10000sentences.activities;
+package info.puzz.a10000sentences.activities.adapters;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.puzz.a10000sentences.R;
+import info.puzz.a10000sentences.activities.BaseActivity;
+import info.puzz.a10000sentences.activities.SentenceQuizActivity;
 import info.puzz.a10000sentences.databinding.SentenceBinding;
 import info.puzz.a10000sentences.models.Sentence;
 

@@ -1,4 +1,4 @@
-package info.puzz.a10000sentences.activities;
+package info.puzz.a10000sentences.activities.adapters;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -17,6 +17,8 @@ import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
+import info.puzz.a10000sentences.activities.BaseActivity;
+import info.puzz.a10000sentences.activities.CollectionActivity;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.SentenceCollectionBinding;
 import info.puzz.a10000sentences.models.Language;
