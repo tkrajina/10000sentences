@@ -7,6 +7,7 @@ import info.puzz.a10000sentences.activities.AnnotationActivity;
 import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.activities.CollectionActivity;
 import info.puzz.a10000sentences.activities.CollectionsActivity;
+import info.puzz.a10000sentences.activities.adapters.AnnotationsAdapter;
 import info.puzz.a10000sentences.activities.adapters.CollectionsAdapter;
 import info.puzz.a10000sentences.activities.SentenceQuizActivity;
 import info.puzz.a10000sentences.activities.SentencesActivity;
@@ -28,4 +29,5 @@ public interface DiComponent {
 
     void inject(ImporterAsyncTask importerAsyncTask);
     void inject(CollectionsAdapter collectionsAdapter);
+    void inject(AnnotationsAdapter annotationsAdapter);
 }

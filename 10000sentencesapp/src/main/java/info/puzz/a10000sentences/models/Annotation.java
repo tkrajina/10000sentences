@@ -9,6 +9,9 @@ public class Annotation extends Model {
     @Column(name = "annotation")
     public String annotation;
 
+    @Column(name = "collection_id")
+    public String collectionId;
+
     /**
      * This is regenerated every time {@link WordAnnotation} adds/removes a new word for this annotation.
      */
