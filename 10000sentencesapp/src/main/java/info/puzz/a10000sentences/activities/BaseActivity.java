@@ -41,6 +41,7 @@ import info.puzz.a10000sentences.utils.DebugUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import temp.DBG;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -158,6 +159,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         setupMenuIcon(navigationView, R.id.nav_collections, FontAwesomeIcons.fa_list);
         setupMenuIcon(navigationView, R.id.nav_reload, FontAwesomeIcons.fa_refresh);
+        setupMenuIcon(navigationView, R.id.nav_annotations, FontAwesomeIcons.fa_language);
         setupMenuIcon(navigationView, R.id.nav_stats, FontAwesomeIcons.fa_line_chart);
         setupMenuIcon(navigationView, R.id.nav_settings, FontAwesomeIcons.fa_toggle_on);
         setupMenuIcon(navigationView, R.id.nav_about, FontAwesomeIcons.fa_info);
@@ -227,6 +229,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_collections) {
             CollectionsActivity.start(this);
+        } else if (id == R.id.nav_annotations) {
+            AnnotationsActivity.start(this);
         } else if (id == R.id.nav_reload) {
             reloadLanguages();
         } else if (id == R.id.nav_stats) {

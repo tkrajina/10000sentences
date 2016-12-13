@@ -78,4 +78,6 @@ If you really want this, type: %s]]></string>
     <string name="save">Save</string>
     <string name="annotation_saved">Annotation saved</string>
     <string name="add_word_to_this_annotation">Add word to this annotation?</string>
+    <string name="word_annotations">Word annotations</string>
+    <string name="annotations">Word annotations</string>
 </resources>
