@@ -12,14 +12,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 
 public class Dao {
-    private Dao() throws Exception {
-        throw new Exception();
+
+    @Inject
+    public Dao() {
     }
 
     public static void importLanguage(Language language) {

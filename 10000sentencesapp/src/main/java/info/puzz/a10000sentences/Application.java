@@ -5,11 +5,15 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 public class Application extends android.app.Application {
+
+    public static DiComponent COMPONENT;
+
     @Override
     public void onCreate() {
         super.onCreate();
         initIconify();
         initActiveAndroid();
+        COMPONENT = DaggerDiComponent.builder().build();
     }
 
     private void initIconify() {

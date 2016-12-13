@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionsBinding;
@@ -17,6 +20,8 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
 
     ActivityCollectionsBinding binding;
 
+    @Inject Dao dao;
+
     public static <T extends BaseActivity> void start(T activity) {
         Intent intent = new Intent(activity, CollectionsActivity.class);
         activity.startActivity(intent);
@@ -25,6 +30,9 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Application.COMPONENT.inject(this);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collections);
 
         if (Dao.getLanguages().size() == 0) {
