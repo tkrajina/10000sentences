@@ -81,4 +81,5 @@ If you really want this, type: %s]]></string>
     <string name="word_annotations">Word annotations</string>
     <string name="annotations">Word annotations</string>
     <string name="delete">Delete</string>
+    <string name="annotation_deleted">Annotation deleted</string>
 </resources>

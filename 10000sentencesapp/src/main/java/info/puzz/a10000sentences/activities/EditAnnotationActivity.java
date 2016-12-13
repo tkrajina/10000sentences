@@ -88,9 +88,16 @@ public class EditAnnotationActivity extends BaseActivity {
                 save();
                 break;
             case R.id.action_delete:
+                delete();
                 break;
         }
         return true;
+    }
+
+    private void delete() {
+        annotationService.delete(this.binding.getAnnotation());
+        Toast.makeText(this, R.string.annotation_deleted, Toast.LENGTH_SHORT).show();
+        onBackPressed();
     }
 
     private void save() {

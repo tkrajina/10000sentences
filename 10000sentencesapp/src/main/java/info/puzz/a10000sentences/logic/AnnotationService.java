@@ -47,6 +47,14 @@ public class AnnotationService {
         reloadGeneratedFields(annotation);
     }
 
+    public void delete(Annotation annotation) {
+        new Delete()
+                .from(WordAnnotation.class)
+                .where("annotation_id=?", annotation.getId())
+                .execute();
+        annotation.delete();
+    }
+
     private void reloadGeneratedFields(Annotation annotation) {
         List<WordAnnotation> words = new Select()
                 .from(WordAnnotation.class)
