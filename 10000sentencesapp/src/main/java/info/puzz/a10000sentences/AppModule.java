@@ -12,4 +12,10 @@ public class AppModule {
     public Dao provideDao() {
         return new Dao();
     }
+
+    @Provides @Singleton
+    public SentenceCollectionsService providesSentenceCollectionsService() {
+        return new SentenceCollectionsService();
+    }
+
 }

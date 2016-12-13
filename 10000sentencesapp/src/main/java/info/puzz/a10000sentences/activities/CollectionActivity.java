@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.ImporterAsyncTask;
 import info.puzz.a10000sentences.R;
+import info.puzz.a10000sentences.SentenceCollectionsService;
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
@@ -30,7 +31,11 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
 
     private static final String ARG_COLLECTION_ID = "arg_collection_id";
 
-    @Inject Dao dao;
+    @Inject
+    Dao dao;
+
+    @Inject
+    SentenceCollectionsService sentenceCollectionsService;
 
     ActivityCollectionBinding binding;
     private String collectionId;
@@ -69,13 +74,13 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         binding.randomKnownSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SentenceQuizActivity.startRandom(CollectionActivity.this, dao, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.ONLY_KNOWN, null);
+                SentenceQuizActivity.startRandom(CollectionActivity.this, dao, sentenceCollectionsService, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.ONLY_KNOWN, null);
             }
         });
         binding.randomSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SentenceQuizActivity.startRandom(CollectionActivity.this, dao, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.KNOWN_AND_UNKNOWN, null);
+                SentenceQuizActivity.startRandom(CollectionActivity.this, dao, sentenceCollectionsService, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.KNOWN_AND_UNKNOWN, null);
             }
         });
         binding.download.setOnClickListener(new View.OnClickListener() {

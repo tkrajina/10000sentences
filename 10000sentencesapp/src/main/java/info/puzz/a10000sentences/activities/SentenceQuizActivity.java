@@ -51,6 +51,7 @@ public class SentenceQuizActivity extends BaseActivity {
     private static final String ARG_TYPE = "arg_type";
 
     @Inject Dao dao;
+    @Inject SentenceCollectionsService sentenceCollectionsService;
 
     ActivitySentenceQuizBinding binding;
 
@@ -73,14 +74,14 @@ public class SentenceQuizActivity extends BaseActivity {
         activity.startActivity(intent);
     }
 
-    public static <T extends BaseActivity> void startRandom(T activity, Dao dao, String collectionId, Type type, String exceptSentenceId) {
+    public static <T extends BaseActivity> void startRandom(T activity, Dao dao, SentenceCollectionsService sentenceCollectionsService, String collectionId, Type type, String exceptSentenceId) {
         SentenceCollection collection = dao.getCollection(collectionId);
 
         Sentence sentence;
         if (type == Type.ONLY_KNOWN) {
-            sentence = SentenceCollectionsService.getRandomKnownSentence(activity, collection, exceptSentenceId);
+            sentence = sentenceCollectionsService.getRandomKnownSentence(activity, collection, exceptSentenceId);
         } else {
-            sentence = SentenceCollectionsService.nextSentence(activity, collection, exceptSentenceId);
+            sentence = sentenceCollectionsService.nextSentence(activity, collection, exceptSentenceId);
         }
 
         if (sentence == null) {
@@ -195,19 +196,19 @@ public class SentenceQuizActivity extends BaseActivity {
                 speech.speech(binding.getQuiz().getSentence().targetSentence);
                 break;
             case R.id.action_done_sentence:
-                SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.DONE, started);
+                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.DONE, started);
                 CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
                 break;
             case R.id.action_todo_sentence:
-                SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.TODO, started);
+                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.TODO, started);
                 CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
                 break;
             case R.id.action_ignored_sentence:
-                SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.IGNORE, started);
+                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.IGNORE, started);
                 CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
                 break;
             case R.id.action_repeat_sentence:
-                SentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.REPEAT, started);
+                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.REPEAT, started);
                 CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
                 break;
         }
@@ -338,8 +339,8 @@ public class SentenceQuizActivity extends BaseActivity {
             CollectionActivity.start(this, binding.getQuiz().getSentence().getCollectionId());
         } else {
             Sentence sentence = binding.getQuiz().getSentence();
-            SentenceCollectionsService.updateStatus(sentence, status, started);
-            startRandom(this, dao, sentence.collectionId, type, sentence.sentenceId);
+            sentenceCollectionsService.updateStatus(sentence, status, started);
+            startRandom(this, dao, sentenceCollectionsService, sentence.collectionId, type, sentence.sentenceId);
         }
     }
 

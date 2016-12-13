@@ -9,6 +9,10 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import dagger.Provides;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
@@ -19,7 +23,9 @@ public final class SentenceCollectionsService {
 
     private static final Random RANDOM = new SecureRandom(String.valueOf(System.currentTimeMillis()).getBytes());
 
-    public static Sentence nextSentence(Context context, SentenceCollection collection, String exceptSentenceId) {
+    @Inject Dao dao;
+
+    public Sentence nextSentence(Context context, SentenceCollection collection, String exceptSentenceId) {
         int maxRepeat = Preferences.getMaxRepeat(context);
         int status = SentenceStatus.TODO.getStatus();
         if (RANDOM.nextInt(maxRepeat) < collection.repeatCount) {
@@ -30,7 +36,7 @@ public final class SentenceCollectionsService {
         return getRandomSentenceByStatus(collection, status, exceptSentenceId);
     }
 
-    public static Sentence getRandomKnownSentence(Context context, SentenceCollection collection, String exceptSentenceId) {
+    public Sentence getRandomKnownSentence(Context context, SentenceCollection collection, String exceptSentenceId) {
         return new Select()
                 .from(Sentence.class)
                 .where("collection_id=? and status=? and sentence_id<>?", collection.collectionID, SentenceStatus.DONE.getStatus(), String.valueOf(exceptSentenceId))
@@ -38,7 +44,7 @@ public final class SentenceCollectionsService {
                 .executeSingle();
     }
 
-    private static Sentence getRandomSentenceByStatus(SentenceCollection collection, int status, String exceptSentenceId) {
+    private Sentence getRandomSentenceByStatus(SentenceCollection collection, int status, String exceptSentenceId) {
         List<Sentence> sentences = new Select()
                 .from(Sentence.class)
                 .where("collection_id=? and status=? and sentence_id!=?", collection.getCollectionID(), status, String.valueOf(exceptSentenceId))
@@ -51,14 +57,14 @@ public final class SentenceCollectionsService {
         return sentences.get(RANDOM.nextInt(sentences.size()));
     }
 
-    public static void updateStatus(final Sentence sentence, final SentenceStatus status, final long started) {
+    public void updateStatus(final Sentence sentence, final SentenceStatus status, final long started) {
         sentence.status = status.getStatus();
         sentence.save();
 
         new AsyncTask<String, Void, Void>() {
             @Override
             protected Void doInBackground(String... strings) {
-                SentenceCollection collection = Dao.instance().reloadCollectionCounter(Dao.instance().getCollection(sentence.collectionId));
+                SentenceCollection collection = dao.reloadCollectionCounter(dao.getCollection(sentence.collectionId));
 
                 SentenceHistory h = new SentenceHistory();
                 h.sentenceId = sentence.getSentenceId();
