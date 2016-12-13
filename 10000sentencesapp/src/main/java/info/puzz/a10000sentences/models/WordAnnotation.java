@@ -14,11 +14,25 @@ import lombok.experimental.Accessors;
 @Table(name = "sentence")
 public class WordAnnotation extends Model {
 
-    @Column(name = "annotation")
-    private String word;
+    public WordAnnotation() {
+        super();
+    }
+
+    public WordAnnotation(String word, long annotationId) {
+        super();
+        this.wordAnnotationId = word + "|" + annotationId;
+        this.word = word;
+        this.annotationId = annotationId;
+    }
+
+    @Column(name = "word_annotation_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    public String wordAnnotationId;
+
+    @Column(name = "word")
+    public String word;
 
     @Column(name = "annotation_id")
-    private int annotationId;
+    public long annotationId;
 
     /**
      * Generated from {@link Annotation}

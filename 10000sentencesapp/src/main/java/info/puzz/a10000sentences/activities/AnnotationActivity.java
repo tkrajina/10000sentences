@@ -96,8 +96,9 @@ public class AnnotationActivity extends BaseActivity {
     }
 
     private void save() {
-        DBG.todo();
-        annotationService.addWordToAnnotation(null, binding.getWord());
+        Annotation annotation = new Annotation();
+        annotation.annotation = binding.annotation.getText().toString();
+        annotationService.addWordToAnnotation(annotation, binding.getWord());
         Toast.makeText(this, R.string.annotation_saved, Toast.LENGTH_SHORT).show();
         onBackPressed();
     }
