@@ -1,6 +1,9 @@
 package info.puzz.a10000sentences.activities.adapters;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -12,27 +15,26 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.databinding.AnnotationWordBinding;
 import info.puzz.a10000sentences.logic.AnnotationService;
+import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.models.WordAnnotation;
+import info.puzz.a10000sentences.utils.DialogUtils;
 
 public class WordsAdapter extends ArrayAdapter<WordAnnotation> {
 
-    public interface OnClickListener {
-        void onClick(WordAnnotation annotation);
-    }
-
-    private final OnClickListener listener;
+    private final Annotation annotation;
 
     @Inject
     AnnotationService annotationService;
 
-    public <T extends BaseActivity> WordsAdapter(T activity, List<WordAnnotation> words, OnClickListener listener) {
+    public <T extends BaseActivity> WordsAdapter(T activity, Annotation annotation, List<WordAnnotation> words) {
         super(activity, R.layout.sentence_collection, words);
-        //Application.COMPONENT.inject(this);
-        this.listener = listener;
+        Application.COMPONENT.inject(this);
+        this.annotation = annotation;
     }
 
     @NonNull
@@ -50,16 +52,32 @@ public class WordsAdapter extends ArrayAdapter<WordAnnotation> {
         final WordAnnotation word = getItem(position);
         binding.setAnnotation(word);
 
-        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+        binding.getRoot().setLongClickable(true);
+        binding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
-                if (listener != null) {
-                    listener.onClick(word);
-                }
+            public boolean onLongClick(View view) {
+                removeWord(word);
+                return true;
             }
         });
 
         return binding.getRoot();
+    }
+
+    private void removeWord(final WordAnnotation word) {
+        DialogUtils.showYesNoButton(
+                (Activity) this.getContext(),
+                getContext().getString(R.string.remove_word_from_annotation),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        if (which == Dialog.BUTTON_POSITIVE) {
+                            annotationService.removeWordToAnnotation(annotation, word);
+                            remove(word);
+                            notifyDataSetChanged();
+                        }
+                    }
+                });
     }
 
 }

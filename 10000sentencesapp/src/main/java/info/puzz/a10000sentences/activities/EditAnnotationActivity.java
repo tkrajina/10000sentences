@@ -5,22 +5,17 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
-import info.puzz.a10000sentences.activities.adapters.AnnotationsAdapter;
 import info.puzz.a10000sentences.activities.adapters.WordsAdapter;
-import info.puzz.a10000sentences.databinding.ActivityAnnotationsBinding;
 import info.puzz.a10000sentences.databinding.ActivityEditAnnotationBinding;
 import info.puzz.a10000sentences.logic.AnnotationService;
 import info.puzz.a10000sentences.models.Annotation;
@@ -66,7 +61,7 @@ public class EditAnnotationActivity extends BaseActivity {
                 .where("annotation_id=?", annotationId)
                 .execute();
 
-        WordsAdapter adapter = new WordsAdapter(this, wordAnnotations, null);
+        WordsAdapter adapter = new WordsAdapter(this, annotation, wordAnnotations);
         binding.annotationsList.setAdapter(adapter);
     }
 

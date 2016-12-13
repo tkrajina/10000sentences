@@ -11,7 +11,7 @@
 
         <TextView
             android:id="@+id/target_sentence"
-            android:text="@{annotation.words}"
+            android:text="@{annotation.word}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -38,12 +38,8 @@ public class AnnotationService {
         reloadGeneratedFields(annotation);
     }
 
-    public void removeWordToAnnotation(Annotation annotation, String word) {
-        WordAnnotation wordAnnotation = new WordAnnotation(word, annotation.getId());
-        new Delete()
-                .from(WordAnnotation.class)
-                .where("word_annotation_id=?", wordAnnotation.wordAnnotationId)
-                .executeSingle();
+    public void removeWordToAnnotation(Annotation annotation, WordAnnotation word) {
+        word.delete();
         reloadGeneratedFields(annotation);
     }
 
