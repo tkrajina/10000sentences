@@ -5,10 +5,11 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.activeandroid.query.Select;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -18,7 +19,6 @@ import info.puzz.a10000sentences.activities.adapters.AnnotationsAdapter;
 import info.puzz.a10000sentences.databinding.ActivityAnnotationBinding;
 import info.puzz.a10000sentences.logic.AnnotationService;
 import info.puzz.a10000sentences.models.Annotation;
-import info.puzz.a10000sentences.models.SentenceCollection;
 import temp.DBG;
 
 public class AnnotationActivity extends BaseActivity {
@@ -77,6 +77,29 @@ public class AnnotationActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.annotation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                save();
+                break;
+        }
+        return true;
+    }
+
+    private void save() {
+        DBG.todo();
+        annotationService.addWordToAnnotation(null, binding.getWord());
+        Toast.makeText(this, R.string.annotation_saved, Toast.LENGTH_SHORT).show();
+        onBackPressed();
     }
 
     private void reloadAnnotations(String text) {

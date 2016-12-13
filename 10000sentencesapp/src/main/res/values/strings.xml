@@ -75,4 +75,6 @@ If you really want this, type: %s]]></string>
     <string name="word_colon">Word:</string>
     <string name="annotation_colon">Annotation:</string>
     <string name="annotate_words">Annotate words</string>
+    <string name="save">Save</string>
+    <string name="annotation_saved">Annotation saved</string>
 </resources>
