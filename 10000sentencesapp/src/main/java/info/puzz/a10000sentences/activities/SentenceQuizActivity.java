@@ -275,8 +275,11 @@ public class SentenceQuizActivity extends BaseActivity {
 
             @Override
             protected void onPostExecute(Annotation annotation) {
-                if (annotation != null) {
-                    binding.annotation.setText(String.format("%s: %s", text, annotation.annotation));
+                if (annotation == null) {
+                    binding.annotationGroup.setVisibility(View.GONE);
+                } else {
+                    binding.annotationWord.setText(text);
+                    binding.annotation.setText(": " + annotation.annotation);
                     binding.annotationGroup.setVisibility(View.VISIBLE);
                 }
             }

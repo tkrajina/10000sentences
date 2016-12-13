@@ -48,7 +48,7 @@
                         android:layout_below="@+id/sentence_delimiter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_alignParentStart="true">
 
                         <TextView
@@ -59,6 +59,29 @@
                             android:textSize="@dimen/quiz_sentence_size"
                             android:text="@{quiz.getQuizSentence()}"
                             />
+
+                        <LinearLayout
+                            android:id="@+id/annotation_group"
+                            android:visibility="gone"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/annotation_word"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textStyle="normal|bold|italic"
+                                android:gravity="right" />
+                            <TextView
+                                android:id="@+id/annotation"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textStyle="italic"
+                                android:gravity="left"
+                                />
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -157,23 +180,6 @@
                         android:layout_alignParentBottom="true" />
 
                 </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/annotation_group"
-                    android:visibility="gone"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true">
-                    <TextView
-                        android:id="@+id/annotation"
-                        android:textSize="@dimen/smaller_text"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:textStyle="normal|bold"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/bottom"
@@ -275,7 +281,8 @@
                             android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/repeat_later" />
+                            android:text="@string/repeat_later"
+                            android:textStyle="normal|bold" />
 
                         <Button
                             android:id="@+id/mark_as_done"
