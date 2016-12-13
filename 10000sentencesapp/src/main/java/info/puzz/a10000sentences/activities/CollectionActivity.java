@@ -142,12 +142,12 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
     }
 
     @Override
-    public void onCollectionReloaded() {
-        dao.reloadCollectionCounter(binding.getSentenceCollection());
+    public void onCollectionReloaded(SentenceCollection collection) {
         binding.notifyChange();
         binding.randomSentence.setVisibility(View.VISIBLE);
         binding.randomKnownSentence.setVisibility(binding.getSentenceCollection().getDoneCount() > 0 ? View.VISIBLE : View.GONE);
         binding.allSentences.setVisibility(View.VISIBLE);
+        binding.setSentenceCollection(collection);
     }
 
     @Override

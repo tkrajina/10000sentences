@@ -31,6 +31,7 @@ import okhttp3.Response;
 public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
 
     private static final java.lang.String TAG = ImporterAsyncTask.class.getSimpleName();
+    public static final int PROGRESS_EVERY = 50;
 
     @Inject
     Dao dao;
@@ -41,7 +42,7 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
     private final CollectionReloadedListener listener;
 
     public interface CollectionReloadedListener {
-        void onCollectionReloaded();
+        void onCollectionReloaded(SentenceCollection collection);
     }
 
     public ImporterAsyncTask(BaseActivity activity, SentenceCollection collection, CollectionReloadedListener listener) {
@@ -78,15 +79,9 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
             while ((line = reader.readLine()) != null) {
                 order += 1;
                 sentences.add(parseSentence(order, line));
-                if (sentences.size() == 50) {
+                if (sentences.size() == PROGRESS_EVERY) {
                     importSentences(sentences);
                     publishProgress(order);
-                }
-                if (order % 200 == 0) {
-                    dao.reloadCollectionCounter(collection);
-                    if (listener != null) {
-                        listener.onCollectionReloaded();
-                    }
                 }
             }
             importSentences(sentences);
@@ -127,6 +122,9 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
     protected void onProgressUpdate(Integer... values) {
         Integer lines = values[0];
         progressDialog.setMessage(String.format("Imported %d sentences", lines.intValue()));
+        if (lines.intValue() > 0 && lines.intValue() % (PROGRESS_EVERY * 4) == 0 && listener != null) {
+            listener.onCollectionReloaded(dao.reloadCollectionCounter(collection));
+        }
     }
 
     @Override
@@ -135,7 +133,7 @@ public class ImporterAsyncTask extends AsyncTask<String, Integer, Void> {
         // Reenable orientation change
         this.activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         if (listener != null) {
-            listener.onCollectionReloaded();
+            listener.onCollectionReloaded(dao.reloadCollectionCounter(collection));
         }
     }
 
