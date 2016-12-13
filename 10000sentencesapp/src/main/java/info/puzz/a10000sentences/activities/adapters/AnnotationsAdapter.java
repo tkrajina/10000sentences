@@ -26,12 +26,19 @@ public class AnnotationsAdapter extends ArrayAdapter<Annotation> {
 
     public static final int PAGE_SIZE = 100;
 
+    public interface OnClickListener {
+        void onClick(Annotation annotation);
+    }
+
+    private final OnClickListener listener;
+
     @Inject
     AnnotationService annotationService;
 
-    public <T extends BaseActivity> AnnotationsAdapter(T activity, From select) {
+    public <T extends BaseActivity> AnnotationsAdapter(T activity, From select, OnClickListener listener) {
         super(activity, R.layout.sentence_collection, select.limit(PAGE_SIZE).<Annotation>execute());
         Application.COMPONENT.inject(this);
+        this.listener = listener;
     }
 
     @NonNull
@@ -48,6 +55,15 @@ public class AnnotationsAdapter extends ArrayAdapter<Annotation> {
 
         final Annotation annotation = getItem(position);
         binding.setAnnotation(annotation);
+
+        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onClick(annotation);
+                }
+            }
+        });
 
         return binding.getRoot();
     }

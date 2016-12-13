@@ -1,5 +1,7 @@
 package info.puzz.a10000sentences.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
@@ -21,6 +23,7 @@ import info.puzz.a10000sentences.activities.adapters.AnnotationsAdapter;
 import info.puzz.a10000sentences.databinding.ActivityAnnotationBinding;
 import info.puzz.a10000sentences.logic.AnnotationService;
 import info.puzz.a10000sentences.models.Annotation;
+import info.puzz.a10000sentences.utils.DialogUtils;
 import temp.DBG;
 
 public class AnnotationActivity extends BaseActivity {
@@ -59,7 +62,13 @@ public class AnnotationActivity extends BaseActivity {
         binding.setWord(word);
         setTitle(R.string.annotation);
 
-        annotationsAdapter = new AnnotationsAdapter(this, new Select().from(Annotation.class).where("collection_id=?", collectionId));
+        From sql = new Select().from(Annotation.class).where("collection_id=?", collectionId);
+        annotationsAdapter = new AnnotationsAdapter(this, sql, new AnnotationsAdapter.OnClickListener() {
+            @Override
+            public void onClick(Annotation annotation) {
+                onAnnotationSelected(annotation);
+            }
+        });
         binding.annotationsList.setAdapter(annotationsAdapter);
 
         binding.annotation.addTextChangedListener(new TextWatcher() {
@@ -75,6 +84,17 @@ public class AnnotationActivity extends BaseActivity {
             public void afterTextChanged(Editable editable) {
                 String text = binding.annotation.getText().toString();
                 reloadAnnotations(text);
+            }
+        });
+    }
+
+    private void onAnnotationSelected(final Annotation annotation) {
+        DialogUtils.showYesNoButton(this, getString(R.string.add_word_to_this_annotation), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                if (which == Dialog.BUTTON_POSITIVE) {
+                    save(annotation);
+                }
             }
         });
     }
@@ -95,16 +115,16 @@ public class AnnotationActivity extends BaseActivity {
         DBG.todo("Share/copy to clipboard");
         switch (item.getItemId()) {
             case R.id.action_save:
-                save();
+                Annotation annotation = new Annotation();
+                annotation.annotation = binding.annotation.getText().toString();
+                annotation.collectionId = collectionId;
+                save(annotation);
                 break;
         }
         return true;
     }
 
-    private void save() {
-        Annotation annotation = new Annotation();
-        annotation.annotation = binding.annotation.getText().toString();
-        annotation.collectionId = collectionId;
+    private void save(Annotation annotation) {
         annotationService.addWordToAnnotation(annotation, binding.getWord());
         Toast.makeText(this, R.string.annotation_saved, Toast.LENGTH_SHORT).show();
         onBackPressed();
