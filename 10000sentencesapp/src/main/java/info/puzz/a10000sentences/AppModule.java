@@ -20,4 +20,9 @@ public class AppModule {
         return new SentenceCollectionsService(dao);
     }
 
+    @Provides @Singleton
+    public StatsService providesStatsService() {
+        return new StatsService();
+    }
+
 }

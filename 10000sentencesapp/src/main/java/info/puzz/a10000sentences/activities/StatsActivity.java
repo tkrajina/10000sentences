@@ -16,6 +16,9 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
+import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.StatsService;
 import info.puzz.a10000sentences.databinding.ActivityStatsBinding;
@@ -24,6 +27,9 @@ import info.puzz.a10000sentences.utils.TimeUtils;
 public class StatsActivity extends BaseActivity {
 
     private static final String TAG = CollectionActivity.class.getSimpleName();
+
+    @Inject
+    StatsService statsService;
 
     ActivityStatsBinding binding;
 
@@ -41,13 +47,14 @@ public class StatsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Application.COMPONENT.injectActivity(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_stats);
         setTitle(R.string.stats);
 
         new AsyncTask<Void, Void, StatsService.Stats>() {
             @Override
             protected StatsService.Stats doInBackground(Void... voids) {
-                return StatsService.getStats(7);
+                return statsService.getStats(7);
             }
 
             @Override

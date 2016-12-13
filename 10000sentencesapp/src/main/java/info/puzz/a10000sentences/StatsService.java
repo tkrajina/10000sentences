@@ -33,8 +33,7 @@ public final class StatsService {
         DataPoint[] donePerDay;
     }
 
-    public StatsService() throws Exception {
-        throw new Exception();
+    public StatsService() {
     }
 
     public Stats getStats(int daysAgo) {
