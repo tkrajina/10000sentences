@@ -7,20 +7,14 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.From;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.activities.SentenceQuizActivity;
 import info.puzz.a10000sentences.databinding.SentenceBinding;
 import info.puzz.a10000sentences.models.Sentence;
-import info.puzz.a10000sentences.models.SentenceCollection;
 
 public class SentencesAdapter extends LoadMoreAdapter<Sentence> {
 
@@ -49,7 +43,7 @@ public class SentencesAdapter extends LoadMoreAdapter<Sentence> {
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SentenceQuizActivity.startSentence((BaseActivity) getContext(), sentence.sentenceId, SentenceQuizActivity.Type.BACK_TO_COLLECTION);
+                SentenceQuizActivity.startSentence((BaseActivity) getContext(), sentence.sentenceId, SentenceQuizActivity.Type.RETURN_BACK);
             }
         });
 

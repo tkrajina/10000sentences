@@ -49,7 +49,7 @@ public class SentenceQuizActivity extends BaseActivity {
     public static enum Type {
         ONLY_KNOWN,
         KNOWN_AND_UNKNOWN,
-        BACK_TO_COLLECTION,
+        RETURN_BACK,
     }
 
     private static final String ARG_SENTENCE_ID = "arg_sentence_id";
@@ -381,8 +381,8 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     private void updateSentenceStatusAndGotoNext(SentenceStatus status) {
-        if (type == Type.BACK_TO_COLLECTION) {
-            CollectionActivity.start(this, binding.getQuiz().getSentence().getCollectionId());
+        if (type == Type.RETURN_BACK) {
+            onBackPressed();
         } else {
             Sentence sentence = binding.getQuiz().getSentence();
             sentenceCollectionsService.updateStatus(sentence, status, started);
