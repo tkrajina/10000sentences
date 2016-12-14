@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -97,7 +99,12 @@ public class EditAnnotationActivity extends BaseActivity {
 
     private void save() {
         Annotation annotation = Annotation.load(Annotation.class, binding.getAnnotation().getId());
-        annotation.annotation = binding.annotationText.getText().toString();
+        annotation.annotation = StringUtils.trim(binding.annotationText.getText().toString());
+        if (StringUtils.isEmpty(annotation.annotation)) {
+            Toast.makeText(this, R.string.annotation_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         annotation.save();
         Toast.makeText(this, R.string.annotation_saved, Toast.LENGTH_SHORT).show();
         onBackPressed();

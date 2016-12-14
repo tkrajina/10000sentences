@@ -86,4 +86,5 @@ If you really want this, type: %s]]></string>
     <string name="words_colon">Words:</string>
     <string name="add_to_annotation_explanation">Click below if you want to add this word to an existing annotation:</string>
     <string name="select_annotation">Select annotation</string>
+    <string name="annotation_empty">Annotation empty</string>
 </resources>

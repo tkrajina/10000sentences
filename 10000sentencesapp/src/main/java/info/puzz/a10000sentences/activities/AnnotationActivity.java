@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
@@ -129,6 +131,11 @@ public class AnnotationActivity extends BaseActivity {
     }
 
     private void save(Annotation annotation) {
+        annotation.annotation = StringUtils.trim(annotation.annotation);
+        if (StringUtils.isEmpty(annotation.annotation)) {
+            Toast.makeText(this, R.string.annotation_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
         annotationService.addWordToAnnotation(annotation, binding.getWord());
         Toast.makeText(this, R.string.annotation_saved, Toast.LENGTH_SHORT).show();
         onBackPressed();
