@@ -163,6 +163,7 @@
                     <Button
                         android:id="@+id/random_sentence"
                         android:visibility="gone"
+                        android:minHeight="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/random_sentence"
@@ -171,6 +172,7 @@
                     <Button
                         android:id="@+id/random_known_sentence"
                         android:visibility="gone"
+                        android:minHeight="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/random_known_sentence"
@@ -179,12 +181,14 @@
                     <Button
                         android:id="@+id/all_sentences"
                         android:visibility="gone"
+                        android:minHeight="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/all_sentences" />
 
                     <Button
                         android:id="@+id/download"
+                        android:minHeight="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/download_collection" />

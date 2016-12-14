@@ -214,6 +214,7 @@
 
                             <Button
                                 android:id="@+id/answer1"
+                                android:minHeight="0dp"
                                 android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -221,6 +222,7 @@
 
                             <Button
                                 android:id="@+id/answer2"
+                                android:minHeight="0dp"
                                 android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -231,6 +233,7 @@
 
                             <Button
                                 android:id="@+id/answer3"
+                                android:minHeight="0dp"
                                 android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -238,6 +241,7 @@
 
                             <Button
                                 android:id="@+id/answer4"
+                                android:minHeight="0dp"
                                 android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -264,6 +268,7 @@
 
                         <Button
                             android:id="@+id/ignore_sentence"
+                            android:minHeight="0dp"
                             android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -271,6 +276,7 @@
 
                         <Button
                             android:id="@+id/annotate_words"
+                            android:minHeight="0dp"
                             android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -278,6 +284,7 @@
 
                         <Button
                             android:id="@+id/repeat_later"
+                            android:minHeight="0dp"
                             android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -286,6 +293,7 @@
 
                         <Button
                             android:id="@+id/mark_as_done"
+                            android:minHeight="0dp"
                             android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -299,6 +307,7 @@
 
                             <Button
                                 android:id="@+id/copy_to_clipboard"
+                                android:minHeight="0dp"
                                 android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_weight="1"
@@ -307,6 +316,7 @@
 
                             <Button
                                 android:id="@+id/share_translate"
+                                android:minHeight="0dp"
                                 android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_weight="1"
