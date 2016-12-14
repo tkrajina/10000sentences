@@ -65,11 +65,12 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             CollectionsActivity.start(this);
             return;
         }
-        setTitle(collection.targetLanguage);
 
         binding.setSentenceCollection(collection);
         binding.setKnownLanguage(dao.getLanguage(collection.getKnownLanguage()));
         binding.setTargetLanguage(dao.getLanguage(collection.getTargetLanguage()));
+
+        setTitle(binding.getTargetLanguage().name);
 
         binding.randomKnownSentence.setOnClickListener(new View.OnClickListener() {
             @Override
