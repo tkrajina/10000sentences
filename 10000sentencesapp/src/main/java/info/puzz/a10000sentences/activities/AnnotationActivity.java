@@ -157,10 +157,9 @@ public class AnnotationActivity extends BaseActivity {
                         likeFilter.append(' ');
                     }
                 }
-                likeFilter.append('%');
                 return new Select()
                         .from(Annotation.class)
-                        .where("annotation like ?", likeFilter.toString());
+                        .where("collection_id=? and (annotation like ? or annotation like ?)", collectionId, likeFilter.toString() + "%", "% " + likeFilter + "%");
             }
 
             @Override
