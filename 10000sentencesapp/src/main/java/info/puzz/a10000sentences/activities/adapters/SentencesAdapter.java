@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.activeandroid.Model;
 import com.activeandroid.query.From;
 
 import java.util.ArrayList;
@@ -19,25 +20,13 @@ import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.activities.SentenceQuizActivity;
 import info.puzz.a10000sentences.databinding.SentenceBinding;
 import info.puzz.a10000sentences.models.Sentence;
+import info.puzz.a10000sentences.models.SentenceCollection;
 
-public class SentencesAdapter extends ArrayAdapter<Sentence> {
+public class SentencesAdapter extends LoadMoreAdapter<Sentence> {
 
-    private static final int PAGE_SIZE = 100;
-    private final From select;
-    private int offset;
 
     public <T extends BaseActivity> SentencesAdapter(T activity, From select) {
-        super(activity, R.layout.sentence_collection, new ArrayList<Sentence>());
-        this.select = select;
-        this.offset = 0;
-        loadMore();
-    }
-
-    private void loadMore() {
-        List<Sentence> rows = select.offset(offset).limit(PAGE_SIZE).execute();
-        this.offset = offset + rows.size();
-        this.addAll(rows);
-        this.notifyDataSetChanged();
+        super(activity, R.layout.sentence_collection, select);
     }
 
     @NonNull
@@ -52,12 +41,9 @@ public class SentencesAdapter extends ArrayAdapter<Sentence> {
             binding = DataBindingUtil.getBinding(convertView);
         }
 
-        final Sentence sentence = getItem(position);
-        binding.setSentence(sentence);
+        final Sentence sentence = getItemAndLoadMoreIfNeeded(position);
 
-        if (position == offset - 2) {
-            loadMore();
-        }
+        binding.setSentence(sentence);
 
         binding.targetSentence.setTextColor(ContextCompat.getColor(getContext(), sentence.getSentenceStatus().getColor()));
 
