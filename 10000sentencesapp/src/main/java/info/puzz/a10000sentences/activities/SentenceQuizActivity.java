@@ -25,6 +25,7 @@ import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.Constants;
 import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.R;
+import info.puzz.a10000sentences.logic.AnnotationService;
 import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
@@ -57,6 +58,7 @@ public class SentenceQuizActivity extends BaseActivity {
 
     @Inject Dao dao;
     @Inject SentenceCollectionsService sentenceCollectionsService;
+    @Inject AnnotationService annotationService;
 
     ActivitySentenceQuizBinding binding;
 
@@ -334,7 +336,8 @@ public class SentenceQuizActivity extends BaseActivity {
                 showAlertDialog(strings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        AnnotationActivity.start(SentenceQuizActivity.this, strings[which], binding.getQuiz().getSentence().collectionId);
+                        String word = strings[which];
+                        gotoAnnotation(word);
                     }
                 });
             }
@@ -353,13 +356,38 @@ public class SentenceQuizActivity extends BaseActivity {
         });
     }
 
+    private void gotoAnnotation(String word) {
+        String collectionId = binding.getQuiz().getSentence().collectionId;
+        final List<Annotation> annodations = annotationService.findAnnotations(collectionId, word);
+        if (annodations == null || annodations.size() == 0) {
+            AnnotationActivity.start(SentenceQuizActivity.this, word, collectionId);
+        } else if (annodations.size() == 1) {
+            EditAnnotationActivity.start(SentenceQuizActivity.this, annodations.get(0).getId());
+        } else {
+            String[] annotationStrings = new String[annodations.size()];
+            for (int i = 0; i < annodations.size(); i++) {
+                annotationStrings[i] = annodations.get(i).annotation;
+            }
+
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.select_annotation)
+                    .setItems(annotationStrings, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            EditAnnotationActivity.start(SentenceQuizActivity.this, annodations.get(which).getId());
+                        }
+                    })
+                    .show();
+        }
+    }
+
     private void showAlertDialog(String[] strings, DialogInterface.OnClickListener listener) {
         if (strings.length == 0) {
             Toast.makeText(this, R.string.empty, Toast.LENGTH_SHORT).show();
         } else if (strings.length == 1) {
             listener.onClick(null, 0);
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(SentenceQuizActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.select_text);
             builder.setItems(strings, listener);
             builder.show();

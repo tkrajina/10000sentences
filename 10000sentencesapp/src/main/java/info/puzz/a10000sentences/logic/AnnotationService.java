@@ -7,6 +7,7 @@ import com.activeandroid.query.Select;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.models.WordAnnotation;
+import temp.DBG;
 
 public class AnnotationService {
     private final Dao dao;
@@ -93,4 +95,18 @@ public class AnnotationService {
         }
     }
 
+    public List<Annotation> findAnnotations(String collectionId, String word) {
+        List<WordAnnotation> wordAnnotations = new Select()
+                .from(WordAnnotation.class)
+                .where("word=? and collection_id=?", String.valueOf(word).toLowerCase(), collectionId)
+                .execute();
+        ArrayList<Annotation> annotations = new ArrayList<>();
+        for (WordAnnotation wordAnnotation : wordAnnotations) {
+            Annotation annotation = Annotation.load(Annotation.class, wordAnnotation.annotationId);
+            if (annotation != null) {
+                annotations.add(annotation);
+            }
+        }
+        return annotations;
+    }
 }
