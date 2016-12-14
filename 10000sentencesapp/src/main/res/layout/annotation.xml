@@ -13,10 +13,12 @@
         <TextView
             android:text="@{annotation.annotation}"
             android:layout_width="match_parent"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textStyle="normal|bold" />
         <TextView
             android:text="@{annotation.words}"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
