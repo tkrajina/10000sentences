@@ -73,6 +73,7 @@ public class AnnotationsActivity extends BaseActivity {
         if (!StringUtils.isEmpty(collectionId)) {
             sql.where("collection_id=?", collectionId);
         }
+        sql.orderBy("created desc");
 
         annotationsAdapter = new AnnotationsAdapter(this, sql, new AnnotationsAdapter.OnClickListener() {
             @Override
