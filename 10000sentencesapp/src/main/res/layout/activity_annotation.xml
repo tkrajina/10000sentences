@@ -57,6 +57,7 @@
 
                 <LinearLayout
                     android:id="@+id/existing_annotations"
+                    android:visibility="gone"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

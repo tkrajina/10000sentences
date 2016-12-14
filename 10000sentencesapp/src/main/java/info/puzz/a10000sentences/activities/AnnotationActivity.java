@@ -88,8 +88,6 @@ public class AnnotationActivity extends BaseActivity {
                 reloadAnnotations(text);
             }
         });
-
-        ShareUtils.copyToClipboard(this, word);
     }
 
     private void onAnnotationSelected(final Annotation annotation) {
@@ -106,6 +104,8 @@ public class AnnotationActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        reloadAnnotations("");
+        ShareUtils.copyToClipboard(this, word);
     }
 
     @Override
