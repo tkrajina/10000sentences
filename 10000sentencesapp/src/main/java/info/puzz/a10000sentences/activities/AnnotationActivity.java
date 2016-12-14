@@ -25,6 +25,7 @@ import info.puzz.a10000sentences.databinding.ActivityAnnotationBinding;
 import info.puzz.a10000sentences.logic.AnnotationService;
 import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.utils.DialogUtils;
+import info.puzz.a10000sentences.utils.ShareUtils;
 import temp.DBG;
 
 public class AnnotationActivity extends BaseActivity {
@@ -87,6 +88,8 @@ public class AnnotationActivity extends BaseActivity {
                 reloadAnnotations(text);
             }
         });
+
+        ShareUtils.copyToClipboard(this, word);
     }
 
     private void onAnnotationSelected(final Annotation annotation) {

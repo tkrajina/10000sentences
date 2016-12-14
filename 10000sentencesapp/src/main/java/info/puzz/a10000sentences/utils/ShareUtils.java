@@ -13,15 +13,15 @@ import android.content.pm.ResolveInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by puzz on 05/12/2016.
- */
-
 public class ShareUtils {
     private ShareUtils() throws Exception {
         throw new Exception();
     }
 
+    /**
+     * Share with other applications (but tries to put applications with "Translate" in the package
+     * name in the first place(s).
+     */
     public static void shareWithTranslate(Activity activity, String text) {
         Intent sendIntent = new Intent(android.content.Intent.ACTION_SEND);
         sendIntent.setType("text/plain");
@@ -48,6 +48,9 @@ public class ShareUtils {
         activity.startActivity(openInChooser);
     }
 
+    /**
+     * This method is important for users who have Google Translate "Tap to translate" enabled.
+     */
     public static void copyToClipboard(Activity activity, String string) {
         ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("translate", string);
