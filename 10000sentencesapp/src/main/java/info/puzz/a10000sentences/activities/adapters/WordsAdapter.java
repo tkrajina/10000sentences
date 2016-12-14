@@ -23,6 +23,7 @@ import info.puzz.a10000sentences.logic.AnnotationService;
 import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.models.WordAnnotation;
 import info.puzz.a10000sentences.utils.DialogUtils;
+import info.puzz.a10000sentences.utils.ShareUtils;
 
 public class WordsAdapter extends ArrayAdapter<WordAnnotation> {
 
@@ -58,6 +59,13 @@ public class WordsAdapter extends ArrayAdapter<WordAnnotation> {
             public boolean onLongClick(View view) {
                 removeWord(word);
                 return true;
+            }
+        });
+
+        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShareUtils.copyToClipboard((Activity) getContext(), word.word);
             }
         });
 
