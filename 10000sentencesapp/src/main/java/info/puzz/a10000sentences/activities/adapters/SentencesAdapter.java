@@ -24,7 +24,6 @@ import info.puzz.a10000sentences.models.SentenceCollection;
 
 public class SentencesAdapter extends LoadMoreAdapter<Sentence> {
 
-
     public <T extends BaseActivity> SentencesAdapter(T activity, From select) {
         super(activity, R.layout.sentence_collection, select);
     }
@@ -32,7 +31,7 @@ public class SentencesAdapter extends LoadMoreAdapter<Sentence> {
     @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) getContext() .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         SentenceBinding binding;
         if (convertView == null) {

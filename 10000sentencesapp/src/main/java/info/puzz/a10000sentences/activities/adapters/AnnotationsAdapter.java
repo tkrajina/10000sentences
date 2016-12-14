@@ -6,11 +6,9 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import com.activeandroid.query.From;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,9 +20,7 @@ import info.puzz.a10000sentences.databinding.AnnotationBinding;
 import info.puzz.a10000sentences.logic.AnnotationService;
 import info.puzz.a10000sentences.models.Annotation;
 
-public class AnnotationsAdapter extends ArrayAdapter<Annotation> {
-
-    public static final int PAGE_SIZE = 100;
+public class AnnotationsAdapter extends LoadMoreAdapter<Annotation> {
 
     public interface OnClickListener {
         void onClick(Annotation annotation);
@@ -36,7 +32,7 @@ public class AnnotationsAdapter extends ArrayAdapter<Annotation> {
     AnnotationService annotationService;
 
     public <T extends BaseActivity> AnnotationsAdapter(T activity, From select, OnClickListener listener) {
-        super(activity, R.layout.sentence_collection, select.limit(PAGE_SIZE).<Annotation>execute());
+        super(activity, R.layout.sentence_collection, select);
         Application.COMPONENT.inject(this);
         this.listener = listener;
     }
@@ -44,7 +40,7 @@ public class AnnotationsAdapter extends ArrayAdapter<Annotation> {
     @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) getContext() .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         AnnotationBinding binding;
         if (convertView == null) {
@@ -53,7 +49,7 @@ public class AnnotationsAdapter extends ArrayAdapter<Annotation> {
             binding = DataBindingUtil.getBinding(convertView);
         }
 
-        final Annotation annotation = getItem(position);
+        final Annotation annotation = getItemAndLoadMoreIfNeeded(position);
         binding.setAnnotation(annotation);
 
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
@@ -70,9 +66,6 @@ public class AnnotationsAdapter extends ArrayAdapter<Annotation> {
 
     public int reloadAndGetSize(From select) {
         clear();
-        List<Annotation> list = select.limit(PAGE_SIZE).<Annotation>execute();
-        addAll(list);
-        notifyDataSetChanged();
-        return list.size();
+        return reset(select);
     }
 }
