@@ -6,6 +6,8 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LabelFormatter;
@@ -14,14 +16,21 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
+import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.logic.StatsService;
 import info.puzz.a10000sentences.databinding.ActivityStatsBinding;
+import info.puzz.a10000sentences.models.Language;
+import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.utils.TimeUtils;
 
 public class StatsActivity extends BaseActivity {
@@ -30,6 +39,9 @@ public class StatsActivity extends BaseActivity {
 
     @Inject
     StatsService statsService;
+
+    @Inject
+    Dao dao;
 
     ActivityStatsBinding binding;
 
@@ -51,10 +63,14 @@ public class StatsActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_stats);
         setTitle(R.string.stats);
 
+        setupGraphs(null);
+    }
+
+    private void setupGraphs(final String collectionId) {
         new AsyncTask<Void, Void, StatsService.Stats>() {
             @Override
             protected StatsService.Stats doInBackground(Void... voids) {
-                return statsService.getStats(7);
+                return statsService.getStats(7, collectionId);
             }
 
             @Override
@@ -148,4 +164,43 @@ public class StatsActivity extends BaseActivity {
         super.onResume();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+
+        Map<String, Language> langs = dao.getLanguagesByLanguageID();
+
+        List<SentenceCollection> collections = dao.getCollections();
+        Collections.sort(collections, new Comparator<SentenceCollection>() {
+            @Override
+            public int compare(SentenceCollection c1, SentenceCollection c2) {
+                return - Integer.compare(c1.doneCount, c2.doneCount);
+            }
+        });
+
+        for (final SentenceCollection collection : collections) {
+            if (collection.doneCount > 0) {
+                MenuItem item = menu.add(langs.get(collection.targetLanguage).name);
+                item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        StatsActivity.this.setupGraphs(collection.collectionID);
+                        return true;
+                    }
+                });
+            }
+        }
+
+        if (menu.size() > 0) {
+            menu.add(R.string.all).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    StatsActivity.this.setupGraphs(null);
+                    return false;
+                }
+            });
+        }
+
+        return true;
+    }
 }

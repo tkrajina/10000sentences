@@ -15,6 +15,7 @@ import info.puzz.a10000sentences.models.SentenceHistory;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import temp.DBG;
 
 public final class StatsService {
 
@@ -36,7 +37,7 @@ public final class StatsService {
     public StatsService() {
     }
 
-    public Stats getStats(int daysAgo) {
+    public Stats getStats(int daysAgo, String collectionId) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -daysAgo);
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -51,6 +52,9 @@ public final class StatsService {
         Map<Long, Map<String, Integer>> doneByDay = new HashMap<>();
 
         for (SentenceHistory model : history) {
+            if (collectionId == null || model.collectionId != collectionId) {
+                continue;
+            }
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(model.created);
             c.set(Calendar.HOUR_OF_DAY, 12);
