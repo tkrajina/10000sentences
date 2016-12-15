@@ -88,4 +88,6 @@ If you really want this, type: %s]]></string>
     <string name="select_annotation">Select annotation</string>
     <string name="annotation_empty">Annotation empty</string>
     <string name="all">All</string>
+    <string name="word_to_clipboadr">Word in clipboard</string>
+    <string name="share_word">Share word</string>
 </resources>

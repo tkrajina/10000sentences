@@ -28,7 +28,6 @@ import info.puzz.a10000sentences.logic.AnnotationService;
 import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import info.puzz.a10000sentences.utils.ShareUtils;
-import temp.DBG;
 
 public class AnnotationActivity extends BaseActivity {
 
@@ -107,7 +106,6 @@ public class AnnotationActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         reloadAnnotations("");
-        ShareUtils.copyToClipboard(this, word);
     }
 
     @Override
@@ -118,13 +116,18 @@ public class AnnotationActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        DBG.todo("Share/copy to clipboard");
         switch (item.getItemId()) {
             case R.id.action_save:
                 Annotation annotation = new Annotation();
                 annotation.annotation = binding.annotation.getText().toString();
                 annotation.collectionId = collectionId;
                 save(annotation);
+                break;
+            case R.id.action_share_word:
+                ShareUtils.shareWithTranslate(this, word);
+                break;
+            case R.id.action_to_clipboard:
+                ShareUtils.copyToClipboard(this, word);
                 break;
         }
         return true;

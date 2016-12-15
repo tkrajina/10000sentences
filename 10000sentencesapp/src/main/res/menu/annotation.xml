@@ -6,4 +6,14 @@
         android:orderInCategory="100"
         android:title="@string/save"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_to_clipboard"
+        android:orderInCategory="100"
+        android:title="@string/word_to_clipboadr"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_share_word"
+        android:orderInCategory="100"
+        android:title="@string/share_word"
+        app:showAsAction="never" />
 </menu>
