@@ -56,7 +56,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:textSize="@dimen/quiz_sentence_size"
+                            android:textSize="@dimen/subtitle_size"
                             android:text="@{quiz.getQuizSentence()}"
                             />
 
@@ -105,7 +105,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:textSize="@dimen/quiz_sentence_size"
+                            android:textSize="@dimen/subtitle_size"
                             android:text="@{quiz.getKnownSentence()}" />
 
                         <LinearLayout

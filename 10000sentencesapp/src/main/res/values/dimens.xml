@@ -8,7 +8,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="title_size">25dp</dimen>
-    <dimen name="quiz_sentence_size">20dp</dimen>
+    <dimen name="subtitle_size">20dp</dimen>
     <dimen name="smaller_text">10dp</dimen>
     <dimen name="list_padding">6dp</dimen>
 </resources>
