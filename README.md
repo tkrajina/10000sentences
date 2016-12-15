@@ -21,6 +21,17 @@ Each sentence can be under one of the following statuses:
 
 The app will allow only a certain number of _REPEAT_ sentences. If you reach that number, no new sentences will be shown to you. Only when you fix _REPEAT_ sentences (i.e. succeed in guessing all the words), new ones will be available for you.
 
+## Annotations
+
+The application allows you to write **annotations** on words. More than one words can be annotated with the same annotation.
+
+Annotations are best used to create your own dictionary as you proceed learning new sentences.
+If you use annotations like a dictionary, make sure that you write them in gramatically neutral way.
+For example, if you learn Italian, you will need to put "camminare" (to walk), "cammino" (I walk), "camminero" (I will walk) under one annotation (for example "walk").
+
+This application is not able to discern if "camminero" (I will walk) and "camminavo" (I was walking) are one and the same word.
+It is up to you to figure out that this must be under one annotation, but this journey of "figuring out" words is part of language learning.
+
 # Help, FAQ
 
 ## Can I learn a language by using this app?
@@ -38,6 +49,9 @@ A simple workflow idea:
  * Train sentence by sentence
  * If unsure about a word meaning, use a translator app to translate it (see next section for more details)
  * If not sure that the previous step really made you memorize that word, use the "Share" option to share the specific word in AnkiDroid (for example)
+ * When you encounter a new (unknown) word:
+    * check if this word should be part of an annotation you previously created or
+    * create a new annotation
 
 ## Translate
 
