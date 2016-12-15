@@ -30,7 +30,7 @@ If you use annotations like a dictionary, make sure that you write them in grama
 For example, if you learn Italian, you will need to put "camminare" (to walk), "cammino" (I walk), "camminero" (I will walk) under one annotation (for example "walk").
 
 This application is not able to discern if "camminero" (I will walk) and "camminavo" (I was walking) are one and the same word.
-It is up to you to figure out that this must be under one annotation, but this journey of "figuring out" words is part of language learning.
+It is up to you to figure out that it must be **one** annotation, but this journey of "figuring out" words is part of language learning.
 
 # Help, FAQ
 
