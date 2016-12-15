@@ -152,17 +152,7 @@ public class AnnotationActivity extends BaseActivity {
         reloadingAsyncTask = new AsyncTask<Void, Void, From>() {
             @Override
             protected From doInBackground(Void... voids) {
-                StringBuilder likeFilter = new StringBuilder();
-                for (char c : text.toCharArray()) {
-                    if (Character.isLetter(c) || Character.isDigit(c) || Character.isSpaceChar(c)) {
-                        likeFilter.append(c);
-                    } else {
-                        likeFilter.append(' ');
-                    }
-                }
-                return new Select()
-                        .from(Annotation.class)
-                        .where("collection_id=? and (annotation like ? or annotation like ?)", collectionId, likeFilter.toString() + "%", "% " + likeFilter + "%");
+                return annotationService.getAnnotationsSelectByCollectionAndFilter(collectionId, text);
             }
 
             @Override

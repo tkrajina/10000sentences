@@ -3,6 +3,7 @@ package info.puzz.a10000sentences.logic;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
 import org.apache.commons.lang3.StringUtils;
@@ -109,4 +110,33 @@ public class AnnotationService {
         }
         return annotations;
     }
+
+    public From getAnnotationsSelectByCollectionAndFilter(String collectionId, String text) {
+        String likeFilter = getLikeFilter(text);
+        return new Select()
+                .from(Annotation.class)
+                .where("collection_id=? and (annotation like ? or annotation like ?)", collectionId, likeFilter.toString() + "%", "% " + likeFilter + "%")
+                .orderBy("created desc");
+    }
+
+    public From getAnnotationsSelectBydFilter(String text) {
+        String likeFilter = getLikeFilter(text);
+        return new Select()
+                .from(Annotation.class)
+                .where("annotation like ? or annotation like ?", likeFilter.toString() + "%", "% " + likeFilter + "%")
+                .orderBy("created desc");
+    }
+
+    private String getLikeFilter(String text) {
+        StringBuilder likeFilter = new StringBuilder();
+        for (char c : text.toCharArray()) {
+            if (Character.isLetter(c) || Character.isDigit(c) || Character.isSpaceChar(c)) {
+                likeFilter.append(c);
+            } else {
+                likeFilter.append(' ');
+            }
+        }
+        return likeFilter.toString();
+    }
+
 }

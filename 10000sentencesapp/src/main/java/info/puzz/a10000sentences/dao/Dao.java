@@ -2,6 +2,7 @@ package info.puzz.a10000sentences.dao;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.activeandroid.util.SQLiteUtils;
 
@@ -171,10 +172,4 @@ public class Dao {
                 .executeSingle();
     }
 
-    /**
-     * @deprecated
-     */
-    public static Dao instance() {
-        return new Dao();
-    }
 }

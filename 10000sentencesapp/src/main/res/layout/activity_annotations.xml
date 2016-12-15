@@ -35,6 +35,26 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:context="info.puzz.a10000sentences.activities.AnnotationsActivity">
 
+                <LinearLayout
+                    android:id="@+id/filter_group"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="@string/filter"
+                        android:textSize="@dimen/subtitle_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/filter"
+                        android:layout_width="fill_parent"
+                        android:textSize="@dimen/subtitle_size"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
                 <ListView
                     android:id="@+id/annotations_list"
                     android:layout_width="match_parent"

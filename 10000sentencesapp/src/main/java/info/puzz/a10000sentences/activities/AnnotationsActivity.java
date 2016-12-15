@@ -42,6 +42,8 @@ public class AnnotationsActivity extends BaseActivity {
     private String collectionId;
     private AnnotationsAdapter annotationsAdapter;
 
+    private AsyncTask<Void, Void, From> reloadingAsyncTask;
+
     public static <T extends BaseActivity> void start(T activity) {
         start(activity, null);
     }
@@ -62,6 +64,29 @@ public class AnnotationsActivity extends BaseActivity {
 
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
 
+        From sql = new Select()
+                .from(Annotation.class)
+                .orderBy("created desc");
+        annotationsAdapter = new AnnotationsAdapter(this, sql, new AnnotationsAdapter.OnClickListener() {
+            @Override
+            public void onClick(Annotation annotation) {
+                onAnnotationSelected(annotation);
+            }
+        });
+        binding.annotationsList.setAdapter(annotationsAdapter);
+
+        binding.filter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                reloadAnnotations(binding.filter.getText().toString());
+            }
+        });
     }
 
     @Override
@@ -74,18 +99,28 @@ public class AnnotationsActivity extends BaseActivity {
             sql.where("collection_id=?", collectionId);
         }
         sql.orderBy("created desc");
-
-        annotationsAdapter = new AnnotationsAdapter(this, sql, new AnnotationsAdapter.OnClickListener() {
-            @Override
-            public void onClick(Annotation annotation) {
-                onAnnotationSelected(annotation);
-            }
-        });
-        binding.annotationsList.setAdapter(annotationsAdapter);
     }
 
     private void onAnnotationSelected(final Annotation annotation) {
         EditAnnotationActivity.start(this, annotation.getId());
     }
 
+    private void reloadAnnotations(final String text) {
+        if (reloadingAsyncTask != null) {
+            reloadingAsyncTask.cancel(true);
+        }
+
+        reloadingAsyncTask = new AsyncTask<Void, Void, From>() {
+            @Override
+            protected From doInBackground(Void... voids) {
+                return annotationService.getAnnotationsSelectBydFilter(text);
+            }
+
+            @Override
+            protected void onPostExecute(From from) {
+                annotationsAdapter.reloadAndGetSize(from);
+            }
+        };
+        reloadingAsyncTask.execute();
+    }
 }
