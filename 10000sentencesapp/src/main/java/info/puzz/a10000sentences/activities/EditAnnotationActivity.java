@@ -1,5 +1,7 @@
 package info.puzz.a10000sentences.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -22,7 +24,7 @@ import info.puzz.a10000sentences.databinding.ActivityEditAnnotationBinding;
 import info.puzz.a10000sentences.logic.AnnotationService;
 import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.models.WordAnnotation;
-import temp.DBG;
+import info.puzz.a10000sentences.utils.DialogUtils;
 
 public class EditAnnotationActivity extends BaseActivity {
 
@@ -34,6 +36,7 @@ public class EditAnnotationActivity extends BaseActivity {
     AnnotationService annotationService;
 
     ActivityEditAnnotationBinding binding;
+    private long annotationId;
 
     public static <T extends BaseActivity> void start(T activity, long annotationId) {
         Intent intent = new Intent(activity, EditAnnotationActivity.class)
@@ -49,27 +52,33 @@ public class EditAnnotationActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_annotation);
         setTitle(R.string.annotations);
 
-        long annotationId = getIntent().getLongExtra(ARG_ANNOTATION_ID, -1);
-        if (annotationId < 0) {
-            DBG.todo();
-        }
-
-        Annotation annotation = Annotation.load(Annotation.class, annotationId);
-
-        binding.setAnnotation(annotation);
-
-        List<WordAnnotation> wordAnnotations = new Select()
-                .from(WordAnnotation.class)
-                .where("annotation_id=?", annotationId)
-                .execute();
-
-        WordsAdapter adapter = new WordsAdapter(this, annotation, wordAnnotations);
-        binding.annotationsList.setAdapter(adapter);
+        annotationId = getIntent().getLongExtra(ARG_ANNOTATION_ID, -1);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        Annotation annotation = Annotation.load(Annotation.class, annotationId);
+        if (annotation == null) {
+            Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
+            CollectionsActivity.start(this);
+            return;
+        }
+
+        binding.setAnnotation(annotation);
+
+        reloadWords();
+    }
+
+    private void reloadWords() {
+        List<WordAnnotation> wordAnnotations = new Select()
+                .from(WordAnnotation.class)
+                .where("annotation_id=?", annotationId)
+                .execute();
+
+        WordsAdapter adapter = new WordsAdapter(this, binding.getAnnotation(), wordAnnotations);
+        binding.annotationsList.setAdapter(adapter);
     }
 
     @Override
@@ -84,11 +93,27 @@ public class EditAnnotationActivity extends BaseActivity {
             case R.id.action_save:
                 save();
                 break;
+            case R.id.action_add_word:
+                addWord();
+                break;
             case R.id.action_delete:
                 delete();
                 break;
         }
         return true;
+    }
+
+    private void addWord() {
+        DialogUtils.showInputDialog(this, getString(R.string.add_word), new DialogUtils.OnInputDialogClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which, String value) {
+                value = StringUtils.trim(value);
+                if (which == Dialog.BUTTON_POSITIVE && !StringUtils.isEmpty(value)) {
+                    annotationService.addWordToAnnotation(binding.getAnnotation(), value);
+                    reloadWords();
+                }
+            }
+        });
     }
 
     private void delete() {

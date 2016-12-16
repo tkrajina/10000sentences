@@ -91,4 +91,5 @@ If you really want this, type: %s]]></string>
     <string name="word_to_clipboadr">Word in clipboard</string>
     <string name="share_word">Share word</string>
     <string name="filter">Filter:</string>
+    <string name="add_word">Add word</string>
 </resources>
