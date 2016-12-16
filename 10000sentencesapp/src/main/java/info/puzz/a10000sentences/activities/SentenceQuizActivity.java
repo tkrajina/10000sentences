@@ -298,6 +298,7 @@ public class SentenceQuizActivity extends BaseActivity {
         }
         binding.quizButtons.setVisibility(View.GONE);
         binding.finalButtons.setVisibility(View.VISIBLE);
+        binding.sentenceStatus.setVisibility(View.GONE);
 
         binding.repeatLater.setOnClickListener(new View.OnClickListener() {
             @Override
