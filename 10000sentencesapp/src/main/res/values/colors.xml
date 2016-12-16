@@ -7,4 +7,5 @@
     <color name="inactive">#b5b5b5</color>
     <color name="wrong">#b5b5b5</color>
     <color name="error">#ff4242</color>
+    <color name="shadow">#E0E0E0</color>
 </resources>

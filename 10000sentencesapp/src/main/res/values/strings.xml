@@ -15,10 +15,10 @@
     <string name="retry_again">Retry later</string>
     <string name="done">Done</string>
     <string name="finalize_sentence_title">What next?</string>
-    <string name="correct">Correct!</string>
+    <string name="correct">Correct {fa-thumbs-o-up}</string>
     <string name="repeat_later">Repeat later &amp; next sentence</string>
     <string name="next">Next</string>
-    <string name="too_many_errors">Too many errors :(</string>
+    <string name="too_many_errors">Too many errors {fa-thumbs-o-down}</string>
     <string name="title_activity_tmp">TmpActivity</string>
     <string name="start_quiz">Start quiz</string>
     <string name="about">About</string>

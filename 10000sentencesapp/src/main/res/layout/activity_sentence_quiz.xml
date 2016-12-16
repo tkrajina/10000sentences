@@ -51,8 +51,13 @@
                         android:orientation="vertical"
                         android:layout_alignParentStart="true">
 
-                        <TextView
+                        <com.joanzapata.iconify.widget.IconTextView
                             android:id="@+id/target_sentence"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:shadowRadius="1"
+                            android:shadowColor="@color/shadow"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -100,10 +105,15 @@
                         android:layout_above="@+id/sentence_delimiter"
                         android:layout_alignParentStart="true">
 
-                        <TextView
+                        <com.joanzapata.iconify.widget.IconTextView
                             android:id="@+id/known_sentence"
+                            android:textColor="@color/colorPrimaryDark"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:shadowRadius="1"
+                            android:shadowColor="@color/shadow"
                             android:gravity="center"
                             android:textSize="@dimen/subtitle_size"
                             android:text="@{quiz.getKnownSentence()}" />
@@ -112,11 +122,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/icon_something"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -257,13 +262,17 @@
                         android:orientation="vertical"
                         android:visibility="gone">
 
-                        <TextView
+                        <com.joanzapata.iconify.widget.IconTextView
                             android:id="@+id/final_message"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="@string/correct"
                             android:textColor="@color/colorAccent"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:shadowRadius="1"
+                            android:shadowColor="@color/shadow"
                             android:textSize="@dimen/title_size" />
 
                         <Button
