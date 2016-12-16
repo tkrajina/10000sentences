@@ -59,7 +59,11 @@ public class SentenceQuiz extends BaseObservable {
     
     public String getKnownSentence() {
         String[] knownSentences = sentence.getKnownSentences();
-        return knownSentences[currentKnownSentenceAlternative % knownSentences.length];
+        String res = knownSentences[currentKnownSentenceAlternative % knownSentences.length];
+        if (knownSentences.length > 1) {
+            res += "  {fa-refresh}";
+        }
+        return res;
     }
 
     public void nextKnownSentenceAlternative() {
