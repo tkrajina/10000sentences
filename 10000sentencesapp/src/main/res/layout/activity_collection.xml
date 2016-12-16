@@ -41,10 +41,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
+                    <com.joanzapata.iconify.widget.IconTextView
                         android:text="@{targetLanguage.name + &quot; / &quot; + targetLanguage.nativeName}"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:shadowDx="3"
+                        android:shadowDy="3"
+                        android:shadowRadius="1"
+                        android:shadowColor="@color/shadow"
                         android:gravity="center"
-                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/title_size"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -79,14 +83,19 @@
                             android:orientation="vertical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
+                            <com.joanzapata.iconify.widget.IconTextView
+                                android:layout_gravity="center"
+                                android:text="{fa-list-ol}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
                             <TextView
                                 android:text="@string/todo"
-                                android:gravity="center"
+                                android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <TextView
                                 android:text="@{sentenceCollection.formatTodoCount()}"
-                                android:gravity="center"
+                                android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
@@ -97,16 +106,22 @@
                             android:orientation="vertical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
+                            <com.joanzapata.iconify.widget.IconTextView
+                                android:layout_gravity="center"
+                                android:text="{fa-thumbs-o-up}"
+                                android:textColor="@color/active"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
                             <TextView
                                 android:text="@string/done"
                                 android:textColor="@color/active"
-                                android:gravity="center"
+                                android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <TextView
                                 android:text="@{sentenceCollection.formatDoneCount()}"
                                 android:textColor="@color/active"
-                                android:gravity="center"
+                                android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
@@ -117,16 +132,22 @@
                             android:orientation="vertical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
+                            <com.joanzapata.iconify.widget.IconTextView
+                                android:layout_gravity="center"
+                                android:text="{fa-thumbs-o-down}"
+                                android:textColor="@color/error"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
                             <TextView
                                 android:text="@string/repeat"
                                 android:textColor="@color/error"
-                                android:gravity="center"
+                                android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <TextView
                                 android:text="@{sentenceCollection.formatRepeatCount()}"
                                 android:textColor="@color/error"
-                                android:gravity="center"
+                                android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
@@ -137,16 +158,22 @@
                             android:orientation="vertical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
+                            <com.joanzapata.iconify.widget.IconTextView
+                                android:layout_gravity="center"
+                                android:text="{fa-trash}"
+                                android:textColor="@color/inactive"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
                             <TextView
                                 android:text="@string/ignored"
                                 android:textColor="@color/inactive"
-                                android:gravity="center"
+                                android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <TextView
                                 android:text="@{sentenceCollection.formatIgnoreCount()}"
                                 android:textColor="@color/inactive"
-                                android:gravity="center"
+                                android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
