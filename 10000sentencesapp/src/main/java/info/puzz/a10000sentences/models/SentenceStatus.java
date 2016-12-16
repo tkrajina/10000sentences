@@ -7,6 +7,7 @@ public enum SentenceStatus {
     TODO(0, R.string.todo, R.string.todo_desc, android.R.color.primary_text_light),
     REPEAT(1, R.string.retry_again, R.string.retry_again_desc, R.color.error),
     DONE(2, R.string.done, R.string.done_desc, R.color.active),
+    SKIPPED(3, R.string.skippped, R.string.skipped_desc, R.color.skipped),
     IGNORE(100, R.string.ignored, R.string.ignored_desc, R.color.inactive),
 
     ;
