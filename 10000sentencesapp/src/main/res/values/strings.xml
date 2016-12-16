@@ -92,4 +92,8 @@ If you really want this, type: %s]]></string>
     <string name="share_word">Share word</string>
     <string name="filter">Filter:</string>
     <string name="add_word">Add word</string>
+    <string name="todo_desc">New sentence</string>
+    <string name="retry_again_desc">Retrying sentence</string>
+    <string name="done_desc">Known sentence</string>
+    <string name="ignored_desc">Ignored sentence</string>
 </resources>

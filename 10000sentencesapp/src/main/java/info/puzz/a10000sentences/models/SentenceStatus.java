@@ -1,26 +1,27 @@
 package info.puzz.a10000sentences.models;
 
 import info.puzz.a10000sentences.R;
-import lombok.Getter;
 
 public enum SentenceStatus {
 
-    TODO(0, R.string.todo, android.R.color.primary_text_light),
-    REPEAT(1, R.string.retry_again, R.color.error),
-    DONE(2, R.string.done, R.color.active),
-    IGNORE(100, R.string.ignored, R.color.inactive),
+    TODO(0, R.string.todo, R.string.todo_desc, android.R.color.primary_text_light),
+    REPEAT(1, R.string.retry_again, R.string.retry_again_desc, R.color.error),
+    DONE(2, R.string.done, R.string.done_desc, R.color.active),
+    IGNORE(100, R.string.ignored, R.string.ignored_desc, R.color.inactive),
 
     ;
 
     private final int status;
 
-    private final int descResId;
+    private final int nameResId;
+    private final int descriptionResId;
 
     private final int color;
 
-    SentenceStatus(int status, int descResId, int color) {
+    SentenceStatus(int status, int nameResId, int descriptionResId, int color) {
         this.status = status;
-        this.descResId = descResId;
+        this.nameResId = nameResId;
+        this.descriptionResId = descriptionResId;
         this.color = color;
     }
 
@@ -37,8 +38,12 @@ public enum SentenceStatus {
         return status;
     }
 
-    public int getDescResId() {
-        return descResId;
+    public int getNameResId() {
+        return nameResId;
+    }
+
+    public int getDescriptionResId() {
+        return descriptionResId;
     }
 
     public int getColor() {
