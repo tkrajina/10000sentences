@@ -51,25 +51,24 @@ public final class StatsService {
         Map<Long, List<Integer>> timeByDay = new HashMap<>();
         Map<Long, Map<String, Integer>> doneByDay = new HashMap<>();
 
-        for (SentenceHistory model : history) {
-            if (collectionId == null || model.collectionId != collectionId) {
-                continue;
+        for (SentenceHistory sh : history) {
+            if (collectionId == null || sh.collectionId == collectionId) {
+                Calendar c = Calendar.getInstance();
+                c.setTimeInMillis(sh.created);
+                c.set(Calendar.HOUR_OF_DAY, 12);
+                c.set(Calendar.MINUTE, 0);
+                c.set(Calendar.SECOND, 0);
+                c.set(Calendar.MILLISECOND, 0);
+                c.set(Calendar.DST_OFFSET, 0);
+                c.set(Calendar.ZONE_OFFSET, 0);
+                long time = c.getTimeInMillis();
+                if (!timeByDay.containsKey(time)) {
+                    timeByDay.put(time, new ArrayList<Integer>());
+                    doneByDay.put(time, new HashMap<String, Integer>());
+                }
+                timeByDay.get(time).add(sh.time);
+                doneByDay.get(time).put(sh.collectionId, sh.doneCount);
             }
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(model.created);
-            c.set(Calendar.HOUR_OF_DAY, 12);
-            c.set(Calendar.MINUTE, 0);
-            c.set(Calendar.SECOND, 0);
-            c.set(Calendar.MILLISECOND, 0);
-            c.set(Calendar.DST_OFFSET, 0);
-            c.set(Calendar.ZONE_OFFSET, 0);
-            long time = c.getTimeInMillis();
-            if (!timeByDay.containsKey(time)) {
-                timeByDay.put(time, new ArrayList<Integer>());
-                doneByDay.put(time, new HashMap<String, Integer>());
-            }
-            timeByDay.get(time).add(model.time);
-            doneByDay.get(time).put(model.collectionId, model.doneCount);
         }
 
         List<DataPoint> timeDailyData = new ArrayList<>();
