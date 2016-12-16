@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Map;
 import java.util.Random;
@@ -41,7 +40,6 @@ import info.puzz.a10000sentences.utils.DebugUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import temp.DBG;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

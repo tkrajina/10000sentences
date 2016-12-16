@@ -1,7 +1,6 @@
 package info.puzz.a10000sentences.logic;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
@@ -16,7 +15,6 @@ import java.util.List;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.models.WordAnnotation;
-import temp.DBG;
 
 public class AnnotationService {
     private final Dao dao;
