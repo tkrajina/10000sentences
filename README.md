@@ -81,7 +81,6 @@ Most Android phones have text-to-speech (TTS) available for some languages. Some
 ![005](http://tkrajina.github.io/10000sentences/images/005.png)
 ![006](http://tkrajina.github.io/10000sentences/images/006.png)
 ![007](http://tkrajina.github.io/10000sentences/images/007.png)
-![008](http://tkrajina.github.io/10000sentences/images/008.png)
 
 # License
 
