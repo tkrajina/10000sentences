@@ -55,6 +55,8 @@ public class EditAnnotationActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_annotation);
         setTitle(R.string.annotations);
 
+        annotationId = getIntent().getLongExtra(ARG_ANNOTATION_ID, -1);
+
         Annotation annotation = Annotation.load(Annotation.class, annotationId);
         if (annotation == null) {
             Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
@@ -66,8 +68,6 @@ public class EditAnnotationActivity extends BaseActivity {
         speech = new Speech(this, dao.getLanguage(collection.targetLanguage));
 
         binding.setAnnotation(annotation);
-
-        annotationId = getIntent().getLongExtra(ARG_ANNOTATION_ID, -1);
     }
 
     @Override
