@@ -3,6 +3,8 @@ package info.puzz.a10000sentences.activities;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
@@ -51,6 +53,18 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
         if (dao.getLanguages().size() == 0) {
             reloadLanguages();
         }
+
+        binding.filter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
     }
 
     @Override
