@@ -24,18 +24,22 @@ import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.models.WordAnnotation;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import info.puzz.a10000sentences.utils.ShareUtils;
+import info.puzz.a10000sentences.utils.Speech;
 
 public class WordsAdapter extends ArrayAdapter<WordAnnotation> {
 
     private final Annotation annotation;
 
+    private final Speech speech;
+
     @Inject
     AnnotationService annotationService;
 
-    public <T extends BaseActivity> WordsAdapter(T activity, Annotation annotation, List<WordAnnotation> words) {
+    public <T extends BaseActivity> WordsAdapter(T activity, Annotation annotation, List<WordAnnotation> words, Speech speech) {
         super(activity, R.layout.annotation_word, words);
         Application.COMPONENT.inject(this);
         this.annotation = annotation;
+        this.speech = speech;
     }
 
     @NonNull
@@ -65,6 +69,7 @@ public class WordsAdapter extends ArrayAdapter<WordAnnotation> {
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                speech.speech(word.word);
                 ShareUtils.copyToClipboard((Activity) getContext(), word.word);
             }
         });
