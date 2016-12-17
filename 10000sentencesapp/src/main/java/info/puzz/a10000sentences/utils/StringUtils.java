@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class StringUtils {
+
+    private static final String SENTENCE_ENDING_INTERPUNCTIONS = ".?!";
+
     private StringUtils() throws Exception {
         throw new Exception();
     }
 
     public static List<WordChunk> getWordChunks(String string) {
+        string = string.replaceAll("\\s+", " ");
+        for (char c : SENTENCE_ENDING_INTERPUNCTIONS.toCharArray()) {
+            string = string.replace(" " + c, "" + c);
+        }
         ArrayList<WordChunk> res = new ArrayList<>();
         for (String str : string.split("\\s+")) {
             res.add(new WordChunk(str, getWord(str)));
