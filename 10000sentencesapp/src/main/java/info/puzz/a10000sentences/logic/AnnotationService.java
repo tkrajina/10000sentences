@@ -117,12 +117,16 @@ public class AnnotationService {
                 .orderBy("created desc");
     }
 
-    public From getAnnotationsSelectBydFilter(String text) {
+    public From getAnnotationsSelectBydFilter(String text, String collectionId) {
         String likeFilter = getLikeFilter(text);
-        return new Select()
+        From res = new Select()
                 .from(Annotation.class)
-                .where("annotation like ? or annotation like ?", likeFilter.toString() + "%", "% " + likeFilter + "%")
-                .orderBy("created desc");
+                .where("(annotation like ? or annotation like ?)", likeFilter.toString() + "%", "% " + likeFilter + "%");
+        if (!StringUtils.isEmpty(collectionId)) {
+            res.and("collection_id=?", collectionId);
+        }
+        res.orderBy("created desc");
+        return res;
     }
 
     private String getLikeFilter(String text) {
