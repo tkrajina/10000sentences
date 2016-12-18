@@ -1,9 +1,8 @@
 package info.puzz.a10000sentences.utils;
 
 import com.activeandroid.query.From;
-import com.activeandroid.query.Select;
 
-import info.puzz.a10000sentences.models.Sentence;
+import org.apache.commons.lang3.*;
 
 public class SqlFilterUtils {
     private SqlFilterUtils() throws Exception {
@@ -27,6 +26,9 @@ public class SqlFilterUtils {
      */
     public static void addFilter(From sql, String[] columns, String filter) {
         filter = prepareLikeFilter(filter);
+        if (org.apache.commons.lang3.StringUtils.isEmpty(filter)) {
+            return;
+        }
         String whereExpression = new String();
         String[] args = new String[columns.length * 2];
         for (int i = 0; i < columns.length; i++) {

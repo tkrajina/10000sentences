@@ -2,11 +2,14 @@ package info.puzz.a10000sentences.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 
 import com.activeandroid.query.From;
+
+import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
@@ -64,8 +67,19 @@ public class SentencesActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String filter = binding.filter.getText().toString();
-                adapter.reset(getSql(filter));
+                final String filter = binding.filter.getText().toString();
+                new AsyncTask<Void, Void, From>() {
+
+                    @Override
+                    protected From doInBackground(Void... voids) {
+                        return getSql(filter);
+                    }
+
+                    @Override
+                    protected void onPostExecute(From from) {
+                        adapter.reset(from);
+                    }
+                }.execute();
             }
         });
     }
