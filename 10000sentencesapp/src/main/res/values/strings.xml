@@ -96,4 +96,5 @@ If you really want this, type: %s]]></string>
     <string name="retry_again_desc">Retrying sentence</string>
     <string name="done_desc">Known sentence</string>
     <string name="ignored_desc">Ignored sentence</string>
+    <string name="tts_settings">TTS settings</string>
 </resources>
