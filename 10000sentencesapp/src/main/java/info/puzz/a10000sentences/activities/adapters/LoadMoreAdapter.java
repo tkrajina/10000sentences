@@ -22,13 +22,13 @@ public abstract class LoadMoreAdapter<T extends Model> extends ArrayAdapter<T> {
         originalSql = sql;
     }
 
-    protected int reset() {
+    public int reset() {
         this.select = originalSql;
         this.offset = 0;
         return loadMore();
     }
 
-    protected int reset(From sql) {
+    public int reset(From sql) {
         this.select = sql;
         this.offset = 0;
         return loadMore();

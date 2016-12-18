@@ -19,6 +19,7 @@ import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
+import info.puzz.a10000sentences.utils.SqlFilterUtils;
 
 public class Dao {
 
@@ -182,4 +183,25 @@ public class Dao {
                 .executeSingle();
     }
 
+    public From getSentencesByCollection(String collectionId, String filter) {
+        From res = new Select()
+                .from(Sentence.class)
+                .where("collection_id=?", collectionId);
+        if (!StringUtils.isEmpty(filter)) {
+            SqlFilterUtils.addFilter(res, new String[]{"known", "target"}, filter);
+        }
+        res.orderBy("complexity");
+        return res;
+    }
+
+    public From getSentencesByCollectionAndStatus(String collectionId, int sentenceStatus, String filter) {
+        From res = new Select()
+                .from(Sentence.class)
+                .where("(collection_id=? and status=?)", collectionId, sentenceStatus);
+        if (!StringUtils.isEmpty(filter)) {
+            SqlFilterUtils.addFilter(res, new String[]{"known", "target"}, filter);
+        }
+        res.orderBy("complexity");
+        return res;
+    }
 }
