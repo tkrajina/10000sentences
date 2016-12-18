@@ -52,7 +52,7 @@ public class AnnotationsActivity extends BaseActivity {
 
         Application.COMPONENT.injectActivity(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_annotations);
-        setTitle(R.string.annotations);
+        setTitle(R.string.word_annotations);
 
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
 
