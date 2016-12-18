@@ -48,6 +48,9 @@ public class SentenceCollection extends Model {
     @Column(name = "ignore_count")
     public int ignoreCount;
 
+    @Column(name = "annotation_count")
+    public int annotationCount;
+
     public boolean isDownloaded() {
         return count > 0;
     }
@@ -78,6 +81,10 @@ public class SentenceCollection extends Model {
 
     public String formatRepeatCount() {
         return formatCount(repeatCount);
+    }
+
+    public String formatAnnotationCount() {
+        return formatCount(annotationCount);
     }
 
     private String formatCount(int count) {

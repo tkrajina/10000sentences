@@ -130,12 +130,16 @@ public class Dao {
         int ignoreRows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ? and status = ?",
                 new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.IGNORE.getStatus())});
+        int annotationCount = SQLiteUtils.intQuery(
+                "select count(*) from annotation where collection_id = ?",
+                new String[] {collection.getCollectionID()});
 
         collection.count = rows;
         collection.todoCount = todoRows;
         collection.repeatCount = againRows;
         collection.doneCount = doneRows;
         collection.ignoreCount = ignoreRows;
+        collection.annotationCount = annotationCount;
         collection.save();
 
         return collection;

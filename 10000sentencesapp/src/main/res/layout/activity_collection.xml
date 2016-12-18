@@ -177,6 +177,29 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <com.joanzapata.iconify.widget.IconTextView
+                                android:layout_gravity="center"
+                                android:text="{fa-language}"
+                                android:textColor="@color/annotation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:text="@string/annotations"
+                                android:textColor="@color/annotation"
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:text="@{sentenceCollection.formatAnnotationCount()}"
+                                android:textColor="@color/annotation"
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
 
                 </LinearLayout>
                 </LinearLayout>

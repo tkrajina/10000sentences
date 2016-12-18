@@ -53,7 +53,7 @@ public class EditAnnotationActivity extends BaseActivity {
 
         Application.COMPONENT.injectActivity(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_annotation);
-        setTitle(R.string.annotations);
+        setTitle(R.string.word_annotations);
 
         annotationId = getIntent().getLongExtra(ARG_ANNOTATION_ID, -1);
 
