@@ -177,6 +177,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
+                        <Space
+                            android:layout_width="5dp"
+                            android:layout_height="wrap_content" />
                         <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="wrap_content"
@@ -236,6 +239,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/all_sentences" />
+
+                    <Button
+                        android:id="@+id/annotations"
+                        android:visibility="gone"
+                        android:minHeight="0dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/annotations" />
 
                     <Button
                         android:id="@+id/download"
