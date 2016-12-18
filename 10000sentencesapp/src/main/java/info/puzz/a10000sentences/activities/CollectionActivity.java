@@ -84,6 +84,12 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
                 SentenceQuizActivity.startRandom(CollectionActivity.this, dao, sentenceCollectionsService, binding.getSentenceCollection().getCollectionID(), SentenceQuizActivity.Type.KNOWN_AND_UNKNOWN, null);
             }
         });
+        binding.annotations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnnotationsActivity.start(CollectionActivity.this, collectionId);
+            }
+        });
         binding.download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,9 +111,10 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             }
             @Override
             protected void onPostExecute(Void _) {
-                binding.randomSentence.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
+                binding.randomSentence.setVisibility(collection.count > 0 ? View.VISIBLE : View.GONE);
                 binding.randomKnownSentence.setVisibility(collection.doneCount > 0 ? View.VISIBLE : View.GONE);
-                binding.allSentences.setVisibility(collection.getCount() > 0 ? View.VISIBLE : View.GONE);
+                binding.allSentences.setVisibility(collection.count > 0 ? View.VISIBLE : View.GONE);
+                binding.annotations.setVisibility(collection.annotationCount > 0 ? View.VISIBLE : View.GONE);
             }
         }.execute();
 
