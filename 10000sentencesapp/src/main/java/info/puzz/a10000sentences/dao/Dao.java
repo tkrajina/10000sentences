@@ -134,6 +134,11 @@ public class Dao {
                 "select count(*) from annotation where collection_id = ?",
                 new String[] {collection.getCollectionID()});
 
+        if (todoRows > SentenceCollection.MAX_SENTENCES) {
+            todoRows = SentenceCollection.MAX_SENTENCES;
+        }
+        todoRows = todoRows - doneRows;
+
         collection.count = rows;
         collection.todoCount = todoRows;
         collection.repeatCount = againRows;
