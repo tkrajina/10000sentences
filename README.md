@@ -21,17 +21,6 @@ Each sentence can be under one of the following statuses:
 
 The app will allow only a certain number of _REPEAT_ sentences. If you reach that number, no new sentences will be shown to you. Only when you fix _REPEAT_ sentences (i.e. succeed in guessing all the words), new ones will be available for you.
 
-## Annotations
-
-The application allows you to write **annotations** on words. More than one words can be annotated with the same annotation.
-
-Annotations are best used to create your own dictionary as you proceed learning new sentences.
-If you use annotations like a dictionary, make sure that you write them in gramatically neutral way.
-For example, if you learn Italian, you will need to put "camminare" (to walk), "cammino" (I walk), "camminero" (I will walk) under one annotation (for example "walk").
-
-This application is not able to discern if "camminero" (I will walk) and "camminavo" (I was walking) are one and the same word.
-It is up to you to figure out that it must be **one** annotation, but this journey of "figuring out" words is part of language learning.
-
 # Help, FAQ
 
 ## Can I learn a language by using this app?
@@ -61,7 +50,18 @@ If you use Google translate, you can enable the "Tap to translate" option in it.
 
 You can also share words from Google translate directly into AnkiDroid. Just select "share" and then find "AnkiDroid" in the list.
 
-## Text to speech
+## Annotations
+
+The application allows you to write **annotations** on words. More than one words can be annotated with the same annotation.
+
+Annotations are best used to create your own dictionary as you proceed learning new sentences.
+If you use annotations like a dictionary, make sure that you write them in gramatically neutral way.
+For example, if you learn Italian, you will need to put "camminare" (to walk), "cammino" (I walk), "camminero" (I will walk) under one annotation (for example "walk").
+
+This application is not able to discern if "camminero" (I will walk) and "camminavo" (I was walking) are one and the same word.
+It is up to you to figure out that it must be **one** annotation, but this journey of "figuring out" words is part of language learning.
+
+## Text to speech (TTS)
 
 Most Android phones have text-to-speech (TTS) available for some languages. Some languages have very poor TTS voice quality. Check your phone settings to see if there is an option to download a better quality TTS. Some languages have also additional TTS applications available on the Google Play store.
 
