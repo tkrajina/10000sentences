@@ -57,8 +57,11 @@ public class AnnotationsActivity extends BaseActivity {
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
 
         From sql = new Select()
-                .from(Annotation.class)
-                .orderBy("created desc");
+                .from(Annotation.class);
+        if (!StringUtils.isEmpty(collectionId)) {
+            sql.where("collection_id=?", collectionId);
+        }
+        sql.orderBy("created desc");
         annotationsAdapter = new AnnotationsAdapter(this, sql, new AnnotationsAdapter.OnClickListener() {
             @Override
             public void onClick(Annotation annotation) {
@@ -84,13 +87,6 @@ public class AnnotationsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        From sql = new Select()
-                .from(Annotation.class);
-        if (!StringUtils.isEmpty(collectionId)) {
-            sql.where("collection_id=?", collectionId);
-        }
-        sql.orderBy("created desc");
     }
 
     private void onAnnotationSelected(final Annotation annotation) {
@@ -105,7 +101,7 @@ public class AnnotationsActivity extends BaseActivity {
         reloadingAsyncTask = new AsyncTask<Void, Void, From>() {
             @Override
             protected From doInBackground(Void... voids) {
-                return annotationService.getAnnotationsSelectBydFilter(text);
+                return annotationService.getAnnotationsSelectBydFilter(text, collectionId);
             }
 
             @Override
