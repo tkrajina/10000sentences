@@ -70,7 +70,12 @@ Most Android phones have text-to-speech (TTS) available for some languages. Some
 * Skip sentences for advanced users who feel the first sentences are too easy.
 * Stats with graphs, goals, ...
 * Add more languages
-* Other quiz types (for example where the user must retype the words of a sentence, not only guess them)
+* better way/place to show annotations in quizes
+* Other quiz types:
+    * listening comprehension: listen to voice then guess words (without seeing the original sentence, it will be visible only at the end)
+
+Maybe:
+* share progress with other users, global rating lists for different languages
 
 # Screenshots
 
