@@ -10,7 +10,7 @@
     <string name="no">No</string>
     <string name="download_senteces">Download sentences</string>
     <string name="random_sentence">Random sentence</string>
-    <string name="download_collection">Download collection</string>
+    <string name="reload_collection">(Re)load collection</string>
     <string name="todo">Todo</string>
     <string name="retry_again">Retry later</string>
     <string name="done">Done</string>
