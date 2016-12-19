@@ -51,7 +51,32 @@ public class TatoebaImporter {
         String bucketFiles = "bucket_files";
         new File(bucketFiles).mkdirs();
 
-        String[] languages = new String[]{"ita", "epo", "lat", "tur", "ell", "ron", "ara", "heb", "deu", "fra", "rus", "por", "spa",};
+        String[] languages = new String[]{
+                "ces",
+                "bul",
+                "srp",
+                "dan",
+                "swe",
+                "ukr",
+                "nld",
+                "fin",
+                "mkd",
+                "hun",
+                "pol",
+                "ita",
+                "epo",
+                "lat",
+                "tur",
+                "ell",
+                "ron",
+                "ara",
+                "heb",
+                "deu",
+                "fra",
+                "rus",
+                "por",
+                "spa",
+        };
 
         System.out.println("Caching links");
         Map<Integer, int[]> links = loadLinks();
