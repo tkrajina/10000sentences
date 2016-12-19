@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceHistory;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.SqlFilterUtils;
 
@@ -203,5 +204,12 @@ public class Dao {
         }
         res.orderBy("complexity");
         return res;
+    }
+
+    public SentenceHistory getLatestSentenceHistory() {
+        return new Select()
+                .from(SentenceHistory.class)
+                .orderBy("created desc")
+                .executeSingle();
     }
 }

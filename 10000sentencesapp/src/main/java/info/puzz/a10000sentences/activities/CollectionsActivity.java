@@ -18,6 +18,7 @@ import info.puzz.a10000sentences.activities.adapters.CollectionsAdapter;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionsBinding;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceHistory;
 
 public class CollectionsActivity extends BaseActivity implements BaseActivity.OnCollectionsReloaded {
 
@@ -37,6 +38,11 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
         super.onCreate(savedInstanceState);
 
         Application.COMPONENT.injectActivity(this);
+
+        SentenceHistory sentenceHistory = dao.getLatestSentenceHistory();
+        if (sentenceHistory != null) {
+            CollectionActivity.start(this, sentenceHistory.collectionId);
+        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collections);
 
