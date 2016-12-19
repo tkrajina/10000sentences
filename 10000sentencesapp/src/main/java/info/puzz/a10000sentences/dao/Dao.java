@@ -18,7 +18,9 @@ import javax.inject.Inject;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceHistory;
 import info.puzz.a10000sentences.models.SentenceStatus;
+import info.puzz.a10000sentences.utils.SqlFilterUtils;
 
 public class Dao {
 
@@ -130,11 +132,21 @@ public class Dao {
         int ignoreRows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ? and status = ?",
                 new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.IGNORE.getStatus())});
+        int annotationCount = SQLiteUtils.intQuery(
+                "select count(*) from annotation where collection_id = ?",
+                new String[] {collection.getCollectionID()});
+
+        if (todoRows > SentenceCollection.MAX_SENTENCES) {
+            todoRows = SentenceCollection.MAX_SENTENCES;
+        }
+        todoRows = todoRows - doneRows;
+
         collection.count = rows;
         collection.todoCount = todoRows;
         collection.repeatCount = againRows;
         collection.doneCount = doneRows;
         collection.ignoreCount = ignoreRows;
+        collection.annotationCount = annotationCount;
         collection.save();
 
         return collection;
@@ -172,4 +184,32 @@ public class Dao {
                 .executeSingle();
     }
 
+    public From getSentencesByCollection(String collectionId, String filter) {
+        From res = new Select()
+                .from(Sentence.class)
+                .where("collection_id=?", collectionId);
+        if (!StringUtils.isEmpty(filter)) {
+            SqlFilterUtils.addFilter(res, new String[]{"known", "target"}, filter);
+        }
+        res.orderBy("complexity");
+        return res;
+    }
+
+    public From getSentencesByCollectionAndStatus(String collectionId, int sentenceStatus, String filter) {
+        From res = new Select()
+                .from(Sentence.class)
+                .where("(collection_id=? and status=?)", collectionId, sentenceStatus);
+        if (!StringUtils.isEmpty(filter)) {
+            SqlFilterUtils.addFilter(res, new String[]{"known", "target"}, filter);
+        }
+        res.orderBy("complexity");
+        return res;
+    }
+
+    public SentenceHistory getLatestSentenceHistory() {
+        return new Select()
+                .from(SentenceHistory.class)
+                .orderBy("created desc")
+                .executeSingle();
+    }
 }

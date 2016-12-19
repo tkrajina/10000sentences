@@ -1,7 +1,6 @@
 package info.puzz.a10000sentences.logic;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
@@ -16,7 +15,7 @@ import java.util.List;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.models.WordAnnotation;
-import temp.DBG;
+import info.puzz.a10000sentences.utils.SqlFilterUtils;
 
 public class AnnotationService {
     private final Dao dao;
@@ -112,31 +111,22 @@ public class AnnotationService {
     }
 
     public From getAnnotationsSelectByCollectionAndFilter(String collectionId, String text) {
-        String likeFilter = getLikeFilter(text);
+        String likeFilter = SqlFilterUtils.prepareLikeFilter(text);
         return new Select()
                 .from(Annotation.class)
                 .where("collection_id=? and (annotation like ? or annotation like ?)", collectionId, likeFilter.toString() + "%", "% " + likeFilter + "%")
                 .orderBy("created desc");
     }
 
-    public From getAnnotationsSelectBydFilter(String text) {
-        String likeFilter = getLikeFilter(text);
-        return new Select()
-                .from(Annotation.class)
-                .where("annotation like ? or annotation like ?", likeFilter.toString() + "%", "% " + likeFilter + "%")
-                .orderBy("created desc");
-    }
-
-    private String getLikeFilter(String text) {
-        StringBuilder likeFilter = new StringBuilder();
-        for (char c : text.toCharArray()) {
-            if (Character.isLetter(c) || Character.isDigit(c) || Character.isSpaceChar(c)) {
-                likeFilter.append(c);
-            } else {
-                likeFilter.append(' ');
-            }
+    public From getAnnotationsSelectBydFilter(String text, String collectionId) {
+        From res = new Select()
+                .from(Annotation.class);
+        SqlFilterUtils.addFilter(res, new String[] {"annotation"}, text);
+        if (!StringUtils.isEmpty(collectionId)) {
+            res.and("collection_id=?", collectionId);
         }
-        return likeFilter.toString();
+        res.orderBy("created desc");
+        return res;
     }
 
 }

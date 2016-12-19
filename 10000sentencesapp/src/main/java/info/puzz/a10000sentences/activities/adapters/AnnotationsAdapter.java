@@ -65,7 +65,6 @@ public class AnnotationsAdapter extends LoadMoreAdapter<Annotation> {
     }
 
     public int reloadAndGetSize(From select) {
-        clear();
         return reset(select);
     }
 }

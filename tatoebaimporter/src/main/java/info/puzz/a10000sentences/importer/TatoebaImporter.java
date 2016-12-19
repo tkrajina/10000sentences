@@ -51,7 +51,32 @@ public class TatoebaImporter {
         String bucketFiles = "bucket_files";
         new File(bucketFiles).mkdirs();
 
-        String[] languages = new String[]{"ita", "epo", "lat", "tur", "ell", "ron", "ara", "heb", "deu", "fra", "rus", "por", "spa",};
+        String[] languages = new String[]{
+                "ces",
+                "bul",
+                "srp",
+                "dan",
+                "swe",
+                "ukr",
+                "nld",
+                "fin",
+                "mkd",
+                "hun",
+                "pol",
+                "ita",
+                "epo",
+                "lat",
+                "tur",
+                "ell",
+                "ron",
+                "ara",
+                "heb",
+                "deu",
+                "fra",
+                "rus",
+                "por",
+                "spa",
+        };
 
         System.out.println("Caching links");
         Map<Integer, int[]> links = loadLinks();
@@ -67,6 +92,12 @@ public class TatoebaImporter {
 
         String infoFilename = Paths.get(bucketFiles, "info.json").toString();
         FileUtils.writeByteArrayToFile(new File(infoFilename), OBJECT_MAPPER.writeValueAsBytes(info));
+
+        for (SentenceCollectionVO col : info.getSentenceCollections()) {
+            LanguageVO knownLang = Languages.getLanguageByAbbrev(col.getKnownLanguage());
+            LanguageVO targetLang = Languages.getLanguageByAbbrev(col.getTargetLanguage());
+            System.out.println(String.format("%s (for %s speakers): %d sentences", targetLang.getName(), knownLang.getName(), col.getCount()));
+        }
     }
 
     private static Map<String, Map<Integer, TatoebaSentence>> loadSentencesPerLanguage(String[] languages) throws Exception {

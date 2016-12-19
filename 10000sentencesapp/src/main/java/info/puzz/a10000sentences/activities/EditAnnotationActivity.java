@@ -23,8 +23,10 @@ import info.puzz.a10000sentences.activities.adapters.WordsAdapter;
 import info.puzz.a10000sentences.databinding.ActivityEditAnnotationBinding;
 import info.puzz.a10000sentences.logic.AnnotationService;
 import info.puzz.a10000sentences.models.Annotation;
+import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.WordAnnotation;
 import info.puzz.a10000sentences.utils.DialogUtils;
+import info.puzz.a10000sentences.utils.Speech;
 
 public class EditAnnotationActivity extends BaseActivity {
 
@@ -37,6 +39,7 @@ public class EditAnnotationActivity extends BaseActivity {
 
     ActivityEditAnnotationBinding binding;
     private long annotationId;
+    private Speech speech;
 
     public static <T extends BaseActivity> void start(T activity, long annotationId) {
         Intent intent = new Intent(activity, EditAnnotationActivity.class)
@@ -50,14 +53,9 @@ public class EditAnnotationActivity extends BaseActivity {
 
         Application.COMPONENT.injectActivity(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_annotation);
-        setTitle(R.string.annotations);
+        setTitle(R.string.word_annotations);
 
         annotationId = getIntent().getLongExtra(ARG_ANNOTATION_ID, -1);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         Annotation annotation = Annotation.load(Annotation.class, annotationId);
         if (annotation == null) {
@@ -66,7 +64,15 @@ public class EditAnnotationActivity extends BaseActivity {
             return;
         }
 
+        SentenceCollection collection = dao.getCollection(annotation.collectionId);
+        speech = new Speech(this, dao.getLanguage(collection.targetLanguage));
+
         binding.setAnnotation(annotation);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         reloadWords();
     }
@@ -77,7 +83,7 @@ public class EditAnnotationActivity extends BaseActivity {
                 .where("annotation_id=?", annotationId)
                 .execute();
 
-        WordsAdapter adapter = new WordsAdapter(this, binding.getAnnotation(), wordAnnotations);
+        WordsAdapter adapter = new WordsAdapter(this, binding.getAnnotation(), wordAnnotations, speech);
         binding.annotationsList.setAdapter(adapter);
     }
 

@@ -15,7 +15,6 @@ import info.puzz.a10000sentences.models.SentenceHistory;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import temp.DBG;
 
 public final class StatsService {
 

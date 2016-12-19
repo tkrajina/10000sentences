@@ -52,12 +52,6 @@ public class CollectionsAdapter extends ArrayAdapter<SentenceCollection> {
 
         final SentenceCollection collection = getItem(position);
 
-        if (collection.isDownloaded()) {
-            binding.progress.setTextColor(ContextCompat.getColor(getContext(), R.color.active));
-        } else {
-            binding.progress.setTextColor(ContextCompat.getColor(getContext(), R.color.inactive));
-        }
-
         binding.setKnownLanguage(languages.get(collection.getKnownLanguage()));
         binding.setTargetLanguage(languages.get(collection.getTargetLanguage()));
         binding.setCollection(getItem(position));

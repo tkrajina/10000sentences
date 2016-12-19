@@ -12,17 +12,27 @@ import java.util.List;
 public abstract class LoadMoreAdapter<T extends Model> extends ArrayAdapter<T> {
 
     private static final int PAGE_SIZE = 100;
+    private final From originalSql;
     private From select;
     private int offset;
 
     public LoadMoreAdapter(Context context, int resource, From sql) {
         super(context, resource, new ArrayList<T>());
         reset(sql);
+        originalSql = sql;
     }
 
-    protected int reset(From sql) {
+    public int reset() {
+        this.select = originalSql;
+        this.offset = 0;
+        this.clear();
+        return loadMore();
+    }
+
+    public int reset(From sql) {
         this.select = sql;
         this.offset = 0;
+        this.clear();
         return loadMore();
     }
 

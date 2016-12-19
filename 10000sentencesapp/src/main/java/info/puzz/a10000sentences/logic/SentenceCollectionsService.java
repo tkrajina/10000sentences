@@ -2,14 +2,16 @@ package info.puzz.a10000sentences.logic;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.activeandroid.query.Select;
 
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
-
-import javax.inject.Inject;
+import java.util.concurrent.TimeUnit;
 
 import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.dao.Dao;
@@ -19,6 +21,8 @@ import info.puzz.a10000sentences.models.SentenceHistory;
 import info.puzz.a10000sentences.models.SentenceStatus;
 
 public final class SentenceCollectionsService {
+
+    private static final String TAG = SentenceCollectionsService.class.getSimpleName();
 
     private static final Random RANDOM = new SecureRandom(String.valueOf(System.currentTimeMillis()).getBytes());
 
@@ -36,24 +40,55 @@ public final class SentenceCollectionsService {
             status = SentenceStatus.REPEAT.getStatus();
         }
 
-        return getRandomSentenceByStatus(collection, status, exceptSentenceId);
+        Sentence result = getRandomSentenceByStatus(collection, SentenceStatus.fromStatus(status), exceptSentenceId);
+        if (result == null) {
+            return getRandomSentenceByStatus(collection, SentenceStatus.TODO, exceptSentenceId);
+        }
+
+        return result;
     }
 
     public Sentence getRandomKnownSentence(Context context, SentenceCollection collection, String exceptSentenceId) {
-        return new Select()
+        return  new Select()
                 .from(Sentence.class)
                 .where("collection_id=? and status=? and sentence_id<>?", collection.collectionID, SentenceStatus.DONE.getStatus(), String.valueOf(exceptSentenceId))
                 .orderBy("random()")
                 .executeSingle();
     }
 
-    private Sentence getRandomSentenceByStatus(SentenceCollection collection, int status, String exceptSentenceId) {
+    private Sentence getRandomSentenceByStatus(SentenceCollection collection, SentenceStatus status, String exceptSentenceId) {
         List<Sentence> sentences = new Select()
                 .from(Sentence.class)
-                .where("collection_id=? and status=? and sentence_id!=?", collection.getCollectionID(), status, String.valueOf(exceptSentenceId))
+                .where("collection_id=? and status=? and sentence_id!=?", collection.getCollectionID(), status.getStatus(), String.valueOf(exceptSentenceId))
                 .orderBy("complexity")
                 .limit(20)
                 .execute();
+
+        if (status == SentenceStatus.REPEAT) {
+            // REPEAT sentences are special because we don't want them to be repeated immediately after
+            // the user failed to guess them. So, find the oldest one:
+            Map<String, Long> sentenceTakenTime = new HashMap<>();
+            List<SentenceHistory> senHist = new Select()
+                    .from(SentenceHistory.class)
+                    .orderBy("created")
+                    .limit(200)
+                    .execute();
+            for (SentenceHistory sh : senHist) {
+                sentenceTakenTime.put(sh.sentenceId, sh.created);
+            }
+
+            for (Sentence sentence : sentences) {
+                Long timeTaken = sentenceTakenTime.get(sentence.sentenceId);
+                if (timeTaken == null) { // Longer than the sample of history we took => OK:
+                    return sentence;
+                }
+
+                if (System.currentTimeMillis() - timeTaken.longValue() > TimeUnit.MINUTES.toMillis(3)) {
+                    return sentence;
+                }
+            }
+        }
+
         if (sentences.size() == 0) {
             return null;
         }
@@ -86,3 +121,4 @@ public final class SentenceCollectionsService {
         }.execute();
     }
 }
+

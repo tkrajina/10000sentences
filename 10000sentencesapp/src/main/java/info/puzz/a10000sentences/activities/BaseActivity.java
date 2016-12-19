@@ -2,6 +2,7 @@ package info.puzz.a10000sentences.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,10 +18,10 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Map;
 import java.util.Random;
@@ -41,7 +42,6 @@ import info.puzz.a10000sentences.utils.DebugUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import temp.DBG;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -78,6 +78,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         initNavigation();
+
+        if (!BuildConfig.DEBUG) {
+            Application.GA_TRACKER.setScreenName("Image~" + this.getClass().getSimpleName());
+            Application.GA_TRACKER.send(new HitBuilders.ScreenViewBuilder().build());
+        }
     }
 
     protected boolean isNetworkAvailable() {
@@ -162,6 +167,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         setupMenuIcon(navigationView, R.id.nav_annotations, FontAwesomeIcons.fa_language);
         setupMenuIcon(navigationView, R.id.nav_stats, FontAwesomeIcons.fa_line_chart);
         setupMenuIcon(navigationView, R.id.nav_settings, FontAwesomeIcons.fa_toggle_on);
+        setupMenuIcon(navigationView, R.id.nav_tts_settings, FontAwesomeIcons.fa_file_sound_o);
         setupMenuIcon(navigationView, R.id.nav_about, FontAwesomeIcons.fa_info);
         setupMenuIcon(navigationView, R.id.nav_help, FontAwesomeIcons.fa_question);
 
@@ -237,6 +243,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             StatsActivity.start(this);
         } else if (id == R.id.nav_settings) {
             SettingsActivity.start(this);
+        } else if (id == R.id.nav_tts_settings) {
+            Intent intent = new Intent()
+                    .setAction("com.android.settings.TTS_SETTINGS")
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         } else if (id == R.id.nav_about) {
             try {
                 PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), 0);

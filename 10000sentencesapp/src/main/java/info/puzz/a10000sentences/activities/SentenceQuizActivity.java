@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -298,6 +299,7 @@ public class SentenceQuizActivity extends BaseActivity {
         }
         binding.quizButtons.setVisibility(View.GONE);
         binding.finalButtons.setVisibility(View.VISIBLE);
+        binding.sentenceStatus.setVisibility(View.GONE);
 
         binding.repeatLater.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -320,7 +322,7 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.copyToClipboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String[] strings = getStringsToTranslate();
+                final String[] strings = getStringsFromSentence(true);
                 showAlertDialog(strings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -332,7 +334,7 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.annotateWords.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String[] strings = getStringsToTranslate();
+                final String[] strings = getStringsFromSentence(false);
                 showAlertDialog(strings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -345,7 +347,7 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.shareTranslate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String[] strings = getStringsToTranslate();
+                final String[] strings = getStringsFromSentence(true);
                 showAlertDialog(strings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -394,18 +396,20 @@ public class SentenceQuizActivity extends BaseActivity {
         }
     }
 
-    private String[] getStringsToTranslate() {
+    private String[] getStringsFromSentence(boolean includingSentence) {
         String targetSentence = binding.getQuiz().getSentence().targetSentence;
         List<WordChunk> chunks = StringUtils.getWordChunks(targetSentence);
         if (chunks.size() <= 1) {
             return new String[] {targetSentence};
         }
-        String[] res = new String[chunks.size() + 1];
-        res[0] = targetSentence;
-        for (int i = 0; i < chunks.size(); i++) {
-            res[i+1] = chunks.get(i).word;
+        List<String> strings = new ArrayList<>();
+        if (includingSentence) {
+            strings.add(targetSentence);
         }
-        return res;
+        for (WordChunk chunk : chunks) {
+            strings.add(chunk.word);
+        }
+        return strings.toArray(new String[strings.size()]);
     }
 
     private void updateSentenceStatusAndGotoNext(SentenceStatus status) {

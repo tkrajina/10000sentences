@@ -2,10 +2,14 @@ package info.puzz.a10000sentences.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import com.activeandroid.query.From;
-import com.activeandroid.query.Select;
+
+import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
@@ -14,10 +18,9 @@ import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.activities.adapters.SentencesAdapter;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentencesBinding;
-import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceStatus;
 
-public class SentencesActivity extends BaseActivity implements BaseActivity.OnCollectionsReloaded {
+public class SentencesActivity extends BaseActivity {
 
     private static final String ARG_COLLECTION_ID = "arg_collection_id";
     private static final String ARG_SENTENCE_STATUS = "arg_sentence_status";
@@ -25,10 +28,11 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
 
     @Inject Dao dao;
 
-    ActivitySentencesBinding binding;
-
     private String collectionId;
     private int sentenceStatus;
+
+    private SentencesAdapter adapter;
+    ActivitySentencesBinding binding;
 
     public static <T extends BaseActivity> void start(T activity, String collectionID, SentenceStatus status) {
         Intent intent = new Intent(activity, SentencesActivity.class)
@@ -48,33 +52,48 @@ public class SentencesActivity extends BaseActivity implements BaseActivity.OnCo
 
         setTitle(R.string.sentences);
 
-        if (dao.getLanguages().size() == 0) {
-            reloadLanguages();
+
+        From select = getSql("");
+
+        adapter = new SentencesAdapter(this, select);
+        binding.sentencesList.setAdapter(adapter);
+
+        binding.filter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                final String filter = binding.filter.getText().toString();
+                new AsyncTask<Void, Void, From>() {
+
+                    @Override
+                    protected From doInBackground(Void... voids) {
+                        return getSql(filter);
+                    }
+
+                    @Override
+                    protected void onPostExecute(From from) {
+                        adapter.reset(from);
+                    }
+                }.execute();
+            }
+        });
+    }
+
+    private From getSql(String filter) {
+        if (sentenceStatus == STATUS_ALL) {
+            return dao.getSentencesByCollection(collectionId, filter);
         }
+        return dao.getSentencesByCollectionAndStatus(collectionId, sentenceStatus, filter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        reloadCollections();
-    }
-
-    @Override
-    public void onCollectionsReloaded() {
-        reloadCollections();
-    }
-
-    private void reloadCollections() {
-        From select = new Select()
-                .from(Sentence.class);
-        if (sentenceStatus == STATUS_ALL) {
-            select.where("collection_id=?", collectionId);
-        } else {
-            select.where("collection_id=? and status=?", collectionId, sentenceStatus);
-        }
-        select.orderBy("complexity");
-        binding.sentencesList.setAdapter(new SentencesAdapter(this, select));
     }
 
 }

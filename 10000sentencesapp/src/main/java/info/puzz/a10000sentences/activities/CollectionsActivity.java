@@ -1,8 +1,12 @@
 package info.puzz.a10000sentences.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
+import android.webkit.WebView;
 
 import java.util.List;
 
@@ -14,6 +18,7 @@ import info.puzz.a10000sentences.activities.adapters.CollectionsAdapter;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionsBinding;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceHistory;
 
 public class CollectionsActivity extends BaseActivity implements BaseActivity.OnCollectionsReloaded {
 
@@ -34,6 +39,11 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
 
         Application.COMPONENT.injectActivity(this);
 
+        SentenceHistory sentenceHistory = dao.getLatestSentenceHistory();
+        if (sentenceHistory != null) {
+            CollectionActivity.start(this, sentenceHistory.collectionId);
+        }
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collections);
 
         if (dao.getLanguages().size() == 0) {
@@ -41,6 +51,26 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
         }
 
         setTitle(R.string.collections);
+
+        showFirstStepsIfNeeded();
+    }
+
+    private void showFirstStepsIfNeeded() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String firstTimePref = "___first_time___";
+        if (!prefs.getBoolean(firstTimePref, false)) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(firstTimePref, true);
+            editor.commit();
+
+            WebView webView = new WebView(this);
+            webView.loadData(getString(R.string.first_steps_contents), "text/html; charset=UTF-8", "UTF-8");
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.first_steps)
+                    .setView(webView)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+        }
     }
 
     @Override

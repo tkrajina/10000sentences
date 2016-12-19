@@ -18,6 +18,9 @@
             android:id="@+id/nav_settings"
             android:title="@string/settings" />
         <item
+            android:id="@+id/nav_tts_settings"
+            android:title="@string/tts_settings" />
+        <item
             android:id="@+id/nav_about"
             android:title="@string/about" />
         <item

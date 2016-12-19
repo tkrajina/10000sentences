@@ -19,6 +19,7 @@ import lombok.experimental.Accessors;
 public class SentenceCollection extends Model {
 
     private static final NumberFormat NUMBER_FORMAT = NumberFormat.getNumberInstance(Locale.US);
+    public static final int MAX_SENTENCES = 10_000;
 
     @Column(name = "collection_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public String collectionID;
@@ -46,6 +47,9 @@ public class SentenceCollection extends Model {
 
     @Column(name = "ignore_count")
     public int ignoreCount;
+
+    @Column(name = "annotation_count")
+    public int annotationCount;
 
     public boolean isDownloaded() {
         return count > 0;
@@ -79,11 +83,15 @@ public class SentenceCollection extends Model {
         return formatCount(repeatCount);
     }
 
+    public String formatAnnotationCount() {
+        return formatCount(annotationCount);
+    }
+
     private String formatCount(int count) {
-        if (count <= 10_000) {
+        if (count <= MAX_SENTENCES) {
             return NUMBER_FORMAT.format(count);
         }
-        return NUMBER_FORMAT.format(10_000) + "+";
+        return NUMBER_FORMAT.format(MAX_SENTENCES) + "+";
     }
 
 }

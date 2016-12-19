@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
+        <import type="android.view.View"/>
         <variable name="collection" type="info.puzz.a10000sentences.models.SentenceCollection" />
         <variable name="knownLanguage" type="info.puzz.a10000sentences.models.Language" />
         <variable name="targetLanguage" type="info.puzz.a10000sentences.models.Language" />
@@ -64,11 +65,87 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:visibility="@{collection.count > 0 ? View.VISIBLE : View.GONE}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/smaller_text"
+                    android:text="{fa-list-ol}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="@{collection.formatTodoCount()}"
+                    android:textSize="@dimen/smaller_text"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/smaller_text"
+                    android:text="{fa-thumbs-o-up}"
+                    android:textColor="@color/active"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="@{collection.formatDoneCount()}"
+                    android:textSize="@dimen/smaller_text"
+                    android:textColor="@color/active"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/smaller_text"
+                    android:text="{fa-thumbs-o-down}"
+                    android:textColor="@color/error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="@{collection.formatRepeatCount()}"
+                    android:textSize="@dimen/smaller_text"
+                    android:textColor="@color/error"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/smaller_text"
+                    android:text="{fa-trash}"
+                    android:textColor="@color/inactive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="@{collection.formatIgnoreCount()}"
+                    android:textSize="@dimen/smaller_text"
+                    android:textColor="@color/inactive"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
             <TextView
-                android:id="@+id/progress"
-                android:text="@{collection.formatProgress()}"
+                android:visibility="@{collection.count == 0 ? View.VISIBLE : View.GONE}"
+                android:text="@string/not_downloaded"
                 android:textSize="@dimen/smaller_text"
-                android:gravity="center"
+                android:textColor="@color/inactive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

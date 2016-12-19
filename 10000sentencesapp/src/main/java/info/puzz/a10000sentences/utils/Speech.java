@@ -6,7 +6,9 @@ import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.R;
@@ -23,6 +25,8 @@ public class Speech {
     private final Locale locale;
     private final boolean languageFound;
     private final boolean enabled;
+
+    private final Set<Integer> toastMessagesShown = new HashSet<>();
 
     @Getter
     private boolean initialized = false;
@@ -69,11 +73,11 @@ public class Speech {
             return;
         }
         if (!languageFound) {
-            Toast.makeText(context, R.string.tts_language_not_available, Toast.LENGTH_SHORT).show();
+            showToastOnce(R.string.tts_language_not_available);
             return;
         }
         if (!initialized) {
-            Toast.makeText(context, R.string.tts_not_inititialized, Toast.LENGTH_SHORT).show();
+            showToastOnce(R.string.tts_not_inititialized);
             return;
         }
 
@@ -82,6 +86,14 @@ public class Speech {
         tts.speak(speech, TextToSpeech.QUEUE_FLUSH, bundle, null);*/
         tts.setLanguage(locale);
         tts.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    private void showToastOnce(int resId) {
+        if (toastMessagesShown.contains(resId)) {
+            return;
+        }
+        toastMessagesShown.add(resId);
+        Toast.makeText(context, resId, Toast.LENGTH_SHORT).show();
     }
 
     public void shutdown() {
