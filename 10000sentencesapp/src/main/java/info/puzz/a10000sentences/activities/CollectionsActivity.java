@@ -39,9 +39,13 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
 
         Application.COMPONENT.injectActivity(this);
 
-        SentenceHistory sentenceHistory = dao.getLatestSentenceHistory();
-        if (sentenceHistory != null) {
-            CollectionActivity.start(this, sentenceHistory.collectionId);
+        if (isTaskRoot()) {
+            SentenceHistory sentenceHistory = dao.getLatestSentenceHistory();
+            if (sentenceHistory != null) {
+                CollectionActivity.start(this, sentenceHistory.collectionId);
+                // TODO for some reason this return causes an exception:
+                // return;
+            }
         }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collections);
@@ -51,7 +55,6 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
         }
 
         setTitle(R.string.collections);
-
         showFirstStepsIfNeeded();
     }
 
