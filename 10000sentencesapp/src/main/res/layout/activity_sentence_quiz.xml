@@ -283,13 +283,15 @@
                             android:layout_height="wrap_content"
                             android:text="@string/ignore_sentence" />
 
+
                         <Button
-                            android:id="@+id/annotate_words"
+                            android:id="@+id/read_sentence"
+                            android:visibility="gone"
                             android:minHeight="0dp"
                             android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/annotate_words" />
+                            android:text="@string/read_sentence" />
 
                         <Button
                             android:id="@+id/repeat_later"
@@ -324,14 +326,13 @@
                                 android:text="@string/copy_to_clipboard" />
 
                             <Button
-                                android:id="@+id/share_translate"
+                                android:id="@+id/annotate_words"
                                 android:minHeight="0dp"
                                 android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                android:text="@string/share" />
-
+                                android:text="@string/annotate_words" />
 
                         </LinearLayout>
 

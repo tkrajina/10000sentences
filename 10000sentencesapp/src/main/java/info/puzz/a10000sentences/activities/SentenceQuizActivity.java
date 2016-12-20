@@ -200,9 +200,14 @@ public class SentenceQuizActivity extends BaseActivity {
             case R.id.action_open_in_tatoteba:
                 openLink();
                 break;
-            case R.id.action_read_sentence:
-                speech.speech(binding.getQuiz().getSentence().targetSentence);
-                break;
+            case R.id.action_share_with:
+                final String[] strings = getStringsFromSentence(true);
+                showAlertDialog(strings, new DialogInterface.OnClickListener() {
+                    @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                        ShareUtils.shareWithTranslate(SentenceQuizActivity.this, strings[which]);
+                    }
+                });                break;
             case R.id.action_done_sentence:
                 sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.DONE, started);
                 CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
@@ -300,7 +305,14 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.quizButtons.setVisibility(View.GONE);
         binding.finalButtons.setVisibility(View.VISIBLE);
         binding.sentenceStatus.setVisibility(View.GONE);
+        binding.readSentence.setVisibility(View.VISIBLE);
 
+        binding.readSentence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                speech.speech(binding.getQuiz().getSentence().targetSentence);
+            }
+        });
         binding.repeatLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -340,18 +352,6 @@ public class SentenceQuizActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String word = strings[which];
                         gotoAnnotation(word);
-                    }
-                });
-            }
-        });
-        binding.shareTranslate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String[] strings = getStringsFromSentence(true);
-                showAlertDialog(strings, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ShareUtils.shareWithTranslate(SentenceQuizActivity.this, strings[which]);
                     }
                 });
             }
