@@ -2,6 +2,8 @@
 
 10,000 sentences is an Android app to help you learn new words in a foreign language.
 
+<a href='https://play.google.com/store/apps/details?id=info.puzz.a10000sentences&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="200"/></a>
+
 ## How it works
 
 The idea is to go through 10,000 sentences in a language you learn. First you will se a sentence in a language you known and then you must guess the words of the same sentence in your target language. By exposing you to unknown words in a real context (a sentence) you will slowly (but steadily) increase your vocabulary size.
