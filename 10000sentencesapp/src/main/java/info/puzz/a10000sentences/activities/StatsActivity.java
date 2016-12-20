@@ -98,6 +98,8 @@ public class StatsActivity extends BaseActivity {
 
         LineGraphSeries series = new LineGraphSeries<>(dataPoints);
 
+        graph.removeAllSeries();
+
         graph.getGridLabelRenderer().setLabelFormatter(new LabelFormatter() {
             public String lattestFormatted;
             Calendar cal = Calendar.getInstance();
