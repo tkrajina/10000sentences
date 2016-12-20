@@ -55,7 +55,6 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
         }
 
         setTitle(R.string.collections);
-        showFirstStepsIfNeeded();
     }
 
     private void showFirstStepsIfNeeded() {
@@ -86,6 +85,7 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
     @Override
     public void onCollectionsReloaded() {
         reloadCollections();
+        showFirstStepsIfNeeded();
     }
 
     private void reloadCollections() {
