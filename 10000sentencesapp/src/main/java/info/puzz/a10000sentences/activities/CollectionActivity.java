@@ -163,6 +163,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         getMenuInflater().inflate(R.menu.collection, menu);
 
         menu.findItem(R.id.action_remove_collecition).setVisible(binding.getSentenceCollection().count > 0);
+        menu.findItem(R.id.action_redownload).setVisible(binding.getSentenceCollection().count > 0);
 
         return true;
     }
@@ -184,6 +185,9 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
                 break;
             case R.id.action_remove_collecition:
                 removeCollection();
+                break;
+            case R.id.action_redownload:
+                downloadSentences();
                 break;
         }
         return true;

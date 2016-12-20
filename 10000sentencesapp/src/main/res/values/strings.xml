@@ -10,7 +10,7 @@
     <string name="no">No</string>
     <string name="download_senteces">Download sentences</string>
     <string name="random_sentence">Random sentence</string>
-    <string name="reload_collection">(Re)load collection</string>
+    <string name="download_collection">Download collection</string>
     <string name="todo">Todo</string>
     <string name="retry_again">Retry later</string>
     <string name="done">Done</string>
@@ -100,4 +100,5 @@ If you really want this, type: %s]]></string>
     <string name="not_downloaded">Not downloaded</string>
     <string name="first_steps">Next steps</string>
     <string name="first_steps_contents"><![CDATA[<ul><li> Enable \'Tap to translate\' in Google Translate<li> Download a sentence collection for your language<li> Practice...<li> When you encounter an unknown word -- use annotations to create your own dictionary</ul>]]></string>
+    <string name="redownload_collection">(Re)download collection</string>
 </resources>

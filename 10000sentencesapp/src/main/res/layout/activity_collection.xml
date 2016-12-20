@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+        <import type="android.view.View"/>
         <variable name="knownLanguage" type="info.puzz.a10000sentences.models.Language" />
         <variable name="targetLanguage" type="info.puzz.a10000sentences.models.Language" />
         <variable name="sentenceCollection" type="info.puzz.a10000sentences.models.SentenceCollection" />
@@ -250,10 +251,11 @@
 
                     <Button
                         android:id="@+id/download"
+                        android:visibility="@{sentenceCollection.count == 0 ? View.VISIBLE : View.GONE}"
                         android:minHeight="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/reload_collection" />
+                        android:text="@string/download_collection" />
 
                 </LinearLayout>
 
