@@ -83,7 +83,7 @@ public final class SentenceCollectionsService {
                     return sentence;
                 }
 
-                if (System.currentTimeMillis() - timeTaken.longValue() > TimeUnit.MINUTES.toMillis(3)) {
+                if (System.currentTimeMillis() - timeTaken.longValue() > TimeUnit.MINUTES.toMillis(5)) {
                     return sentence;
                 }
             }
