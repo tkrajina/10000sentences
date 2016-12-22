@@ -43,7 +43,7 @@ public class SentencesAdapter extends LoadMoreAdapter<Sentence> {
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SentenceQuizActivity.startSentence((BaseActivity) getContext(), sentence.sentenceId, SentenceQuizActivity.Type.RETURN_BACK);
+                SentenceQuizActivity.startSentence((BaseActivity) getContext(), sentence.sentenceId, SentenceQuizActivity.Type.KNOWN_AND_UNKNOWN);
             }
         });
 
