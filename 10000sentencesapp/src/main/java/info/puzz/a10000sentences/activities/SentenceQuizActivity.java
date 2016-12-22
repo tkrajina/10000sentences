@@ -41,6 +41,7 @@ import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.Speech;
 import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.TatoebaUtils;
+import info.puzz.a10000sentences.utils.TranslateUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
 
 public class SentenceQuizActivity extends BaseActivity {
@@ -331,14 +332,14 @@ public class SentenceQuizActivity extends BaseActivity {
                 updateSentenceStatusAndGotoNext(SentenceStatus.IGNORE);
             }
         });
-        binding.copyToClipboard.setOnClickListener(new View.OnClickListener() {
+        binding.translate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String[] strings = getStringsFromSentence(true);
                 showAlertDialog(strings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ShareUtils.copyToClipboard(SentenceQuizActivity.this, strings[which]);
+                        TranslateUtils.translate(SentenceQuizActivity.this, strings[which]);
                     }
                 });
             }

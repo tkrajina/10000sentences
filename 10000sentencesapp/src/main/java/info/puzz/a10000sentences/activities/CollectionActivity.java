@@ -24,6 +24,7 @@ import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
+import info.puzz.a10000sentences.utils.TranslateUtils;
 
 public class CollectionActivity extends BaseActivity implements ImporterAsyncTask.CollectionReloadedListener {
 

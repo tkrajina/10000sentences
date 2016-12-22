@@ -317,13 +317,13 @@
                             android:layout_height="wrap_content">
 
                             <Button
-                                android:id="@+id/copy_to_clipboard"
+                                android:id="@+id/translate"
                                 android:minHeight="0dp"
                                 android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                android:text="@string/copy_to_clipboard" />
+                                android:text="@string/translate" />
 
                             <Button
                                 android:id="@+id/annotate_words"
