@@ -308,7 +308,7 @@
                             android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/next"
+                            android:text="@string/continue_learning"
                             android:textStyle="normal|bold" />
 
                         <LinearLayout
