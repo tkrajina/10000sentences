@@ -253,6 +253,13 @@
                                 android:text="@{quiz.answers[3]}" />
                         </TableRow>
 
+                        <Button
+                            android:id="@+id/translate_word"
+                            android:visibility="gone"
+                            android:minHeight="0dp"
+                            android:maxLines="1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content" />
                     </TableLayout>
 
                     <LinearLayout

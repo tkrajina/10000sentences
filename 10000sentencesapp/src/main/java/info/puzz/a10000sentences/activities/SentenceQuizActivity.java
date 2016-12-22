@@ -240,7 +240,7 @@ public class SentenceQuizActivity extends BaseActivity {
         }
     }
 
-    private void submitResponse(Button answerButton, String text) {
+    private void submitResponse(Button answerButton, final String text) {
         if (originalButtonColor == null) {
             originalButtonColor = answerButton.getCurrentTextColor();
         }
@@ -248,6 +248,14 @@ public class SentenceQuizActivity extends BaseActivity {
         if (Preferences.isWordToClipboard(this)) {
             ShareUtils.copyToClipboard(this, text);
         }
+        binding.translateWord.setText(getString(R.string.translate) + ":" + text);
+        binding.translateWord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TranslateUtils.translate(SentenceQuizActivity.this, text);
+            }
+        });
+        binding.translateWord.setVisibility(View.VISIBLE);
 
         speech.speech(text);
         showAnnotation(text);
