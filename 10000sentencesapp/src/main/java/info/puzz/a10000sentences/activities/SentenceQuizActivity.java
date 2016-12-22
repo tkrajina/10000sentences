@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.activeandroid.query.Select;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -192,6 +194,7 @@ public class SentenceQuizActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sentence, menu);
+
         return true;
     }
 
@@ -200,6 +203,9 @@ public class SentenceQuizActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_open_in_tatoteba:
                 openLink();
+                break;
+            case R.id.action_previous:
+                gotoPreviousSentence();
                 break;
             case R.id.action_share_with:
                 final String[] strings = getStringsFromSentence(true);
@@ -223,6 +229,15 @@ public class SentenceQuizActivity extends BaseActivity {
                 break;
         }
         return true;
+    }
+
+    private void gotoPreviousSentence() {
+        Sentence sentence = sentenceCollectionsService.findPreviousSentence(binding.getCollection().collectionID);
+        if (sentence == null) {
+            Toast.makeText(this, R.string.cannot_find_sentence, Toast.LENGTH_SHORT).show();
+        } else {
+            startSentence(this, sentence.sentenceId, type);
+        }
     }
 
     private void openLink() {

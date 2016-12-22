@@ -120,5 +120,21 @@ public final class SentenceCollectionsService {
             }
         }.execute();
     }
+
+    public Sentence findPreviousSentence(String collectionId) {
+        SentenceHistory hist = new Select()
+                .from(SentenceHistory.class)
+                .where("collection_id=?", collectionId)
+                .orderBy("created desc")
+                .executeSingle();
+        if (hist == null) {
+            return null;
+        }
+
+        return new Select()
+                .from(Sentence.class)
+                .where("sentence_id=?", hist.sentenceId)
+                .executeSingle();
+    }
 }
 

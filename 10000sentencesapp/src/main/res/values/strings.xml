@@ -102,4 +102,6 @@ If you really want this, type: %s]]></string>
     <string name="first_steps_contents"><![CDATA[<ul><li> Enable \'Tap to translate\' in Google Translate<li> Download a sentence collection for your language<li> Practice...<li> When you encounter an unknown word -- use annotations to create your own dictionary</ul>]]></string>
     <string name="redownload_collection">(Re)download collection</string>
     <string name="not_translate_app_found">No app found for translation</string>
+    <string name="previous_sentence">Previous sentence</string>
+    <string name="cannot_find_sentence">Cannot find sentence</string>
 </resources>
