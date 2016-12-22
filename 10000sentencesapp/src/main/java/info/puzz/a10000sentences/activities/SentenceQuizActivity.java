@@ -24,7 +24,6 @@ import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.Constants;
-import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
@@ -254,9 +253,6 @@ public class SentenceQuizActivity extends BaseActivity {
             originalButtonColor = answerButton.getCurrentTextColor();
         }
 
-        if (Preferences.isWordToClipboard(this)) {
-            ShareUtils.copyToClipboard(this, text);
-        }
         binding.translateWord.setText(getString(R.string.translate) + ":" + text);
         binding.translateWord.setOnClickListener(new View.OnClickListener() {
             @Override
