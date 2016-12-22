@@ -6,7 +6,7 @@
         android:orderInCategory="90"
         android:visible="true"
         android:title="@string/previous_sentence"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_share_with"
         android:orderInCategory="100"

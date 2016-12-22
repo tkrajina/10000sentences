@@ -283,15 +283,6 @@
                             android:textSize="@dimen/title_size" />
 
                         <Button
-                            android:id="@+id/ignore_sentence"
-                            android:minHeight="0dp"
-                            android:maxLines="1"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ignore_sentence" />
-
-
-                        <Button
                             android:id="@+id/read_sentence"
                             android:visibility="gone"
                             android:minHeight="0dp"

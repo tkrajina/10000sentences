@@ -16,8 +16,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.activeandroid.query.Select;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +26,10 @@ import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.Constants;
 import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.R;
-import info.puzz.a10000sentences.logic.AnnotationService;
-import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
+import info.puzz.a10000sentences.logic.AnnotationService;
+import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
@@ -343,12 +341,6 @@ public class SentenceQuizActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 updateSentenceStatusAndGotoNext(SentenceStatus.DONE);
-            }
-        });
-        binding.ignoreSentence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateSentenceStatusAndGotoNext(SentenceStatus.IGNORE);
             }
         });
         binding.translate.setOnClickListener(new View.OnClickListener() {
