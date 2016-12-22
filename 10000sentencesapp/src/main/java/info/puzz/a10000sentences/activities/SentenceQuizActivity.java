@@ -210,20 +210,16 @@ public class SentenceQuizActivity extends BaseActivity {
                     }
                 });                break;
             case R.id.action_done_sentence:
-                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.DONE, started);
-                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
+                updateSentenceStatusAndGotoNext(SentenceStatus.DONE);
                 break;
             case R.id.action_todo_sentence:
-                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.TODO, started);
-                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
+                updateSentenceStatusAndGotoNext(SentenceStatus.TODO);
                 break;
             case R.id.action_ignored_sentence:
-                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.IGNORE, started);
-                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
+                updateSentenceStatusAndGotoNext(SentenceStatus.IGNORE);
                 break;
             case R.id.action_repeat_sentence:
-                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.REPEAT, started);
-                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
+                updateSentenceStatusAndGotoNext(SentenceStatus.REPEAT);
                 break;
         }
         return true;
