@@ -1,5 +1,7 @@
 package info.puzz.a10000sentences.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +22,21 @@ public final class WordChunkUtils {
 
         ArrayList<WordChunk> res = new ArrayList<>();
         String[] parts = string.split("\\s+");
+
         for (int i = 0; i < parts.length; i++) {
-            String str = parts[i];
-            String word = getWord(str);
-            res.add(new WordChunk(str, word));
+            String part = parts[i];
+            String word = getWord(part);
+            if (res.size() > 0 && StringUtils.isEmpty(word)) {
+                res.get(res.size() - 1).chunk += " " + part;
+            } else {
+                res.add(new WordChunk(part, word));
+            }
+        }
+
+        WordChunk firstChunk = res.get(0);
+        if (res.size() > 1 && StringUtils.isEmpty(firstChunk.word)) {
+            res.remove(0);
+            res.get(0).chunk = firstChunk.chunk + " " + res.get(0).chunk;
         }
 
         return res;

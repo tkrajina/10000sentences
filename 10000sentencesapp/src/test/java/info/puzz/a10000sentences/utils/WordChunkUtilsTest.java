@@ -36,4 +36,37 @@ public final class WordChunkUtilsTest {
         Assert.assertEquals("li", chunks.get(1).word);
         Assert.assertEquals("li?", chunks.get(1).chunk);
     }
+
+    @Test
+    public void testSpaceAroundNonLetter() {
+        String sentence = "Je - li ?";
+        List<WordChunk> chunks = WordChunkUtils.getWordChunks(sentence);
+        Assert.assertEquals(2, chunks.size());
+        Assert.assertEquals("Je", chunks.get(0).word);
+        Assert.assertEquals("Je -", chunks.get(0).chunk);
+        Assert.assertEquals("li", chunks.get(1).word);
+        Assert.assertEquals("li?", chunks.get(1).chunk);
+    }
+
+    @Test
+    public void testSpaceAroundNonLetter2() {
+        String sentence = " - Je - li ?";
+        List<WordChunk> chunks = WordChunkUtils.getWordChunks(sentence);
+        Assert.assertEquals(2, chunks.size());
+        Assert.assertEquals("Je", chunks.get(0).word);
+        Assert.assertEquals(" - Je -", chunks.get(0).chunk);
+        Assert.assertEquals("li", chunks.get(1).word);
+        Assert.assertEquals("li?", chunks.get(1).chunk);
+    }
+
+    @Test
+    public void testSpaceAroundNonLetter3() {
+        String sentence = " - Je - li ? - ";
+        List<WordChunk> chunks = WordChunkUtils.getWordChunks(sentence);
+        Assert.assertEquals(2, chunks.size());
+        Assert.assertEquals("Je", chunks.get(0).word);
+        Assert.assertEquals(" - Je -", chunks.get(0).chunk);
+        Assert.assertEquals("li", chunks.get(1).word);
+        Assert.assertEquals("li? -", chunks.get(1).chunk);
+    }
 }
