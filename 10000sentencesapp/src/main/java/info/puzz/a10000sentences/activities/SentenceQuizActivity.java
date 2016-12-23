@@ -38,7 +38,7 @@ import info.puzz.a10000sentences.models.WordAnnotation;
 import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.Speech;
-import info.puzz.a10000sentences.utils.StringUtils;
+import info.puzz.a10000sentences.utils.WordChunkUtils;
 import info.puzz.a10000sentences.utils.TatoebaUtils;
 import info.puzz.a10000sentences.utils.TranslateUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
@@ -406,7 +406,7 @@ public class SentenceQuizActivity extends BaseActivity {
 
     private String[] getStringsFromSentence(boolean includingSentence) {
         String targetSentence = binding.getQuiz().getSentence().targetSentence;
-        List<WordChunk> chunks = StringUtils.getWordChunks(targetSentence);
+        List<WordChunk> chunks = WordChunkUtils.getWordChunks(targetSentence);
         if (chunks.size() <= 1) {
             return new String[] {targetSentence};
         }

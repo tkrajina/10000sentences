@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.*;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -56,12 +58,12 @@ public class Speech {
 
     private static Locale findLocale(String languageID) {
         for (Locale locale : Locale.getAvailableLocales()) {
-            if (org.apache.commons.lang3.StringUtils.isEmpty(locale.getCountry()) && StringUtils.equals(locale.getLanguage(), languageID)) {
+            if (org.apache.commons.lang3.StringUtils.isEmpty(locale.getCountry()) && org.apache.commons.lang3.StringUtils.equals(locale.getLanguage(), languageID)) {
                 return locale;
             }
         }
         for (Locale locale : Locale.getAvailableLocales()) {
-            if (StringUtils.equals(locale.getLanguage(), languageID)) {
+            if (org.apache.commons.lang3.StringUtils.equals(locale.getLanguage(), languageID)) {
                 return locale;
             }
         }

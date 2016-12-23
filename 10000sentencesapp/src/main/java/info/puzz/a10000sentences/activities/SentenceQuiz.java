@@ -4,14 +4,16 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.preference.Preference;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.models.Sentence;
-import info.puzz.a10000sentences.utils.StringUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
+import info.puzz.a10000sentences.utils.WordChunkUtils;
 import temp.DBG;
 
 public class SentenceQuiz extends BaseObservable {
@@ -28,13 +30,13 @@ public class SentenceQuiz extends BaseObservable {
 
     public SentenceQuiz(Sentence sentence, int answersNo, List<Sentence> randomSentencesForVocab) {
         this.sentence = sentence;
-        chunks = StringUtils.getWordChunks(sentence.targetSentence);
+        chunks = WordChunkUtils.getWordChunks(sentence.targetSentence);
         currentChunk = 0;
         answers = new String[answersNo];
         vocabChunks = new ArrayList<>();
         DBG.todo("Check if empty");
         for (Sentence s : randomSentencesForVocab) {
-            for (WordChunk wch : StringUtils.getWordChunks(s.targetSentence)) {
+            for (WordChunk wch : WordChunkUtils.getWordChunks(s.targetSentence)) {
                 vocabChunks.add(wch.word);
             }
         }
