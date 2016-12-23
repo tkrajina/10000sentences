@@ -16,7 +16,7 @@
     <string name="done">Done</string>
     <string name="finalize_sentence_title">What next?</string>
     <string name="correct">Correct {fa-thumbs-o-up}</string>
-    <string name="repeat_later">Repeat later &amp; next sentence</string>
+    <string name="repeat_later">Repeat sentence later</string>
     <string name="continue_learning">Continue learning</string>
     <string name="too_many_errors">Too many errors {fa-thumbs-o-down}</string>
     <string name="title_activity_tmp">TmpActivity</string>
