@@ -231,7 +231,7 @@
                         android:minHeight="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/learn_known_sentences"
+                        android:text="@string/practice_known_sentences"
                         android:textStyle="normal|bold" />
 
                     <Button
