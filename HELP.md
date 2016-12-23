@@ -12,7 +12,7 @@ This app is a helper tool to help you increase your vocabulary by exposing you t
 
 You must have Google translate installed for this option to work.
 
-If you use another translation app, you can open with the "Open with..." option in the menus.
+If you use another translation app, you can it open with the "Open with..." option in the menus.
 
 ## Annotations
 
