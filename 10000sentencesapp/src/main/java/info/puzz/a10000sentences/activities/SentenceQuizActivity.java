@@ -1,6 +1,7 @@
 package info.puzz.a10000sentences.activities;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -35,6 +36,7 @@ import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.models.WordAnnotation;
+import info.puzz.a10000sentences.utils.DialogUtils;
 import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.Speech;
@@ -42,11 +44,11 @@ import info.puzz.a10000sentences.utils.WordChunkUtils;
 import info.puzz.a10000sentences.utils.TatoebaUtils;
 import info.puzz.a10000sentences.utils.TranslateUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
+import temp.DBG;
 
 public class SentenceQuizActivity extends BaseActivity {
 
     private static final String TAG = SentenceQuizActivity.class.getSimpleName();
-    private long started;
 
     public static enum Type {
         ONLY_KNOWN,
@@ -60,6 +62,9 @@ public class SentenceQuizActivity extends BaseActivity {
     @Inject Dao dao;
     @Inject SentenceCollectionsService sentenceCollectionsService;
     @Inject AnnotationService annotationService;
+
+    private long started;
+    private boolean skipSentenceCandidate;
 
     ActivitySentenceQuizBinding binding;
 
@@ -179,6 +184,8 @@ public class SentenceQuizActivity extends BaseActivity {
         // TODO: the time will be reset on orientation change!!!
         started = System.currentTimeMillis();
         SleepUtils.disableSleep(this);
+
+        reloadSkipSentencesStatus();
     }
 
     @Override
@@ -228,6 +235,22 @@ public class SentenceQuizActivity extends BaseActivity {
         return true;
     }
 
+    private void reloadSkipSentencesStatus() {
+        skipSentenceCandidate = false;
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                return sentenceCollectionsService.isCandidateForSkipping(binding.getCollection().collectionID);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean isCandidate) {
+                skipSentenceCandidate = isCandidate.booleanValue();
+            }
+        }.execute();
+    }
+
     private void gotoPreviousSentence() {
         Sentence sentence = sentenceCollectionsService.findPreviousSentence(binding.getCollection().collectionID);
         if (sentence == null) {
@@ -267,9 +290,7 @@ public class SentenceQuizActivity extends BaseActivity {
 
         boolean guessed = binding.getQuiz().guessWord(text);
         if (guessed) {
-            for (Button b : answerButtons) {
-                b.setTextColor(originalButtonColor);
-            }
+            resetButtonCollors();
         } else {
             answerButton.setTextColor(ContextCompat.getColor(this, R.color.error));
         }
@@ -277,6 +298,12 @@ public class SentenceQuizActivity extends BaseActivity {
         if (binding.getQuiz().isFinished()) {
             speech.speech(binding.getQuiz().getSentence().targetSentence);
             finalizeSentence();
+        }
+    }
+
+    private void resetButtonCollors() {
+        for (Button b : answerButtons) {
+            b.setTextColor(originalButtonColor);
         }
     }
 
@@ -312,6 +339,9 @@ public class SentenceQuizActivity extends BaseActivity {
         if (binding.getQuiz().canBeMarkedAsDone(this)) {
             binding.finalMessage.setText(R.string.correct);
             binding.markAsDone.setVisibility(View.VISIBLE);
+            if (skipSentenceCandidate) {
+                askToSkipSentences();
+            }
         } else {
             binding.finalMessage.setText(R.string.too_many_errors);
             binding.markAsDone.setVisibility(View.GONE);
@@ -362,6 +392,19 @@ public class SentenceQuizActivity extends BaseActivity {
                         gotoAnnotation(word);
                     }
                 });
+            }
+        });
+    }
+
+    private void askToSkipSentences() {
+        final int skipSentences = 100;
+        DialogUtils.showYesNoButton(this, getString(R.string.skip_sentences, skipSentences), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                if (Dialog.BUTTON_POSITIVE == which) {
+                    sentenceCollectionsService.skipSentences(binding.getCollection().collectionID, skipSentences);
+                    DBG.todo();
+                }
             }
         });
     }
