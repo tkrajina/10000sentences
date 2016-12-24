@@ -3,7 +3,6 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-
     repositories {
         jcenter()
         mavenCentral()
@@ -16,8 +15,8 @@ android {
         applicationId "info.puzz.a10000sentences"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 26
-        versionName "0.1"
+        versionCode 34
+        versionName "0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

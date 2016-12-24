@@ -24,6 +24,7 @@ import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
+import info.puzz.a10000sentences.utils.TranslateUtils;
 
 public class CollectionActivity extends BaseActivity implements ImporterAsyncTask.CollectionReloadedListener {
 
@@ -163,6 +164,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         getMenuInflater().inflate(R.menu.collection, menu);
 
         menu.findItem(R.id.action_remove_collecition).setVisible(binding.getSentenceCollection().count > 0);
+        menu.findItem(R.id.action_redownload).setVisible(binding.getSentenceCollection().count > 0);
 
         return true;
     }
@@ -184,6 +186,9 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
                 break;
             case R.id.action_remove_collecition:
                 removeCollection();
+                break;
+            case R.id.action_redownload:
+                downloadSentences();
                 break;
         }
         return true;

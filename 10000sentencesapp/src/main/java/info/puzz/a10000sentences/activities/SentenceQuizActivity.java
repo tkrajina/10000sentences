@@ -24,12 +24,11 @@ import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.Constants;
-import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.R;
-import info.puzz.a10000sentences.logic.AnnotationService;
-import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivitySentenceQuizBinding;
+import info.puzz.a10000sentences.logic.AnnotationService;
+import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
@@ -39,8 +38,9 @@ import info.puzz.a10000sentences.models.WordAnnotation;
 import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.Speech;
-import info.puzz.a10000sentences.utils.StringUtils;
+import info.puzz.a10000sentences.utils.WordChunkUtils;
 import info.puzz.a10000sentences.utils.TatoebaUtils;
+import info.puzz.a10000sentences.utils.TranslateUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
 
 public class SentenceQuizActivity extends BaseActivity {
@@ -191,6 +191,7 @@ public class SentenceQuizActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sentence, menu);
+
         return true;
     }
 
@@ -200,27 +201,40 @@ public class SentenceQuizActivity extends BaseActivity {
             case R.id.action_open_in_tatoteba:
                 openLink();
                 break;
-            case R.id.action_read_sentence:
-                speech.speech(binding.getQuiz().getSentence().targetSentence);
+            case R.id.action_previous:
+                gotoPreviousSentence();
                 break;
+            case R.id.action_share_with:
+                final String[] strings = getStringsFromSentence(true);
+                showAlertDialog(strings, new DialogInterface.OnClickListener() {
+                    @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                        ShareUtils.shareWithTranslate(SentenceQuizActivity.this, strings[which]);
+                    }
+                });                break;
             case R.id.action_done_sentence:
-                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.DONE, started);
-                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
+                updateSentenceStatusAndGotoNext(SentenceStatus.DONE);
                 break;
             case R.id.action_todo_sentence:
-                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.TODO, started);
-                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
+                updateSentenceStatusAndGotoNext(SentenceStatus.TODO);
                 break;
             case R.id.action_ignored_sentence:
-                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.IGNORE, started);
-                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
+                updateSentenceStatusAndGotoNext(SentenceStatus.IGNORE);
                 break;
             case R.id.action_repeat_sentence:
-                sentenceCollectionsService.updateStatus(binding.getQuiz().getSentence(), SentenceStatus.REPEAT, started);
-                CollectionActivity.start(this, binding.getQuiz().getSentence().collectionId);
+                updateSentenceStatusAndGotoNext(SentenceStatus.REPEAT);
                 break;
         }
         return true;
+    }
+
+    private void gotoPreviousSentence() {
+        Sentence sentence = sentenceCollectionsService.findPreviousSentence(binding.getCollection().collectionID);
+        if (sentence == null) {
+            Toast.makeText(this, R.string.cannot_find_sentence, Toast.LENGTH_SHORT).show();
+        } else {
+            startSentence(this, sentence.sentenceId, type);
+        }
     }
 
     private void openLink() {
@@ -234,14 +248,19 @@ public class SentenceQuizActivity extends BaseActivity {
         }
     }
 
-    private void submitResponse(Button answerButton, String text) {
+    private void submitResponse(Button answerButton, final String text) {
         if (originalButtonColor == null) {
             originalButtonColor = answerButton.getCurrentTextColor();
         }
 
-        if (Preferences.isWordToClipboard(this)) {
-            ShareUtils.copyToClipboard(this, text);
-        }
+        binding.translateWord.setText(getString(R.string.translate) + ":" + text);
+        binding.translateWord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TranslateUtils.translate(SentenceQuizActivity.this, text);
+            }
+        });
+        binding.translateWord.setVisibility(View.VISIBLE);
 
         speech.speech(text);
         showAnnotation(text);
@@ -300,7 +319,14 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.quizButtons.setVisibility(View.GONE);
         binding.finalButtons.setVisibility(View.VISIBLE);
         binding.sentenceStatus.setVisibility(View.GONE);
+        binding.readSentence.setVisibility(View.VISIBLE);
 
+        binding.readSentence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                speech.speech(binding.getQuiz().getSentence().targetSentence);
+            }
+        });
         binding.repeatLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -313,20 +339,14 @@ public class SentenceQuizActivity extends BaseActivity {
                 updateSentenceStatusAndGotoNext(SentenceStatus.DONE);
             }
         });
-        binding.ignoreSentence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateSentenceStatusAndGotoNext(SentenceStatus.IGNORE);
-            }
-        });
-        binding.copyToClipboard.setOnClickListener(new View.OnClickListener() {
+        binding.translate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String[] strings = getStringsFromSentence(true);
                 showAlertDialog(strings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ShareUtils.copyToClipboard(SentenceQuizActivity.this, strings[which]);
+                        TranslateUtils.translate(SentenceQuizActivity.this, strings[which]);
                     }
                 });
             }
@@ -340,18 +360,6 @@ public class SentenceQuizActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String word = strings[which];
                         gotoAnnotation(word);
-                    }
-                });
-            }
-        });
-        binding.shareTranslate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String[] strings = getStringsFromSentence(true);
-                showAlertDialog(strings, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ShareUtils.shareWithTranslate(SentenceQuizActivity.this, strings[which]);
                     }
                 });
             }
@@ -398,7 +406,7 @@ public class SentenceQuizActivity extends BaseActivity {
 
     private String[] getStringsFromSentence(boolean includingSentence) {
         String targetSentence = binding.getQuiz().getSentence().targetSentence;
-        List<WordChunk> chunks = StringUtils.getWordChunks(targetSentence);
+        List<WordChunk> chunks = WordChunkUtils.getWordChunks(targetSentence);
         if (chunks.size() <= 1) {
             return new String[] {targetSentence};
         }

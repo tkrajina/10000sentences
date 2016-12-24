@@ -253,6 +253,13 @@
                                 android:text="@{quiz.answers[3]}" />
                         </TableRow>
 
+                        <Button
+                            android:id="@+id/translate_word"
+                            android:visibility="gone"
+                            android:minHeight="0dp"
+                            android:maxLines="1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content" />
                     </TableLayout>
 
                     <LinearLayout
@@ -276,20 +283,13 @@
                             android:textSize="@dimen/title_size" />
 
                         <Button
-                            android:id="@+id/ignore_sentence"
+                            android:id="@+id/read_sentence"
+                            android:visibility="gone"
                             android:minHeight="0dp"
                             android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/ignore_sentence" />
-
-                        <Button
-                            android:id="@+id/annotate_words"
-                            android:minHeight="0dp"
-                            android:maxLines="1"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/annotate_words" />
+                            android:text="@string/read_sentence" />
 
                         <Button
                             android:id="@+id/repeat_later"
@@ -306,7 +306,7 @@
                             android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/next"
+                            android:text="@string/continue_learning"
                             android:textStyle="normal|bold" />
 
                         <LinearLayout
@@ -315,23 +315,22 @@
                             android:layout_height="wrap_content">
 
                             <Button
-                                android:id="@+id/copy_to_clipboard"
+                                android:id="@+id/translate"
                                 android:minHeight="0dp"
                                 android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                android:text="@string/copy_to_clipboard" />
+                                android:text="@string/translate" />
 
                             <Button
-                                android:id="@+id/share_translate"
+                                android:id="@+id/annotate_words"
                                 android:minHeight="0dp"
                                 android:maxLines="1"
                                 android:layout_width="fill_parent"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                android:text="@string/share" />
-
+                                android:text="@string/annotate_words" />
 
                         </LinearLayout>
 

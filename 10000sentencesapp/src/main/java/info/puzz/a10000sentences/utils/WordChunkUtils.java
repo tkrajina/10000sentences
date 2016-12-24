@@ -1,25 +1,44 @@
 package info.puzz.a10000sentences.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public final class StringUtils {
+public final class WordChunkUtils {
 
     private static final String SENTENCE_ENDING_INTERPUNCTIONS = ".?!";
 
-    private StringUtils() throws Exception {
+    private WordChunkUtils() throws Exception {
         throw new Exception();
     }
 
     public static List<WordChunk> getWordChunks(String string) {
         string = string.replaceAll("\\s+", " ");
+
         for (char c : SENTENCE_ENDING_INTERPUNCTIONS.toCharArray()) {
             string = string.replace(" " + c, "" + c);
         }
+
         ArrayList<WordChunk> res = new ArrayList<>();
-        for (String str : string.split("\\s+")) {
-            res.add(new WordChunk(str, getWord(str)));
+        String[] parts = string.split("\\s+");
+
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i];
+            String word = getWord(part);
+            if (res.size() > 0 && StringUtils.isEmpty(word)) {
+                res.get(res.size() - 1).chunk += " " + part;
+            } else {
+                res.add(new WordChunk(part, word));
+            }
         }
+
+        WordChunk firstChunk = res.get(0);
+        if (res.size() > 1 && StringUtils.isEmpty(firstChunk.word)) {
+            res.remove(0);
+            res.get(0).chunk = firstChunk.chunk + " " + res.get(0).chunk;
+        }
+
         return res;
     }
 
@@ -40,36 +59,11 @@ public final class StringUtils {
             return str.substring(firstCharPos, lastCharPos + 1);
         }
 
-        return "<empty>";
+        return "";
     }
 
     public static void main(String[] args) {
         System.out.println(getWordChunks("ovo... je ,samo. test"));
     }
 
-    public static boolean equals(String s1, String s2) {
-        if (s1 == null && s2 == null) {
-            return true;
-        } else if (s1 != null && s2 != null) {
-            return s1.equals(s2);
-        }
-        return false;
-    }
-
-    public static boolean equalsIgnoreCase(String s1, String s2) {
-        if (s1 == null && s2 == null) {
-            return true;
-        } else if (s1 != null && s2 != null) {
-            return s1.toLowerCase().equals(s2.toLowerCase());
-        }
-        return false;
-    }
-
-    public static CharSequence repeat(char c, int length) {
-        StringBuilder res = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            res.append(c);
-        }
-        return res.toString();
-    }
 }

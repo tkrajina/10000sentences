@@ -3,6 +3,8 @@ package info.puzz.a10000sentences.logic;
 import com.activeandroid.query.Select;
 import com.jjoe64.graphview.series.DataPoint;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -51,7 +53,7 @@ public final class StatsService {
         Map<Long, Map<String, Integer>> doneByDay = new HashMap<>();
 
         for (SentenceHistory sh : history) {
-            if (collectionId == null || sh.collectionId == collectionId) {
+            if (collectionId == null || StringUtils.equals(sh.collectionId, collectionId)) {
                 Calendar c = Calendar.getInstance();
                 c.setTimeInMillis(sh.created);
                 c.set(Calendar.HOUR_OF_DAY, 12);

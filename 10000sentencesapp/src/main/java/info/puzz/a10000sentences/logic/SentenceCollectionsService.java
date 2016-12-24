@@ -83,7 +83,7 @@ public final class SentenceCollectionsService {
                     return sentence;
                 }
 
-                if (System.currentTimeMillis() - timeTaken.longValue() > TimeUnit.MINUTES.toMillis(3)) {
+                if (System.currentTimeMillis() - timeTaken.longValue() > TimeUnit.MINUTES.toMillis(5)) {
                     return sentence;
                 }
             }
@@ -119,6 +119,22 @@ public final class SentenceCollectionsService {
                 return null;
             }
         }.execute();
+    }
+
+    public Sentence findPreviousSentence(String collectionId) {
+        SentenceHistory hist = new Select()
+                .from(SentenceHistory.class)
+                .where("collection_id=?", collectionId)
+                .orderBy("created desc")
+                .executeSingle();
+        if (hist == null) {
+            return null;
+        }
+
+        return new Select()
+                .from(Sentence.class)
+                .where("sentence_id=?", hist.sentenceId)
+                .executeSingle();
     }
 }
 

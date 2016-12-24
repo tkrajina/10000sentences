@@ -7,16 +7,11 @@ import info.puzz.a10000sentences.utils.NumberUtils;
 
 public final class Preferences {
     public static final String USE_TTS = "use_tts";
-    public static final String GUESSES_TO_CLIPBOARD = "guesses_to_clipboard";
     public static final String MAX_REPEAT = "max_repeat";
     public static final String MIN_CORRECT_WORDS = "min_correct_words";
 
     public static boolean isUseTTS(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(USE_TTS, true);
-    }
-
-    public static boolean isWordToClipboard(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(GUESSES_TO_CLIPBOARD, true);
     }
 
     public static int getMaxRepeat(Context context) {

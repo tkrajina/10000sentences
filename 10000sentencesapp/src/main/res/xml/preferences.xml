@@ -7,11 +7,6 @@
         android:key="use_tts"
         android:summary="Use Android text-to-speech service (for available languages)"
         android:title="Text to speech" />
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="guesses_to_clipboard"
-        android:summary="Every time you guess a word, the word will be copied in the clipboard. If you have Google Translate &quot;Tap to translate&quot; enabled, you can check translations on each step."
-        android:title="Every guess to clipboard" />
     <EditTextPreference
         android:key="max_repeat"
         android:defaultValue="10"

@@ -2,33 +2,40 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_read_sentence"
+        android:id="@+id/action_previous"
+        android:orderInCategory="90"
+        android:visible="true"
+        android:title="@string/previous_sentence"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_share_with"
         android:orderInCategory="100"
-        android:title="@string/read_sentence"
-        app:showAsAction="ifRoom" />
+        android:visible="true"
+        android:title="@string/share"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_open_in_tatoteba"
-        android:orderInCategory="100"
+        android:orderInCategory="110"
         android:title="@string/open_in_tatoeba"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_done_sentence"
-        android:orderInCategory="100"
+        android:orderInCategory="120"
         android:title="@string/done_sentence"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_todo_sentence"
-        android:orderInCategory="101"
+        android:orderInCategory="130"
         android:title="@string/todo_sentence"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_ignored_sentence"
-        android:orderInCategory="102"
+        android:orderInCategory="140"
         android:title="@string/ignored_sentence"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_repeat_sentence"
-        android:orderInCategory="103"
+        android:orderInCategory="150"
         android:title="@string/repeat_sentence"
         app:showAsAction="never" />
 </menu>
