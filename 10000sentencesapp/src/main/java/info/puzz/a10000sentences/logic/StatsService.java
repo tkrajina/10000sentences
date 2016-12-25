@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import info.puzz.a10000sentences.models.SentenceHistory;
 import lombok.Data;
@@ -52,17 +53,20 @@ public final class StatsService {
         Map<Long, List<Integer>> timeByDay = new HashMap<>();
         Map<Long, Map<String, Integer>> doneByDay = new HashMap<>();
 
+        long now = System.currentTimeMillis();
+        for (int i = 0; i < daysAgo + 1; i++) {
+            long time = getMiddayTime(now + TimeUnit.DAYS.toMillis(i));
+
+            timeByDay.put(time, new ArrayList<Integer>());
+            doneByDay.put(time, new HashMap<String, Integer>());
+
+            timeByDay.get(time).add(0);
+            doneByDay.get(time).put(collectionId, 0);
+        }
+
         for (SentenceHistory sh : history) {
             if (collectionId == null || StringUtils.equals(sh.collectionId, collectionId)) {
-                Calendar c = Calendar.getInstance();
-                c.setTimeInMillis(sh.created);
-                c.set(Calendar.HOUR_OF_DAY, 12);
-                c.set(Calendar.MINUTE, 0);
-                c.set(Calendar.SECOND, 0);
-                c.set(Calendar.MILLISECOND, 0);
-                c.set(Calendar.DST_OFFSET, 0);
-                c.set(Calendar.ZONE_OFFSET, 0);
-                long time = c.getTimeInMillis();
+                long time = getMiddayTime(sh.created);
                 if (!timeByDay.containsKey(time)) {
                     timeByDay.put(time, new ArrayList<Integer>());
                     doneByDay.put(time, new HashMap<String, Integer>());
@@ -74,7 +78,8 @@ public final class StatsService {
 
         List<DataPoint> timeDailyData = new ArrayList<>();
         for (Map.Entry<Long, List<Integer>> e : timeByDay.entrySet()) {
-            timeDailyData.add(new DataPoint(e.getKey(), sum(e.getValue())));
+            DataPoint point = new DataPoint(e.getKey(), sum(e.getValue()));
+            timeDailyData.add(point);
         }
         
         List<DataPoint> doneDailyData = new ArrayList<>();
@@ -92,6 +97,18 @@ public final class StatsService {
         return new Stats()
                 .setTimePerDay(timeDailyData.toArray(new DataPoint[timeDailyData.size()]))
                 .setDonePerDay(doneDailyData.toArray(new DataPoint[doneDailyData.size()]));
+    }
+
+    private long getMiddayTime(long created) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(created);
+        c.set(Calendar.HOUR_OF_DAY, 12);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.DST_OFFSET, 0);
+        c.set(Calendar.ZONE_OFFSET, 0);
+        return c.getTimeInMillis();
     }
 
     private final float avg(List<Integer> l) {

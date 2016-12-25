@@ -14,7 +14,6 @@ import com.jjoe64.graphview.LabelFormatter;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -68,21 +67,22 @@ public class StatsActivity extends BaseActivity {
     }
 
     private void setupGraphs(final String collectionId) {
+        final int daysAgo = 7;
         new AsyncTask<Void, Void, StatsService.Stats>() {
             @Override
             protected StatsService.Stats doInBackground(Void... voids) {
-                return statsService.getStats(7, collectionId);
+                return statsService.getStats(daysAgo, collectionId);
             }
 
             @Override
             protected void onPostExecute(StatsService.Stats stats) {
-                setupGraph(stats.getTimePerDay(), binding.timeGraph, new Formatter() {
+                setupGraph(stats.getTimePerDay(), binding.timeGraph, daysAgo, new Formatter() {
                     @Override
                     public String format(double value) {
                         return TimeUtils.formatDurationToHHMMSS((long) value, false);
                     }
                 });
-                setupGraph(stats.getDonePerDay(), binding.doneCounterGraph, new Formatter() {
+                setupGraph(stats.getDonePerDay(), binding.doneCounterGraph, daysAgo, new Formatter() {
                     @Override
                     public String format(double value) {
                         return String.format("%d", (int) value);
@@ -92,7 +92,7 @@ public class StatsActivity extends BaseActivity {
         }.execute();
     }
 
-    private void setupGraph(DataPoint[] dataPoints, GraphView graph, final Formatter yAxisFormatter) {
+    private void setupGraph(DataPoint[] dataPoints, GraphView graph, int daysAgo, final Formatter yAxisFormatter) {
         if (graphFontSize == null) {
             graphFontSize = graph.getGridLabelRenderer().getTextSize();
         }
@@ -130,16 +130,12 @@ public class StatsActivity extends BaseActivity {
         }
         graph.getGridLabelRenderer().setNumVerticalLabels(4);
 
-        double minX = series.getLowestValueX();
-        double maxX = series.getHighestValueX();
+        double minX = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysAgo) - TimeUnit.HOURS.toMillis(12);
+        double maxX = System.currentTimeMillis() + TimeUnit.HOURS.toMillis(12);
         double minY = 0;
         series.getLowestValueY();
         double maxY = series.getHighestValueY();
 
-        if (minX == maxX) {
-            minX -= TimeUnit.DAYS.toMillis(1);
-            maxX += TimeUnit.DAYS.toMillis(1);
-        }
         if (minY == maxY) {
             minY = 0;
             maxY = maxY * 1.5;
