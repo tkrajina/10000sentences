@@ -217,8 +217,10 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
                 int skipNo = optionsSkipNo[i];
                 if (skipNo > 0) {
                     sentenceCollectionsService.skipSentences(binding.getSentenceCollection().collectionID, skipNo);
-                } else {
+                } else if (skipNo < 0) {
                     sentenceCollectionsService.unskipSentences(binding.getSentenceCollection().collectionID, skipNo);
+                } else {
+                    return;
                 }
                 new AsyncTask<Void, Void, SentenceCollection>() {
                     @Override
