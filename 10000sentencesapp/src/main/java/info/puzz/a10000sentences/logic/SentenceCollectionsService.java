@@ -5,12 +5,17 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import info.puzz.a10000sentences.Preferences;
@@ -25,6 +30,7 @@ public final class SentenceCollectionsService {
     private static final String TAG = SentenceCollectionsService.class.getSimpleName();
 
     private static final Random RANDOM = new SecureRandom(String.valueOf(System.currentTimeMillis()).getBytes());
+    public static final int SUCCESS_STREAK_FOR_SKIPPING = 10;
 
     private final Dao dao;
 
@@ -136,5 +142,74 @@ public final class SentenceCollectionsService {
                 .where("sentence_id=?", hist.sentenceId)
                 .executeSingle();
     }
+
+    /**
+     * Update counters after calling this.
+     */
+    public void updateStatusByComplexity(String collectionId, int limit, SentenceStatus fromStatus, SentenceStatus toStatus, String complecityOrder) {
+        List<Sentence> sentences = new Select()
+                .from(Sentence.class)
+                .where("collection_id=? and status=?", collectionId, fromStatus.getStatus())
+                .orderBy("complexity " + complecityOrder)
+                .limit(limit)
+                .execute();
+
+        String[] sentenceIds = new String[sentences.size()];
+        for (int i = 0; i < sentences.size(); i++) {
+            sentenceIds[i] = sentences.get(i).sentenceId;
+        }
+        
+        new Update(Sentence.class)
+                .set("status=?", toStatus.getStatus())
+                .where("sentence_id in (" + StringUtils.repeat(",?", sentences.size()).substring(1) + ")", sentenceIds)
+                .execute();
+    }
+
+    /**
+     * @see #updateStatusByComplexity(String, int, SentenceStatus, SentenceStatus, String)
+     */
+    public void skipSentences(String collectionId, int limit) {
+        updateStatusByComplexity(collectionId, Math.abs(limit), SentenceStatus.TODO, SentenceStatus.SKIPPED, "asc");
+    }
+
+    /**
+     * @see #updateStatusByComplexity(String, int, SentenceStatus, SentenceStatus, String)
+     */
+    public void unskipSentences(String collectionId, int limit) {
+        updateStatusByComplexity(collectionId, Math.abs(limit), SentenceStatus.SKIPPED, SentenceStatus.TODO, "desc");
+    }
+
+    public boolean isCandidateForSkipping(String collectionId) {
+        List<SentenceHistory> hist = new Select()
+                .from(SentenceHistory.class)
+                .where("collection_id=?", collectionId)
+                .orderBy("created desc")
+                .limit(SUCCESS_STREAK_FOR_SKIPPING)
+                .execute();
+
+        if (hist.size() < SUCCESS_STREAK_FOR_SKIPPING) {
+            return false;
+        }
+
+        Set<String> sentenceIds = new HashSet<>();
+        for (SentenceHistory h : hist) {
+            if (sentenceIds.contains(h.sentenceId)) {
+                return false;
+            }
+            sentenceIds.add(h.sentenceId);
+
+            if (h.status != SentenceStatus.DONE.getStatus()) { // If any sentence not DONE => nope
+                return false;
+            }
+
+            if (h.previousStatus == SentenceStatus.DONE.getStatus() && h.status == SentenceStatus.DONE.getStatus()) {
+                // this was a practice of known sentences => not counting it:
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }
 

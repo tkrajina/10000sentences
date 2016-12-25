@@ -38,15 +38,14 @@ import info.puzz.a10000sentences.models.WordAnnotation;
 import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.Speech;
-import info.puzz.a10000sentences.utils.WordChunkUtils;
 import info.puzz.a10000sentences.utils.TatoebaUtils;
 import info.puzz.a10000sentences.utils.TranslateUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
+import info.puzz.a10000sentences.utils.WordChunkUtils;
 
 public class SentenceQuizActivity extends BaseActivity {
 
     private static final String TAG = SentenceQuizActivity.class.getSimpleName();
-    private long started;
 
     public static enum Type {
         ONLY_KNOWN,
@@ -60,6 +59,9 @@ public class SentenceQuizActivity extends BaseActivity {
     @Inject Dao dao;
     @Inject SentenceCollectionsService sentenceCollectionsService;
     @Inject AnnotationService annotationService;
+
+    private long started;
+    //private boolean skipSentenceCandidate;
 
     ActivitySentenceQuizBinding binding;
 
@@ -179,6 +181,8 @@ public class SentenceQuizActivity extends BaseActivity {
         // TODO: the time will be reset on orientation change!!!
         started = System.currentTimeMillis();
         SleepUtils.disableSleep(this);
+
+        //reloadSkipSentencesStatus();
     }
 
     @Override
@@ -228,6 +232,22 @@ public class SentenceQuizActivity extends BaseActivity {
         return true;
     }
 
+/*    private void reloadSkipSentencesStatus() {
+        skipSentenceCandidate = false;
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                return sentenceCollectionsService.isCandidateForSkipping(binding.getCollection().collectionID);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean isCandidate) {
+                skipSentenceCandidate = isCandidate.booleanValue();
+            }
+        }.execute();
+    }*/
+
     private void gotoPreviousSentence() {
         Sentence sentence = sentenceCollectionsService.findPreviousSentence(binding.getCollection().collectionID);
         if (sentence == null) {
@@ -267,9 +287,7 @@ public class SentenceQuizActivity extends BaseActivity {
 
         boolean guessed = binding.getQuiz().guessWord(text);
         if (guessed) {
-            for (Button b : answerButtons) {
-                b.setTextColor(originalButtonColor);
-            }
+            resetButtonCollors();
         } else {
             answerButton.setTextColor(ContextCompat.getColor(this, R.color.error));
         }
@@ -277,6 +295,12 @@ public class SentenceQuizActivity extends BaseActivity {
         if (binding.getQuiz().isFinished()) {
             speech.speech(binding.getQuiz().getSentence().targetSentence);
             finalizeSentence();
+        }
+    }
+
+    private void resetButtonCollors() {
+        for (Button b : answerButtons) {
+            b.setTextColor(originalButtonColor);
         }
     }
 
@@ -366,6 +390,19 @@ public class SentenceQuizActivity extends BaseActivity {
         });
     }
 
+/*    private void askToSkipSentences() {
+        final int skipSentences = 100;
+        DialogUtils.showYesNoButton(this, getString(R.string.skip_sentences, skipSentences), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                if (Dialog.BUTTON_POSITIVE == which) {
+                    sentenceCollectionsService.skipSentences(binding.getCollection().collectionID, skipSentences);
+                    DBG.todo();
+                }
+            }
+        });
+    }*/
+
     private void gotoAnnotation(String word) {
         String collectionId = binding.getQuiz().getSentence().collectionId;
         final List<Annotation> annodations = annotationService.findAnnotations(collectionId, word);
@@ -421,6 +458,11 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     private void updateSentenceStatusAndGotoNext(SentenceStatus status) {
+
+/*        if (SentenceStatus.DONE == status && skipSentenceCandidate) {
+            askToSkipSentences();
+        }*/
+
         if (type == Type.RETURN_BACK) {
             onBackPressed();
         } else {

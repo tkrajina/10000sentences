@@ -21,6 +21,7 @@ import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceHistory;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.SqlFilterUtils;
+import temp.DBG;
 
 public class Dao {
 
@@ -117,6 +118,8 @@ public class Dao {
     }
 
     public SentenceCollection reloadCollectionCounter(SentenceCollection collection) {
+        DBG.todo("Threads");
+
         int rows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ?",
                 new String[] {collection.getCollectionID()});
@@ -132,6 +135,9 @@ public class Dao {
         int ignoreRows = SQLiteUtils.intQuery(
                 "select count(*) from sentence where collection_id = ? and status = ?",
                 new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.IGNORE.getStatus())});
+        int skippedRows = SQLiteUtils.intQuery(
+                "select count(*) from sentence where collection_id = ? and status = ?",
+                new String[] {collection.getCollectionID(), String.valueOf(SentenceStatus.SKIPPED.getStatus())});
         int annotationCount = SQLiteUtils.intQuery(
                 "select count(*) from annotation where collection_id = ?",
                 new String[] {collection.getCollectionID()});
@@ -147,6 +153,7 @@ public class Dao {
         collection.doneCount = doneRows;
         collection.ignoreCount = ignoreRows;
         collection.annotationCount = annotationCount;
+        collection.skippedCount = skippedRows;
         collection.save();
 
         return collection;

@@ -96,6 +96,8 @@ If you really want this, type: %s]]></string>
     <string name="retry_again_desc">Retrying sentence</string>
     <string name="done_desc">Known sentence</string>
     <string name="ignored_desc">Ignored sentence</string>
+    <string name="skippped">Skipped</string>
+    <string name="skipped_desc">Skipped</string>
     <string name="tts_settings">TTS settings</string>
     <string name="not_downloaded">Not downloaded</string>
     <string name="first_steps">Next steps</string>
@@ -110,4 +112,9 @@ If you really want this, type: %s]]></string>
     <string name="previous_sentence">Previous sentence</string>
     <string name="cannot_find_sentence">Cannot find sentence</string>
     <string name="stats_title" formatted="false">Stats for %d days</string>
+    <string name="skip_sentences">Looks like the this is too easy for you, want to skip %d sentences?</string>
+    <string name="un_skip_sentences">Skip easy sentences</string>
+    <string name="skip_n_sentences" formatted="false">Skip %d easy sentences</string>
+    <string name="unskip_n_sentences">Unskip %d skipped sentences</string>
+    <string name="skipped">Skipped</string>
 </resources>

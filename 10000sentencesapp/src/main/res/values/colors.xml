@@ -3,10 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF7200</color>
+
     <color name="active">#0fc669</color>
     <color name="inactive">#b5b5b5</color>
     <color name="wrong">#b5b5b5</color>
     <color name="error">#ff4242</color>
     <color name="shadow">#E0E0E0</color>
+    <color name="skipped">#6D93FF</color>
     <color name="annotation">#FD6DFF</color>
 </resources>

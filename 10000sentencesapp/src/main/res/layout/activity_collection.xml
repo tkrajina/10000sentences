@@ -72,7 +72,7 @@
                         android:layout_margin="10dp"
                         android:layout_width="fill_parent"
                         android:layout_height="1dip"
-                        android:background="@color/colorPrimary" />
+                        android:background="@color/inactive" />
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -162,6 +162,44 @@
                             android:layout_height="wrap_content">
                             <com.joanzapata.iconify.widget.IconTextView
                                 android:layout_gravity="center"
+                                android:text="{fa-language}"
+                                android:textColor="@color/annotation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:text="@string/annotations"
+                                android:textColor="@color/annotation"
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:text="@{sentenceCollection.formatAnnotationCount()}"
+                                android:textColor="@color/annotation"
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_margin="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="@color/inactive" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <com.joanzapata.iconify.widget.IconTextView
+                                android:layout_gravity="center"
                                 android:text="{fa-trash}"
                                 android:textColor="@color/inactive"
                                 android:layout_width="wrap_content"
@@ -188,25 +226,24 @@
                             android:layout_height="wrap_content">
                             <com.joanzapata.iconify.widget.IconTextView
                                 android:layout_gravity="center"
-                                android:text="{fa-language}"
-                                android:textColor="@color/annotation"
+                                android:text="{fa-fast-forward}"
+                                android:textColor="@color/skipped"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <TextView
-                                android:text="@string/annotations"
-                                android:textColor="@color/annotation"
+                                android:text="@string/skipped"
+                                android:textColor="@color/skipped"
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <TextView
-                                android:text="@{sentenceCollection.formatAnnotationCount()}"
-                                android:textColor="@color/annotation"
+                                android:text="@{sentenceCollection.formatSkippedCount()}"
+                                android:textColor="@color/skipped"
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
-
-                </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout

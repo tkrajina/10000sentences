@@ -48,6 +48,9 @@ public class SentenceCollection extends Model {
     @Column(name = "ignore_count")
     public int ignoreCount;
 
+    @Column(name = "skipped_count")
+    public int skippedCount;
+
     @Column(name = "annotation_count")
     public int annotationCount;
 
@@ -77,6 +80,10 @@ public class SentenceCollection extends Model {
 
     public String formatIgnoreCount() {
         return formatCount(ignoreCount);
+    }
+
+    public String formatSkippedCount() {
+        return formatCount(skippedCount);
     }
 
     public String formatRepeatCount() {
