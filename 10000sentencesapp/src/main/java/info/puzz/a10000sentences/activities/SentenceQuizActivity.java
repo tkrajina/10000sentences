@@ -64,7 +64,7 @@ public class SentenceQuizActivity extends BaseActivity {
     @Inject AnnotationService annotationService;
 
     private long started;
-    private boolean skipSentenceCandidate;
+    //private boolean skipSentenceCandidate;
 
     ActivitySentenceQuizBinding binding;
 
@@ -185,7 +185,7 @@ public class SentenceQuizActivity extends BaseActivity {
         started = System.currentTimeMillis();
         SleepUtils.disableSleep(this);
 
-        reloadSkipSentencesStatus();
+        //reloadSkipSentencesStatus();
     }
 
     @Override
@@ -235,7 +235,7 @@ public class SentenceQuizActivity extends BaseActivity {
         return true;
     }
 
-    private void reloadSkipSentencesStatus() {
+/*    private void reloadSkipSentencesStatus() {
         skipSentenceCandidate = false;
         new AsyncTask<Void, Void, Boolean>() {
 
@@ -249,7 +249,7 @@ public class SentenceQuizActivity extends BaseActivity {
                 skipSentenceCandidate = isCandidate.booleanValue();
             }
         }.execute();
-    }
+    }*/
 
     private void gotoPreviousSentence() {
         Sentence sentence = sentenceCollectionsService.findPreviousSentence(binding.getCollection().collectionID);
@@ -393,7 +393,7 @@ public class SentenceQuizActivity extends BaseActivity {
         });
     }
 
-    private void askToSkipSentences() {
+/*    private void askToSkipSentences() {
         final int skipSentences = 100;
         DialogUtils.showYesNoButton(this, getString(R.string.skip_sentences, skipSentences), new DialogInterface.OnClickListener() {
             @Override
@@ -404,7 +404,7 @@ public class SentenceQuizActivity extends BaseActivity {
                 }
             }
         });
-    }
+    }*/
 
     private void gotoAnnotation(String word) {
         String collectionId = binding.getQuiz().getSentence().collectionId;
@@ -462,9 +462,9 @@ public class SentenceQuizActivity extends BaseActivity {
 
     private void updateSentenceStatusAndGotoNext(SentenceStatus status) {
 
-        if (SentenceStatus.DONE == status && skipSentenceCandidate) {
+/*        if (SentenceStatus.DONE == status && skipSentenceCandidate) {
             askToSkipSentences();
-        }
+        }*/
 
         if (type == Type.RETURN_BACK) {
             onBackPressed();
