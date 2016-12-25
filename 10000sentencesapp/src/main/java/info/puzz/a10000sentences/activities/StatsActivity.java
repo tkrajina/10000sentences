@@ -68,6 +68,9 @@ public class StatsActivity extends BaseActivity {
 
     private void setupGraphs(final String collectionId) {
         final int daysAgo = 7;
+
+        setTitle(getString(R.string.stats_title, daysAgo));
+
         new AsyncTask<Void, Void, StatsService.Stats>() {
             @Override
             protected StatsService.Stats doInBackground(Void... voids) {
@@ -123,12 +126,12 @@ public class StatsActivity extends BaseActivity {
             public void setViewport(Viewport viewport) {}
         });
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+/*        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             graph.getGridLabelRenderer().setNumHorizontalLabels(20);
         } else {
             graph.getGridLabelRenderer().setNumHorizontalLabels(10);
         }
-        graph.getGridLabelRenderer().setNumVerticalLabels(4);
+        graph.getGridLabelRenderer().setNumVerticalLabels(4);*/
 
         double minX = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysAgo) - TimeUnit.HOURS.toMillis(12);
         double maxX = System.currentTimeMillis() + TimeUnit.HOURS.toMillis(12);
