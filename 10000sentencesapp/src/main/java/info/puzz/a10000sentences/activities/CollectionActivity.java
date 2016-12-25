@@ -217,7 +217,18 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
                 int skipNo = optionsSkipNo[i];
                 if (skipNo > 0) {
                     sentenceCollectionsService.skipSentences(binding.getSentenceCollection().collectionID, skipNo);
-                    dao.reloadCollectionCounter(binding.getSentenceCollection());
+                    new AsyncTask<Void, Void, SentenceCollection>() {
+
+                        @Override
+                        protected SentenceCollection doInBackground(Void... voids) {
+                            return dao.reloadCollectionCounter(binding.getSentenceCollection());
+                        }
+
+                        @Override
+                        protected void onPostExecute(SentenceCollection sentenceCollection) {
+                            binding.setSentenceCollection(sentenceCollection);
+                        }
+                    }.execute();
                 }
             }
         });
