@@ -111,7 +111,7 @@ If you really want this, type: %s]]></string>
     <string name="not_translate_app_found">No app found for translation</string>
     <string name="previous_sentence">Previous sentence</string>
     <string name="cannot_find_sentence">Cannot find sentence</string>
-    <string name="stats_title" formatted="false">Stats for %d days</string>
+    <string name="stats_title" formatted="false">%d days stats</string>
     <string name="skip_sentences">Looks like the this is too easy for you, want to skip %d sentences?</string>
     <string name="un_skip_sentences">Skip easy sentences</string>
     <string name="skip_n_sentences" formatted="false">Skip %d easy sentences</string>

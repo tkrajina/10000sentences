@@ -69,7 +69,13 @@ public class StatsActivity extends BaseActivity {
     private void setupGraphs(final String collectionId) {
         final int daysAgo = 7;
 
-        setTitle(getString(R.string.stats_title, daysAgo));
+        if (collectionId == null) {
+            setTitle(getString(R.string.stats_title, daysAgo));
+        } else {
+            SentenceCollection collection = dao.getCollection(collectionId);
+            Language language = dao.getLanguage(collection.targetLanguage);
+            setTitle(getString(R.string.stats_title, daysAgo) + ": " + language.name);
+        }
 
         new AsyncTask<Void, Void, StatsService.Stats>() {
             @Override
