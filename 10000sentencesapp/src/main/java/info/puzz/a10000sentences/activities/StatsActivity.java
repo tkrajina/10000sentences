@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LabelFormatter;
 import com.jjoe64.graphview.Viewport;
+import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -96,7 +97,7 @@ public class StatsActivity extends BaseActivity {
             graphFontSize = graph.getGridLabelRenderer().getTextSize();
         }
 
-        LineGraphSeries series = new LineGraphSeries<>(dataPoints);
+        BarGraphSeries series = new BarGraphSeries<>(dataPoints);
 
         graph.removeAllSeries();
 
@@ -152,11 +153,6 @@ public class StatsActivity extends BaseActivity {
         graph.getViewport().setMaxY(maxY);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getGridLabelRenderer().setGridColor(Color.GRAY);
-
-        if (dataPoints.length < 6) {
-            series.setDrawDataPoints(true);
-            series.setDataPointsRadius(graphFontSize / (2 * dataPoints.length));
-        }
 
         graph.addSeries(series);
     }
