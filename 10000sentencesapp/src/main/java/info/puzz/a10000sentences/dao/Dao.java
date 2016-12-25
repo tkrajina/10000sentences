@@ -145,7 +145,7 @@ public class Dao {
         if (todoRows > SentenceCollection.MAX_SENTENCES) {
             todoRows = SentenceCollection.MAX_SENTENCES;
         }
-        todoRows = todoRows - doneRows;
+        todoRows = todoRows - doneRows - skippedRows;
 
         collection.count = rows;
         collection.todoCount = todoRows;
