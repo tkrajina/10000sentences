@@ -186,6 +186,10 @@ public final class SentenceCollectionsService {
                 .limit(SUCCESS_STREAK_FOR_SKIPPING)
                 .execute();
 
+        if (hist.size() < SUCCESS_STREAK_FOR_SKIPPING) {
+            return false;
+        }
+
         Set<String> sentenceIds = new HashSet<>();
         for (SentenceHistory h : hist) {
             if (sentenceIds.contains(h.sentenceId)) {
