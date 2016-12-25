@@ -339,9 +339,6 @@ public class SentenceQuizActivity extends BaseActivity {
         if (binding.getQuiz().canBeMarkedAsDone(this)) {
             binding.finalMessage.setText(R.string.correct);
             binding.markAsDone.setVisibility(View.VISIBLE);
-            if (skipSentenceCandidate) {
-                askToSkipSentences();
-            }
         } else {
             binding.finalMessage.setText(R.string.too_many_errors);
             binding.markAsDone.setVisibility(View.GONE);
@@ -464,6 +461,11 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     private void updateSentenceStatusAndGotoNext(SentenceStatus status) {
+
+        if (SentenceStatus.DONE == status && skipSentenceCandidate) {
+            askToSkipSentences();
+        }
+
         if (type == Type.RETURN_BACK) {
             onBackPressed();
         } else {
