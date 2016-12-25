@@ -9,6 +9,6 @@
     <color name="wrong">#b5b5b5</color>
     <color name="error">#ff4242</color>
     <color name="shadow">#E0E0E0</color>
-    <color name="skipped">#BF3D3D</color>
+    <color name="skipped">#6D93FF</color>
     <color name="annotation">#FD6DFF</color>
 </resources>

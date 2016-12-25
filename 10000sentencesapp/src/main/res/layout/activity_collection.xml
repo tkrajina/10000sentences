@@ -72,7 +72,7 @@
                         android:layout_margin="10dp"
                         android:layout_width="fill_parent"
                         android:layout_height="1dip"
-                        android:background="@color/colorPrimary" />
+                        android:background="@color/inactive" />
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -181,6 +181,13 @@
                         </LinearLayout>
 
                     </LinearLayout>
+
+                    <View
+                        android:layout_margin="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="@color/inactive" />
+
                     <LinearLayout
                         android:orientation="horizontal"
                         android:gravity="center"
