@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_skip_unskip"
+        android:orderInCategory="90"
+        android:title="@string/un_skip_sentences"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_done_sentences"
         android:orderInCategory="100"
         android:title="@string/done_sentences"
@@ -29,7 +34,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_redownload"
-        android:orderInCategory="105"
+        android:orderInCategory="106"
         android:title="@string/redownload_collection"
         android:visible="false"
         app:showAsAction="never" />

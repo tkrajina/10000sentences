@@ -1,7 +1,6 @@
 package info.puzz.a10000sentences.activities;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -36,15 +35,13 @@ import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.models.WordAnnotation;
-import info.puzz.a10000sentences.utils.DialogUtils;
 import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.Speech;
-import info.puzz.a10000sentences.utils.WordChunkUtils;
 import info.puzz.a10000sentences.utils.TatoebaUtils;
 import info.puzz.a10000sentences.utils.TranslateUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
-import temp.DBG;
+import info.puzz.a10000sentences.utils.WordChunkUtils;
 
 public class SentenceQuizActivity extends BaseActivity {
 

@@ -1,5 +1,6 @@
 package info.puzz.a10000sentences.activities;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -187,11 +188,40 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             case R.id.action_remove_collecition:
                 removeCollection();
                 break;
+            case R.id.action_skip_unskip:
+                skipUnskipSentences();
+                break;
             case R.id.action_redownload:
                 downloadSentences();
                 break;
         }
         return true;
+    }
+
+    private void skipUnskipSentences() {
+
+        String[] options = new String[]{
+                getString(R.string.skip_n_sentences, 50),
+                getString(R.string.skip_n_sentences, 100),
+                getString(R.string.unskip_n_sentences, 50),
+                getString(R.string.unskip_n_sentences, 100),
+                getString(R.string.cancel),
+        };
+        final int[] optionsSkipNo = new int[]{50, 100, -50, -100, 0};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.select_text);
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                int skipNo = optionsSkipNo[i];
+                if (skipNo > 0) {
+                    sentenceCollectionsService.skipSentences(binding.getSentenceCollection().collectionID, skipNo);
+                    dao.reloadCollectionCounter(binding.getSentenceCollection());
+                }
+            }
+        });
+        builder.show();
     }
 
     private void removeCollection() {

@@ -146,11 +146,11 @@ public final class SentenceCollectionsService {
     /**
      * Update counters after calling this.
      */
-    public void updateStatusByComplexity(String collectionId, int limit, SentenceStatus fromStatus, SentenceStatus toStatus) {
+    public void updateStatusByComplexity(String collectionId, int limit, SentenceStatus fromStatus, SentenceStatus toStatus, String complecityOrder) {
         List<Sentence> sentences = new Select()
                 .from(Sentence.class)
                 .where("collection_id=? and status=?", collectionId, fromStatus.getStatus())
-                .orderBy("complexity")
+                .orderBy("complexity " + complecityOrder)
                 .limit(limit)
                 .execute();
 
@@ -161,21 +161,22 @@ public final class SentenceCollectionsService {
         
         new Update(Sentence.class)
                 .set("status=?", toStatus.getStatus())
-                .where("sentence_id in (" + StringUtils.repeat("?,", sentences.size())+ ")", sentenceIds);
+                .where("sentence_id in (" + StringUtils.repeat(",?", sentences.size()).substring(1) + ")", sentenceIds)
+                .execute();
     }
 
     /**
-     * @see #updateStatusByComplexity(String, int, SentenceStatus, SentenceStatus)
+     * @see #updateStatusByComplexity(String, int, SentenceStatus, SentenceStatus, String)
      */
     public void skipSentences(String collectionId, int limit) {
-        updateStatusByComplexity(collectionId, limit, SentenceStatus.TODO, SentenceStatus.SKIPPED);
+        updateStatusByComplexity(collectionId, Math.abs(limit), SentenceStatus.TODO, SentenceStatus.SKIPPED, "asc");
     }
 
     /**
-     * @see #updateStatusByComplexity(String, int, SentenceStatus, SentenceStatus)
+     * @see #updateStatusByComplexity(String, int, SentenceStatus, SentenceStatus, String)
      */
     public void unskipSentences(String collectionId, int limit) {
-        updateStatusByComplexity(collectionId, limit, SentenceStatus.SKIPPED, SentenceStatus.TODO);
+        updateStatusByComplexity(collectionId, Math.abs(limit), SentenceStatus.SKIPPED, SentenceStatus.TODO, "desc");
     }
 
     public boolean isCandidateForSkipping(String collectionId) {
