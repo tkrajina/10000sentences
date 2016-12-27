@@ -117,6 +117,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             private void _onResponse(Response<InfoVO> response) {
                 Log.i(TAG, String.valueOf(response.body()));
                 InfoVO info = response.body();
+                if (info == null || info.getLanguages() == null) {
+                    Toast.makeText(BaseActivity.this, getString(R.string.error_retrieving), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 for (LanguageVO languageVO : info.getLanguages()) {
                     Language language = new Language()
                             .setLanguageId(languageVO.getAbbrev())
