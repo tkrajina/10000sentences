@@ -136,14 +136,7 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.sentenceStatus.setTextColor(ContextCompat.getColor(this, binding.getQuiz().getSentence().getSentenceStatus().getColor()));
 
         answerButtons = new Button[] { binding.answer1, binding.answer2, binding.answer3, binding.answer4, };
-        for (final Button answerButton : answerButtons) {
-            answerButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    submitResponse(answerButton, answerButton.getText().toString());
-                }
-            });
-        }
+        setupAnswerButtons();
 
         binding.startQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +154,24 @@ public class SentenceQuizActivity extends BaseActivity {
         });
 
         adjustFontSize();
+    }
+
+    private void setupAnswerButtons() {
+        for (final Button answerButton : answerButtons) {
+            answerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    submitResponse(answerButton, answerButton.getText().toString());
+                }
+            });
+            answerButton.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    TranslateUtils.translate(SentenceQuizActivity.this, answerButton.getText().toString());
+                    return true;
+                }
+            });
+        }
     }
 
     private void adjustFontSize() {
