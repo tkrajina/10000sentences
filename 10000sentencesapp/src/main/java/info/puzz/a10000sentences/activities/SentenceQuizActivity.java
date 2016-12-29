@@ -167,7 +167,9 @@ public class SentenceQuizActivity extends BaseActivity {
             answerButton.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    TranslateUtils.translate(SentenceQuizActivity.this, answerButton.getText().toString());
+                    String text = answerButton.getText().toString();
+                    speech.speak(text);
+                    TranslateUtils.translate(SentenceQuizActivity.this, text);
                     return true;
                 }
             });
@@ -293,7 +295,7 @@ public class SentenceQuizActivity extends BaseActivity {
         });
         binding.translateWord.setVisibility(View.VISIBLE);
 
-        speech.speech(text);
+        speech.speak(text);
         showAnnotation(text);
 
         boolean guessed = binding.getQuiz().guessWord(text);
@@ -304,7 +306,7 @@ public class SentenceQuizActivity extends BaseActivity {
         }
 
         if (binding.getQuiz().isFinished()) {
-            speech.speech(binding.getQuiz().getSentence().targetSentence);
+            speech.speak(binding.getQuiz().getSentence().targetSentence);
             finalizeSentence();
         }
     }
@@ -359,7 +361,7 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.readSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                speech.speech(binding.getQuiz().getSentence().targetSentence);
+                speech.speak(binding.getQuiz().getSentence().targetSentence);
             }
         });
         binding.repeatLater.setOnClickListener(new View.OnClickListener() {

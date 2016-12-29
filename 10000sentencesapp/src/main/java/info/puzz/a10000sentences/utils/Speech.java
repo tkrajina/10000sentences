@@ -70,7 +70,7 @@ public class Speech {
         return null;
     }
 
-    public void speech(String speech) {
+    public void speak(String speech) {
         if (!enabled) {
             return;
         }
