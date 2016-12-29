@@ -85,10 +85,11 @@ public class SentencesActivity extends BaseActivity {
     }
 
     private From getSql(String filter) {
+        String[] filterParts = filter.split("\\s+");
         if (sentenceStatus == STATUS_ALL) {
-            return dao.getSentencesByCollection(collectionId, filter);
+            return dao.getSentencesByCollection(collectionId, filterParts[filterParts.length - 1]);
         }
-        return dao.getSentencesByCollectionAndStatus(collectionId, sentenceStatus, filter);
+        return dao.getSentencesByCollectionAndStatus(collectionId, sentenceStatus, filterParts[filterParts.length - 1]);
     }
 
     @Override

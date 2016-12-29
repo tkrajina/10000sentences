@@ -149,10 +149,13 @@ public class AnnotationActivity extends BaseActivity {
             reloadingAsyncTask.cancel(true);
         }
 
+        String[] filterParts = text.split("\\s+");
+        final String filter = filterParts[filterParts.length - 1];
+
         reloadingAsyncTask = new AsyncTask<Void, Void, From>() {
             @Override
             protected From doInBackground(Void... voids) {
-                return annotationService.getAnnotationsSelectByCollectionAndFilter(collectionId, text);
+                return annotationService.getAnnotationsSelectByCollectionAndFilter(collectionId, filter);
             }
 
             @Override
