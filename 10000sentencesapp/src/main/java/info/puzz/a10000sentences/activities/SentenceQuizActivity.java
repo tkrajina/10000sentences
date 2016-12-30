@@ -168,7 +168,6 @@ public class SentenceQuizActivity extends BaseActivity {
                 @Override
                 public boolean onLongClick(View view) {
                     String text = answerButton.getText().toString();
-                    speech.speak(text);
                     TranslateUtils.translate(SentenceQuizActivity.this, text);
                     return true;
                 }
@@ -300,7 +299,7 @@ public class SentenceQuizActivity extends BaseActivity {
 
         boolean guessed = binding.getQuiz().guessWord(text);
         if (guessed) {
-            resetButtonCollors();
+            resetButtons();
         } else {
             answerButton.setTextColor(ContextCompat.getColor(this, R.color.error));
         }
@@ -311,9 +310,10 @@ public class SentenceQuizActivity extends BaseActivity {
         }
     }
 
-    private void resetButtonCollors() {
+    private void resetButtons() {
         for (Button b : answerButtons) {
             b.setTextColor(originalButtonColor);
+            b.setMaxWidth(0);
         }
     }
 
