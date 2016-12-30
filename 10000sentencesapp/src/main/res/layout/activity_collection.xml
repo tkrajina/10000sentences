@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content">
 
                     <com.joanzapata.iconify.widget.IconTextView
-                        android:text="@{targetLanguage.name + &quot; / &quot; + targetLanguage.nativeName}"
+                        android:text="@{targetLanguage.formatNameAndNativeName()}"
                         android:textColor="@color/colorPrimaryDark"
                         android:shadowDx="3"
                         android:shadowDy="3"
@@ -62,7 +62,7 @@
                         android:layout_height="wrap_content" />
 
                     <TextView
-                        android:text="@{knownLanguage.name + &quot; / &quot; + knownLanguage.nativeName}"
+                        android:text="@{knownLanguage.formatNameAndNativeName()}"
                         android:gravity="center"
                         android:textColor="@color/colorPrimary"
                         android:layout_width="match_parent"

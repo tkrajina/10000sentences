@@ -39,4 +39,11 @@ public class Language extends Model {
         }
         return StringUtils.join(parts, delimiter);
     }
+
+    public String formatNameAndNativeName() {
+        if (StringUtils.equals(name, nativeName)) {
+            return name;
+        }
+        return name + " / " + nativeName;
+    }
 }
