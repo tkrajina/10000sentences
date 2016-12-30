@@ -69,7 +69,7 @@ public class WordsAdapter extends ArrayAdapter<WordAnnotation> {
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                speech.speak(word.word);
+                speech.speech(word.word);
                 ShareUtils.copyToClipboard((Activity) getContext(), word.word);
             }
         });

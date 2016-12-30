@@ -295,7 +295,7 @@ public class SentenceQuizActivity extends BaseActivity {
         });
         binding.translateWord.setVisibility(View.VISIBLE);
 
-        speech.speak(text);
+        speech.speech(text);
         showAnnotation(text);
 
         boolean guessed = binding.getQuiz().guessWord(text);
@@ -306,7 +306,7 @@ public class SentenceQuizActivity extends BaseActivity {
         }
 
         if (binding.getQuiz().isFinished()) {
-            speech.speak(binding.getQuiz().getSentence().targetSentence);
+            speech.speech(binding.getQuiz().getSentence().targetSentence);
             finalizeSentence();
         }
     }
@@ -361,7 +361,7 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.readSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                speech.speak(binding.getQuiz().getSentence().targetSentence);
+                speech.speech(binding.getQuiz().getSentence().targetSentence);
             }
         });
         binding.repeatLater.setOnClickListener(new View.OnClickListener() {
