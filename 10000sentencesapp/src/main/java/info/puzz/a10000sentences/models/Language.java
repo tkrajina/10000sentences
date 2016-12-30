@@ -30,10 +30,13 @@ public class Language extends Model {
     @Column(name = "rtl")
     boolean rightToLeft;
 
-    public String formatNativeName() {
+    public String formatNativeName(String delimiter) {
+        String[] parts;
         if (nativeName.contains(",")) {
-            return StringUtils.capitalize(nativeName.split(",")[0]);
+            parts = StringUtils.capitalize(nativeName.split(",")[0]).split("\\s+");
+        } else {
+            parts = StringUtils.capitalize(nativeName).split("\\s+");
         }
-        return StringUtils.capitalize(nativeName);
+        return StringUtils.join(parts, delimiter);
     }
 }
