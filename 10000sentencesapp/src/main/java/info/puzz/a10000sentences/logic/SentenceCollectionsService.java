@@ -101,7 +101,7 @@ public final class SentenceCollectionsService {
         return sentences.get(RANDOM.nextInt(sentences.size()));
     }
 
-    public void updateStatus(final Sentence sentence, final SentenceStatus status, final long started) {
+    public void updateStatus(final Sentence sentence, final SentenceStatus status, final long started, final long finished) {
         sentence.status = status.getStatus();
         sentence.save();
 
@@ -114,8 +114,8 @@ public final class SentenceCollectionsService {
                 h.sentenceId = sentence.getSentenceId();
                 h.collectionId = sentence.collectionId;
                 h.status = status.getStatus();
-                h.created = System.currentTimeMillis();
-                h.time = (int) (System.currentTimeMillis() - started);
+                h.created = finished;
+                h.time = (int) (finished - started);
                 h.doneCount = collection.doneCount;
                 h.todoCount = collection.todoCount;
                 h.repeatCount = collection.repeatCount;

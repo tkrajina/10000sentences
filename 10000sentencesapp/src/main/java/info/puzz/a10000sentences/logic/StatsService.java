@@ -1,18 +1,15 @@
 package info.puzz.a10000sentences.logic;
 
 import com.activeandroid.query.Select;
-import com.jjoe64.graphview.series.DataPoint;
-
-import org.apache.commons.lang3.StringUtils;
+import com.jjoe64.graphview.series.DataPointInterface;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.Set;
 
 import info.puzz.a10000sentences.models.SentenceHistory;
 import lombok.Data;
@@ -21,25 +18,93 @@ import lombok.experimental.Accessors;
 
 public final class StatsService {
 
-    private static final Comparator<DataPoint> DATAPOINT_COMPARATOR = new Comparator<DataPoint>() {
-        @Override
-        public int compare(DataPoint dp1, DataPoint dp2) {
-            return Double.compare(dp1.getX(), dp2.getX());
+    @Data
+    public class DataPoint implements DataPointInterface {
+        private double x;
+        private double y;
+        public DataPoint(double x, double y) {
+            this.x = x;
+            this.y = y;
         }
-    };
+    }
 
     @Data
     @Accessors(chain = true)
     @ToString
     public class Stats {
-        DataPoint[] timePerDay;
-        DataPoint[] donePerDay;
+        /**
+         * List of active collections in that period of time.
+         */
+        private Set<String> collections = new HashSet<>();
+        /**
+         * Time per day by collection id.
+         */
+        private Map<String, List<DataPointInterface>> timePerDay = new HashMap<>();
+        /**
+         * Total done sentences per day by collection id.
+         * @see info.puzz.a10000sentences.models.SentenceStatus
+         */
+        private Map<String, List<DataPointInterface>> donePerDay = new HashMap<>();
+
+        public void addTime(String collectionId, long middayTime, long time) {
+            addCollectionIfNeeded(collectionId);
+            if (!timePerDay.containsKey(collectionId)) {
+                timePerDay.put(collectionId, new ArrayList<DataPointInterface>());
+            }
+
+            List<DataPointInterface> dataPoints = timePerDay.get(collectionId);
+            if (dataPoints.size() == 0) {
+                dataPoints.add(new DataPoint(middayTime, time));
+                return;
+            }
+
+            DataPointInterface lastDataPoint = dataPoints.get(dataPoints.size() - 1);
+            if (lastDataPoint.getX() == middayTime) {
+                dataPoints.set(dataPoints.size() - 1, new DataPoint(middayTime, lastDataPoint.getY() + time));
+            } else {
+                dataPoints.add(new DataPoint(middayTime, time));
+            }
+        }
+
+        public void addDone(String collectionId, long middayTime, int count) {
+            addCollectionIfNeeded(collectionId);
+            if (!donePerDay.containsKey(collectionId)) {
+                donePerDay.put(collectionId, new ArrayList<DataPointInterface>());
+            }
+
+            List<DataPointInterface> dataPoints = donePerDay.get(collectionId);
+            if (dataPoints.size() == 0) {
+                dataPoints.add(new DataPoint(middayTime, count));
+                return;
+            }
+
+            DataPointInterface lastDataPoint = dataPoints.get(dataPoints.size() - 1);
+            if (lastDataPoint.getX() == middayTime) {
+                dataPoints.set(dataPoints.size() - 1, new DataPoint(middayTime, count));
+            } else {
+                dataPoints.add(new DataPoint(middayTime, count));
+            }
+        }
+
+        private void addCollectionIfNeeded(String collectionId) {
+            if (!collections.contains(collectionId)) {
+                collections.add(collectionId);
+            }
+        }
+
+        public Map<String,List<DataPointInterface>> getTimePerDay() {
+            return timePerDay;
+        }
+
+        public Map<String,List<DataPointInterface>> getDonePerDay() {
+            return donePerDay;
+        }
     }
 
     public StatsService() {
     }
 
-    public Stats getStats(int daysAgo, String collectionId) {
+    public Stats getStats(int daysAgo) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -daysAgo);
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -50,53 +115,15 @@ public final class StatsService {
                 .orderBy("created")
                 .execute();
 
-        Map<Long, List<Integer>> timeByDay = new HashMap<>();
-        Map<Long, Map<String, Integer>> doneByDay = new HashMap<>();
-
-        long now = System.currentTimeMillis();
-        for (int i = 0; i < daysAgo + 1; i++) {
-            long time = getMiddayTime(now + TimeUnit.DAYS.toMillis(i));
-
-            timeByDay.put(time, new ArrayList<Integer>());
-            doneByDay.put(time, new HashMap<String, Integer>());
-
-            timeByDay.get(time).add(0);
-            doneByDay.get(time).put(collectionId, 0);
-        }
+        Stats stats = new Stats();
 
         for (SentenceHistory sh : history) {
-            if (collectionId == null || StringUtils.equals(sh.collectionId, collectionId)) {
-                long time = getMiddayTime(sh.created);
-                if (!timeByDay.containsKey(time)) {
-                    timeByDay.put(time, new ArrayList<Integer>());
-                    doneByDay.put(time, new HashMap<String, Integer>());
-                }
-                timeByDay.get(time).add(sh.time);
-                doneByDay.get(time).put(sh.collectionId, sh.doneCount);
-            }
+            long middayTime = getMiddayTime(sh.created);
+            stats.addDone(sh.collectionId, middayTime, sh.doneCount);
+            stats.addTime(sh.collectionId, middayTime, sh.time);
         }
 
-        List<DataPoint> timeDailyData = new ArrayList<>();
-        for (Map.Entry<Long, List<Integer>> e : timeByDay.entrySet()) {
-            DataPoint point = new DataPoint(e.getKey(), sum(e.getValue()));
-            timeDailyData.add(point);
-        }
-        
-        List<DataPoint> doneDailyData = new ArrayList<>();
-        for (Map.Entry<Long, Map<String, Integer>> e : doneByDay.entrySet()) {
-            int sum = 0;
-            for (Integer integer : e.getValue().values()) {
-                sum += integer.intValue();
-            }
-            doneDailyData.add(new DataPoint(e.getKey(), sum));
-        }
-
-        Collections.sort(timeDailyData, DATAPOINT_COMPARATOR);
-        Collections.sort(doneDailyData, DATAPOINT_COMPARATOR);
-
-        return new Stats()
-                .setTimePerDay(timeDailyData.toArray(new DataPoint[timeDailyData.size()]))
-                .setDonePerDay(doneDailyData.toArray(new DataPoint[doneDailyData.size()]));
+        return stats;
     }
 
     private long getMiddayTime(long created) {

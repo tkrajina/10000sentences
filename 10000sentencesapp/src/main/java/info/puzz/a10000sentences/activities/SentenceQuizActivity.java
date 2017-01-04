@@ -480,7 +480,7 @@ public class SentenceQuizActivity extends BaseActivity {
             onBackPressed();
         } else {
             Sentence sentence = binding.getQuiz().getSentence();
-            sentenceCollectionsService.updateStatus(sentence, status, started);
+            sentenceCollectionsService.updateStatus(sentence, status, started, System.currentTimeMillis());
             startRandom(this, dao, sentenceCollectionsService, sentence.collectionId, type, sentence.sentenceId);
         }
     }

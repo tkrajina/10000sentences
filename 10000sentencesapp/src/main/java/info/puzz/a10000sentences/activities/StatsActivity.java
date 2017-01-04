@@ -14,6 +14,8 @@ import com.jjoe64.graphview.LabelFormatter;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -80,7 +82,7 @@ public class StatsActivity extends BaseActivity {
         new AsyncTask<Void, Void, StatsService.Stats>() {
             @Override
             protected StatsService.Stats doInBackground(Void... voids) {
-                return statsService.getStats(daysAgo, collectionId);
+                return statsService.getStats(daysAgo);
             }
 
             @Override
@@ -101,53 +103,52 @@ public class StatsActivity extends BaseActivity {
         }.execute();
     }
 
-    private void setupGraph(DataPoint[] dataPoints, GraphView graph, int daysAgo, final Formatter yAxisFormatter) {
+    private void setupGraph(Map<String, List<DataPointInterface>> dataPointsByCollectionId, GraphView graph, int daysAgo, final Formatter yAxisFormatter) {
         if (graphFontSize == null) {
             graphFontSize = graph.getGridLabelRenderer().getTextSize();
         }
 
-        BarGraphSeries series = new BarGraphSeries<>(dataPoints);
-
         graph.removeAllSeries();
-
-        graph.getGridLabelRenderer().setLabelFormatter(new LabelFormatter() {
-            public String lattestFormatted;
-            Calendar cal = Calendar.getInstance();
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if (isValueX) {
-                    cal.setTimeInMillis((long) value);
-                    String formatted = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
-                    if (formatted.equals(lattestFormatted)) {
-                        this.lattestFormatted = formatted;
-                        return "";
-                    }
-                    this.lattestFormatted = formatted;
-                    return formatted;
-                }
-                return yAxisFormatter.format(value);
-            }
-
-            @Override
-            public void setViewport(Viewport viewport) {}
-        });
-
-/*        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            graph.getGridLabelRenderer().setNumHorizontalLabels(20);
-        } else {
-            graph.getGridLabelRenderer().setNumHorizontalLabels(10);
-        }
-        graph.getGridLabelRenderer().setNumVerticalLabels(4);*/
 
         double minX = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysAgo) - TimeUnit.HOURS.toMillis(12);
         double maxX = System.currentTimeMillis() + TimeUnit.HOURS.toMillis(12);
         double minY = 0;
-        series.getLowestValueY();
-        double maxY = series.getHighestValueY();
+        double maxY = 0;
+
+        for (String collectionId : dataPointsByCollectionId.keySet()) {
+            List<DataPointInterface> points = dataPointsByCollectionId.get(collectionId);
+
+            LineGraphSeries series = new LineGraphSeries<>(points.toArray(new DataPointInterface[points.size()]));
+            graph.addSeries(series);
+
+            graph.getGridLabelRenderer().setLabelFormatter(new LabelFormatter() {
+                public String lattestFormatted;
+                Calendar cal = Calendar.getInstance();
+                @Override
+                public String formatLabel(double value, boolean isValueX) {
+                    if (isValueX) {
+                        cal.setTimeInMillis((long) value);
+                        String formatted = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+                        if (formatted.equals(lattestFormatted)) {
+                            this.lattestFormatted = formatted;
+                            return "";
+                        }
+                        this.lattestFormatted = formatted;
+                        return formatted;
+                    }
+                    return yAxisFormatter.format(value);
+                }
+
+                @Override
+                public void setViewport(Viewport viewport) {}
+            });
+
+            maxY = Math.max(maxY, series.getHighestValueY());
+        }
 
         if (minY == maxY) {
             minY = 0;
-            maxY = maxY * 1.5;
+            maxY = 1 + maxY * 1.5;
         }
 
         graph.getViewport().setMinX(minX);
@@ -159,7 +160,6 @@ public class StatsActivity extends BaseActivity {
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getGridLabelRenderer().setGridColor(Color.GRAY);
 
-        graph.addSeries(series);
     }
 
     @Override
