@@ -1,7 +1,6 @@
 package info.puzz.a10000sentences.activities;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -12,10 +11,7 @@ import android.view.MenuItem;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LabelFormatter;
-import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.Viewport;
-import com.jjoe64.graphview.series.BarGraphSeries;
-import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -31,8 +27,8 @@ import javax.inject.Inject;
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.dao.Dao;
-import info.puzz.a10000sentences.logic.StatsService;
 import info.puzz.a10000sentences.databinding.ActivityStatsBinding;
+import info.puzz.a10000sentences.logic.StatsService;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.utils.TimeUtils;
@@ -68,8 +64,6 @@ public class StatsActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_stats);
         setTitle(R.string.stats);
 
-        setupGraphs(null);
-
         graphColors = new int[] {
                 R.color.graph_1,
                 R.color.graph_2,
@@ -80,18 +74,14 @@ public class StatsActivity extends BaseActivity {
                 R.color.graph_7,
                 R.color.graph_8,
         };
+
+        setupGraphs();
     }
 
-    private void setupGraphs(final String collectionId) {
+    private void setupGraphs() {
         final int daysAgo = 7;
 
-        if (collectionId == null) {
-            setTitle(getString(R.string.stats_title, daysAgo));
-        } else {
-            SentenceCollection collection = dao.getCollection(collectionId);
-            Language language = dao.getLanguage(collection.targetLanguage);
-            setTitle(getString(R.string.stats_title, daysAgo) + ": " + language.name);
-        }
+        setTitle(getString(R.string.stats_title, daysAgo));
 
         new AsyncTask<Void, Void, StatsService.Stats>() {
             @Override
@@ -119,7 +109,7 @@ public class StatsActivity extends BaseActivity {
 
     private void setupGraph(Map<String, List<DataPointInterface>> dataPointsByCollectionId, GraphView graph, int daysAgo, final Formatter yAxisFormatter) {
         if (graphFontSize == null) {
-            graphFontSize = graph.getGridLabelRenderer().getTextSize();
+            graphFontSize = (float) (graph.getGridLabelRenderer().getTextSize() * 0.6);
         }
 
         graph.removeAllSeries();
@@ -139,6 +129,7 @@ public class StatsActivity extends BaseActivity {
             series.setTitle(collectionId);
             graph.addSeries(series);
 
+            graph.getGridLabelRenderer().setTextSize(graphFontSize);
             graph.getGridLabelRenderer().setLabelFormatter(new LabelFormatter() {
                 public String lattestFormatted;
                 Calendar cal = Calendar.getInstance();
@@ -187,43 +178,4 @@ public class StatsActivity extends BaseActivity {
         super.onResume();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.clear();
-
-        Map<String, Language> langs = dao.getLanguagesByLanguageID();
-
-        List<SentenceCollection> collections = dao.getCollections();
-        Collections.sort(collections, new Comparator<SentenceCollection>() {
-            @Override
-            public int compare(SentenceCollection c1, SentenceCollection c2) {
-                return - Integer.compare(c1.doneCount, c2.doneCount);
-            }
-        });
-
-        for (final SentenceCollection collection : collections) {
-            if (collection.doneCount > 0) {
-                MenuItem item = menu.add(langs.get(collection.targetLanguage).name);
-                item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        StatsActivity.this.setupGraphs(collection.collectionID);
-                        return true;
-                    }
-                });
-            }
-        }
-
-        if (menu.size() > 0) {
-            menu.add(R.string.all).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                    StatsActivity.this.setupGraphs(null);
-                    return false;
-                }
-            });
-        }
-
-        return true;
-    }
 }
