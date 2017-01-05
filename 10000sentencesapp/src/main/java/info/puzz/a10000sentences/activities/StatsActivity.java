@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LabelFormatter;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
@@ -135,6 +136,7 @@ public class StatsActivity extends BaseActivity {
 
             LineGraphSeries series = new LineGraphSeries<>(points.toArray(new DataPointInterface[points.size()]));
             series.setColor(ContextCompat.getColor(this, graphColors[n % graphColors.length]));
+            series.setTitle(collectionId);
             graph.addSeries(series);
 
             graph.getGridLabelRenderer().setLabelFormatter(new LabelFormatter() {
@@ -176,6 +178,8 @@ public class StatsActivity extends BaseActivity {
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getGridLabelRenderer().setGridColor(Color.GRAY);
 
+        graph.getLegendRenderer().setFixedPosition(0, 0);
+        graph.getLegendRenderer().setVisible(true);
     }
 
     @Override
