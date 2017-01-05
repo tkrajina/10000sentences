@@ -55,7 +55,7 @@ public class AnnotationService {
         annotation.delete();
     }
 
-    private void reloadGeneratedFields(Annotation annotation) {
+    public void reloadGeneratedFields(Annotation annotation) {
         List<WordAnnotation> words = new Select()
                 .from(WordAnnotation.class)
                 .where("annotation_id=?", annotation.getId())
@@ -82,6 +82,7 @@ public class AnnotationService {
         }
 
         annotation.words = wordList.toString();
+        annotation.updated = System.currentTimeMillis();
 
         ActiveAndroid.beginTransaction();
         try {
@@ -115,7 +116,7 @@ public class AnnotationService {
         return new Select()
                 .from(Annotation.class)
                 .where("collection_id=? and (annotation like ? or annotation like ?)", collectionId, likeFilter.toString() + "%", "% " + likeFilter + "%")
-                .orderBy("created desc");
+                .orderBy("updated desc");
     }
 
     public From getAnnotationsSelectBydFilter(String text, String collectionId) {
@@ -125,7 +126,7 @@ public class AnnotationService {
         if (!StringUtils.isEmpty(collectionId)) {
             res.and("collection_id=?", collectionId);
         }
-        res.orderBy("created desc");
+        res.orderBy("updated desc");
         return res;
     }
 

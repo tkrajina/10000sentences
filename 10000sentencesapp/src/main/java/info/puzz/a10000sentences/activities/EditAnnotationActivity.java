@@ -136,7 +136,8 @@ public class EditAnnotationActivity extends BaseActivity {
             return;
         }
 
-        annotation.save();
+        annotationService.reloadGeneratedFields(annotation);
+
         Toast.makeText(this, R.string.annotation_saved, Toast.LENGTH_SHORT).show();
         onBackPressed();
     }

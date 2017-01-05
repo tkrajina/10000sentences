@@ -20,4 +20,7 @@ public class Annotation extends Model {
 
     @Column(name = "created", index = true)
     public long created;
+
+    @Column(name = "updated", index = true)
+    public long updated;
 }
