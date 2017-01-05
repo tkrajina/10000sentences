@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LabelFormatter;
 import com.jjoe64.graphview.Viewport;
+import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -74,6 +75,15 @@ public class StatsActivity extends BaseActivity {
 
         setTitle(getString(R.string.stats_title, daysAgo));
 
+        if (graphFontSize == null) {
+            graphFontSize = (float) (binding.timeGraph.getGridLabelRenderer().getTextSize() * 0.6);
+        }
+
+        for (GraphView graph : new GraphView[]{binding.timeGraph, binding.doneCounterGraph,}) {
+            graph.removeAllSeries();
+            graph.getGridLabelRenderer().setTextSize(graphFontSize);
+        }
+
         new AsyncTask<Void, Void, StatsService.Stats>() {
             @Override
             protected StatsService.Stats doInBackground(Void... voids) {
@@ -99,11 +109,6 @@ public class StatsActivity extends BaseActivity {
     }
 
     private void setupGraph(Map<String, List<DataPointInterface>> dataPointsByCollectionId, GraphView graph, int daysAgo, final Formatter yAxisFormatter) {
-        if (graphFontSize == null) {
-            graphFontSize = (float) (graph.getGridLabelRenderer().getTextSize() * 0.6);
-        }
-
-        graph.removeAllSeries();
 
         double minX = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysAgo) - TimeUnit.HOURS.toMillis(12);
         double maxX = System.currentTimeMillis() + TimeUnit.HOURS.toMillis(12);
@@ -114,33 +119,11 @@ public class StatsActivity extends BaseActivity {
         for (String collectionId : dataPointsByCollectionId.keySet()) {
             List<DataPointInterface> points = dataPointsByCollectionId.get(collectionId);
 
-            LineGraphSeries series = new LineGraphSeries<>(points.toArray(new DataPointInterface[points.size()]));
+            BarGraphSeries series = new BarGraphSeries<>(points.toArray(new DataPointInterface[points.size()]));
             series.setColor(ContextCompat.getColor(this, graphColors[(colorNo ++) % graphColors.length]));
             series.setTitle(collectionId);
+
             graph.addSeries(series);
-
-            graph.getGridLabelRenderer().setTextSize(graphFontSize);
-            graph.getGridLabelRenderer().setLabelFormatter(new LabelFormatter() {
-                public String lattestFormatted;
-                Calendar cal = Calendar.getInstance();
-                @Override
-                public String formatLabel(double value, boolean isValueX) {
-                    if (isValueX) {
-                        cal.setTimeInMillis((long) value);
-                        String formatted = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
-                        if (formatted.equals(lattestFormatted)) {
-                            this.lattestFormatted = formatted;
-                            return "";
-                        }
-                        this.lattestFormatted = formatted;
-                        return formatted;
-                    }
-                    return yAxisFormatter.format(value);
-                }
-
-                @Override
-                public void setViewport(Viewport viewport) {}
-            });
 
             maxY = Math.max(maxY, series.getHighestValueY());
         }
@@ -157,10 +140,33 @@ public class StatsActivity extends BaseActivity {
         graph.getViewport().setMinY(minY);
         graph.getViewport().setMaxY(maxY);
         graph.getViewport().setYAxisBoundsManual(true);
-        graph.getGridLabelRenderer().setGridColor(Color.GRAY);
 
         graph.getLegendRenderer().setFixedPosition(0, 0);
         graph.getLegendRenderer().setVisible(true);
+
+        graph.getGridLabelRenderer().setLabelFormatter(new LabelFormatter() {
+            public String lattestFormatted;
+            Calendar cal = Calendar.getInstance();
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if (isValueX) {
+                    cal.setTimeInMillis((long) value);
+                    String formatted = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+                    if (formatted.equals(lattestFormatted)) {
+                        this.lattestFormatted = formatted;
+                        return "";
+                    }
+                    this.lattestFormatted = formatted;
+                    return formatted;
+                }
+                return yAxisFormatter.format(value);
+            }
+
+            @Override
+            public void setViewport(Viewport viewport) {}
+        });
+        graph.getGridLabelRenderer().setGridColor(Color.GRAY);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(daysAgo);
     }
 
     @Override
