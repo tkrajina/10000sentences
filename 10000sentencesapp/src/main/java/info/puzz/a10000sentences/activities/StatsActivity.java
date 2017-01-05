@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LabelFormatter;
@@ -16,8 +14,6 @@ import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -29,8 +25,6 @@ import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityStatsBinding;
 import info.puzz.a10000sentences.logic.StatsService;
-import info.puzz.a10000sentences.models.Language;
-import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.utils.TimeUtils;
 
 public class StatsActivity extends BaseActivity {
@@ -70,9 +64,6 @@ public class StatsActivity extends BaseActivity {
                 R.color.graph_3,
                 R.color.graph_4,
                 R.color.graph_5,
-                R.color.graph_6,
-                R.color.graph_7,
-                R.color.graph_8,
         };
 
         setupGraphs();
@@ -119,13 +110,12 @@ public class StatsActivity extends BaseActivity {
         double minY = 0;
         double maxY = 0;
 
-        int n = 0;
+        int colorNo = 0;
         for (String collectionId : dataPointsByCollectionId.keySet()) {
-            ++n;
             List<DataPointInterface> points = dataPointsByCollectionId.get(collectionId);
 
             LineGraphSeries series = new LineGraphSeries<>(points.toArray(new DataPointInterface[points.size()]));
-            series.setColor(ContextCompat.getColor(this, graphColors[n % graphColors.length]));
+            series.setColor(ContextCompat.getColor(this, graphColors[(colorNo ++) % graphColors.length]));
             series.setTitle(collectionId);
             graph.addSeries(series);
 
