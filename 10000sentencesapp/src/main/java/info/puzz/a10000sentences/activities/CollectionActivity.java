@@ -53,7 +53,6 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         super.onCreate(savedInstanceState);
         Application.COMPONENT.injectActivity(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collection);
-        Application.COMPONENT.injectActivity(this);
     }
 
     @Override
