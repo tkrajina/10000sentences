@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -48,6 +49,7 @@ public class StatsActivity extends BaseActivity {
     ActivityStatsBinding binding;
 
     private Float graphFontSize = null;
+    private int[] graphColors;
 
     private interface Formatter {
         String format(double value);
@@ -66,6 +68,17 @@ public class StatsActivity extends BaseActivity {
         setTitle(R.string.stats);
 
         setupGraphs(null);
+
+        graphColors = new int[] {
+                R.color.graph_1,
+                R.color.graph_2,
+                R.color.graph_3,
+                R.color.graph_4,
+                R.color.graph_5,
+                R.color.graph_6,
+                R.color.graph_7,
+                R.color.graph_8,
+        };
     }
 
     private void setupGraphs(final String collectionId) {
@@ -115,10 +128,13 @@ public class StatsActivity extends BaseActivity {
         double minY = 0;
         double maxY = 0;
 
+        int n = 0;
         for (String collectionId : dataPointsByCollectionId.keySet()) {
+            ++n;
             List<DataPointInterface> points = dataPointsByCollectionId.get(collectionId);
 
             LineGraphSeries series = new LineGraphSeries<>(points.toArray(new DataPointInterface[points.size()]));
+            series.setColor(ContextCompat.getColor(this, graphColors[n % graphColors.length]));
             graph.addSeries(series);
 
             graph.getGridLabelRenderer().setLabelFormatter(new LabelFormatter() {
