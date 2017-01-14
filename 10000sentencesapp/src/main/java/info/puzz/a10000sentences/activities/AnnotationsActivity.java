@@ -99,7 +99,7 @@ public class AnnotationsActivity extends BaseActivity {
         }
 
         String[] filterParts = text.split("\\s+");
-        final String filter = filterParts[filterParts.length - 1];
+        final String filter = filterParts.length > 0 ? filterParts[filterParts.length - 1] : "";
 
         reloadingAsyncTask = new AsyncTask<Void, Void, From>() {
             @Override
