@@ -14,6 +14,12 @@ public class TimeUtils {
         throw new Exception();
     }
 
+    public static void sleep( long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ignore) {}
+    }
+
     public static long timeFrom(Long time) {
         if (time == null) {
             return 0;

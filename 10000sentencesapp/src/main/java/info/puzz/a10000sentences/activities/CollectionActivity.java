@@ -7,6 +7,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.speech.tts.Voice;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +19,7 @@ import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -31,6 +37,7 @@ import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.DebugUtils;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
+import info.puzz.a10000sentences.utils.TimeUtils;
 import info.puzz.a10000sentences.utils.TranslateUtils;
 import temp.DBG;
 
@@ -63,6 +70,103 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collection);
 
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
+
+        SpeechRecognizer speechRecognizer = SpeechRecognizer.createSpeechRecognizer(CollectionActivity.this);
+        speechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle params) {
+                Log.i(TAG, "onReadyForSpeech:" + params);
+            }
+
+            @Override
+            public void onBeginningOfSpeech() {
+                Log.i(TAG, "onBeginningOfSpeech:");
+            }
+
+            @Override
+            public void onRmsChanged(float rmsdB) {
+                Log.i(TAG, "onRmsChanged:");
+            }
+
+            @Override
+            public void onBufferReceived(byte[] buffer) {
+                Log.i(TAG, "onBufferReceived:" + buffer);
+            }
+
+            @Override
+            public void onEndOfSpeech() {
+                Log.i(TAG, "onEndOfSpeech:");
+            }
+
+            @Override
+            public void onError(int error) {
+                Log.i(TAG, "onError:" + error);
+                if (error == SpeechRecognizer.ERROR_AUDIO) {
+                    Log.i(TAG, "Audio recording error.");
+                }
+                if (error == SpeechRecognizer.ERROR_CLIENT) {
+                    Log.i(TAG, "Other client side errors.");
+                }
+                if (error == SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS) {
+                    Log.i(TAG, "Insufficient permissions");
+                }
+                if (error == SpeechRecognizer.ERROR_NETWORK) {
+                    Log.i(TAG, "Other network related errors.");
+                }
+                if (error == SpeechRecognizer.ERROR_NETWORK_TIMEOUT) {
+                    Log.i(TAG, "Network operation timed out.");
+                }
+                if (error == SpeechRecognizer.ERROR_NO_MATCH) {
+                    Log.i(TAG, "No recognition result matched.");
+                }
+                if (error == SpeechRecognizer.ERROR_RECOGNIZER_BUSY) {
+                    Log.i(TAG, "RecognitionService busy.");
+                }
+                if (error == SpeechRecognizer.ERROR_SERVER) {
+                    Log.i(TAG, "Server sends error status.");
+                }
+                if (error == SpeechRecognizer.ERROR_SPEECH_TIMEOUT) {
+                    Log.i(TAG, "No speech input");
+                }
+            }
+
+            @Override
+            public void onResults(Bundle results) {
+                Log.i(TAG, "onResults:" + results);
+                ArrayList<String> voiceResults = results
+                        .getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+                if (voiceResults == null) {
+                    Log.e(TAG, "No voice results");
+                } else {
+                    Log.i(TAG, "Printing matches: ");
+                    for (String match : voiceResults) {
+                        Log.i(TAG, match);
+                    }
+                }
+            }
+
+            @Override
+            public void onPartialResults(Bundle partialResults) {
+                Log.i(TAG, "onPartialResults:" + partialResults);
+            }
+
+            @Override
+            public void onEvent(int eventType, Bundle params) {
+                Log.i(TAG, "onEvent:" + eventType + "," + params);
+            }
+        });
+
+        if (SpeechRecognizer.isRecognitionAvailable(this)) {
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en_US");
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 2);
+            speechRecognizer.startListening(intent);
+            // TimeUtils.sleep(TimeUnit.SECONDS.toMillis(5));
+            // speechRecognizer.stopListening();
+        } else {
+            Log.e(TAG, "Speech recognition not available");
+        }
     }
 
     @Override
