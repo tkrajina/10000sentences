@@ -1,13 +1,23 @@
 package info.puzz.a10000sentences.utils;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
+
+import com.activeandroid.query.Select;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
+import java.security.SecureRandom;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import info.puzz.a10000sentences.logic.SentenceCollectionsService;
+import info.puzz.a10000sentences.models.Sentence;
+import info.puzz.a10000sentences.models.SentenceStatus;
 
 /**
  * Add:
@@ -23,6 +33,8 @@ import java.nio.channels.FileChannel;
 public final class DebugUtils {
 
     private static final String TAG = DebugUtils.class.getSimpleName();
+
+    private static final Random RANDOM = new SecureRandom(("" + System.currentTimeMillis()).getBytes());
 
     private DebugUtils() throws Exception {
         throw new Exception();
@@ -56,4 +68,29 @@ public final class DebugUtils {
             throw new Error(e);
         }
     }
+
+    public static void createDummyDoneSentences(
+            final SentenceCollectionsService sentenceCollectionsService,
+            final String collectionId)
+    {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                for (int i = 0; i < RANDOM.nextInt(100); i++) {
+                    Sentence sentence = new Select()
+                            .from(Sentence.class)
+                            .where("collection_id=?", collectionId)
+                            .orderBy("random()")
+                            .executeSingle();
+                    if (sentence != null) {
+                        long finished = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(2 * i);
+                        sentenceCollectionsService.updateStatus(sentence, SentenceStatus.DONE, finished - TimeUnit.MINUTES.toMillis(RANDOM.nextInt(5)), finished);
+                    }
+                }
+                return null;
+            }
+        }.execute();
+    }
+
 }

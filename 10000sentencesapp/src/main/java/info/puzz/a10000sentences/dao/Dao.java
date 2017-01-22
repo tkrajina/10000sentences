@@ -99,6 +99,10 @@ public class Dao {
     }
 
     public SentenceCollection getCollection(String collectionId) {
+        if (StringUtils.isEmpty(collectionId)) {
+            return null;
+        }
+
         return new Select()
                 .from(SentenceCollection.class)
                 .where("collection_id = ?", collectionId)

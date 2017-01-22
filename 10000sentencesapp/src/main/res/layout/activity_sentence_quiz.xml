@@ -94,7 +94,7 @@
                         android:id="@+id/sentence_delimiter"
                         android:layout_width="fill_parent"
                         android:layout_height="1dip"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/inactive"
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true" />
 

@@ -11,4 +11,10 @@
     <color name="shadow">#E0E0E0</color>
     <color name="skipped">#6D93FF</color>
     <color name="annotation">#FD6DFF</color>
+
+    <color name="graph_1">#0791EC</color>
+    <color name="graph_2">#EC07A3</color>
+    <color name="graph_3">#07EC5B</color>
+    <color name="graph_4">#0791EC</color>
+    <color name="graph_5">#ECDE07</color>
 </resources>
