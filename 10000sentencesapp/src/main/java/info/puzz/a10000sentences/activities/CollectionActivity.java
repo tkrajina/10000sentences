@@ -1,51 +1,50 @@
 package info.puzz.a10000sentences.activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.speech.tts.Voice;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.activeandroid.query.Select;
-
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
-import info.puzz.a10000sentences.models.Sentence;
-import info.puzz.a10000sentences.tasks.ImporterAsyncTask;
 import info.puzz.a10000sentences.R;
-import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
+import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
-import info.puzz.a10000sentences.utils.DebugUtils;
+import info.puzz.a10000sentences.tasks.ImporterAsyncTask;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
-import info.puzz.a10000sentences.utils.TimeUtils;
-import info.puzz.a10000sentences.utils.TranslateUtils;
-import temp.DBG;
 
 public class CollectionActivity extends BaseActivity implements ImporterAsyncTask.CollectionReloadedListener {
 
     private static final String TAG = CollectionActivity.class.getSimpleName();
 
     private static final String ARG_COLLECTION_ID = "arg_collection_id";
+
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1001;
 
     @Inject
     Dao dao;
@@ -70,6 +69,37 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collection);
 
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
+                                                  MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+        // Assume thisActivity is the current activity
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+            Log.i(TAG, "Denied");
+        } else if ((permissionCheck == PackageManager.PERMISSION_GRANTED)) {
+            Log.i(TAG, "Granted");
+        }
 
         SpeechRecognizer speechRecognizer = SpeechRecognizer.createSpeechRecognizer(CollectionActivity.this);
         speechRecognizer.setRecognitionListener(new RecognitionListener() {
@@ -156,6 +186,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             }
         });
 
+        Log.i(TAG, Environment.getExternalStorageState());
         if (SpeechRecognizer.isRecognitionAvailable(this)) {
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en_US");
@@ -166,6 +197,30 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             // speechRecognizer.stopListening();
         } else {
             Log.e(TAG, "Speech recognition not available");
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 
