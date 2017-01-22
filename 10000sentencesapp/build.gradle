@@ -23,6 +23,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [appName: "10,000 sentences"]
+        }
+        debug {
+            applicationIdSuffix '.debug'
+            manifestPlaceholders = [appName: "DEBUG: 10,000 sentences"]
         }
     }
     dataBinding {
