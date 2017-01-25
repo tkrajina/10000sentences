@@ -31,7 +31,7 @@ import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
-import info.puzz.a10000sentences.logic.SentenceCollectionsService;
+import info.puzz.a10000sentences.services.SentenceCollectionsService;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.tasks.ImporterAsyncTask;

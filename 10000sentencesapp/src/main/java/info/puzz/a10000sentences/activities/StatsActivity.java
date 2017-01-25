@@ -12,7 +12,6 @@ import com.jjoe64.graphview.LabelFormatter;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPointInterface;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Calendar;
 import java.util.List;
@@ -25,7 +24,7 @@ import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityStatsBinding;
-import info.puzz.a10000sentences.logic.StatsService;
+import info.puzz.a10000sentences.services.StatsService;
 import info.puzz.a10000sentences.utils.TimeUtils;
 
 public class StatsActivity extends BaseActivity {

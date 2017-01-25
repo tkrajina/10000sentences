@@ -19,7 +19,7 @@ import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.databinding.AnnotationWordBinding;
-import info.puzz.a10000sentences.logic.AnnotationService;
+import info.puzz.a10000sentences.services.AnnotationService;
 import info.puzz.a10000sentences.models.Annotation;
 import info.puzz.a10000sentences.models.WordAnnotation;
 import info.puzz.a10000sentences.utils.DialogUtils;

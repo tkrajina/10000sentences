@@ -15,7 +15,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import info.puzz.a10000sentences.logic.SentenceCollectionsService;
+import info.puzz.a10000sentences.services.SentenceCollectionsService;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceStatus;
 

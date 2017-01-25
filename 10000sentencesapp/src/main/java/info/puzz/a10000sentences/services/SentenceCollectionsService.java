@@ -1,8 +1,7 @@
-package info.puzz.a10000sentences.logic;
+package info.puzz.a10000sentences.services;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;

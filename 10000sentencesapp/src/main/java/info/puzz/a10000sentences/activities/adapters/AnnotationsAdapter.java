@@ -9,15 +9,13 @@ import android.view.ViewGroup;
 
 import com.activeandroid.query.From;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.databinding.AnnotationBinding;
-import info.puzz.a10000sentences.logic.AnnotationService;
+import info.puzz.a10000sentences.services.AnnotationService;
 import info.puzz.a10000sentences.models.Annotation;
 
 public class AnnotationsAdapter extends LoadMoreAdapter<Annotation> {

@@ -5,9 +5,9 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import info.puzz.a10000sentences.dao.Dao;
-import info.puzz.a10000sentences.logic.AnnotationService;
-import info.puzz.a10000sentences.logic.SentenceCollectionsService;
-import info.puzz.a10000sentences.logic.StatsService;
+import info.puzz.a10000sentences.services.AnnotationService;
+import info.puzz.a10000sentences.services.SentenceCollectionsService;
+import info.puzz.a10000sentences.services.StatsService;
 
 @Module
 public class AppModule {
