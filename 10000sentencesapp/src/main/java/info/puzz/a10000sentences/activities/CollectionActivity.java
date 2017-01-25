@@ -14,7 +14,6 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Menu;
@@ -36,7 +35,9 @@ import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.tasks.ImporterAsyncTask;
 import info.puzz.a10000sentences.utils.DialogUtils;
+import info.puzz.a10000sentences.utils.PermissionRequester;
 import info.puzz.a10000sentences.utils.SleepUtils;
+import temp.DBG;
 
 public class CollectionActivity extends BaseActivity implements ImporterAsyncTask.CollectionReloadedListener {
 
@@ -44,13 +45,13 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
 
     private static final String ARG_COLLECTION_ID = "arg_collection_id";
 
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1001;
-
     @Inject
     Dao dao;
 
     @Inject
     SentenceCollectionsService sentenceCollectionsService;
+
+    private PermissionRequester permissionRequester;
 
     ActivityCollectionBinding binding;
     private String collectionId;
@@ -70,29 +71,6 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
 
         collectionId = getIntent().getStringExtra(ARG_COLLECTION_ID);
 
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
-                                                  MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        }
-
         // Assume thisActivity is the current activity
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permissionCheck == PackageManager.PERMISSION_DENIED) {
@@ -100,6 +78,18 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
         } else if ((permissionCheck == PackageManager.PERMISSION_GRANTED)) {
             Log.i(TAG, "Granted");
         }
+
+        permissionRequester = new PermissionRequester(this, new PermissionRequester.Callback() {
+            @Override
+            public void onGranted() {
+                DBG.todo();
+            }
+
+            @Override
+            public void onRejected() {
+                DBG.todo();
+            }
+        }, Manifest.permission.RECORD_AUDIO);
 
         SpeechRecognizer speechRecognizer = SpeechRecognizer.createSpeechRecognizer(CollectionActivity.this);
         speechRecognizer.setRecognitionListener(new RecognitionListener() {
@@ -202,26 +192,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
+        PermissionRequester.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
