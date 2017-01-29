@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.google.gms.google-services'
 
@@ -32,6 +33,9 @@ android {
     }
     dataBinding {
         enabled = true
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
 }
@@ -70,4 +74,8 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     compile project(path: ':apimodels')
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

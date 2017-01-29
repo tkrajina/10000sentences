@@ -87,5 +87,9 @@ public class TimeUtils {
         return years + "years " + days + "days";
     }
 
+    public static void main(String[] args) {
+        ThreadUtils.Companion.sleep(1000L);
+    }
+
 }
 
