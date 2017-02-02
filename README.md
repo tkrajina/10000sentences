@@ -86,7 +86,6 @@ Maybe:
 ![006](http://tkrajina.github.io/10000sentences/images/006.png)
 ![007](http://tkrajina.github.io/10000sentences/images/007.png)
 ![008](http://tkrajina.github.io/10000sentences/images/008.png)
-![009](http://tkrajina.github.io/10000sentences/images/009.png)
 
 # License
 
