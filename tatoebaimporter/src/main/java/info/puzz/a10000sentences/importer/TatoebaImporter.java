@@ -31,7 +31,7 @@ import info.puzz.a10000sentences.language.Languages;
 
 public class TatoebaImporter {
 
-    private static final float MAX_SENTENCE_LENGTH = 100;
+    private static final float MAX_SENTENCE_LENGTH = 80;
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     public static final int MAX_SENTENCES_NO = 12_000;
