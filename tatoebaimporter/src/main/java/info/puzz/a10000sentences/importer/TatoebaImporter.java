@@ -51,43 +51,46 @@ public class TatoebaImporter {
         String bucketFiles = "bucket_files";
         new File(bucketFiles).mkdirs();
 
-        String[] languages = new String[]{
-                "ces",
-                "bul",
-                "srp",
-                "dan",
-                "swe",
-                "ukr",
-                "nld",
-                "fin",
-                "mkd",
-                "hun",
-                "pol",
-                "ita",
-                "epo",
-                "lat",
-                "tur",
-                "ell",
-                "ron",
-                "ara",
-                "heb",
-                "deu",
-                "fra",
-                "rus",
-                "por",
-                "spa",
+        String[][] languagePairs = new String[][]{
+                new String[] {"ces", "eng"},
+                new String[] {"bul", "eng"},
+                new String[] {"srp", "eng"},
+                new String[] {"dan", "eng"},
+                new String[] {"swe", "eng"},
+                new String[] {"ukr", "eng"},
+                new String[] {"nld", "eng"},
+                new String[] {"fin", "eng"},
+                new String[] {"mkd", "eng"},
+                new String[] {"hun", "eng"},
+                new String[] {"pol", "eng"},
+                new String[] {"ita", "eng"},
+                new String[] {"epo", "eng"},
+                new String[] {"lat", "eng"},
+                new String[] {"tur", "eng"},
+                new String[] {"ell", "eng"},
+                new String[] {"ron", "eng"},
+                new String[] {"ara", "eng"},
+                new String[] {"heb", "eng"},
+                new String[] {"deu", "eng"},
+                new String[] {"fra", "eng"},
+                new String[] {"rus", "eng"},
+                new String[] {"por", "eng"},
+                new String[] {"spa", "eng"},
+
+                // Nonenglish collections:
+                new String[] {"spa", "fra"},
         };
 
         System.out.println("Caching links");
         Map<Integer, int[]> links = loadLinks();
         System.out.println("Loading sentences");
-        Map<String, Map<Integer, TatoebaSentence>> sentencesPerLang = loadSentencesPerLanguage(languages);
+        Map<String, Map<Integer, TatoebaSentence>> sentencesPerLang = loadSentencesPerLanguage(languagePairs);
 
         InfoVO info = new InfoVO()
                 .setLanguages(Languages.getLanguages());
 
-        for (String language : languages) {
-            info.addSentencesCollection(importSentencesBothWays(links, sentencesPerLang, bucketFiles, "eng", language));
+        for (String[] languagePair : languagePairs) {
+            info.addSentencesCollection(importSentencesBothWays(links, sentencesPerLang, bucketFiles, languagePair[0], languagePair[1]));
         }
 
         String infoFilename = Paths.get(bucketFiles, "info.json").toString();
@@ -100,13 +103,14 @@ public class TatoebaImporter {
         }
     }
 
-    private static Map<String, Map<Integer, TatoebaSentence>> loadSentencesPerLanguage(String[] languages) throws Exception {
+    private static Map<String, Map<Integer, TatoebaSentence>> loadSentencesPerLanguage(String[][] languagePairs) throws Exception {
         HashMap<String, Map<Integer, TatoebaSentence>> res = new HashMap<>();
 
         Set<String> langs = new HashSet<>();
-        langs.add("eng");
-        for (String language : languages) {
-            langs.add(language);
+        for (String[] languagePair : languagePairs) {
+            for (String language : languagePair) {
+                langs.add(language);
+            }
         }
 
         FileInputStream fstream = new FileInputStream("tmp_files/sentences_detailed.csv");
