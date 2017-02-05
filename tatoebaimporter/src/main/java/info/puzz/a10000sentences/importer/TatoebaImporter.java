@@ -52,6 +52,9 @@ public class TatoebaImporter {
         new File(bucketFiles).mkdirs();
 
         String[][] languagePairs = new String[][]{
+                //new String[] {"pes", "eng"},
+                new String[] {"ces", "eng"},
+                new String[] {"mkd", "eng"},
                 new String[] {"ces", "eng"},
                 new String[] {"bul", "eng"},
                 new String[] {"srp", "eng"},
