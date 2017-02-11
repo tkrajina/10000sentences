@@ -16,6 +16,11 @@ import info.puzz.a10000sentences.apimodels.LanguageVO;
 
 public class Languages {
 
+    private static final Map<String, String> ALIASES = new HashMap<>();
+    static {
+        ALIASES.put("pes", "fas");
+    }
+
     private static final String LANGUAGES_STR = "Northwest Caucasian\tAbkhaz\tаҧсуа бызшәа, аҧсшәа\tab\tabk\tabk\tabk\tabks\t\n"+
             "Afro-Asiatic\tAfar\tAfaraf\taa\taar\taar\taar\taars\t\n"+
             "Indo-European\tAfrikaans\tAfrikaans\taf\tafr\tafr\tafr\tafrs\t\n"+
@@ -234,7 +239,17 @@ public class Languages {
         if (sentencesByAbbrevs == null) {
             getLanguages();
         }
-        return sentencesByAbbrevs.get(abbrev);
+
+        LanguageVO res = sentencesByAbbrevs.get(abbrev);
+
+        if (res == null) {
+            String alias = ALIASES.get(abbrev);
+            if (StringUtils.isNotEmpty(alias)) {
+                return sentencesByAbbrevs.get(alias);
+            }
+        }
+        
+        return res;
     }
 
     public static void main(String[] args) {
