@@ -153,15 +153,19 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             @Override
             public void onResults(Bundle results) {
                 Log.i(TAG, "onResults:" + results);
-                ArrayList<String> voiceResults = results
-                        .getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
-                if (voiceResults == null) {
-                    Log.e(TAG, "No voice results");
-                } else {
-                    Log.i(TAG, "Printing matches: ");
-                    for (String match : voiceResults) {
-                        Log.i(TAG, match);
-                    }
+
+                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                float[] scores = results.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
+
+                if (matches == null || matches.size() == 0) {
+                    Log.d(TAG, "No matches found");
+                    return;
+                }
+
+                for (int i = 0; i < matches.size(); i++) {
+                    String match = matches.get(i);
+                    float score = scores[i];
+                    Log.i(TAG, String.format("Match: %s, score: %f", match, score));
                 }
             }
 
@@ -192,7 +196,7 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        PermissionRequester.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        permissionRequester.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
