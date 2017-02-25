@@ -187,7 +187,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         SubMenu submenu = navigationView.getMenu().addSubMenu(R.string.downloaded_colections);
         Map<String, Language> languages = dao.getLanguagesByLanguageID();
 
-        for (final SentenceCollection collection : dao.getCollections()) {
+        for (final SentenceCollection collection : dao.getDefaultCollections()) {
             Language language = languages.get(collection.targetLanguage);
             if (language == null) {
                 continue;

@@ -85,9 +85,18 @@ public class Dao {
         }
     }
 
-    public List<SentenceCollection> getCollections() {
+    public List<SentenceCollection> getDefaultCollections() {
         return new Select()
                 .from(SentenceCollection.class)
+                .where("custom=?", false)
+                .orderBy("-done_count, target_lang, known_lang")
+                .execute();
+    }
+
+    public List<SentenceCollection> getCustomCollections() {
+        return new Select()
+                .from(SentenceCollection.class)
+                .where("custom=?", true)
                 .orderBy("-done_count, target_lang, known_lang")
                 .execute();
     }

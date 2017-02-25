@@ -89,7 +89,7 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
     }
 
     private void reloadCollections() {
-        List<SentenceCollection> cols = dao.getCollections();
+        List<SentenceCollection> cols = dao.getDefaultCollections();
         binding.collectionsList.setAdapter(new CollectionsAdapter(this, cols));
     }
 

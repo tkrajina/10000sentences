@@ -24,6 +24,9 @@ public class SentenceCollection extends Model {
     @Column(name = "collection_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public String collectionID;
 
+    @Column(name = "custom")
+    public boolean custom;
+
     @Column(name = "known_lang")
     public String knownLanguage;
 
