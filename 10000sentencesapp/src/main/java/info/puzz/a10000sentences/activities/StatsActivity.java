@@ -12,7 +12,6 @@ import com.jjoe64.graphview.LabelFormatter;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPointInterface;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Calendar;
 import java.util.List;
@@ -56,8 +55,16 @@ public class StatsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        StatsModel model = new StatsModel();
+        Application.COMPONENT.inject(model);
         Application.COMPONENT.injectActivity(this);
+
+        model.init();
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_stats);
+        binding.setStats(model);
+
         setTitle(R.string.stats);
 
         graphColors = new int[] {

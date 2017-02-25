@@ -9,6 +9,7 @@ import info.puzz.a10000sentences.activities.BaseActivity;
 import info.puzz.a10000sentences.activities.CollectionActivity;
 import info.puzz.a10000sentences.activities.CollectionsActivity;
 import info.puzz.a10000sentences.activities.EditAnnotationActivity;
+import info.puzz.a10000sentences.activities.StatsModel;
 import info.puzz.a10000sentences.activities.adapters.AnnotationsAdapter;
 import info.puzz.a10000sentences.activities.adapters.CollectionsAdapter;
 import info.puzz.a10000sentences.activities.SentenceQuizActivity;
@@ -37,4 +38,5 @@ public interface DiComponent {
     void inject(CollectionsAdapter collectionsAdapter);
     void inject(AnnotationsAdapter annotationsAdapter);
     void inject(WordsAdapter wordsAdapter);
+    void inject(StatsModel stats);
 }
