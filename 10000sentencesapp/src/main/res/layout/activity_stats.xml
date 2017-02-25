@@ -58,11 +58,14 @@
                             android:textStyle="normal|bold" />
 
                     </LinearLayout>
-                    <TextView
-                        android:text="@string/time_spent_daily"
-                        android:textSize="@dimen/subtitle_size"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:id="@+id/sentence_delimiter"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="@color/inactive"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true" />
 
                     <TextView
                         android:text="@string/time_spent_daily"
