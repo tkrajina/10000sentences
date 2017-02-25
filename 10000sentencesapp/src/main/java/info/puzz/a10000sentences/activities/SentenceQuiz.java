@@ -2,7 +2,6 @@ package info.puzz.a10000sentences.activities;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
-import android.preference.Preference;
 
 import org.apache.commons.lang3.StringUtils;
 
