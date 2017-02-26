@@ -106,10 +106,14 @@ public class SentenceQuiz extends BaseObservable {
             return;
         }
 
+        String word = chunks.get(currentChunk).word.toLowerCase();
+
         Set<String> answersSet = new HashSet<>();
         for (String vocabChunk : vocabChunks) {
             vocabChunk = vocabChunk.toLowerCase();
-            answersSet.add(vocabChunk);
+            if (!StringUtils.equals(vocabChunk, word)) {
+                answersSet.add(vocabChunk);
+            }
         }
 
         List<String> answersList = new ArrayList<>();
@@ -117,7 +121,7 @@ public class SentenceQuiz extends BaseObservable {
         Collections.shuffle(answersList);
 
         answersList = answersList.subList(0, answers.length - 1);
-        answersList.add(chunks.get(currentChunk).word.toLowerCase());
+        answersList.add(word);
 
         Collections.shuffle(answersList);
 
