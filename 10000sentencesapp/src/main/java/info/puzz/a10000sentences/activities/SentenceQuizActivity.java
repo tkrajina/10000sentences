@@ -116,7 +116,7 @@ public class SentenceQuizActivity extends BaseActivity {
         Sentence sentence = dao.getSentenceBySentenceId(sentenceId);
         if (sentence == null) {
             Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
-            CollectionsActivity.start(this);
+            CollectionsActivity.startDefaultCollections(this);
             return;
         }
 

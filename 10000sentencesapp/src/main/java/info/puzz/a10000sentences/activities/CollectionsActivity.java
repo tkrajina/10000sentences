@@ -24,12 +24,22 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
 
     private static final String TAG = CollectionActivity.class.getSimpleName();
 
-    ActivityCollectionsBinding binding;
+    private static final String ARG_CUSTOM_COLLECTIONS = "custom_collections";
 
     @Inject Dao dao;
 
-    public static <T extends BaseActivity> void start(T activity) {
+    ActivityCollectionsBinding binding;
+
+    private boolean textCollections;
+
+    public static <T extends BaseActivity> void startDefaultCollections(T activity) {
         Intent intent = new Intent(activity, CollectionsActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static <T extends BaseActivity> void startTextCollections(T activity) {
+        Intent intent = new Intent(activity, CollectionsActivity.class)
+            .putExtra(ARG_CUSTOM_COLLECTIONS, true);
         activity.startActivity(intent);
     }
 
@@ -54,7 +64,16 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
             reloadLanguages();
         }
 
+        textCollections = getIntent().getBooleanExtra(ARG_CUSTOM_COLLECTIONS, false);
+
         setTitle(R.string.collections);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        reloadCollections();
     }
 
     private void showFirstStepsIfNeeded() {
@@ -73,13 +92,6 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
                     .setPositiveButton(R.string.ok, null)
                     .show();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        reloadCollections();
     }
 
     @Override

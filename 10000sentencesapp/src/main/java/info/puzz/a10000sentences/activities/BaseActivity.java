@@ -238,7 +238,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_collections) {
-            CollectionsActivity.start(this);
+            CollectionsActivity.startDefaultCollections(this);
         } else if (id == R.id.nav_annotations) {
             AnnotationsActivity.start(this);
         } else if (id == R.id.nav_reload) {

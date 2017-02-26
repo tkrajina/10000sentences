@@ -60,7 +60,7 @@ public class EditAnnotationActivity extends BaseActivity {
         Annotation annotation = Annotation.load(Annotation.class, annotationId);
         if (annotation == null) {
             Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
-            CollectionsActivity.start(this);
+            CollectionsActivity.startDefaultCollections(this);
             return;
         }
 
