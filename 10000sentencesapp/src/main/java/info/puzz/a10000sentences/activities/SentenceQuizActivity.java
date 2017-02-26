@@ -42,6 +42,7 @@ import info.puzz.a10000sentences.utils.TatoebaUtils;
 import info.puzz.a10000sentences.utils.TranslateUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
 import info.puzz.a10000sentences.utils.WordChunkUtils;
+import temp.DBG;
 
 public class SentenceQuizActivity extends BaseActivity {
 
@@ -138,15 +139,15 @@ public class SentenceQuizActivity extends BaseActivity {
         answerButtons = new Button[] { binding.answer1, binding.answer2, binding.answer3, binding.answer4, };
         setupAnswerButtons();
 
-        binding.startQuiz.setOnClickListener(new View.OnClickListener() {
+        DBG.todo("Move to binding");
+/*        binding.startQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.startQuizGroup.setVisibility(View.GONE);
                 binding.quizSentenceGroup.setVisibility(View.VISIBLE);
                 binding.quizButtons.setVisibility(View.VISIBLE);
                 binding.knownSentence.setTextColor(R.color.inactive);
             }
-        });
+        });*/
         binding.knownSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

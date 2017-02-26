@@ -2,6 +2,8 @@
 <layout>
 
     <data>
+        <import type="android.view.View" />
+        <import type="info.puzz.a10000sentences.activities.SentenceQuiz" />
         <variable name="collection" type="info.puzz.a10000sentences.models.SentenceCollection" />
         <variable name="quiz" type="info.puzz.a10000sentences.activities.SentenceQuiz" />
     </data>
@@ -198,19 +200,22 @@
                         android:id="@+id/start_quiz_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="@{quiz.getStage() == SentenceQuiz.Stage.START ? View.VISIBLE : View.GONE}"
                         android:orientation="horizontal">
                         <Button
                             android:id="@+id/start_quiz"
                             android:maxLines="1"
                             android:text="@string/start_quiz"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:onClick="@{quiz::onStart}"
+                            />
                     </LinearLayout>
 
 
                     <TableLayout
                         android:id="@+id/quiz_buttons"
-                        android:visibility="gone"
+                        android:visibility="@{quiz.getStage() == SentenceQuiz.Stage.QUESSING ? View.VISIBLE : View.GONE}"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:stretchColumns="*">

@@ -2,6 +2,7 @@ package info.puzz.a10000sentences.activities;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.view.View;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,11 +20,19 @@ import temp.DBG;
 
 public class SentenceQuiz extends BaseObservable {
 
+    public static enum Stage {
+        START,
+        QUESSING,
+        END,
+    }
+
     private final List<WordChunk> chunks;
     private final List<String> vocabChunks;
     private final Sentence sentence;
     private int currentChunk;
     public String[] answers;
+
+    Stage stage = Stage.START;
 
     int incorrectAnswersGiven = 0;
     int correctAnswersGiven = 0;
@@ -136,5 +145,14 @@ public class SentenceQuiz extends BaseObservable {
 
     public int getCorrectAnswersGiven() {
         return correctAnswersGiven;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void onStart(View _) {
+        stage = Stage.QUESSING;
+        notifyChange();
     }
 }
