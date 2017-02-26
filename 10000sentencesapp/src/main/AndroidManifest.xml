@@ -59,6 +59,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activities.ImportTextActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activities.HtmlActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
