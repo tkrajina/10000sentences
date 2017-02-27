@@ -118,4 +118,7 @@ If you really want this, type: %s]]></string>
     <string name="unskip_n_sentences">Unskip %d skipped sentences</string>
     <string name="skipped">Skipped</string>
     <string name="current_streak">Current days streak: </string>
+    <string name="select_language">Select language:</string>
+    <string name="title">Title:</string>
+    <string name="text">Text:</string>
 </resources>

@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-
-    <data>
-        <variable name="collection" type="info.puzz.a10000sentences.models.SentenceCollection" />
-        <variable name="quiz" type="info.puzz.a10000sentences.activities.SentenceQuiz" />
-    </data>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <android.support.v4.widget.DrawerLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,9 +32,59 @@
                 tools:context="info.puzz.a10000sentences.activities.ImportTextActivity">
 
                 <TextView
-                    android:text="TODO"
+                    android:id="@+id/text1"
+                    android:text="@string/select_language"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text1"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/spinner" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:text="@string/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/spinner"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:text="Name"
+                    android:ems="10"
+                    android:layout_below="@+id/textView3"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/editText"
+                    android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:text="@string/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editText"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:layout_below="@+id/textView4"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/editText2"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
             <!-- ...body -->
