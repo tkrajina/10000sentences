@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+        <import type="android.view.View" />
+        <variable name="custom" type="java.lang.Boolean" />
+    </data>
+
     <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -38,6 +43,15 @@
 
             </LinearLayout>
             <!-- ...body -->
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/add_text"
+                android:visibility="@{custom ? View.VISIBLE : View.GONE}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                app:srcCompat="@android:drawable/ic_menu_add" />
 
         </android.support.design.widget.CoordinatorLayout>
 

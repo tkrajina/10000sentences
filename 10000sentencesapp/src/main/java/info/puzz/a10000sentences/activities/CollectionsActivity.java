@@ -30,7 +30,7 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
 
     ActivityCollectionsBinding binding;
 
-    private boolean textCollections;
+    private boolean customCollections;
 
     public static <T extends BaseActivity> void startDefaultCollections(T activity) {
         Intent intent = new Intent(activity, CollectionsActivity.class);
@@ -64,7 +64,8 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
             reloadLanguages();
         }
 
-        textCollections = getIntent().getBooleanExtra(ARG_CUSTOM_COLLECTIONS, false);
+        customCollections = getIntent().getBooleanExtra(ARG_CUSTOM_COLLECTIONS, false);
+        binding.setCustom(customCollections);
 
         setTitle(R.string.collections);
     }
