@@ -51,7 +51,7 @@ public class ImportTextActivity extends BaseActivity {
     private ActivityImportTextBinding binding;
 
     public static <T extends BaseActivity> void startSentence(T activity) {
-        Intent intent = new Intent(activity, ImportTextActivity.class)
+        Intent intent = new Intent(activity, ImportTextActivity.class);
         activity.startActivity(intent);
     }
 
@@ -81,6 +81,7 @@ public class ImportTextActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        return true;
     }
 
 }
