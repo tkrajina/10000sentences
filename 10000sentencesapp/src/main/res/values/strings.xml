@@ -121,4 +121,5 @@ If you really want this, type: %s]]></string>
     <string name="select_language">Select language:</string>
     <string name="title">Title:</string>
     <string name="text">Text:</string>
+    <string name="text_collections">Text collections</string>
 </resources>

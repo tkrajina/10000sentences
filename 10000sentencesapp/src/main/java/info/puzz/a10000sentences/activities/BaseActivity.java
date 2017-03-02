@@ -167,6 +167,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         setupMenuIcon(navigationView, R.id.nav_collections, FontAwesomeIcons.fa_list);
+        setupMenuIcon(navigationView, R.id.nav_text_collections, FontAwesomeIcons.fa_list);
         setupMenuIcon(navigationView, R.id.nav_reload, FontAwesomeIcons.fa_refresh);
         setupMenuIcon(navigationView, R.id.nav_annotations, FontAwesomeIcons.fa_language);
         setupMenuIcon(navigationView, R.id.nav_stats, FontAwesomeIcons.fa_line_chart);
@@ -239,6 +240,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_collections) {
             CollectionsActivity.startDefaultCollections(this);
+        } else if (id == R.id.nav_text_collections) {
+            CollectionsActivity.startTextCollections(this);
         } else if (id == R.id.nav_annotations) {
             AnnotationsActivity.start(this);
         } else if (id == R.id.nav_reload) {

@@ -6,6 +6,9 @@
             android:id="@+id/nav_collections"
             android:title="@string/collections" />
         <item
+            android:id="@+id/nav_text_collections"
+            android:title="@string/text_collections" />
+        <item
             android:id="@+id/nav_annotations"
             android:title="@string/word_annotations" />
         <item

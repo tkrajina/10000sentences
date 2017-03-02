@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 import android.webkit.WebView;
 
 import java.util.List;
@@ -67,6 +68,13 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
         customCollections = getIntent().getBooleanExtra(ARG_CUSTOM_COLLECTIONS, false);
         binding.setCustom(customCollections);
 
+        binding.addText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImportTextActivity.start(CollectionsActivity.this);
+            }
+        });
+
         setTitle(R.string.collections);
     }
 
@@ -102,7 +110,12 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
     }
 
     private void reloadCollections() {
-        List<SentenceCollection> cols = dao.getDefaultCollections();
+        List<SentenceCollection> cols;
+        if (customCollections) {
+            cols = dao.getCustomCollections();
+        } else {
+            cols = dao.getDefaultCollections();
+        }
         binding.collectionsList.setAdapter(new CollectionsAdapter(this, cols));
     }
 
