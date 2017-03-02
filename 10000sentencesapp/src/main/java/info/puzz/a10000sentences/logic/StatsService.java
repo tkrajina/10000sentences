@@ -138,7 +138,8 @@ public final class StatsService {
         c.set(Calendar.DST_OFFSET, 0);
         c.set(Calendar.ZONE_OFFSET, 0);
         long from = c.getTimeInMillis();
-        for (int i = 0; i < maxDays; i++) {
+        // Do not start from 0 here because the current date can still change:
+        for (int i = 1; i < maxDays; i++) {
             from -= TimeUnit.DAYS.toMillis(i);
             long to = from + TimeUnit.DAYS.toMillis(1);
             int count = new Select()
