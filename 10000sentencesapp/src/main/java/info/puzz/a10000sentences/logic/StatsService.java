@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import info.puzz.a10000sentences.models.SentenceHistory;
 import lombok.Data;
@@ -124,6 +125,35 @@ public final class StatsService {
         }
 
         return stats;
+    }
+
+    public int getStreakDays(int maxDays) {
+        long now = System.currentTimeMillis();
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(now);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.DST_OFFSET, 0);
+        c.set(Calendar.ZONE_OFFSET, 0);
+        long from = c.getTimeInMillis();
+        // Do not start from 0 here because the current date can still change:
+        for (int i = 1; i < maxDays; i++) {
+            from -= TimeUnit.DAYS.toMillis(i);
+            long to = from + TimeUnit.DAYS.toMillis(1);
+            int count = new Select()
+                    .from(SentenceHistory.class)
+                    .where("created>?", from)
+                    .where("created<?", to)
+                    .orderBy("created")
+                    .limit(1)
+                    .count();
+            if (count == 0) {
+                return i;
+            }
+        }
+        return maxDays;
     }
 
     private long getMiddayTime(long created) {

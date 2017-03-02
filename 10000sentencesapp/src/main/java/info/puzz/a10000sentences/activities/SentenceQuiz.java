@@ -2,13 +2,14 @@ package info.puzz.a10000sentences.activities;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
-import android.preference.Preference;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.models.Sentence;
@@ -104,20 +105,28 @@ public class SentenceQuiz extends BaseObservable {
         if (isFinished()) {
             return;
         }
-        List<String> answ = new ArrayList<>();
-        answ.add(chunks.get(currentChunk).word.toLowerCase());
+
+        String word = chunks.get(currentChunk).word.toLowerCase();
+
+        Set<String> answersSet = new HashSet<>();
         for (String vocabChunk : vocabChunks) {
             vocabChunk = vocabChunk.toLowerCase();
-            if (answ.size() < answers.length) {
-                if (!answ.contains(vocabChunk)) {
-                    answ.add(vocabChunk);
-                }
+            if (!StringUtils.equals(vocabChunk, word)) {
+                answersSet.add(vocabChunk);
             }
         }
-        answ = answ.subList(0, answers.length);
-        Collections.shuffle(answ);
+
+        List<String> answersList = new ArrayList<>();
+        answersList.addAll(answersSet);
+        Collections.shuffle(answersList);
+
+        answersList = answersList.subList(0, answers.length - 1);
+        answersList.add(word);
+
+        Collections.shuffle(answersList);
+
         for (int i = 0; i < answers.length; i++) {
-            answers[i] = answ.get(i);
+            answers[i] = answersList.get(i);
         }
     }
 

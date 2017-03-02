@@ -12,27 +12,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.activeandroid.query.Select;
-
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
-import info.puzz.a10000sentences.models.Sentence;
-import info.puzz.a10000sentences.tasks.ImporterAsyncTask;
 import info.puzz.a10000sentences.R;
-import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
+import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
-import info.puzz.a10000sentences.utils.DebugUtils;
+import info.puzz.a10000sentences.tasks.ImporterAsyncTask;
 import info.puzz.a10000sentences.utils.DialogUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
-import info.puzz.a10000sentences.utils.TranslateUtils;
-import temp.DBG;
 
 public class CollectionActivity extends BaseActivity implements ImporterAsyncTask.CollectionReloadedListener {
 

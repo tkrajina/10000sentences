@@ -12,7 +12,6 @@ import com.jjoe64.graphview.LabelFormatter;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPointInterface;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Calendar;
 import java.util.List;
@@ -42,6 +41,7 @@ public class StatsActivity extends BaseActivity {
 
     private Float graphFontSize = null;
     private int[] graphColors;
+    private int daysAgo = 7;
 
     private interface Formatter {
         String format(double value);
@@ -55,8 +55,16 @@ public class StatsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        StatsModel model = new StatsModel();
+        Application.COMPONENT.inject(model);
         Application.COMPONENT.injectActivity(this);
+
+        model.init();
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_stats);
+        binding.setStats(model);
+
         setTitle(R.string.stats);
 
         graphColors = new int[] {
@@ -67,14 +75,12 @@ public class StatsActivity extends BaseActivity {
                 R.color.graph_5,
         };
 
+        setTitle(getString(R.string.stats_title, daysAgo));
+
         setupGraphs();
     }
 
     private void setupGraphs() {
-        final int daysAgo = 7;
-
-        setTitle(getString(R.string.stats_title, daysAgo));
-
         if (graphFontSize == null) {
             graphFontSize = (float) (binding.timeGraph.getGridLabelRenderer().getTextSize() * 0.6);
         }
@@ -92,13 +98,13 @@ public class StatsActivity extends BaseActivity {
 
             @Override
             protected void onPostExecute(StatsService.Stats stats) {
-                setupGraph(stats.getTimePerDay(), binding.timeGraph, daysAgo, new Formatter() {
+                setupGraph(stats.getTimePerDay(), binding.timeGraph, true, new Formatter() {
                     @Override
                     public String format(double value) {
                         return TimeUtils.formatDurationToHHMMSS((long) value, false);
                     }
                 });
-                setupGraph(stats.getDonePerDay(), binding.doneCounterGraph, daysAgo, new Formatter() {
+                setupGraph(stats.getDonePerDay(), binding.doneCounterGraph, false, new Formatter() {
                     @Override
                     public String format(double value) {
                         return String.format("%d", (int) value);
@@ -108,7 +114,11 @@ public class StatsActivity extends BaseActivity {
         }.execute();
     }
 
-    private void setupGraph(Map<String, List<DataPointInterface>> dataPointsByCollectionId, GraphView graph, int daysAgo, final Formatter yAxisFormatter) {
+    private void setupGraph(
+            Map<String, List<DataPointInterface>> dataPointsByCollectionId,
+            GraphView graph,
+            boolean yFromZero,
+            final Formatter yAxisFormatter) {
 
         double minX = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysAgo) - TimeUnit.HOURS.toMillis(12);
         double maxX = System.currentTimeMillis() + TimeUnit.HOURS.toMillis(12);
@@ -125,7 +135,19 @@ public class StatsActivity extends BaseActivity {
 
             graph.addSeries(series);
 
+            if (minY == 0) {
+                minY = series.getLowestValueY();
+            }
+            if (maxY == 0) {
+                maxY = series.getHighestValueY();
+            }
+
             maxY = Math.max(maxY, series.getHighestValueY());
+            minY = Math.min(minY, series.getLowestValueY());
+        }
+
+        if (yFromZero) {
+            minY = 0;
         }
 
         if (minY == maxY) {

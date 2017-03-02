@@ -53,6 +53,7 @@ public class TatoebaImporter {
 
         String[][] languagePairs = new String[][]{
                 //new String[] {"pes", "eng"},
+                new String[] {"nob", "eng"},
                 new String[] {"ces", "eng"},
                 new String[] {"mkd", "eng"},
                 new String[] {"ces", "eng"},
