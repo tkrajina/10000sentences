@@ -137,10 +137,10 @@ public final class StatsService {
         c.set(Calendar.MILLISECOND, 0);
         c.set(Calendar.DST_OFFSET, 0);
         c.set(Calendar.ZONE_OFFSET, 0);
-        long from = c.getTimeInMillis();
+        long startFrom = c.getTimeInMillis();
         // Do not start from 0 here because the current date can still change:
-        for (int i = 1; i < maxDays; i++) {
-            from -= TimeUnit.DAYS.toMillis(i);
+        for (int i = 0; i < maxDays; i++) {
+            long from = startFrom - TimeUnit.DAYS.toMillis(i + 2);
             long to = from + TimeUnit.DAYS.toMillis(1);
             int count = new Select()
                     .from(SentenceHistory.class)
