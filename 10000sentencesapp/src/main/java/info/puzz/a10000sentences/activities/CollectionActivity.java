@@ -20,6 +20,7 @@ import info.puzz.a10000sentences.api.Api;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionBinding;
 import info.puzz.a10000sentences.logic.SentenceCollectionsService;
+import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.tasks.ImporterAsyncTask;
@@ -68,8 +69,13 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             return;
         }
 
+        Language knownLanguage = dao.getLanguage(collection.getKnownLanguage());
+        if (knownLanguage == null) {
+            knownLanguage = sentenceCollectionsService.unknownLanguage();
+        }
+
         binding.setSentenceCollection(collection);
-        binding.setKnownLanguage(dao.getLanguage(collection.getKnownLanguage()));
+        binding.setKnownLanguage(knownLanguage);
         binding.setTargetLanguage(dao.getLanguage(collection.getTargetLanguage()));
 
         setTitle(binding.getTargetLanguage().name);

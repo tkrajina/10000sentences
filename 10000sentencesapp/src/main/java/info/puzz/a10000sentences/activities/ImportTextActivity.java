@@ -2,7 +2,9 @@ package info.puzz.a10000sentences.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.tts.Voice;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -13,6 +15,9 @@ import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityImportTextBinding;
+import info.puzz.a10000sentences.logic.SentenceCollectionsService;
+import info.puzz.a10000sentences.models.Language;
+import temp.DBG;
 
 public class ImportTextActivity extends BaseActivity {
 
@@ -20,6 +25,9 @@ public class ImportTextActivity extends BaseActivity {
 
     @Inject
     Dao dao;
+
+    @Inject
+    SentenceCollectionsService sentenceCollectionsService;
 
     private ActivityImportTextBinding binding;
 
@@ -66,10 +74,19 @@ public class ImportTextActivity extends BaseActivity {
     }
 
     private void save() {
-        System.out.println(binding.getImportText().title);
-        Object language = binding.languagesSpinner.getSelectedItem();
-        System.out.println(language);
-        //
+        final Language language = (Language) binding.languagesSpinner.getSelectedItem();
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                sentenceCollectionsService.importNewTextCollection(language.languageId, binding.getImportText().title, binding.getImportText().text);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                CollectionsActivity.startTextCollections(ImportTextActivity.this);
+            }
+        }.execute();
     }
 
 }

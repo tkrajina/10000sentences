@@ -29,8 +29,13 @@ public class Sentence extends Model {
     @Column(name = "status")
     public int status = SentenceStatus.TODO.getStatus();
 
+    /**
+     * This field should really be named "order". In default language collections simpler sentences are listed first.
+     * But in text collections, sentences are just ordered by using this field.
+     * @see SentenceCollection#custom
+     */
     @Column(name = "complexity", index = true)
-    float complexity;
+    public float complexity;
 
     public String[] getKnownSentences() {
         String[] res = String.valueOf(knownSentence).split("\\|");

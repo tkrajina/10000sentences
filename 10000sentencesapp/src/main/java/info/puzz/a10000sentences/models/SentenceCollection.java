@@ -4,7 +4,6 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -24,8 +23,17 @@ public class SentenceCollection extends Model {
     @Column(name = "collection_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public String collectionID;
 
+    /**
+     * True for collections created by the user from custom texts.
+     */
     @Column(name = "custom")
     public boolean custom;
+
+    /**
+     * Used only when {@link #custom} is <code>true</code>.
+     */
+    @Column(name = "title")
+    public String title;
 
     @Column(name = "known_lang")
     public String knownLanguage;

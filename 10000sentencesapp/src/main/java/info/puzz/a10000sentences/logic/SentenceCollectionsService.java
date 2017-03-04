@@ -2,7 +2,6 @@ package info.puzz.a10000sentences.logic;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;
@@ -11,19 +10,20 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.security.SecureRandom;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import info.puzz.a10000sentences.Preferences;
 import info.puzz.a10000sentences.dao.Dao;
+import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
 import info.puzz.a10000sentences.models.SentenceHistory;
 import info.puzz.a10000sentences.models.SentenceStatus;
+import info.puzz.a10000sentences.utils.TextUtils;
+import temp.DBG;
 
 public final class SentenceCollectionsService {
 
@@ -36,6 +36,26 @@ public final class SentenceCollectionsService {
 
     public SentenceCollectionsService(Dao dao) {
         this.dao = dao;
+    }
+
+    public void importNewTextCollection(String languageId, String title, String text) {
+        SentenceCollection collection = new SentenceCollection()
+                .setCollectionID(String.format("%s-%s", languageId, (title + text).hashCode()))
+                .setCustom(true)
+                .setTitle(title);
+        collection.save();
+
+        DBG.todo("Validations");
+        List<String> sentenes = TextUtils.getSentences(text);
+        for (int i = 0; i < sentenes.size(); i++) {
+            String sen = sentenes.get(i);
+            Sentence sentence = new Sentence()
+                    .setSentenceId(String.format("%s-%s", collection.collectionID, sen.hashCode()))
+                    .setCollectionId(collection.collectionID)
+                    .setTargetSentence(sen)
+                    .setComplexity(i);
+            sentence.save();
+        }
     }
 
     public Sentence nextSentence(Context context, SentenceCollection collection, String exceptSentenceId) {
@@ -179,7 +199,11 @@ public final class SentenceCollectionsService {
         updateStatusByComplexity(collectionId, Math.abs(limit), SentenceStatus.SKIPPED, SentenceStatus.TODO, "desc");
     }
 
-    public boolean isCandidateForSkipping(String collectionId) {
+    public Language unknownLanguage() {
+        return new Language().setName("Unknown");
+    }
+
+/*    public boolean isCandidateForSkipping(String collectionId) {
         List<SentenceHistory> hist = new Select()
                 .from(SentenceHistory.class)
                 .where("collection_id=?", collectionId)
@@ -209,7 +233,7 @@ public final class SentenceCollectionsService {
         }
 
         return true;
-    }
+    }*/
 
 }
 
