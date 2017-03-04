@@ -45,7 +45,7 @@
                     android:layout_alignParentStart="true" />
 
                 <Spinner
-                    android:id="@+id/spinner"
+                    android:id="@+id/languages_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text1"
@@ -58,7 +58,7 @@
                     android:text="@string/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/spinner"
+                    android:layout_below="@+id/languages_spinner"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true" />
 
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:text="Name"
+                    android:text="@={importText.title}"
                     android:ems="10"
                     android:layout_below="@+id/textView3"
                     android:layout_alignParentStart="true"
@@ -85,6 +85,7 @@
                 <EditText
                     android:id="@+id/editText2"
                     android:gravity="top|left"
+                    android:text="@={importText.text}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"

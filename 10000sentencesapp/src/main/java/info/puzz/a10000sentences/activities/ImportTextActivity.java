@@ -7,16 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityImportTextBinding;
-import info.puzz.a10000sentences.models.Language;
 
 public class ImportTextActivity extends BaseActivity {
 
@@ -39,12 +35,7 @@ public class ImportTextActivity extends BaseActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_import_text);
 
-        List<String> languages = new ArrayList<String>();
-        for (Language language : dao.getLanguages()) {
-            languages.add(language.getName());
-        }
-
-        binding.setLangsAdapter(new ArrayAdapter<>(ImportTextActivity.this, android.R.layout.simple_spinner_item, languages));
+        binding.setLangsAdapter(new ArrayAdapter<>(ImportTextActivity.this, android.R.layout.simple_spinner_item, dao.getLanguages()));
         binding.setImportText(new ImportText());
     }
 
@@ -75,7 +66,10 @@ public class ImportTextActivity extends BaseActivity {
     }
 
     private void save() {
-        // TODO
+        System.out.println(binding.getImportText().title);
+        Object language = binding.languagesSpinner.getSelectedItem();
+        System.out.println(language);
+        //
     }
 
 }
