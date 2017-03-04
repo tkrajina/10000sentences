@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.google.gms.google-services'
 
 android {
@@ -15,8 +14,8 @@ android {
         applicationId "info.puzz.a10000sentences"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 48
-        versionName "0.2.13"
+        versionCode 49
+        versionName "0.2.14"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -64,7 +63,7 @@ dependencies {
     compile group: 'org.commonjava.googlecode.markdown4j', name: 'markdown4j', version: '2.2-cj-1.1'
 
     compile 'com.google.dagger:dagger:2.8'
-    apt 'com.google.dagger:dagger-compiler:2.8'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
 
     compile 'com.google.android.gms:play-services-analytics:9.0.0'
 
