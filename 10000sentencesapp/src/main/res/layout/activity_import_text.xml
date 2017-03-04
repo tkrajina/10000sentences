@@ -83,13 +83,14 @@
                     android:layout_alignParentEnd="true" />
 
                 <EditText
+                    android:id="@+id/editText2"
+                    android:gravity="top|left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:ems="10"
                     android:layout_below="@+id/textView4"
                     android:layout_alignParentStart="true"
-                    android:id="@+id/editText2"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true" />
 
