@@ -5,14 +5,25 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
+import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityImportTextBinding;
+import info.puzz.a10000sentences.models.Language;
 
 public class ImportTextActivity extends BaseActivity {
 
     private static final String TAG = ImportTextActivity.class.getSimpleName();
+
+    @Inject
+    Dao dao;
 
     private ActivityImportTextBinding binding;
 
@@ -27,6 +38,14 @@ public class ImportTextActivity extends BaseActivity {
         Application.COMPONENT.injectActivity(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_import_text);
+
+        List<String> languages = new ArrayList<String>();
+        for (Language language : dao.getLanguages()) {
+            languages.add(language.getName());
+        }
+
+        binding.setLangsAdapter(new ArrayAdapter<>(ImportTextActivity.this, android.R.layout.simple_spinner_item, languages));
+        binding.setImportText(new ImportText());
     }
 
     @Override

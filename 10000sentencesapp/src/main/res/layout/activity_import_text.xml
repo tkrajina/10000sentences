@@ -4,6 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
+    
+    <data>
+        <variable name="langsAdapter" type="android.widget.ArrayAdapter" />
+        <variable name="importText" type="info.puzz.a10000sentences.activities.ImportText" />
+    </data>
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -40,11 +45,13 @@
                     android:layout_alignParentStart="true" />
 
                 <Spinner
+                    android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text1"
                     android:layout_alignParentStart="true"
-                    android:id="@+id/spinner" />
+                    app:adapter="@{langsAdapter}"
+                    />
 
                 <TextView
                     android:id="@+id/textView3"
