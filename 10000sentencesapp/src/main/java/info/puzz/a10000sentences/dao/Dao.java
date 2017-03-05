@@ -119,6 +119,10 @@ public class Dao {
     }
 
     public Language getLanguage(String languageID) {
+        if (StringUtils.isEmpty(languageID)) {
+            return null;
+        }
+
         List<Language> res = new Select()
                 .from(Language.class)
                 .where("language_id = ?", languageID)
@@ -127,6 +131,7 @@ public class Dao {
         if (res.size() == 0) {
             return null;
         }
+
         return res.get(0);
     }
 
