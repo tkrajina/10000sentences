@@ -69,14 +69,12 @@ public class CollectionActivity extends BaseActivity implements ImporterAsyncTas
             return;
         }
 
-        Language knownLanguage = dao.getLanguage(collection.getKnownLanguage());
-        if (knownLanguage == null) {
-            knownLanguage = sentenceCollectionsService.unknownLanguage();
-        }
+        Language knownLanguage = sentenceCollectionsService.getLanguageOrUnknown(collection.getKnownLanguage());
+        Language unknownLanguage = sentenceCollectionsService.getLanguageOrUnknown(collection.getTargetLanguage());
 
         binding.setSentenceCollection(collection);
         binding.setKnownLanguage(knownLanguage);
-        binding.setTargetLanguage(dao.getLanguage(collection.getTargetLanguage()));
+        binding.setTargetLanguage(unknownLanguage);
 
         setTitle(binding.getTargetLanguage().name);
 

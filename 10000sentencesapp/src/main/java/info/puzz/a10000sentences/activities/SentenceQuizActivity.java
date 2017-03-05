@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,7 +125,7 @@ public class SentenceQuizActivity extends BaseActivity {
         SentenceCollection collection = dao.getCollection(sentence.collectionId);
         List<Sentence> randomSentences = dao.getRandomSentences(collection);
 
-        targetLanguage = dao.getLanguage(collection.targetLanguage);
+        targetLanguage = sentenceCollectionsService.getLanguageOrUnknown(collection.targetLanguage);
         setTitle(targetLanguage.name);
 
         binding.setQuiz(new SentenceQuiz(sentence, 4, randomSentences));
@@ -178,7 +180,7 @@ public class SentenceQuizActivity extends BaseActivity {
 
     private void adjustFontSize() {
         for (String lang : Constants.LANGS_WITH_LARGER_FONTS) {
-            if (targetLanguage.languageId.equals(lang)) {
+            if (StringUtils.equals(targetLanguage.languageId, lang)) {
                 for (Button answerButton : answerButtons) {
                     answerButton.setTextSize(answerButton.getTextSize() * 1.2F);
                 }

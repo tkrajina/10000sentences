@@ -204,6 +204,14 @@ public final class SentenceCollectionsService {
         return new Language().setName("Unknown");
     }
 
+    public Language getLanguageOrUnknown(String languageId) {
+        Language lang = dao.getLanguage(languageId);
+        if (lang == null) {
+            return unknownLanguage();
+        }
+        return lang;
+    }
+
 /*    public boolean isCandidateForSkipping(String collectionId) {
         List<SentenceHistory> hist = new Select()
                 .from(SentenceHistory.class)
