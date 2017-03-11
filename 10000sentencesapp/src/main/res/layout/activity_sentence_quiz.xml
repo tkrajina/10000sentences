@@ -54,6 +54,7 @@
                         <com.joanzapata.iconify.widget.IconTextView
                             android:id="@+id/target_sentence"
                             android:textColor="@color/colorPrimaryDark"
+                            android:textIsSelectable="true"
                             android:shadowDx="3"
                             android:shadowDy="3"
                             android:shadowRadius="1"
