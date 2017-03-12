@@ -4,20 +4,18 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.speech.tts.Voice;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 
 import javax.inject.Inject;
 
 import info.puzz.a10000sentences.Application;
 import info.puzz.a10000sentences.R;
+import info.puzz.a10000sentences.activities.adapters.LanguagesArrayAdapter;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityImportTextBinding;
 import info.puzz.a10000sentences.logic.SentenceCollectionsService;
 import info.puzz.a10000sentences.models.Language;
-import temp.DBG;
 
 public class ImportTextActivity extends BaseActivity {
 
@@ -43,7 +41,7 @@ public class ImportTextActivity extends BaseActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_import_text);
 
-        binding.setLangsAdapter(new ArrayAdapter<>(ImportTextActivity.this, android.R.layout.simple_spinner_item, dao.getLanguages()));
+        binding.setLangsAdapter(new LanguagesArrayAdapter(ImportTextActivity.this, android.R.layout.simple_spinner_item, dao.getLanguages()));
         binding.setImportText(new ImportText());
     }
 
