@@ -13,10 +13,11 @@ import android.widget.TextView;
 import java.util.List;
 
 import info.puzz.a10000sentences.models.Language;
+import info.puzz.a10000sentences.models.LanguageUtils;
 
 public class LanguagesArrayAdapter extends ArrayAdapter<Language> {
     public LanguagesArrayAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Language> objects) {
-        super(context, resource, objects);
+        super(context, resource, LanguageUtils.sortByFamilyAndName(objects));
     }
 
     @Override
