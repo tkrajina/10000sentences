@@ -42,6 +42,7 @@ public final class SentenceCollectionsService {
         SentenceCollection collection = new SentenceCollection()
                 .setCollectionID(String.format("%s-%s", languageId, (title + text).hashCode()))
                 .setCustom(true)
+                .setKnownLanguage(languageId)
                 .setTargetLanguage(languageId)
                 .setTitle(title);
         collection.save();
@@ -53,6 +54,7 @@ public final class SentenceCollectionsService {
             Sentence sentence = new Sentence()
                     .setSentenceId(String.format("%s-%s", collection.collectionID, sen.hashCode()))
                     .setCollectionId(collection.collectionID)
+                    .setKnownSentence(sen)
                     .setTargetSentence(sen)
                     .setComplexity(i);
             sentence.save();
