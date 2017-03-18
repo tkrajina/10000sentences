@@ -80,9 +80,11 @@ public class TatoebaImporter {
                 new String[] {"rus", "eng"},
                 new String[] {"por", "eng"},
                 new String[] {"spa", "eng"},
+                new String[] {"lit", "eng"},
 
                 // Nonenglish collections:
                 new String[] {"spa", "fra"},
+                new String[] {"deu", "ita"},
         };
 
         System.out.println("Caching links");
