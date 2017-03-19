@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.activeandroid.query.Select;
@@ -144,10 +145,7 @@ public class SentenceQuizActivity extends BaseActivity {
         binding.startQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.startQuizGroup.setVisibility(View.GONE);
-                binding.quizSentenceGroup.setVisibility(View.VISIBLE);
-                binding.quizButtons.setVisibility(View.VISIBLE);
-                binding.knownSentence.setTextColor(ContextCompat.getColor(SentenceQuizActivity.this, R.color.inactive));
+                prepareForQuiz();
             }
         });
         binding.knownSentence.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +157,23 @@ public class SentenceQuizActivity extends BaseActivity {
 
         adjustFontSize();
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+    }
+
+    private void prepareForQuiz() {
+        binding.startQuizGroup.setVisibility(View.GONE);
+        binding.quizSentenceGroup.setVisibility(View.VISIBLE);
+        binding.quizButtons.setVisibility(View.VISIBLE);
+        binding.knownSentence.setTextColor(ContextCompat.getColor(SentenceQuizActivity.this, R.color.inactive));
+
+        if (StringUtils.equals(binding.getQuiz().getKnownSentence(), binding.getQuiz().getKnownSentence())) {
+            binding.sentenceDelimiter.setVisibility(View.GONE);
+            binding.knownSentence.setVisibility(View.GONE);
+
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) binding.quizSentenceGroup.getLayoutParams();
+            layoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+            binding.quizSentenceGroup.setLayoutParams(layoutParams);
+            binding.quizSentencesGroup.invalidate();
+        }
     }
 
     private void setupAnswerButtons() {

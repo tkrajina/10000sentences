@@ -36,6 +36,7 @@
                 tools:context="info.puzz.a10000sentences.SentenceQuizActivity">
 
                 <RelativeLayout
+                    android:id="@+id/quiz_sentences_group"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -96,15 +97,14 @@
                         android:layout_width="fill_parent"
                         android:layout_height="1dip"
                         android:background="@color/inactive"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentStart="true" />
+                        android:layout_centerVertical="true" />
 
                     <LinearLayout
+                        android:id="@+id/known_sentence_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_above="@+id/sentence_delimiter"
-                        android:layout_alignParentStart="true">
+                        android:layout_above="@+id/sentence_delimiter" >
 
                         <com.joanzapata.iconify.widget.IconTextView
                             android:id="@+id/known_sentence"
