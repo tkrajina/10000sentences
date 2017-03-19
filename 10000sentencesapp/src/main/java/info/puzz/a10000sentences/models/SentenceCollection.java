@@ -24,14 +24,11 @@ public class SentenceCollection extends Model {
     public String collectionID;
 
     /**
-     * True for collections created by the user from custom texts.
+     * @see SentenceCollectionType
      */
-    @Column(name = "custom")
-    public boolean custom;
+    @Column(name = "type")
+    public int type;
 
-    /**
-     * Used only when {@link #custom} is <code>true</code>.
-     */
     @Column(name = "title")
     public String title;
 

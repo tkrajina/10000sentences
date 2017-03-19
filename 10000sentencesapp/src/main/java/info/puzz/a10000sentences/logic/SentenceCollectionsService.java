@@ -20,6 +20,7 @@ import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceCollectionType;
 import info.puzz.a10000sentences.models.SentenceHistory;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.TextUtils;
@@ -41,7 +42,7 @@ public final class SentenceCollectionsService {
     public void importNewTextCollection(String languageId, String title, String text) {
         SentenceCollection collection = new SentenceCollection()
                 .setCollectionID(String.format("%s-%s", languageId, (title + text).hashCode()))
-                .setCustom(true)
+                .setType(SentenceCollectionType.TEXT.getId())
                 .setKnownLanguage(languageId)
                 .setTargetLanguage(languageId)
                 .setTitle(title);

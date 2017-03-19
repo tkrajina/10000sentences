@@ -19,6 +19,7 @@ import info.puzz.a10000sentences.activities.adapters.CollectionsAdapter;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.databinding.ActivityCollectionsBinding;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceCollectionType;
 import info.puzz.a10000sentences.models.SentenceHistory;
 
 public class CollectionsActivity extends BaseActivity implements BaseActivity.OnCollectionsReloaded {
@@ -112,9 +113,9 @@ public class CollectionsActivity extends BaseActivity implements BaseActivity.On
     private void reloadCollections() {
         List<SentenceCollection> cols;
         if (customCollections) {
-            cols = dao.getCustomCollections();
+            cols = dao.getCollections(SentenceCollectionType.TEXT);
         } else {
-            cols = dao.getDefaultCollections();
+            cols = dao.getCollections(SentenceCollectionType.DEFAULT);
         }
         binding.collectionsList.setAdapter(new CollectionsAdapter(this, cols));
     }

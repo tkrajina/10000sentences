@@ -38,6 +38,7 @@ import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
 import info.puzz.a10000sentences.dao.Dao;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceCollectionType;
 import info.puzz.a10000sentences.utils.DebugUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -188,7 +189,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         SubMenu submenu = navigationView.getMenu().addSubMenu(R.string.downloaded_colections);
         Map<String, Language> languages = dao.getLanguagesByLanguageID();
 
-        for (final SentenceCollection collection : dao.getDefaultCollections()) {
+        for (final SentenceCollection collection : dao.getCollections(SentenceCollectionType.DEFAULT)) {
             Language language = languages.get(collection.targetLanguage);
             if (language == null) {
                 continue;

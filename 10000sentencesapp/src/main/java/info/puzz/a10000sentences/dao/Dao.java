@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceCollectionType;
 import info.puzz.a10000sentences.models.SentenceHistory;
 import info.puzz.a10000sentences.models.SentenceStatus;
 import info.puzz.a10000sentences.utils.SqlFilterUtils;
@@ -85,18 +86,10 @@ public class Dao {
         }
     }
 
-    public List<SentenceCollection> getDefaultCollections() {
+    public List<SentenceCollection> getCollections(SentenceCollectionType type) {
         return new Select()
                 .from(SentenceCollection.class)
                 .where("custom=0")
-                .orderBy("-done_count, target_lang, known_lang")
-                .execute();
-    }
-
-    public List<SentenceCollection> getCustomCollections() {
-        return new Select()
-                .from(SentenceCollection.class)
-                .where("custom=1")
                 .orderBy("-done_count, target_lang, known_lang")
                 .execute();
     }
