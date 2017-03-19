@@ -1,5 +1,7 @@
 package info.puzz.a10000sentences.dao;
 
+import android.support.annotation.NonNull;
+
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
@@ -86,10 +88,10 @@ public class Dao {
         }
     }
 
-    public List<SentenceCollection> getCollections(SentenceCollectionType type) {
+    public List<SentenceCollection> getCollections(@NonNull SentenceCollectionType type) {
         return new Select()
                 .from(SentenceCollection.class)
-                .where("custom=0")
+                .where("type=?", type.getId())
                 .orderBy("-done_count, target_lang, known_lang")
                 .execute();
     }
