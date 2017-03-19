@@ -147,7 +147,7 @@ public class SentenceQuizActivity extends BaseActivity {
                 binding.startQuizGroup.setVisibility(View.GONE);
                 binding.quizSentenceGroup.setVisibility(View.VISIBLE);
                 binding.quizButtons.setVisibility(View.VISIBLE);
-                binding.knownSentence.setTextColor(R.color.inactive);
+                binding.knownSentence.setTextColor(ContextCompat.getColor(SentenceQuizActivity.this, R.color.inactive));
             }
         });
         binding.knownSentence.setOnClickListener(new View.OnClickListener() {
