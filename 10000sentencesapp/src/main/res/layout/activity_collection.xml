@@ -4,6 +4,9 @@
     <data>
         <import type="info.puzz.a10000sentences.R" />
         <import type="android.view.View"/>
+        <import type="info.puzz.a10000sentences.models.SentenceCollectionType" />
+        <import type="org.apache.commons.lang3.StringUtils" />
+
         <variable name="knownLanguage" type="info.puzz.a10000sentences.models.Language" />
         <variable name="targetLanguage" type="info.puzz.a10000sentences.models.Language" />
         <variable name="sentenceCollection" type="info.puzz.a10000sentences.models.SentenceCollection" />
@@ -43,30 +46,63 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.joanzapata.iconify.widget.IconTextView
-                        android:text="@{targetLanguage.formatNameAndNativeName()}"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:shadowDx="3"
-                        android:shadowDy="3"
-                        android:shadowRadius="1"
-                        android:shadowColor="@color/shadow"
-                        android:gravity="center"
-                        android:textSize="@dimen/title_size"
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:visibility="@{sentenceCollection.type == SentenceCollectionType.TEXT.getId() ? View.VISIBLE : View.GONE}">
+                        <com.joanzapata.iconify.widget.IconTextView
+                            android:text="@{StringUtils.isEmpty(sentenceCollection.title) ? &quot;No title&quot; : sentenceCollection.title}"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:shadowRadius="1"
+                            android:shadowColor="@color/shadow"
+                            android:gravity="center"
+                            android:textSize="@dimen/title_size"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="@{targetLanguage.formatNameAndNativeName()}"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:text="@string/for_speakers_of"
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:text="@{knownLanguage.formatNameAndNativeName()}"
-                        android:gravity="center"
-                        android:textColor="@color/colorPrimary"
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:visibility="@{sentenceCollection.type == SentenceCollectionType.DEFAULT.getId() ? View.VISIBLE : View.GONE}">
+
+                        <com.joanzapata.iconify.widget.IconTextView
+                            android:text="@{targetLanguage.formatNameAndNativeName()}"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:shadowRadius="1"
+                            android:shadowColor="@color/shadow"
+                            android:gravity="center"
+                            android:textSize="@dimen/title_size"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:text="@string/for_speakers_of"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:text="@{knownLanguage.formatNameAndNativeName()}"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
 
                     <View
                         android:layout_margin="10dp"
