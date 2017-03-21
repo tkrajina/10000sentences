@@ -27,6 +27,9 @@ public class Language extends Model {
     @Column(name = "native_name")
     public String nativeName;
 
+    @Column(name = "done_count")
+    public int doneCount;
+
     @Column(name = "rtl")
     boolean rightToLeft;
 
