@@ -1,5 +1,6 @@
 package info.puzz.a10000sentences.dao;
 
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.activeandroid.ActiveAndroid;
@@ -20,6 +21,7 @@ import javax.inject.Inject;
 import info.puzz.a10000sentences.models.Language;
 import info.puzz.a10000sentences.models.Sentence;
 import info.puzz.a10000sentences.models.SentenceCollection;
+import info.puzz.a10000sentences.models.SentenceCollectionCounter;
 import info.puzz.a10000sentences.models.SentenceCollectionType;
 import info.puzz.a10000sentences.models.SentenceHistory;
 import info.puzz.a10000sentences.models.SentenceStatus;
@@ -130,7 +132,7 @@ public class Dao {
         return res.get(0);
     }
 
-    public SentenceCollection reloadCollectionCounter(SentenceCollection collection) {
+    public SentenceCollection reloadCollectionCounter(final SentenceCollection collection) {
         DBG.todo("Threads");
 
         int rows = SQLiteUtils.intQuery(
@@ -168,6 +170,23 @@ public class Dao {
         collection.annotationCount = annotationCount;
         collection.skippedCount = skippedRows;
         collection.save();
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                new SentenceCollectionCounter(collection).save();
+
+                int doneCount = SQLiteUtils.intQuery(
+                        "select sum(done_count) from sentence_collection_counter where target_lang = ?",
+                        new String[] {collection.targetLanguage});
+
+                Language language = getLanguage(collection.targetLanguage);
+                language.doneCount = doneCount;
+                language.save();
+
+                return null;
+            }
+        }.execute();
 
         return collection;
     }

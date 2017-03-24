@@ -24,6 +24,9 @@ public class Language extends Model {
     @Column(name = "name")
     public String name;
 
+    @Column(name = "done_count")
+    public int doneCount;
+
     @Column(name = "native_name")
     public String nativeName;
 
