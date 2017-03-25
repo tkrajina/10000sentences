@@ -102,6 +102,10 @@ public class SentenceCollection extends Model {
         return formatCount(annotationCount);
     }
 
+    public SentenceCollectionType getSentenceCollectionType() {
+        return SentenceCollectionType.byId(type);
+    }
+
     private String formatCount(int count) {
         if (count <= MAX_SENTENCES) {
             return NUMBER_FORMAT.format(count);

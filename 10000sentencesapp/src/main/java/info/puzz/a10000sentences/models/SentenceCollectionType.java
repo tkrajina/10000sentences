@@ -15,4 +15,13 @@ public enum SentenceCollectionType {
     public int getId() {
         return id;
     }
+
+    public static SentenceCollectionType byId(int id) {
+        for (SentenceCollectionType t : values()) {
+            if (t.id == id) {
+                return t;
+            }
+        }
+        return DEFAULT;
+    }
 }

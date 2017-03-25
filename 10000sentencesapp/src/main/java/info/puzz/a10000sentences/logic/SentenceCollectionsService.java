@@ -70,9 +70,14 @@ public final class SentenceCollectionsService {
             status = SentenceStatus.REPEAT.getStatus();
         }
 
-        Sentence result = getRandomSentenceByStatus(collection, SentenceStatus.fromStatus(status), exceptSentenceId);
+        int limit = 20;
+        if (collection.getSentenceCollectionType() == SentenceCollectionType.TEXT) {
+            limit = 1;
+        }
+
+        Sentence result = getRandomSentenceByStatus(collection, SentenceStatus.fromStatus(status), exceptSentenceId, limit);
         if (result == null) {
-            return getRandomSentenceByStatus(collection, SentenceStatus.TODO, exceptSentenceId);
+            return getRandomSentenceByStatus(collection, SentenceStatus.TODO, exceptSentenceId, limit);
         }
 
         return result;
@@ -86,12 +91,12 @@ public final class SentenceCollectionsService {
                 .executeSingle();
     }
 
-    private Sentence getRandomSentenceByStatus(SentenceCollection collection, SentenceStatus status, String exceptSentenceId) {
+    private Sentence getRandomSentenceByStatus(SentenceCollection collection, SentenceStatus status, String exceptSentenceId, int limit) {
         List<Sentence> sentences = new Select()
                 .from(Sentence.class)
                 .where("collection_id=? and status=? and sentence_id!=?", collection.getCollectionID(), status.getStatus(), String.valueOf(exceptSentenceId))
                 .orderBy("complexity")
-                .limit(20)
+                .limit(limit)
                 .execute();
 
         if (status == SentenceStatus.REPEAT) {
