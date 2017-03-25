@@ -18,7 +18,7 @@
 
         <meta-data android:name="AA_DB_NAME" android:value="10000sentences.db" />
         <meta-data android:name="AA_DB_VERSION" android:value="10" />
-        <meta-data android:name="AA_MODELS" android:value="info.puzz.a10000sentences.models.Language,info.puzz.a10000sentences.models.Sentence,info.puzz.a10000sentences.models.SentenceCollection,info.puzz.a10000sentences.models.SentenceHistory,info.puzz.a10000sentences.models.Annotation,info.puzz.a10000sentences.models.WordAnnotation" />
+        <meta-data android:name="AA_MODELS" android:value="info.puzz.a10000sentences.models.Language,info.puzz.a10000sentences.models.Sentence,info.puzz.a10000sentences.models.SentenceCollection,info.puzz.a10000sentences.models.SentenceHistory,info.puzz.a10000sentences.models.Annotation,info.puzz.a10000sentences.models.WordAnnotation,info.puzz.a10000sentences.models.SentenceCollectionCounter" />
 
         <activity
             android:name=".activities.CollectionsActivity"
