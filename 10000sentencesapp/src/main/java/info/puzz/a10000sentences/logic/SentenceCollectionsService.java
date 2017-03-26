@@ -2,6 +2,7 @@ package info.puzz.a10000sentences.logic;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;
@@ -31,7 +32,6 @@ public final class SentenceCollectionsService {
     private static final String TAG = SentenceCollectionsService.class.getSimpleName();
 
     private static final Random RANDOM = new SecureRandom(String.valueOf(System.currentTimeMillis()).getBytes());
-    public static final int SUCCESS_STREAK_FOR_SKIPPING = 10;
 
     private final Dao dao;
 
@@ -137,19 +137,24 @@ public final class SentenceCollectionsService {
         new AsyncTask<String, Void, Void>() {
             @Override
             protected Void doInBackground(String... strings) {
-                SentenceCollection collection = dao.reloadCollectionCounter(dao.getCollection(sentence.collectionId));
+                try {
+                    SentenceCollection collection = dao.reloadCollectionCounter(dao.getCollection(sentence.collectionId));
 
-                SentenceHistory h = new SentenceHistory();
-                h.sentenceId = sentence.getSentenceId();
-                h.collectionId = sentence.collectionId;
-                h.status = status.getStatus();
-                h.created = finished;
-                h.time = (int) (finished - started);
-                h.doneCount = collection.doneCount;
-                h.todoCount = collection.todoCount;
-                h.repeatCount = collection.repeatCount;
-                h.ignoreCount = collection.ignoreCount;
-                h.save();
+                    SentenceHistory h = new SentenceHistory();
+                    h.sentenceId = sentence.getSentenceId();
+                    h.collectionId = sentence.collectionId;
+                    h.status = status.getStatus();
+                    h.created = finished;
+                    h.time = (int) (finished - started);
+                    h.doneCount = collection.doneCount;
+                    h.todoCount = collection.todoCount;
+                    h.repeatCount = collection.repeatCount;
+                    h.ignoreCount = collection.ignoreCount;
+                    h.save();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(TAG, e.getMessage(), e)
+                }
 
                 return null;
             }
@@ -219,38 +224,6 @@ public final class SentenceCollectionsService {
         }
         return lang;
     }
-
-/*    public boolean isCandidateForSkipping(String collectionId) {
-        List<SentenceHistory> hist = new Select()
-                .from(SentenceHistory.class)
-                .where("collection_id=?", collectionId)
-                .orderBy("created desc")
-                .limit(SUCCESS_STREAK_FOR_SKIPPING)
-                .execute();
-
-        if (hist.size() < SUCCESS_STREAK_FOR_SKIPPING) {
-            return false;
-        }
-
-        Set<String> sentenceIds = new HashSet<>();
-        for (SentenceHistory h : hist) {
-            if (sentenceIds.contains(h.sentenceId)) {
-                return false;
-            }
-            sentenceIds.add(h.sentenceId);
-
-            if (h.status != SentenceStatus.DONE.getStatus()) { // If any sentence not DONE => nope
-                return false;
-            }
-
-            if (h.previousStatus == SentenceStatus.DONE.getStatus() && h.status == SentenceStatus.DONE.getStatus()) {
-                // this was a practice of known sentences => not counting it:
-                return false;
-            }
-        }
-
-        return true;
-    }*/
 
 }
 

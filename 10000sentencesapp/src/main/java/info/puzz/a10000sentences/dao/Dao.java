@@ -2,6 +2,7 @@ package info.puzz.a10000sentences.dao;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
@@ -29,6 +30,8 @@ import info.puzz.a10000sentences.utils.SqlFilterUtils;
 import temp.DBG;
 
 public class Dao {
+
+    private static final String TAG = Dao.class.getSimpleName();
 
     @Inject
     public Dao() {
@@ -174,15 +177,19 @@ public class Dao {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                new SentenceCollectionCounter(collection).save();
+                try {
+                    new SentenceCollectionCounter(collection).save();
 
-                int doneCount = SQLiteUtils.intQuery(
-                        "select sum(done_count) from sentence_collection_counter where target_lang = ?",
-                        new String[] {collection.targetLanguage});
+                    int doneCount = SQLiteUtils.intQuery(
+                            "select sum(done_count) from sentence_collection_counter where target_lang = ?",
+                            new String[] {collection.targetLanguage});
 
-                Language language = getLanguage(collection.targetLanguage);
-                language.doneCount = doneCount;
-                language.save();
+                    Language language = getLanguage(collection.targetLanguage);
+                    language.doneCount = doneCount;
+                    language.save();
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage(), e);
+                }
 
                 return null;
             }
