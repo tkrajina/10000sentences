@@ -60,6 +60,8 @@ public final class SentenceCollectionsService {
                     .setComplexity(i);
             sentence.save();
         }
+
+        dao.reloadCollectionCounter(collection);
     }
 
     public Sentence nextSentence(Context context, SentenceCollection collection, String exceptSentenceId) {
