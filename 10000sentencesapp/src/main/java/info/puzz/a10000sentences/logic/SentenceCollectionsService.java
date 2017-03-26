@@ -153,7 +153,7 @@ public final class SentenceCollectionsService {
                     h.save();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e(TAG, e.getMessage(), e)
+                    Log.e(TAG, e.getMessage(), e);
                 }
 
                 return null;
