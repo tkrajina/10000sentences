@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
         <import type="android.view.View"/>
+        <import type="info.puzz.a10000sentences.models.SentenceCollectionType" />
+
         <variable name="collection" type="info.puzz.a10000sentences.models.SentenceCollection" />
         <variable name="knownLanguage" type="info.puzz.a10000sentences.models.Language" />
         <variable name="targetLanguage" type="info.puzz.a10000sentences.models.Language" />
     </data>
+
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -30,39 +34,54 @@
             android:layout_toStartOf="@+id/native_name">
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
+                android:visibility="@{collection.getSentenceCollectionType() == SentenceCollectionType.TEXT ? View.VISIBLE : View.GONE}"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="@{targetLanguage.name + &quot; &quot;}"
-                    android:textStyle="bold|italic"
-                    android:textColor="@color/colorPrimary"
-                    android:gravity="center"
+                    android:text="@{collection.title}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
+                android:visibility="@{collection.getSentenceCollectionType() == SentenceCollectionType.DEFAULT ? View.VISIBLE : View.GONE}"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:text="@string/for_"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="@{targetLanguage.name + &quot; &quot;}"
+                        android:textStyle="bold|italic"
+                        android:textColor="@color/colorPrimary"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
-                <TextView
-                    android:text="@{&quot; &quot; + knownLanguage.name + &quot; &quot;}"
-                    android:textStyle="bold"
-                    android:gravity="center"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="@string/for_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-                <TextView
-                    android:text="@string/speakers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:text="@{&quot; &quot; + knownLanguage.name + &quot; &quot;}"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
+                    <TextView
+                        android:text="@string/speakers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
