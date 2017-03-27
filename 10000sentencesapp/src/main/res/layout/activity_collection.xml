@@ -292,7 +292,6 @@
                     <Button
                         android:id="@+id/random_sentence"
                         android:visibility="gone"
-                        android:minHeight="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{sentenceCollection.doneCount == 0 ? R.string.random_sentence : R.string.continue_learning}"
@@ -301,7 +300,6 @@
                     <Button
                         android:id="@+id/random_known_sentence"
                         android:visibility="gone"
-                        android:minHeight="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/practice_known_sentences"
@@ -310,7 +308,6 @@
                     <Button
                         android:id="@+id/all_sentences"
                         android:visibility="gone"
-                        android:minHeight="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/all_sentences" />
@@ -318,7 +315,6 @@
                     <Button
                         android:id="@+id/annotations"
                         android:visibility="gone"
-                        android:minHeight="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/annotations" />
@@ -326,7 +322,6 @@
                     <Button
                         android:id="@+id/download"
                         android:visibility="@{sentenceCollection.count == 0 ? View.VISIBLE : View.GONE}"
-                        android:minHeight="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/download_collection" />
