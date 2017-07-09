@@ -3,12 +3,8 @@ package info.puzz.a10000sentences.importer.newimporter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by puzz on 09/07/2017.
- */
-
 public class Import {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         List<Importer> importers = new ArrayList<>();
 
         String[][] tatoebaLanguagePairs = new String[][]{
@@ -48,8 +44,12 @@ public class Import {
         };
 
         for (String[] tatoebaLanguagePair : tatoebaLanguagePairs) {
-            importers.add(new NewTatoebaImporter(tatoebaLanguagePair[0], tatoebaLanguagePair[1]));
-            importers.add(new NewTatoebaImporter(tatoebaLanguagePair[1], tatoebaLanguagePair[0]));
+            importers.add(new NewTatoebaImporter(tatoebaLanguagePair[0], tatoebaLanguagePair[1], tatoebaLanguagePairs));
+            importers.add(new NewTatoebaImporter(tatoebaLanguagePair[1], tatoebaLanguagePair[0], tatoebaLanguagePairs));
+        }
+
+        for (Importer importer : importers) {
+            importer.importCollection();
         }
     }
 }

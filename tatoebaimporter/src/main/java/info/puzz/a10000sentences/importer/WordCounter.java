@@ -9,8 +9,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import lombok.Getter;
+
 public class WordCounter {
 
+    @Getter
     AtomicInteger count = new AtomicInteger(0);
 
     final Map<String, AtomicInteger> wordCounter = new HashMap<>();

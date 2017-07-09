@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import info.puzz.a10000sentences.apimodels.LanguageVO;
 import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
@@ -29,6 +31,7 @@ public class NewTatoebaImporter extends Importer {
     private static String[][] allLanguagePairs;
 
     private static HashMap<String, Map<Integer, TatoebaSentence>> sentencesPerLang;
+    private static Map<Integer, int[]> links;
 
     public NewTatoebaImporter(String fromLang, String toLang, String[][] allLanguagePairs) {
         super(fromLang, toLang);
@@ -69,7 +72,34 @@ public class NewTatoebaImporter extends Importer {
             }
         }
 
+        NewTatoebaImporter.links = loadLinks();
         NewTatoebaImporter.sentencesPerLang = res;
+    }
+
+    private static Map<Integer, int[]> loadLinks() throws Exception {
+        HashMap<Integer, int[]> res = new HashMap<>();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("tmp_files/links.csv")));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split("\t");
+            int sentence1 = Integer.parseInt(parts[0]);
+            int sentence2 = Integer.parseInt(parts[1]);
+
+            int[] related = res.get(sentence1);
+            if (related == null) {
+                res.put(sentence1, new int[] {sentence2});
+            } else {
+                int[] newRelated = new int[related.length + 1];
+                for (int i = 0; i < related.length; i++) {
+                    newRelated[i] = related[i];
+                }
+                newRelated[newRelated.length - 1] = sentence2;
+                res.put(sentence1, newRelated);
+            }
+        }
+
+        return res;
     }
 
     private static String prepareSentenceText(String text, String lang) {
@@ -101,7 +131,7 @@ public class NewTatoebaImporter extends Importer {
         }
         System.out.println(String.format("Found %d known language sentences", knownLanguageSentences.size()));
         System.out.println(String.format("Found %d target language sentences", targetLanguageSentences.size()));
-        System.out.println(String.format("%d distinct words, %d words", wordCounter.size(), wordCounter.count.intValue()));
+        System.out.println(String.format("%d distinct words, %d words", wordCounter.size(), wordCounter.getCount().intValue()));
 
         String outFilename = String.format("%s-%s.csv", knownLanguage.getAbbrev(), targetLanguage.getAbbrev());
         List<SentenceVO> sentences = new ArrayList<>();
@@ -129,10 +159,10 @@ public class NewTatoebaImporter extends Importer {
                 }
             }
             if (alternatives > 0) {
-                String id = String.format("%s-%s-%d", knownLanguage.getAbbrev(), targetLanguage.getAbbrev(), targetSentence.id);
+                String id = String.format("%s-%s-%d", knownLanguage.getAbbrev(), targetLanguage.getAbbrev(), targetSentence.getId());
                 sentences.add(new SentenceVO()
                         .setSentenceId(id)
-                        .setTargetSentenceId(targetSentence.id)
+                        .setTargetSentenceId(targetSentence.getId())
                         .setKnownSentence(knownSentenceAlternatives.toString())
                         .setTargetSentence(targetSentence.getText()));
             }
@@ -158,7 +188,7 @@ public class NewTatoebaImporter extends Importer {
             }
         });
 
-        FileOutputStream out = new FileOutputStream(Paths.get(outputDir, outFilename).toString());
+        FileOutputStream out = new FileOutputStream(Paths.get(OUTPUT_DIR, outFilename).toString());
         for (SentenceVO sentence : sentences) {
             out.write((sentence.getSentenceId() + "\t" + sentence.getKnownSentence() + "\t" + sentence.getTargetSentence() + "\n").getBytes("utf-8"));
         }
@@ -172,6 +202,30 @@ public class NewTatoebaImporter extends Importer {
                 .setTargetLanguage(targetLanguage.getAbbrev())
                 .setCount(sentences.size())
                 .setFilename(outFilename);
+    }
+
+    // TODO: Use this for the EuImporter, too
+    private static void calculateSentenceComplexity(SentenceVO sentence, WordCounter wordCounter) {
+        List<String> sentenceWords = WordUtils.getWords(sentence.getTargetSentence());
+
+        int[] counters = new int[sentenceWords.size()];
+        for (int i = 0; i < sentenceWords.size(); i++) {
+            counters[i] = wordCounter.getWordCount(sentenceWords.get(i));
+        }
+
+        Arrays.sort(counters);
+        if (counters.length > 3) {
+            // First are the less frequent words, ignore the 30% more frequent:
+            counters = Arrays.copyOfRange(counters, 0, (int) (counters.length * 0.70));
+        }
+
+        int sum = 0;
+        for (int counter : counters) {
+            sum += counter;
+        }
+        float avg = sum / ((float) counters.length);
+
+        sentence.setComplexity(- (float) (avg * Math.pow(0.95, sentenceWords.size())));
     }
 
 }

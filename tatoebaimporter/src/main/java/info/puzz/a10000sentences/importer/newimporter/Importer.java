@@ -4,6 +4,7 @@ import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
 
 public abstract class Importer {
 
+    public static final String OUTPUT_DIR = "bucket_files";
     public static final int MAX_SENTENCES_NO = 12_000;
 
     final String knownLanguageAbbrev3;
