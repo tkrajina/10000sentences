@@ -31,10 +31,8 @@ public class EuImporter extends Importer {
 
     @Override
     public void importCollection(SentenceWriter writer) throws Exception {
-        BufferedReader slFile = new BufferedReader(new FileReader("/Users/puzz/projects/10000sentences/tmp_eurofiles/europarl-v7.sl-en.sl"));
-        BufferedReader enFile = new BufferedReader(new FileReader("/Users/puzz/projects/10000sentences/tmp_eurofiles/europarl-v7.sl-en.en"));
-
-        int imported = 0;
+        BufferedReader slFile = new BufferedReader(new FileReader("raw_files/europarl-v7.sl-en.sl"));
+        BufferedReader enFile = new BufferedReader(new FileReader("raw_files/europarl-v7.sl-en.en"));
 
         WordCounter counter = new WordCounter();
 
@@ -71,12 +69,11 @@ public class EuImporter extends Importer {
         calculateComplexityAndReorder(counter, sentences);
 
         // Let's ignore the 20% most complex
-        int max = (int) (sentences.size() * 0.90);
-        for (int i = 0; i < sentences.size(); i++) {
-            if ((i > max)) {
-                break;
-            }
-            writer.writeSentence(sentences.get(i));
+        int max = (int) (sentences.size() * 0.70);
+        float oneEvery = max / ((float)MAX_SENTENCES_NO);
+        for (float i = 0; i < max; i += oneEvery) {
+            System.out.println((int) i);
+            writer.writeSentence(sentences.get((int)i));
         }
     }
 

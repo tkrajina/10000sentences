@@ -52,7 +52,7 @@ public class TatoebaImporter extends Importer {
             }
         }
 
-        FileInputStream fstream = new FileInputStream("tmp_files/sentences_detailed.csv");
+        FileInputStream fstream = new FileInputStream("raw_files/sentences_detailed.csv");
         BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
         String line;
         while ((line = br.readLine()) != null) {
