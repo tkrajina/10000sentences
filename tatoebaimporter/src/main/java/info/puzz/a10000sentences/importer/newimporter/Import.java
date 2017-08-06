@@ -1,9 +1,13 @@
 package info.puzz.a10000sentences.importer.newimporter;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Import {
+
+    public static final String OUTPUT_DIR = "bucket_files";
+
     public static void main(String[] args) throws Exception {
         List<Importer> importers = new ArrayList<>();
 
@@ -44,12 +48,15 @@ public class Import {
         };
 
         for (String[] tatoebaLanguagePair : tatoebaLanguagePairs) {
-            importers.add(new NewTatoebaImporter(tatoebaLanguagePair[0], tatoebaLanguagePair[1], tatoebaLanguagePairs));
-            importers.add(new NewTatoebaImporter(tatoebaLanguagePair[1], tatoebaLanguagePair[0], tatoebaLanguagePairs));
+            importers.add(new TatoebaImporter(tatoebaLanguagePair[0], tatoebaLanguagePair[1], tatoebaLanguagePairs));
+            importers.add(new TatoebaImporter(tatoebaLanguagePair[1], tatoebaLanguagePair[0], tatoebaLanguagePairs));
         }
 
         for (Importer importer : importers) {
-            importer.importCollection();
+            String outFilename = String.format("%s-%s.csv", importer.knownLanguageAbbrev3, importer.targetLanguageAbbrev3);
+
+            SentenceWriter writer = new SentenceWriter(Paths.get(OUTPUT_DIR, outFilename).toString());
+            importer.importCollection(writer);
         }
     }
 }

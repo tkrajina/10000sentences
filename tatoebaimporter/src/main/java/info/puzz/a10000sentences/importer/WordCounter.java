@@ -11,6 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import lombok.Getter;
 
+/**
+ * Helper for counting words (frequencies) in a collection.
+ */
 public class WordCounter {
 
     @Getter

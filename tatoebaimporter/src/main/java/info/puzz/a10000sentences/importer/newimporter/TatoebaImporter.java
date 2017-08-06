@@ -1,10 +1,10 @@
 package info.puzz.a10000sentences.importer.newimporter;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,7 +24,7 @@ import info.puzz.a10000sentences.importer.WordCounter;
 import info.puzz.a10000sentences.importer.WordUtils;
 import info.puzz.a10000sentences.language.Languages;
 
-public class NewTatoebaImporter extends Importer {
+public class TatoebaImporter extends Importer {
 
     private static final char ALTERNATIVE_DELIMITER = '|';
 
@@ -33,13 +33,13 @@ public class NewTatoebaImporter extends Importer {
     private static HashMap<String, Map<Integer, TatoebaSentence>> sentencesPerLang;
     private static Map<Integer, int[]> links;
 
-    public NewTatoebaImporter(String fromLang, String toLang, String[][] allLanguagePairs) {
+    public TatoebaImporter(String fromLang, String toLang, String[][] allLanguagePairs) {
         super(fromLang, toLang);
         this.allLanguagePairs = allLanguagePairs;
     }
 
     private synchronized static void reloadSentencesIfNeeded() throws Exception {
-        if (NewTatoebaImporter.sentencesPerLang != null) {
+        if (TatoebaImporter.sentencesPerLang != null) {
             return;
         }
 
@@ -72,8 +72,8 @@ public class NewTatoebaImporter extends Importer {
             }
         }
 
-        NewTatoebaImporter.links = loadLinks();
-        NewTatoebaImporter.sentencesPerLang = res;
+        TatoebaImporter.links = loadLinks();
+        TatoebaImporter.sentencesPerLang = res;
     }
 
     private static Map<Integer, int[]> loadLinks() throws Exception {
@@ -110,7 +110,7 @@ public class NewTatoebaImporter extends Importer {
     }
 
     @Override
-    public SentenceCollectionVO importCollection() throws Exception {
+    public SentenceCollectionVO importCollection(SentenceWriter writer) throws Exception {
 
         reloadSentencesIfNeeded();
 
@@ -133,7 +133,6 @@ public class NewTatoebaImporter extends Importer {
         System.out.println(String.format("Found %d target language sentences", targetLanguageSentences.size()));
         System.out.println(String.format("%d distinct words, %d words", wordCounter.size(), wordCounter.getCount().intValue()));
 
-        String outFilename = String.format("%s-%s.csv", knownLanguage.getAbbrev(), targetLanguage.getAbbrev());
         List<SentenceVO> sentences = new ArrayList<>();
 
         for (TatoebaSentence targetSentence : targetLanguageSentences.values()) {
@@ -188,20 +187,19 @@ public class NewTatoebaImporter extends Importer {
             }
         });
 
-        FileOutputStream out = new FileOutputStream(Paths.get(OUTPUT_DIR, outFilename).toString());
+
         for (SentenceVO sentence : sentences) {
-            out.write((sentence.getSentenceId() + "\t" + sentence.getKnownSentence() + "\t" + sentence.getTargetSentence() + "\n").getBytes("utf-8"));
+            writer.writeSentence(sentence);
         }
-        out.close();
+        writer.close();
 
         System.out.println(String.format("Found %d entences in %ds", sentences.size(), TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - started)));
-        System.out.println("Results written to: " + outFilename);
 
         return new SentenceCollectionVO()
                 .setKnownLanguage(knownLanguage.getAbbrev())
                 .setTargetLanguage(targetLanguage.getAbbrev())
                 .setCount(sentences.size())
-                .setFilename(outFilename);
+                .setFilename(new File(writer.filename).getName());
     }
 
     // TODO: Use this for the EuImporter, too
