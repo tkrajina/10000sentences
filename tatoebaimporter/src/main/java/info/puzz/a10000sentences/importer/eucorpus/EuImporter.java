@@ -5,18 +5,41 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
-public class EuImporter {
+import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
+import info.puzz.a10000sentences.apimodels.SentenceVO;
+import info.puzz.a10000sentences.importer.WordCounter;
+import info.puzz.a10000sentences.importer.newimporter.Importer;
+import info.puzz.a10000sentences.importer.newimporter.SentenceWriter;
+
+public class EuImporter extends Importer {
 
     private static final Pattern numberPattern = Pattern.compile("^\\d+\\.$");
 
+    public EuImporter(String knownLanguageAbbrev3, String targetLanguageAbbrev3) {
+        super(knownLanguageAbbrev3, targetLanguageAbbrev3);
+    }
+
     public static void main(String[] args) throws Exception {
+        new EuImporter("", "").importCollection(new SentenceWriter("jkl"));
+    }
+
+    @Override
+    public void importCollection(SentenceWriter writer) throws Exception {
         BufferedReader slFile = new BufferedReader(new FileReader("/Users/puzz/projects/10000sentences/tmp_eurofiles/europarl-v7.sl-en.sl"));
         BufferedReader enFile = new BufferedReader(new FileReader("/Users/puzz/projects/10000sentences/tmp_eurofiles/europarl-v7.sl-en.en"));
 
         int imported = 0;
+
+        WordCounter counter = new WordCounter();
+
+        List<SentenceVO> sentences = new ArrayList<>();
+        Set<Integer> knownSenteceHashes = new HashSet<>();
 
         String slLine, enLine;
         while (true) {
@@ -32,35 +55,54 @@ public class EuImporter {
                     if (slLine.indexOf(":") >= 0 || slLine.indexOf("(") >= 0) {
 
                     } else {
-                        imported += importSentence(slLine, enLine);
+                        for (SentenceVO s : importSentence(slLine, enLine)) {
+                            Integer h = s.getKnownSentence().hashCode();
+                            if (!knownSenteceHashes.contains(h)) {
+                                sentences.add(s);
+                                counter.countWordsInSentence(slLine);
+                                knownSenteceHashes.add(h);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        System.out.println("Imported:" + imported);
+        calculateComplexityAndReorder(counter, sentences);
+
+        // Let's ignore the 20% most complex
+        int max = (int) (sentences.size() * 0.90);
+        for (int i = 0; i < sentences.size(); i++) {
+            if ((i > max)) {
+                break;
+            }
+            writer.writeSentence(sentences.get(i));
+        }
     }
 
-    private static int importSentence(String slLine, String enLine) {
+    private static List<SentenceVO> importSentence(String slLine, String enLine) {
         List<String> slSentences = getSentences(slLine);
         List<String> enSentences = getSentences(enLine);
 
-        if (slSentences.size() != enSentences.size()) {
-            return 0;
-        }
+        ArrayList<SentenceVO> res = new ArrayList<>();
 
-        int count = 0;
+        if (slSentences.size() != enSentences.size()) {
+            return res;
+        }
 
         for (int i = 0; i < slSentences.size(); i++) {
             String sl = slSentences.get(i);
             String en = enSentences.get(i);
             if (sl.length() < 100) {
                 System.out.println(sl + " " + en);
-                count += 1;
+                res.add(new SentenceVO()
+                        .setSentenceId(String.valueOf(slLine.hashCode()))
+                        .setKnownSentence(enLine)
+                        .setTargetSentence(slLine));
             }
         }
 
-        return count;
+        return res;
     }
 
     public static List<String> getSentences(String text) {
@@ -91,4 +133,5 @@ public class EuImporter {
     public static boolean isSentenceDelimiter(char c) {
         return c == '.' || c == '!' || c == '?' || c == '\n';
     }
+
 }

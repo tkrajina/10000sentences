@@ -4,6 +4,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
+
 public class Import {
 
     public static final String OUTPUT_DIR = "bucket_files";
@@ -57,6 +59,14 @@ public class Import {
 
             SentenceWriter writer = new SentenceWriter(Paths.get(OUTPUT_DIR, outFilename).toString());
             importer.importCollection(writer);
+            writer.close();
+
+            SentenceCollectionVO collection = new SentenceCollectionVO()
+                    .setKnownLanguage(importer.knownLanguageAbbrev3)
+                    .setTargetLanguage(importer.targetLanguageAbbrev3)
+                    .setCount(writer.counter)
+                    .setFilename(writer.filename);
+            System.out.println(collection);
         }
     }
 }
