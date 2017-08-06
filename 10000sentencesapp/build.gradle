@@ -14,8 +14,8 @@ android {
         applicationId "info.puzz.a10000sentences"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 49
-        versionName "0.2.14"
+        versionCode 50
+        versionName "0.2.15"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
