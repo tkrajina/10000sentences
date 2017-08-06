@@ -1,6 +1,7 @@
 .gradle
 *.sqlite
-bucket_files/*
+/bucket_files/*
+/raw_files/*
 tags
 debug_*
 /local.properties

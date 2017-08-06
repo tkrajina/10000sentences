@@ -1,63 +1,60 @@
-package info.puzz.a10000sentences.importer.eucorpus;
+package info.puzz.a10000sentences.importer.newimporter;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
+import info.puzz.a10000sentences.apimodels.LanguageVO;
 import info.puzz.a10000sentences.apimodels.SentenceVO;
 import info.puzz.a10000sentences.importer.WordCounter;
-import info.puzz.a10000sentences.importer.newimporter.Importer;
-import info.puzz.a10000sentences.importer.newimporter.SentenceWriter;
+import info.puzz.a10000sentences.language.Languages;
 
 public class EuImporter extends Importer {
 
     private static final Pattern numberPattern = Pattern.compile("^\\d+\\.$");
+    private final String baseFilename;
 
-    public EuImporter(String knownLanguageAbbrev3, String targetLanguageAbbrev3) {
+    public EuImporter(String knownLanguageAbbrev3, String targetLanguageAbbrev3, String baseFilename) {
         super(knownLanguageAbbrev3, targetLanguageAbbrev3);
-    }
-
-    public static void main(String[] args) throws Exception {
-        new EuImporter("", "").importCollection(new SentenceWriter("jkl"));
+        this.baseFilename = baseFilename;
     }
 
     @Override
     public void importCollection(SentenceWriter writer) throws Exception {
-        BufferedReader slFile = new BufferedReader(new FileReader("raw_files/europarl-v7.sl-en.sl"));
-        BufferedReader enFile = new BufferedReader(new FileReader("raw_files/europarl-v7.sl-en.en"));
+
+        BufferedReader knownFile = new BufferedReader(new FileReader(String.format("%s/%s.%s", RAW_FILES_PATH, baseFilename, knownLang.getAbbrev())));
+        BufferedReader targetFile = new BufferedReader(new FileReader(String.format("%s/%s.%s", RAW_FILES_PATH, baseFilename, targetLang.getAbbrev())));
 
         WordCounter counter = new WordCounter();
 
         List<SentenceVO> sentences = new ArrayList<>();
         Set<Integer> knownSenteceHashes = new HashSet<>();
 
-        String slLine, enLine;
+        String targetLine, knownLine;
         while (true) {
-            slLine = slFile.readLine();
-            enLine = enFile.readLine();
-            if (slLine == null && enLine == null) {
+            targetLine = targetFile.readLine();
+            knownLine = knownFile.readLine();
+            if (targetLine == null && knownLine == null) {
                 break;
             }
-            if (StringUtils.isNotEmpty(slLine) && StringUtils.isNotEmpty(enLine)) {
-                if (numberPattern.matcher(slLine).matches()) {
+            if (StringUtils.isNotEmpty(targetLine) && StringUtils.isNotEmpty(knownLine)) {
+                if (numberPattern.matcher(targetLine).matches()) {
                     //
-                } else if (Character.isUpperCase(slLine.charAt(0)) && Character.isUpperCase(enLine.charAt(0))) {
-                    if (slLine.indexOf(":") >= 0 || slLine.indexOf("(") >= 0) {
+                } else if (Character.isUpperCase(targetLine.charAt(0)) && Character.isUpperCase(knownLine.charAt(0))) {
+                    if (targetLine.indexOf(":") >= 0 || targetLine.indexOf("(") >= 0) {
 
                     } else {
-                        for (SentenceVO s : importSentence(slLine, enLine)) {
+                        for (SentenceVO s : importSentence(targetLine, knownLine)) {
                             Integer h = s.getKnownSentence().hashCode();
                             if (!knownSenteceHashes.contains(h)) {
                                 sentences.add(s);
-                                counter.countWordsInSentence(slLine);
+                                counter.countWordsInSentence(targetLine);
                                 knownSenteceHashes.add(h);
                             }
                         }
@@ -77,32 +74,33 @@ public class EuImporter extends Importer {
         }
     }
 
-    private static List<SentenceVO> importSentence(String slLine, String enLine) {
-        List<String> slSentences = getSentences(slLine);
-        List<String> enSentences = getSentences(enLine);
+    private List<SentenceVO> importSentence(String targetLine, String knownLine) {
+        List<String> targetSentences = getSentences(targetLine);
+        List<String> knownSentences = getSentences(knownLine);
 
         ArrayList<SentenceVO> res = new ArrayList<>();
 
-        if (slSentences.size() != enSentences.size()) {
+        if (targetSentences.size() != knownSentences.size()) {
             return res;
         }
 
-        for (int i = 0; i < slSentences.size(); i++) {
-            String sl = slSentences.get(i);
-            String en = enSentences.get(i);
-            if (sl.length() < 100) {
-                System.out.println(sl + " " + en);
+        for (int i = 0; i < targetSentences.size(); i++) {
+            String target = targetSentences.get(i);
+            String known = knownSentences.get(i);
+            if (target.length() < 100) {
+                //System.out.println(sl + " " + en);
+                String id = String.format("%s-%s-%d", knownLang.getAbbrev(), targetLang.getAbbrev(), target.hashCode());
                 res.add(new SentenceVO()
-                        .setSentenceId(String.valueOf(slLine.hashCode()))
-                        .setKnownSentence(enLine)
-                        .setTargetSentence(slLine));
+                        .setSentenceId(String.valueOf(id))
+                        .setKnownSentence(known)
+                        .setTargetSentence(target));
             }
         }
 
         return res;
     }
 
-    public static List<String> getSentences(String text) {
+    public List<String> getSentences(String text) {
         List<String> sentences = new ArrayList<>();
 
         StringBuilder curr = new StringBuilder();

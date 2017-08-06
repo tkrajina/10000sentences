@@ -1,3 +1,4 @@
+mkdir -p bucket_files
 mkdir -p raw_files
 cd raw_files
 

@@ -1,14 +1,23 @@
 package info.puzz.a10000sentences.importer.newimporter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import info.puzz.a10000sentences.apimodels.InfoVO;
 import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
+import info.puzz.a10000sentences.language.Languages;
 
 public class Import {
 
     public static final String OUTPUT_DIR = "bucket_files";
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public static void main(String[] args) throws Exception {
         List<Importer> importers = new ArrayList<>();
@@ -54,6 +63,12 @@ public class Import {
             importers.add(new TatoebaImporter(tatoebaLanguagePair[1], tatoebaLanguagePair[0], tatoebaLanguagePairs));
         }
 
+        importers.add(new EuImporter("slv", "eng", "europarl-v7.sl-en"));
+        importers.add(new EuImporter("eng", "slv", "europarl-v7.sl-en"));
+
+        InfoVO info = new InfoVO()
+                .setLanguages(Languages.getLanguages());
+
         for (Importer importer : importers) {
             String outFilename = String.format("%s-%s.csv", importer.knownLanguageAbbrev3, importer.targetLanguageAbbrev3);
 
@@ -62,11 +77,14 @@ public class Import {
             writer.close();
 
             SentenceCollectionVO collection = new SentenceCollectionVO()
-                    .setKnownLanguage(importer.knownLanguageAbbrev3)
-                    .setTargetLanguage(importer.targetLanguageAbbrev3)
+                    .setKnownLanguage(importer.knownLang.getAbbrev())
+                    .setTargetLanguage(importer.targetLang.getAbbrev())
                     .setCount(writer.counter)
-                    .setFilename(writer.filename);
-            System.out.println(collection);
+                    .setFilename(new File(writer.filename).getName());
+            info.addSentencesCollection(collection);
         }
+
+        String infoFilename = Paths.get(OUTPUT_DIR, "info.json").toString();
+        FileUtils.writeByteArrayToFile(new File(infoFilename), OBJECT_MAPPER.writeValueAsBytes(info));
     }
 }

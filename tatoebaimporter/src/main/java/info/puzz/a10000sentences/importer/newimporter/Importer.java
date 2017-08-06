@@ -5,21 +5,29 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
+import info.puzz.a10000sentences.apimodels.LanguageVO;
 import info.puzz.a10000sentences.apimodels.SentenceVO;
 import info.puzz.a10000sentences.importer.WordCounter;
 import info.puzz.a10000sentences.importer.WordUtils;
+import info.puzz.a10000sentences.language.Languages;
 
 public abstract class Importer {
+
+    protected static final String RAW_FILES_PATH = "raw_files";
 
     public static final int MAX_SENTENCES_NO = 12_000;
 
     final String knownLanguageAbbrev3;
     final String targetLanguageAbbrev3;
+    final LanguageVO knownLang;
+    final LanguageVO targetLang;
 
     public Importer(String knownLanguageAbbrev3, String targetLanguageAbbrev3) {
         this.knownLanguageAbbrev3 = knownLanguageAbbrev3;
         this.targetLanguageAbbrev3 = targetLanguageAbbrev3;
+        knownLang = Languages.getLanguageByAbbrev(knownLanguageAbbrev3);
+        targetLang = Languages.getLanguageByAbbrev(targetLanguageAbbrev3);
+
     }
 
     public abstract void importCollection(SentenceWriter writer) throws Exception;
