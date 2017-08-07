@@ -4,10 +4,10 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import info.puzz.a10000sentences.apimodels.CollectionType;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -54,20 +54,11 @@ public class SentenceCollection extends Model {
     @Column(name = "annotation_count")
     public int annotationCount;
 
+    @Column(name="type")
+    public CollectionType type;
+
     public boolean isDownloaded() {
         return count > 0;
-    }
-
-    public String formatProgress() {
-        if (isDownloaded()) {
-            return formatDoneCount() + " of 10,000 sentences";
-        } else {
-            return "Not downloaded";
-        }
-    }
-
-    public String formatCount() {
-        return formatCount(count);
     }
 
     public String formatDoneCount() {

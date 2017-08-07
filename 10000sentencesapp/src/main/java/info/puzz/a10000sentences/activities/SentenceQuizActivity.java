@@ -39,7 +39,6 @@ import info.puzz.a10000sentences.models.WordAnnotation;
 import info.puzz.a10000sentences.utils.ShareUtils;
 import info.puzz.a10000sentences.utils.SleepUtils;
 import info.puzz.a10000sentences.utils.Speech;
-import info.puzz.a10000sentences.utils.TatoebaUtils;
 import info.puzz.a10000sentences.utils.TranslateUtils;
 import info.puzz.a10000sentences.utils.WordChunk;
 import info.puzz.a10000sentences.utils.WordChunkUtils;
@@ -273,8 +272,12 @@ public class SentenceQuizActivity extends BaseActivity {
     }
 
     private void openLink() {
+        if (binding.getCollection().getType() == null) {
+            return;
+        }
+
         try {
-            String url = TatoebaUtils.getTatotebaUrl(binding.getQuiz().getSentence());
+            String url = binding.getCollection().getType().getSentenceUrl(binding.getQuiz().getSentence().getSentenceId());
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(browserIntent);
         } catch (Exception e) {
