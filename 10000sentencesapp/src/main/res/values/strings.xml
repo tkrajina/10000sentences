@@ -65,7 +65,7 @@ If you really want this, type: %s]]></string>
     <string name="downloaded_colections">Downloaded collections</string>
     <string name="for_">for</string>
     <string name="speakers">speakers</string>
-    <string name="open_in_tatoeba">Open in Tatoeba</string>
+    <string name="open_in_browser">Open in Browser</string>
     <string name="error_opening_link">Error opening url</string>
     <string name="for_speakers_of">...for speakers of:</string>
     <string name="time_spent_daily">Time spent practicing:</string>

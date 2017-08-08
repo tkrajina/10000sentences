@@ -216,7 +216,7 @@ public class SentenceQuizActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_open_in_tatoteba:
+            case R.id.action_open_in_browser:
                 openLink();
                 break;
             case R.id.action_previous:

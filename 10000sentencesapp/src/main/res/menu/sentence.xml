@@ -14,9 +14,9 @@
         android:title="@string/share"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_open_in_tatoteba"
+        android:id="@+id/action_open_in_browser"
         android:orderInCategory="110"
-        android:title="@string/open_in_tatoeba"
+        android:title="@string/open_in_browser"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_done_sentence"
