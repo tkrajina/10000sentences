@@ -40,6 +40,7 @@ public class Dao {
                 .executeSingle();
         if (sentenceCollection != null) {
             sentenceCollection
+                    .setType(col.getType())
                     .setFilename(col.getFilename())
                     .save();
         } else {
