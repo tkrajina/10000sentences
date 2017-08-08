@@ -80,6 +80,7 @@ public class Import {
                     .setKnownLanguage(importer.knownLang.getAbbrev())
                     .setTargetLanguage(importer.targetLang.getAbbrev())
                     .setCount(writer.counter)
+                    .setType(importer.getType())
                     .setFilename(new File(writer.filename).getName());
             info.addSentencesCollection(collection);
         }

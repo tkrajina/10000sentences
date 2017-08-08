@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import info.puzz.a10000sentences.apimodels.CollectionType;
 import info.puzz.a10000sentences.apimodels.LanguageVO;
 import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
 import info.puzz.a10000sentences.apimodels.SentenceVO;
@@ -36,6 +37,11 @@ public class TatoebaImporter extends Importer {
     public TatoebaImporter(String fromLang, String toLang, String[][] allLanguagePairs) {
         super(fromLang, toLang);
         this.allLanguagePairs = allLanguagePairs;
+    }
+
+    @Override
+    public CollectionType getType() {
+        return CollectionType.TATOEBA;
     }
 
     private synchronized static void reloadSentencesIfNeeded() throws Exception {

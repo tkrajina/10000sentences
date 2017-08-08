@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import info.puzz.a10000sentences.apimodels.CollectionType;
 import info.puzz.a10000sentences.apimodels.LanguageVO;
 import info.puzz.a10000sentences.apimodels.SentenceVO;
 import info.puzz.a10000sentences.importer.WordCounter;
@@ -23,6 +24,11 @@ public class EuImporter extends Importer {
     public EuImporter(String knownLanguageAbbrev3, String targetLanguageAbbrev3, String baseFilename) {
         super(knownLanguageAbbrev3, targetLanguageAbbrev3);
         this.baseFilename = baseFilename;
+    }
+
+    @Override
+    public CollectionType getType() {
+        return CollectionType.EU_CORPUS;
     }
 
     @Override

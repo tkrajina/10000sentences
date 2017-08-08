@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import info.puzz.a10000sentences.apimodels.CollectionType;
 import info.puzz.a10000sentences.apimodels.LanguageVO;
 import info.puzz.a10000sentences.apimodels.SentenceVO;
 import info.puzz.a10000sentences.importer.WordCounter;
@@ -30,6 +31,7 @@ public abstract class Importer {
 
     }
 
+    public abstract CollectionType getType();
     public abstract void importCollection(SentenceWriter writer) throws Exception;
 
     protected void calculateComplexityAndReorder(WordCounter wordCounter, List<SentenceVO> sentences) {
