@@ -60,7 +60,7 @@ public class EuImporter extends Importer {
                             Integer h = s.getKnownSentence().hashCode();
                             if (!knownSenteceHashes.contains(h)) {
                                 sentences.add(s);
-                                counter.countWordsInSentence(targetLine);
+                                counter.countWordsInSentence(s, knownLang, targetLang);
                                 knownSenteceHashes.add(h);
                             }
                         }

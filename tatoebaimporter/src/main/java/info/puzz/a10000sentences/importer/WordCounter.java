@@ -6,9 +6,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import info.puzz.a10000sentences.apimodels.LanguageVO;
+import info.puzz.a10000sentences.apimodels.SentenceVO;
 import lombok.Getter;
 
 /**
@@ -24,7 +25,23 @@ public class WordCounter {
     public WordCounter() {
     }
 
-    public void countWordsInSentence(String sentence) {
+    public void countWordsInSentence(SentenceVO sentence, LanguageVO knownLang, LanguageVO targetLang) {
+        String sentenceForCounter = sentence.getKnownSentence();
+        if ("en".equals(targetLang.getAbbrev())) {
+            // If possible use englishbecause it's a less inflected languages, making word counting more reliable:
+            sentenceForCounter = sentence.getTargetSentence();
+            if (count.intValue() % 1000 == 0) {
+                System.out.println(String.format("\t- calculating frequencies with %s instead of...", sentenceForCounter));
+            }
+        } else {
+            if (count.intValue() % 1000 == 0) {
+                System.out.println(String.format("\t- calculating frequencies with %s in %s (fallback)", sentenceForCounter, knownLang.getAbbrev()));
+            }
+        }
+        countWordsInSentence(sentenceForCounter);
+    }
+
+    private void countWordsInSentence(String sentence) {
         for (String word : WordUtils.getWords(sentence)) {
             countWord(word);
         }

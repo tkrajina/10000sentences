@@ -132,9 +132,6 @@ public class TatoebaImporter extends Importer {
         Map<Integer, TatoebaSentence> targetLanguageSentences = sentencesPerLang.get(targetLanguageAbbrev3);
         Map<Integer, TatoebaSentence> knownLanguageSentences = sentencesPerLang.get(knownLanguageAbbrev3);
 
-        for (TatoebaSentence sentence : targetLanguageSentences.values()) {
-            wordCounter.countWordsInSentence(sentence.getText());
-        }
         System.out.println(String.format("Found %d known language sentences", knownLanguageSentences.size()));
         System.out.println(String.format("Found %d target language sentences", targetLanguageSentences.size()));
         System.out.println(String.format("%d distinct words, %d words", wordCounter.size(), wordCounter.getCount().intValue()));
@@ -165,11 +162,13 @@ public class TatoebaImporter extends Importer {
             }
             if (alternatives > 0) {
                 String id = String.format("%s-%s-%d", knownLanguage.getAbbrev(), targetLanguage.getAbbrev(), targetSentence.getId());
-                sentences.add(new SentenceVO()
+                SentenceVO sentence = new SentenceVO()
                         .setSentenceId(id)
                         .setTargetSentenceId(targetSentence.getId())
                         .setKnownSentence(knownSentenceAlternatives.toString())
-                        .setTargetSentence(targetSentence.getText()));
+                        .setTargetSentence(targetSentence.getText());
+                wordCounter.countWordsInSentence(sentence, knownLang, targetLang);
+                sentences.add(sentence);
             }
         }
 
