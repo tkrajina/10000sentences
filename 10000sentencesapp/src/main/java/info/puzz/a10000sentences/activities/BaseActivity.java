@@ -135,6 +135,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                             .setCollectionID(String.format("%s-%s", collectionVO.getKnownLanguage(), collectionVO.getTargetLanguage()))
                             .setKnownLanguage(collectionVO.getKnownLanguage())
                             .setTargetLanguage(collectionVO.getTargetLanguage())
+                            .setType(collectionVO.getType())
                             .setFilename(collectionVO.getFilename());
                     dao.importCollection(col);
                 }
