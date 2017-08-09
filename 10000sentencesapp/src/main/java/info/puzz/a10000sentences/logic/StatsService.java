@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,20 +41,20 @@ public final class StatsService {
         /**
          * Time per day by collection id.
          */
-        private Map<String, List<DataPointInterface>> timePerDay = new HashMap<>();
+        private Map<String, List<DataPoint>> timePerDay = new HashMap<>();
         /**
          * Total done sentences per day by collection id.
          * @see info.puzz.a10000sentences.models.SentenceStatus
          */
-        private Map<String, List<DataPointInterface>> donePerDay = new HashMap<>();
+        private Map<String, List<DataPoint>> donePerDay = new HashMap<>();
 
         public void addTime(String collectionId, long middayTime, long time) {
             addCollectionIfNeeded(collectionId);
             if (!timePerDay.containsKey(collectionId)) {
-                timePerDay.put(collectionId, new ArrayList<DataPointInterface>());
+                timePerDay.put(collectionId, new ArrayList<DataPoint>());
             }
 
-            List<DataPointInterface> dataPoints = timePerDay.get(collectionId);
+            List<DataPoint> dataPoints = timePerDay.get(collectionId);
             if (dataPoints.size() == 0) {
                 dataPoints.add(new DataPoint(middayTime, time));
                 return;
@@ -70,10 +71,10 @@ public final class StatsService {
         public void addDone(String collectionId, long middayTime, int count) {
             addCollectionIfNeeded(collectionId);
             if (!donePerDay.containsKey(collectionId)) {
-                donePerDay.put(collectionId, new ArrayList<DataPointInterface>());
+                donePerDay.put(collectionId, new ArrayList<DataPoint>());
             }
 
-            List<DataPointInterface> dataPoints = donePerDay.get(collectionId);
+            List<DataPoint> dataPoints = donePerDay.get(collectionId);
             if (dataPoints.size() == 0) {
                 dataPoints.add(new DataPoint(middayTime, count));
                 return;
@@ -93,11 +94,29 @@ public final class StatsService {
             }
         }
 
-        public Map<String,List<DataPointInterface>> getTimePerDay() {
+        public Map<String,List<DataPoint>> getTimePerDay() {
             return timePerDay;
         }
 
-        public Map<String,List<DataPointInterface>> getDonePerDay() {
+        public Map<String,List<DataPoint>> getDonePerDay() {
+            Iterator<List<DataPoint>> i = donePerDay.values().iterator();
+            while (i.hasNext()) {
+                List<DataPoint> values = i.next();
+                double minValue = Double.MAX_VALUE;
+                for (DataPoint value : values) {
+                    if (value.y < minValue) {
+                        minValue = value.y;
+                    }
+                }
+
+                if (minValue == Double.MAX_VALUE) {
+                    minValue = 0;
+                }
+
+                for (DataPoint value : values) {
+                    value.y -= minValue;
+                }
+            }
             return donePerDay;
         }
     }

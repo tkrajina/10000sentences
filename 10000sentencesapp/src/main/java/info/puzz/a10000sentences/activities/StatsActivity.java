@@ -11,6 +11,7 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LabelFormatter;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 
 import java.util.Calendar;
@@ -115,7 +116,7 @@ public class StatsActivity extends BaseActivity {
     }
 
     private void setupGraph(
-            Map<String, List<DataPointInterface>> dataPointsByCollectionId,
+            Map<String, List<StatsService.DataPoint>> dataPointsByCollectionId,
             GraphView graph,
             boolean yFromZero,
             final Formatter yAxisFormatter) {
@@ -127,7 +128,7 @@ public class StatsActivity extends BaseActivity {
 
         int colorNo = 0;
         for (String collectionId : dataPointsByCollectionId.keySet()) {
-            List<DataPointInterface> points = dataPointsByCollectionId.get(collectionId);
+            List<StatsService.DataPoint> points = dataPointsByCollectionId.get(collectionId);
 
             BarGraphSeries series = new BarGraphSeries<>(points.toArray(new DataPointInterface[points.size()]));
             series.setColor(ContextCompat.getColor(this, graphColors[(colorNo ++) % graphColors.length]));
