@@ -68,7 +68,7 @@ public class EuImporter extends Importer {
                     } else {
                         for (SentenceVO s : importSentence(targetLine, knownLine)) {
                             Integer h = s.getKnownSentence().hashCode();
-                            if (!knownSenteceHashes.contains(h)) {
+                            if (!knownSenteceHashes.contains(h) && sentenceOK(s)) {
                                 sentences.add(s);
                                 counter.countWordsInSentence(s, knownLang, targetLang);
                                 knownSenteceHashes.add(h);
@@ -85,9 +85,23 @@ public class EuImporter extends Importer {
         int max = (int) (sentences.size() * 0.70);
         float oneEvery = max / ((float)MAX_SENTENCES_NO);
         for (float i = 0; i < max; i += oneEvery) {
-            System.out.println((int) i);
             writer.writeSentence(sentences.get((int)i));
         }
+    }
+
+    private boolean sentenceOK(SentenceVO s) {
+        int t = s.getTargetSentence().length();
+        int k = s.getKnownSentence().length();
+        if (t < 50 && k < 50) {
+            return true;
+        }
+
+        if (Math.max(t, k) / Math.min(t, k) > 3) {
+            System.out.printf("Nope: %s <-> %s\n", s.getKnownSentence(), s.getTargetSentence());
+            return false;
+        }
+
+        return true;
     }
 
     private List<SentenceVO> importSentence(String targetLine, String knownLine) {
