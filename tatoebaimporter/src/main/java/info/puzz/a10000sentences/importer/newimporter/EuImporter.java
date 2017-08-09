@@ -18,8 +18,18 @@ import info.puzz.a10000sentences.language.Languages;
 
 public class EuImporter extends Importer {
 
+    private static Pattern SENTENCE_DELIMITER = Pattern.compile("[\\.\\!\\?](?=\\s+\\p{javaUpperCase})");
+
     private static final Pattern numberPattern = Pattern.compile("^\\d+\\.$");
     private final String baseFilename;
+
+    public static void main(String[] args) {
+        String str = "Ljudje hočejo spoznati 1. politično ozadje itd. zato moramo biti vključeni. Druga rečenica.";
+        String[] parts = SENTENCE_DELIMITER.split(str);
+        for (String part : parts) {
+            System.out.println(part);
+        }
+    }
 
     public EuImporter(String knownLanguageAbbrev3, String targetLanguageAbbrev3, String baseFilename) {
         super(knownLanguageAbbrev3, targetLanguageAbbrev3);
@@ -81,18 +91,18 @@ public class EuImporter extends Importer {
     }
 
     private List<SentenceVO> importSentence(String targetLine, String knownLine) {
-        List<String> targetSentences = getSentences(targetLine);
-        List<String> knownSentences = getSentences(knownLine);
+        String[] targetSentences = getSentences(targetLine);
+        String[] knownSentences = getSentences(knownLine);
 
         ArrayList<SentenceVO> res = new ArrayList<>();
 
-        if (targetSentences.size() != knownSentences.size()) {
+        if (targetSentences.length != knownSentences.length) {
             return res;
         }
 
-        for (int i = 0; i < targetSentences.size(); i++) {
-            String target = targetSentences.get(i);
-            String known = knownSentences.get(i);
+        for (int i = 0; i < targetSentences.length; i++) {
+            String target = targetSentences[i];
+            String known = knownSentences[i];
             if (target.length() < 100) {
                 //System.out.println(sl + " " + en);
                 String id = String.format("%s-%s-%d", knownLang.getAbbrev(), targetLang.getAbbrev(), target.hashCode());
@@ -106,33 +116,8 @@ public class EuImporter extends Importer {
         return res;
     }
 
-    public List<String> getSentences(String text) {
-        List<String> sentences = new ArrayList<>();
-
-        StringBuilder curr = new StringBuilder();
-        boolean prevCharSentenceDelimiter = true;
-        for (char c : text.toCharArray()) {
-            boolean sentenceDelimiter = isSentenceDelimiter(c);
-            if (prevCharSentenceDelimiter && !sentenceDelimiter) {
-                String str = curr.toString().trim();
-                if (str.length() > 0) {
-                    sentences.add(str);
-                }
-                curr = new StringBuilder();
-            }
-            curr.append(c);
-            prevCharSentenceDelimiter = sentenceDelimiter;
-        }
-        String str = curr.toString().trim();
-        if (str.length() > 0) {
-            sentences.add(str);
-        }
-
-        return sentences;
-    }
-
-    public static boolean isSentenceDelimiter(char c) {
-        return c == '.' || c == '!' || c == '?' || c == '\n';
+    public String[] getSentences(String text) {
+        return SENTENCE_DELIMITER.split(text);
     }
 
 }
