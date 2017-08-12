@@ -20,6 +20,8 @@ public class EuImporter extends Importer {
 
     private static Pattern SENTENCE_DELIMITER = Pattern.compile("[\\.\\!\\?](?=\\s+\\p{javaUpperCase})");
 
+    private static Pattern NUMBER_DELIMITER = Pattern.compile("^.*\\d+.*$");
+
     private static final Pattern numberPattern = Pattern.compile("^\\d+\\.$");
     private final String baseFilename;
 
@@ -52,6 +54,7 @@ public class EuImporter extends Importer {
         List<SentenceVO> sentences = new ArrayList<>();
         Set<Integer> knownSenteceHashes = new HashSet<>();
 
+        int ignoredSentences = 0;
         String targetLine, knownLine;
         while (true) {
             targetLine = targetFile.readLine();
@@ -72,12 +75,17 @@ public class EuImporter extends Importer {
                                 sentences.add(s);
                                 counter.countWordsInSentence(s, knownLang, targetLang);
                                 knownSenteceHashes.add(h);
+                            } else {
+                                ignoredSentences += 1;
                             }
                         }
                     }
                 }
             }
         }
+
+        System.out.printf("%d sentences ignored\n", ignoredSentences);
+        System.out.printf("%d sentence candidates\n", sentences.size());
 
         calculateComplexityAndReorder(counter, sentences);
 
@@ -94,14 +102,14 @@ public class EuImporter extends Importer {
         String known = s.getKnownSentence();
 
         if (StringUtils.equals(targ, known)) {
-            System.out.printf("Isti %s <-> %s\n", targ, known);
+            System.out.printf("Same: %s <-> %s\n", targ, known);
             return false;
         }
 
         int tLen = targ.length();
         int kLen = known.length();
         if (StringUtils.getLevenshteinDistance(targ, known) < 0.2 * (tLen + kLen) / 2.) {
-            System.out.printf("Preslične %s <-> %s\n", targ, known);
+            System.out.printf("Too similar: %s <-> %s\n", targ, known);
             return false;
         }
 
@@ -111,6 +119,11 @@ public class EuImporter extends Importer {
 
         if (Math.max(tLen, kLen) / Math.min(tLen, kLen) > 3) {
             System.out.printf("Nope: %s <-> %s\n", known, targ);
+            return false;
+        }
+
+        if (NUMBER_DELIMITER.matcher(targ).matches() || NUMBER_DELIMITER.matcher(known).matches()) {
+            System.out.printf("Has numbers: %s <-> %s\n", known, targ);
             return false;
         }
 
