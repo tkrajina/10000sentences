@@ -90,14 +90,27 @@ public class EuImporter extends Importer {
     }
 
     private boolean sentenceOK(SentenceVO s) {
-        int t = s.getTargetSentence().length();
-        int k = s.getKnownSentence().length();
-        if (t < 50 && k < 50) {
+        String targ = s.getTargetSentence();
+        String known = s.getKnownSentence();
+
+        if (StringUtils.equals(targ, known)) {
+            System.out.printf("Isti %s <-> %s\n", targ, known);
+            return false;
+        }
+
+        int tLen = targ.length();
+        int kLen = known.length();
+        if (StringUtils.getLevenshteinDistance(targ, known) < 0.2 * (tLen + kLen) / 2.) {
+            System.out.printf("Preslične %s <-> %s\n", targ, known);
+            return false;
+        }
+
+        if (tLen < 50 && kLen < 50) {
             return true;
         }
 
-        if (Math.max(t, k) / Math.min(t, k) > 3) {
-            System.out.printf("Nope: %s <-> %s\n", s.getKnownSentence(), s.getTargetSentence());
+        if (Math.max(tLen, kLen) / Math.min(tLen, kLen) > 3) {
+            System.out.printf("Nope: %s <-> %s\n", known, targ);
             return false;
         }
 
