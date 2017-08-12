@@ -7,7 +7,10 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import info.puzz.a10000sentences.apimodels.InfoVO;
 import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
@@ -79,7 +82,11 @@ public class Import {
         InfoVO info = new InfoVO()
                 .setLanguages(Languages.getLanguages());
 
+        Set<String> languages = new HashSet<>();
+
         for (Importer importer : importers) {
+            languages.add(importer.targetLang.getName());
+            languages.add(importer.knownLang.getName());
             String outFilename = String.format("%s-%s.csv", importer.knownLanguageAbbrev3, importer.targetLanguageAbbrev3);
 
             SentenceWriter writer = new SentenceWriter(Paths.get(OUTPUT_DIR, outFilename).toString());
@@ -93,6 +100,13 @@ public class Import {
                     .setType(importer.getType())
                     .setFilename(new File(writer.filename).getName());
             info.addSentencesCollection(collection);
+        }
+
+        Object[] langArr = languages.toArray();
+        Arrays.sort(langArr);
+        System.out.printf("%d languages:\n", languages.size());
+        for (Object lang : langArr) {
+            System.out.printf("- %s\n", lang);
         }
 
         String infoFilename = Paths.get(OUTPUT_DIR, "info.json").toString();
