@@ -57,14 +57,24 @@ public class Import {
                 new String[] {"spa", "fra"},
                 new String[] {"deu", "ita"},
         };
-
         for (String[] tatoebaLanguagePair : tatoebaLanguagePairs) {
             importers.add(new TatoebaImporter(tatoebaLanguagePair[0], tatoebaLanguagePair[1], tatoebaLanguagePairs));
             importers.add(new TatoebaImporter(tatoebaLanguagePair[1], tatoebaLanguagePair[0], tatoebaLanguagePairs));
         }
 
-        importers.add(new EuImporter("slv", "eng", "europarl-v7.sl-en"));
-        importers.add(new EuImporter("eng", "slv", "europarl-v7.sl-en"));
+        String[][] euImporters = new String[][]{
+                {"slv", "eng", "europarl-v7.sl-en"},
+                {"est", "eng", "europarl-v7.et-en"},
+                {"lav", "eng", "europarl-v7.lv-en"},
+                {"slk", "eng", "europarl-v7.sk-en"},
+        };
+        for (String[] eu : euImporters) {
+            String lang1 = eu[0];
+            String lang2 = eu[1];
+            String baseFilename = eu[2];
+            importers.add(new EuImporter(lang1, lang2, baseFilename));
+            importers.add(new EuImporter(lang2, lang1, baseFilename));
+        }
 
         InfoVO info = new InfoVO()
                 .setLanguages(Languages.getLanguages());
