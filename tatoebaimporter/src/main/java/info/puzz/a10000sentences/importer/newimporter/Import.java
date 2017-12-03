@@ -7,7 +7,10 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import info.puzz.a10000sentences.apimodels.InfoVO;
 import info.puzz.a10000sentences.apimodels.SentenceCollectionVO;
@@ -57,19 +60,33 @@ public class Import {
                 new String[] {"spa", "fra"},
                 new String[] {"deu", "ita"},
         };
-
         for (String[] tatoebaLanguagePair : tatoebaLanguagePairs) {
             importers.add(new TatoebaImporter(tatoebaLanguagePair[0], tatoebaLanguagePair[1], tatoebaLanguagePairs));
             importers.add(new TatoebaImporter(tatoebaLanguagePair[1], tatoebaLanguagePair[0], tatoebaLanguagePairs));
         }
 
-        importers.add(new EuImporter("slv", "eng", "europarl-v7.sl-en"));
-        importers.add(new EuImporter("eng", "slv", "europarl-v7.sl-en"));
+        String[][] euImporters = new String[][]{
+                {"slv", "eng", "europarl-v7.sl-en"},
+                {"est", "eng", "europarl-v7.et-en"},
+                {"lav", "eng", "europarl-v7.lv-en"},
+                {"slk", "eng", "europarl-v7.sk-en"},
+        };
+        for (String[] eu : euImporters) {
+            String lang1 = eu[0];
+            String lang2 = eu[1];
+            String baseFilename = eu[2];
+            importers.add(new EuImporter(lang1, lang2, baseFilename));
+            importers.add(new EuImporter(lang2, lang1, baseFilename));
+        }
 
         InfoVO info = new InfoVO()
                 .setLanguages(Languages.getLanguages());
 
+        Set<String> languages = new HashSet<>();
+
         for (Importer importer : importers) {
+            languages.add(importer.targetLang.getName());
+            languages.add(importer.knownLang.getName());
             String outFilename = String.format("%s-%s.csv", importer.knownLanguageAbbrev3, importer.targetLanguageAbbrev3);
 
             SentenceWriter writer = new SentenceWriter(Paths.get(OUTPUT_DIR, outFilename).toString());
@@ -83,6 +100,13 @@ public class Import {
                     .setType(importer.getType())
                     .setFilename(new File(writer.filename).getName());
             info.addSentencesCollection(collection);
+        }
+
+        Object[] langArr = languages.toArray();
+        Arrays.sort(langArr);
+        System.out.printf("%d languages:\n", languages.size());
+        for (Object lang : langArr) {
+            System.out.printf("- %s\n", lang);
         }
 
         String infoFilename = Paths.get(OUTPUT_DIR, "info.json").toString();

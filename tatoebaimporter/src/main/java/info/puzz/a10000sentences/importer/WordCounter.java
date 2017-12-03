@@ -30,11 +30,11 @@ public class WordCounter {
         if ("en".equals(targetLang.getAbbrev())) {
             // If possible use englishbecause it's a less inflected languages, making word counting more reliable:
             sentenceForCounter = sentence.getTargetSentence();
-            if (count.intValue() % 1000 == 0) {
+            if (count.intValue() == 0) {
                 System.out.println(String.format("\t- calculating frequencies with %s instead of...", sentenceForCounter));
             }
         } else {
-            if (count.intValue() % 1000 == 0) {
+            if (count.intValue() == 0) {
                 System.out.println(String.format("\t- calculating frequencies with %s in %s (fallback)", sentenceForCounter, knownLang.getAbbrev()));
             }
         }

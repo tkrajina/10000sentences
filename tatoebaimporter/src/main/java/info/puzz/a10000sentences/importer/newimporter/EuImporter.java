@@ -20,6 +20,8 @@ public class EuImporter extends Importer {
 
     private static Pattern SENTENCE_DELIMITER = Pattern.compile("[\\.\\!\\?](?=\\s+\\p{javaUpperCase})");
 
+    private static Pattern NUMBER_DELIMITER = Pattern.compile("^.*\\d+.*$");
+
     private static final Pattern numberPattern = Pattern.compile("^\\d+\\.$");
     private final String baseFilename;
 
@@ -52,6 +54,7 @@ public class EuImporter extends Importer {
         List<SentenceVO> sentences = new ArrayList<>();
         Set<Integer> knownSenteceHashes = new HashSet<>();
 
+        int ignoredSentences = 0;
         String targetLine, knownLine;
         while (true) {
             targetLine = targetFile.readLine();
@@ -68,10 +71,12 @@ public class EuImporter extends Importer {
                     } else {
                         for (SentenceVO s : importSentence(targetLine, knownLine)) {
                             Integer h = s.getKnownSentence().hashCode();
-                            if (!knownSenteceHashes.contains(h)) {
+                            if (!knownSenteceHashes.contains(h) && sentenceOK(s)) {
                                 sentences.add(s);
                                 counter.countWordsInSentence(s, knownLang, targetLang);
                                 knownSenteceHashes.add(h);
+                            } else {
+                                ignoredSentences += 1;
                             }
                         }
                     }
@@ -79,15 +84,50 @@ public class EuImporter extends Importer {
             }
         }
 
+        System.out.printf("%d sentences ignored\n", ignoredSentences);
+        System.out.printf("%d sentence candidates\n", sentences.size());
+
         calculateComplexityAndReorder(counter, sentences);
 
         // Let's ignore the 20% most complex
         int max = (int) (sentences.size() * 0.70);
         float oneEvery = max / ((float)MAX_SENTENCES_NO);
         for (float i = 0; i < max; i += oneEvery) {
-            System.out.println((int) i);
             writer.writeSentence(sentences.get((int)i));
         }
+    }
+
+    private boolean sentenceOK(SentenceVO s) {
+        String targ = s.getTargetSentence();
+        String known = s.getKnownSentence();
+
+        if (StringUtils.equals(targ, known)) {
+            System.out.printf("Same: %s <-> %s\n", targ, known);
+            return false;
+        }
+
+        int tLen = targ.length();
+        int kLen = known.length();
+        if (StringUtils.getLevenshteinDistance(targ, known) < 0.2 * (tLen + kLen) / 2.) {
+            System.out.printf("Too similar: %s <-> %s\n", targ, known);
+            return false;
+        }
+
+        if (tLen < 50 && kLen < 50) {
+            return true;
+        }
+
+        if (Math.max(tLen, kLen) / Math.min(tLen, kLen) > 3) {
+            System.out.printf("Nope: %s <-> %s\n", known, targ);
+            return false;
+        }
+
+        if (NUMBER_DELIMITER.matcher(targ).matches() || NUMBER_DELIMITER.matcher(known).matches()) {
+            System.out.printf("Has numbers: %s <-> %s\n", known, targ);
+            return false;
+        }
+
+        return true;
     }
 
     private List<SentenceVO> importSentence(String targetLine, String knownLine) {

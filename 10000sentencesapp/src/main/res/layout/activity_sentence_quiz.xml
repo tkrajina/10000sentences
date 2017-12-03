@@ -291,14 +291,16 @@
                             android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/error"
                             android:text="@string/repeat_later"
-                            android:textStyle="normal|bold" />
+                            android:textStyle="normal" />
 
                         <Button
                             android:id="@+id/mark_as_done"
                             android:maxLines="1"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/active_darker"
                             android:text="@string/continue_learning"
                             android:textStyle="normal|bold" />
 
