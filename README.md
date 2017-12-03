@@ -18,8 +18,8 @@ Each sentence can be under one of the following statuses:
 
 - _TODO_ -- meaning that you haven't exercised with them
 - _DONE_ -- meaning that you guessed all words correctly
-- _REPEAT_ -- meaning that you tried, but failed, to guess words correctly. The sentence will be retried (shown in quizes) until you succeed in guessing it.
-- _IGNORE_ -- meaning that you decided you don't want this sentence to show in your quizes
+- _REPEAT_ -- meaning that you tried, but failed, to guess words correctly. The sentence will be retried (shown in quizzes) until you succeed in guessing it.
+- _IGNORE_ -- meaning that you decided you don't want this sentence to show in your quizzes
 
 The app will allow only a certain number of _REPEAT_ sentences. If you reach that number, no new sentences will be shown to you. Only when you fix _REPEAT_ sentences (i.e. succeed in guessing all the words), new ones will be available for you.
 
@@ -54,7 +54,7 @@ If you use another translation app, you can open with the "Open with..." option 
 The application allows you to write **annotations** on words. More than one words can be annotated with the same annotation.
 
 Annotations are best used to create your own dictionary as you proceed learning new sentences.
-If you use annotations like a dictionary, make sure that you write them in gramatically neutral way.
+If you use annotations like a dictionary, make sure that you write them in grammatically neutral way.
 For example, if you learn Italian, you will need to put "camminare" (to walk), "cammino" (I walk), "camminero" (I will walk) under one annotation (for example "walk").
 
 This application is not able to discern if "camminero" (I will walk) and "camminavo" (I was walking) are one and the same word.
@@ -69,7 +69,7 @@ Most Android phones have text-to-speech (TTS) available for some languages. Some
 * Skip sentences for advanced users who feel the first sentences are too easy.
 * Stats with graphs, goals, ...
 * Add more languages
-* better way/place to show annotations in quizes
+* better way/place to show annotations in quizzes
 * Other quiz types:
     * listening comprehension: listen to voice then guess words (without seeing the original sentence, it will be visible only at the end)
 

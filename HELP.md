@@ -19,7 +19,7 @@ If you use another translation app, you can it open with the "Open with..." opti
 The application allows you to write **annotations** on words. More than one words can be annotated with the same annotation.
 
 Annotations are best used to create your own dictionary as you proceed learning new sentences.
-If you use annotations like a dictionary, make sure that you write them in gramatically neutral way.
+If you use annotations like a dictionary, make sure that you write them in grammatically neutral way.
 For example, if you learn Italian, you will need to put "camminare" (to walk), "cammino" (I walk), "camminero" (I will walk) under one annotation (for example "walk").
 
 This application is not able to discern if "camminero" (I will walk) and "camminavo" (I was walking) are one and the same word.
