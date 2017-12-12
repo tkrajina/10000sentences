@@ -6,7 +6,7 @@
 
 ## How it works
 
-The idea is to go through 10,000 sentences in a language you learn. First you will se a sentence in a language you known and then you must guess the words of the same sentence in your target language. By exposing you to unknown words in a real context (a sentence) you will slowly (but steadily) increase your vocabulary size.
+The idea is to go through 10,000 sentences in a language you learn. First you will see a sentence in a language you known and then you must guess the words of the same sentence in your target language. By exposing you to unknown words in a real context (a sentence) you will slowly (but steadily) increase your vocabulary size.
 
 At the moment the app has 12 languages, but more can be added easily. The sentences are ordered by complexity (more common words and shorter sentences first). The sentences collections are extracted from the [Tatoeba](https://tatoeba.org) collection (licensed under CC-BY 2.0).
 
