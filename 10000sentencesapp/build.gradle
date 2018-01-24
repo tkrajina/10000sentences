@@ -17,6 +17,11 @@ android {
         versionCode 54
         versionName "0.2.23"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
     }
     buildTypes {
         release {
@@ -41,7 +46,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     
-    provided "org.projectlombok:lombok:1.12.6"
+    annotationProcessor "org.projectlombok:lombok:1.16.20"
 
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:design:25.0.1'
