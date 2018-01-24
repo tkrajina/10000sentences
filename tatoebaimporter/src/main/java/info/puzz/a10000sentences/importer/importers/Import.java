@@ -1,4 +1,4 @@
-package info.puzz.a10000sentences.importer.newimporter;
+package info.puzz.a10000sentences.importer.importers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

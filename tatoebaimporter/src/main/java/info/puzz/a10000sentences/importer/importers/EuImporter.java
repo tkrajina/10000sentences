@@ -1,4 +1,4 @@
-package info.puzz.a10000sentences.importer.newimporter;
+package info.puzz.a10000sentences.importer.importers;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -11,10 +11,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import info.puzz.a10000sentences.apimodels.CollectionType;
-import info.puzz.a10000sentences.apimodels.LanguageVO;
 import info.puzz.a10000sentences.apimodels.SentenceVO;
 import info.puzz.a10000sentences.importer.WordCounter;
-import info.puzz.a10000sentences.language.Languages;
 
 public class EuImporter extends Importer {
 
