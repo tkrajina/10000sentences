@@ -1,13 +1,15 @@
-apply plugin: 'java'
+apply plugin:'application'
+mainClassName = "info.puzz.a10000sentences.importer.importers.Import"
+compileJava.options.encoding = 'UTF-8'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile "org.projectlombok:lombok:1.12.6"
+    compile "org.projectlombok:lombok:1.16.20"
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.5'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.5'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.3'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.3'
 
     compile project(path: ':apimodels')
 
