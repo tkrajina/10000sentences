@@ -26,7 +26,7 @@ public class Import {
         List<Importer> importers = new ArrayList<>();
 
         String[][] tatoebaLanguagePairs = new String[][]{
-                //new String[] {"pes", "eng"},
+/*                //new String[] {"pes", "eng"},
                 new String[] {"nob", "eng"},
                 new String[] {"ces", "eng"},
                 new String[] {"mkd", "eng"},
@@ -58,7 +58,7 @@ public class Import {
 
                 // Nonenglish collections:
                 new String[] {"spa", "fra"},
-                new String[] {"deu", "ita"},
+                new String[] {"deu", "ita"},*/
         };
         for (String[] tatoebaLanguagePair : tatoebaLanguagePairs) {
             importers.add(new TatoebaImporter(tatoebaLanguagePair[0], tatoebaLanguagePair[1], tatoebaLanguagePairs));
@@ -66,10 +66,9 @@ public class Import {
         }
 
         String[][] euImporters = new String[][]{
-                {"slv", "eng", "europarl-v7.sl-en"},
-                {"est", "eng", "europarl-v7.et-en"},
+/*                {"est", "eng", "europarl-v7.et-en"},
                 {"lav", "eng", "europarl-v7.lv-en"},
-                {"slk", "eng", "europarl-v7.sk-en"},
+                {"slk", "eng", "europarl-v7.sk-en"},*/
         };
         for (String[] eu : euImporters) {
             String lang1 = eu[0];
@@ -78,6 +77,8 @@ public class Import {
             importers.add(new EuImporter(lang1, lang2, baseFilename));
             importers.add(new EuImporter(lang2, lang1, baseFilename));
         }
+
+        importers.add(new TMXImporter("slv", "eng", "sl-en-tmx"));
 
         InfoVO info = new InfoVO()
                 .setLanguages(Languages.getLanguages());
