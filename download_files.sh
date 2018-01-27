@@ -17,6 +17,10 @@ wget http://www.statmt.org/europarl/v7/sk-en.tgz
 gzip -d sk-en.tgz
 tar -xvf sk-en.tar
 
+wget http://downloads.tatoeba.org/exports/links.tar.bz2
+bzip2 -d links.tar.bz2
+tar -xvf links.tar
+
 wget http://downloads.tatoeba.org/exports/sentences.tar.bz2
 bzip2 -d sentences.tar.bz2
 tar -xvf sentences.tar
