@@ -81,7 +81,7 @@ public class TatoebaImporter extends Importer {
     private static Map<Integer, int[]> loadLinks() throws Exception {
         HashMap<Integer, int[]> res = new HashMap<>();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("tmp_files/links.csv")));
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(RAW_FILES_PATH + "/links.csv")));
         String line;
         while ((line = br.readLine()) != null) {
             String[] parts = line.split("\t");

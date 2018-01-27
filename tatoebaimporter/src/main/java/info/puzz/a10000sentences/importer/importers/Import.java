@@ -18,7 +18,7 @@ import info.puzz.a10000sentences.language.Languages;
 
 public class Import {
 
-    public static final String OUTPUT_DIR = "bucket_files";
+    public static final String OUTPUT_DIR = "../bucket_files";
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 

@@ -14,7 +14,7 @@ import info.puzz.a10000sentences.language.Languages;
 
 public abstract class Importer {
 
-    protected static final String RAW_FILES_PATH = "raw_files";
+    protected static final String RAW_FILES_PATH = "../raw_files";
 
     public static final int MAX_SENTENCES_NO = 12_000;
 
