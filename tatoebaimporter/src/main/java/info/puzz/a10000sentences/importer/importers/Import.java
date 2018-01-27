@@ -3,6 +3,7 @@ package info.puzz.a10000sentences.importer.importers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ThreadUtils;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -91,10 +92,13 @@ public class Import {
 
         Set<String> languages = new HashSet<>();
 
-        for (Importer importer : importers) {
+        for (int i = 0; i < importers.size(); i++) {
+            Importer importer = importers.get(i);
+            String outFilename = String.format("%s-%s.csv", importer.knownLanguageAbbrev3, importer.targetLanguageAbbrev3);
+            System.out.println(String.format("Language %d/%d: %s", i + 1, importers.size(), outFilename));
+
             languages.add(importer.targetLang.getName());
             languages.add(importer.knownLang.getName());
-            String outFilename = String.format("%s-%s.csv", importer.knownLanguageAbbrev3, importer.targetLanguageAbbrev3);
 
             SentenceWriter writer = new SentenceWriter(Paths.get(OUTPUT_DIR, outFilename).toString());
             importer.importCollection(writer);
@@ -107,6 +111,9 @@ public class Import {
                     .setType(importer.getType())
                     .setFilename(new File(writer.filename).getName());
             info.addSentencesCollection(collection);
+
+            System.out.println("cooling cpu :)");
+            Thread.sleep(10_000);
         }
 
         Object[] langArr = languages.toArray();

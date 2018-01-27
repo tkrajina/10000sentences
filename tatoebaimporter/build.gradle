@@ -2,6 +2,10 @@ apply plugin:'application'
 mainClassName = "info.puzz.a10000sentences.importer.importers.Import"
 compileJava.options.encoding = 'UTF-8'
 
+tasks.withType(JavaExec) {
+    jvmArgs = ['-Xms4G', '-Xmx4G']
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
