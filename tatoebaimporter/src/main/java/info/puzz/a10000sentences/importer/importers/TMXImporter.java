@@ -55,6 +55,7 @@ public class TMXImporter extends Importer {
         final WordCounter counter = new WordCounter();
         final List<SentenceVO> sentences = new ArrayList<>();
         final Set<Integer> knownSenteceHashes = new HashSet<>();
+        final Set<Integer> targetSenteceHashes = new HashSet<>();
 
 
         try {
@@ -114,18 +115,20 @@ public class TMXImporter extends Importer {
 //                        System.out.println(sentenceTranslations);
 //                        System.out.println(knownLang);
 //                        System.out.println(targetLang);
-                        if (sentences.size() < 40_000) {
+                        if (sentences.size() < 60_000) {
                             String knownLine = sentenceTranslations.get(knownLang.getAbbrev());
                             String targetLine = sentenceTranslations.get(targetLang.getAbbrev());
                             if (StringUtils.isNotEmpty(targetLine) && StringUtils.isNotEmpty(knownLine)) {
                                 if (Character.isUpperCase(targetLine.charAt(0)) && Character.isUpperCase(knownLine.charAt(0))) {
                                     String id = String.format("%s-%s-%d", knownLang.getAbbrev(), targetLang.getAbbrev(), targetLine.hashCode());
                                     SentenceVO s = new SentenceVO().setSentenceId(String.valueOf(id)).setKnownSentence(knownLine).setTargetSentence(targetLine);
-                                    Integer h = s.getKnownSentence().hashCode();
-                                    if (!knownSenteceHashes.contains(h) && sentenceOK(s)) {
+                                    Integer knownHash = s.getKnownSentence().hashCode();
+                                    Integer targetHash = s.getTargetSentence().hashCode();
+                                    if (!targetSenteceHashes.contains(targetHash) && !knownSenteceHashes.contains(knownHash) && sentenceOK(s)) {
                                         sentences.add(s);
                                         counter.countWordsInSentence(s, knownLang, targetLang);
-                                        knownSenteceHashes.add(h);
+                                        knownSenteceHashes.add(knownHash);
+                                        targetSenteceHashes.add(targetHash);
                                         if (sentences.size() % 1000 == 0) {
                                             System.out.println(String.format("%d sentences", sentences.size()));
                                         }

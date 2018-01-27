@@ -130,7 +130,6 @@ public class TatoebaImporter extends Importer {
 
         System.out.println(String.format("Found %d known language sentences", knownLanguageSentences.size()));
         System.out.println(String.format("Found %d target language sentences", targetLanguageSentences.size()));
-        System.out.println(String.format("%d distinct words, %d words", wordCounter.size(), wordCounter.getCount().intValue()));
 
         List<SentenceVO> sentences = new ArrayList<>();
 
@@ -167,6 +166,8 @@ public class TatoebaImporter extends Importer {
                 sentences.add(sentence);
             }
         }
+
+        System.out.println(String.format("%d distinct words, %d words", wordCounter.size(), wordCounter.getCount().intValue()));
 
         // Order by id, so that older ids are deployed in the database (they are more likely to be
         // without errors:
