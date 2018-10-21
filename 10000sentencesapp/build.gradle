@@ -8,12 +8,12 @@ android {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "info.puzz.a10000sentences"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 55
         versionName "0.3.00"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -48,8 +48,8 @@ dependencies {
     
     annotationProcessor "org.projectlombok:lombok:1.16.20"
 
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile 'com.android.support:design:25.0.1'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
 
     compile 'com.joanzapata.iconify:android-iconify:2.2.2'
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
