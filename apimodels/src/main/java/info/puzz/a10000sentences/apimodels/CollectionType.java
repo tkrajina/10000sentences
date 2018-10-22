@@ -18,6 +18,13 @@ public enum CollectionType {
         }
     }),
 
+    OPUS_OPENSUBTITLES("http://opus.nlpl.eu", new CollectionTypeInfo() {
+        @Override
+        public String getSentenceUrl(String sentenceId) {
+            return "http://opus.nlpl.eu";
+        }
+    }),
+
     ;
 
     @Getter

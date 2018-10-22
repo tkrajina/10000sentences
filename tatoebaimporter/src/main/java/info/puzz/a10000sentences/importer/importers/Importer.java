@@ -1,9 +1,12 @@
 package info.puzz.a10000sentences.importer.importers;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import info.puzz.a10000sentences.apimodels.CollectionType;
 import info.puzz.a10000sentences.apimodels.LanguageVO;
@@ -14,9 +17,11 @@ import info.puzz.a10000sentences.language.Languages;
 
 public abstract class Importer {
 
-    protected static final String RAW_FILES_PATH = "raw_files";
+    protected static final String RAW_FILES_PATH = "../raw_files";
 
     public static final int MAX_SENTENCES_NO = 12_000;
+
+    private static Pattern NUMBER_DELIMITER = Pattern.compile("^.*\\d+.*$");
 
     final String knownLanguageAbbrev3;
     final String targetLanguageAbbrev3;
@@ -68,5 +73,39 @@ public abstract class Importer {
 
         sentence.setComplexity(- (float) (avg * Math.pow(0.95, sentenceWords.size())));
     }
+
+    protected boolean sentenceOK(SentenceVO s) {
+        String targ = s.getTargetSentence();
+        String known = s.getKnownSentence();
+
+        if (StringUtils.equals(targ, known)) {
+            //System.out.printf("Same: %s <-> %s\n", targ, known);
+            return false;
+        }
+
+        int tLen = targ.length();
+        int kLen = known.length();
+        if (StringUtils.getLevenshteinDistance(targ, known) < 0.2 * (tLen + kLen) / 2.) {
+            //System.out.printf("Too similar: %s <-> %s\n", targ, known);
+            return false;
+        }
+
+        if (tLen < 50 && kLen < 50) {
+            return true;
+        }
+
+        if (Math.max(tLen, kLen) / Math.min(tLen, kLen) > 3) {
+            //System.out.printf("Nope: %s <-> %s\n", known, targ);
+            return false;
+        }
+
+        if (NUMBER_DELIMITER.matcher(targ).matches() || NUMBER_DELIMITER.matcher(known).matches()) {
+            //System.out.printf("Has numbers: %s <-> %s\n", known, targ);
+            return false;
+        }
+
+        return true;
+    }
+
 
 }
