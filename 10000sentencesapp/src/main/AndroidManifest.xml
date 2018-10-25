@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
     <uses-feature android:name="android.hardware.screen.portrait" />
 
@@ -16,9 +16,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data android:name="AA_DB_NAME" android:value="10000sentences.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="10" />
-        <meta-data android:name="AA_MODELS" android:value="info.puzz.a10000sentences.models.Language,info.puzz.a10000sentences.models.Sentence,info.puzz.a10000sentences.models.SentenceCollection,info.puzz.a10000sentences.models.SentenceHistory,info.puzz.a10000sentences.models.Annotation,info.puzz.a10000sentences.models.WordAnnotation" />
+        <provider
+            android:name="com.activeandroid.content.ContentProvider"
+            android:authorities="info.puzz.a10000sentences"
+            android:enabled="true"
+            android:exported="false" />
+
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="10000sentences.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="10" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="info.puzz.a10000sentences.models.Language,info.puzz.a10000sentences.models.Sentence,info.puzz.a10000sentences.models.SentenceCollection,info.puzz.a10000sentences.models.SentenceHistory,info.puzz.a10000sentences.models.Annotation,info.puzz.a10000sentences.models.WordAnnotation" />
 
         <activity
             android:name=".activities.CollectionsActivity"
