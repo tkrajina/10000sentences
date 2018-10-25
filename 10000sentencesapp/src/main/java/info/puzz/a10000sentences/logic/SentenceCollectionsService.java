@@ -154,6 +154,10 @@ public final class SentenceCollectionsService {
                 .limit(limit)
                 .execute();
 
+        if (sentences == null || sentences.size() == 0) {
+            return;
+        }
+
         String[] sentenceIds = new String[sentences.size()];
         for (int i = 0; i < sentences.size(); i++) {
             sentenceIds[i] = sentences.get(i).sentenceId;
