@@ -8,13 +8,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import info.puzz.a10000sentences.apimodels.CollectionType;
-import lombok.Data;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
-@Data
-@Accessors(chain = true)
-@ToString
 @Table(name = "sentence_collection")
 public class SentenceCollection extends Model {
 
@@ -92,4 +86,111 @@ public class SentenceCollection extends Model {
         return NUMBER_FORMAT.format(MAX_SENTENCES) + "+";
     }
 
+    public String getCollectionID() {
+        return collectionID;
+    }
+
+    public SentenceCollection setCollectionID(String collectionID) {
+        this.collectionID = collectionID;
+        return this;
+    }
+
+    public String getKnownLanguage() {
+        return knownLanguage;
+    }
+
+    public SentenceCollection setKnownLanguage(String knownLanguage) {
+        this.knownLanguage = knownLanguage;
+        return this;
+    }
+
+    public String getTargetLanguage() {
+        return targetLanguage;
+    }
+
+    public SentenceCollection setTargetLanguage(String targetLanguage) {
+        this.targetLanguage = targetLanguage;
+        return this;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public SentenceCollection setFilename(String filename) {
+        this.filename = filename;
+        return this;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public SentenceCollection setCount(int count) {
+        this.count = count;
+        return this;
+    }
+
+    public int getTodoCount() {
+        return todoCount;
+    }
+
+    public SentenceCollection setTodoCount(int todoCount) {
+        this.todoCount = todoCount;
+        return this;
+    }
+
+    public int getRepeatCount() {
+        return repeatCount;
+    }
+
+    public SentenceCollection setRepeatCount(int repeatCount) {
+        this.repeatCount = repeatCount;
+        return this;
+    }
+
+    public int getDoneCount() {
+        return doneCount;
+    }
+
+    public SentenceCollection setDoneCount(int doneCount) {
+        this.doneCount = doneCount;
+        return this;
+    }
+
+    public int getIgnoreCount() {
+        return ignoreCount;
+    }
+
+    public SentenceCollection setIgnoreCount(int ignoreCount) {
+        this.ignoreCount = ignoreCount;
+        return this;
+    }
+
+    public int getSkippedCount() {
+        return skippedCount;
+    }
+
+    public SentenceCollection setSkippedCount(int skippedCount) {
+        this.skippedCount = skippedCount;
+        return this;
+    }
+
+    public int getAnnotationCount() {
+        return annotationCount;
+    }
+
+    public SentenceCollection setAnnotationCount(int annotationCount) {
+        this.annotationCount = annotationCount;
+        return this;
+    }
+
+    public CollectionType getType() {
+        return type;
+    }
+
+    public SentenceCollection setType(CollectionType type) {
+        this.type = type;
+        return this;
+    }
 }

@@ -4,13 +4,6 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
-import lombok.Data;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-
-@Data
-@Accessors(chain = true)
-@ToString
 @Table(name = "sentence")
 public class Sentence extends Model {
 
@@ -49,5 +42,59 @@ public class Sentence extends Model {
 
     public SentenceStatus getSentenceStatus() {
         return SentenceStatus.fromStatus(status);
+    }
+
+    public String getSentenceId() {
+        return sentenceId;
+    }
+
+    public Sentence setSentenceId(String sentenceId) {
+        this.sentenceId = sentenceId;
+        return this;
+    }
+
+    public String getCollectionId() {
+        return collectionId;
+    }
+
+    public Sentence setCollectionId(String collectionId) {
+        this.collectionId = collectionId;
+        return this;
+    }
+
+    public String getKnownSentence() {
+        return knownSentence;
+    }
+
+    public Sentence setKnownSentence(String knownSentence) {
+        this.knownSentence = knownSentence;
+        return this;
+    }
+
+    public String getTargetSentence() {
+        return targetSentence;
+    }
+
+    public Sentence setTargetSentence(String targetSentence) {
+        this.targetSentence = targetSentence;
+        return this;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public Sentence setStatus(int status) {
+        this.status = status;
+        return this;
+    }
+
+    public float getComplexity() {
+        return complexity;
+    }
+
+    public Sentence setComplexity(float complexity) {
+        this.complexity = complexity;
+        return this;
     }
 }

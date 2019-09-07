@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
@@ -78,11 +77,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         initNavigation();
-
-        if (!BuildConfig.DEBUG) {
-            Application.GA_TRACKER.setScreenName("Image~" + this.getClass().getSimpleName());
-            Application.GA_TRACKER.send(new HitBuilders.ScreenViewBuilder().build());
-        }
     }
 
     protected boolean isNetworkAvailable() {

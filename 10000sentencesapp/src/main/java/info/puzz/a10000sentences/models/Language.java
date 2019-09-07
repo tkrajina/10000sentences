@@ -6,13 +6,6 @@ import com.activeandroid.annotation.Table;
 
 import org.apache.commons.lang3.StringUtils;
 
-import lombok.Data;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-
-@Data
-@Accessors(chain = true)
-@ToString
 @Table(name = "language")
 public class Language extends Model {
     @Column(name = "language_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
@@ -45,5 +38,50 @@ public class Language extends Model {
             return name;
         }
         return name + " / " + nativeName;
+    }
+
+    public String getLanguageId() {
+        return languageId;
+    }
+
+    public Language setLanguageId(String languageId) {
+        this.languageId = languageId;
+        return this;
+    }
+
+    public String getFamily() {
+        return family;
+    }
+
+    public Language setFamily(String family) {
+        this.family = family;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Language setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public String getNativeName() {
+        return nativeName;
+    }
+
+    public Language setNativeName(String nativeName) {
+        this.nativeName = nativeName;
+        return this;
+    }
+
+    public boolean isRightToLeft() {
+        return rightToLeft;
+    }
+
+    public Language setRightToLeft(boolean rightToLeft) {
+        this.rightToLeft = rightToLeft;
+        return this;
     }
 }

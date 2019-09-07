@@ -87,4 +87,16 @@ public class WordCounter {
         return res;
     }
 
+    public AtomicInteger getCount() {
+        return count;
+    }
+
+    public WordCounter setCount(AtomicInteger count) {
+        this.count = count;
+        return this;
+    }
+
+    public Map<String, AtomicInteger> getWordCounter() {
+        return wordCounter;
+    }
 }

@@ -14,13 +14,9 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import info.puzz.a10000sentences.models.SentenceHistory;
-import lombok.Data;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
 public final class StatsService {
 
-    @Data
     public class DataPoint implements DataPointInterface {
         private double x;
         private double y;
@@ -28,11 +24,28 @@ public final class StatsService {
             this.x = x;
             this.y = y;
         }
+
+        @Override
+        public double getX() {
+            return x;
+        }
+
+        public DataPoint setX(double x) {
+            this.x = x;
+            return this;
+        }
+
+        @Override
+        public double getY() {
+            return y;
+        }
+
+        public DataPoint setY(double y) {
+            this.y = y;
+            return this;
+        }
     }
 
-    @Data
-    @Accessors(chain = true)
-    @ToString
     public class Stats {
         /**
          * List of active collections in that period of time.
