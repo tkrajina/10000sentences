@@ -50,7 +50,7 @@ A simple workflow idea:
 
 ## Translate words
 
-You must have Google translate installed for this option to work.
+You must have Google Translate installed for this option to work.
 
 If you use another translation app, you can open with the "Open with..." option in the menus.
 
@@ -60,9 +60,9 @@ The application allows you to write **annotations** on words. More than one word
 
 Annotations are best used to create your own dictionary as you proceed learning new sentences.
 If you use annotations like a dictionary, make sure that you write them in grammatically neutral way.
-For example, if you learn Italian, you will need to put "camminare" (to walk), "cammino" (I walk), "camminero" (I will walk) under one annotation (for example "walk").
+For example, if you learn Italian, you will need to put "camminare" (to walk), "cammino" (I walk), "camminerò" (I will walk) under one annotation (for example "walk").
 
-This application is not able to discern if "camminero" (I will walk) and "camminavo" (I was walking) are one and the same word.
+This application is not able to discern if "camminerò" (I will walk) and "camminavo" (I was walking) are one and the same word.
 It is up to you to figure out that it must be **one** annotation, but this journey of "figuring out" words is part of language learning.
 
 ## Text to speech (TTS)
@@ -74,12 +74,12 @@ Most Android phones have text-to-speech (TTS) available for some languages. Some
 * Skip sentences for advanced users who feel the first sentences are too easy.
 * Stats with graphs, goals, ...
 * Add more languages
-* better way/place to show annotations in quizzes
+* Better way/place to show annotations in quizzes
 * Other quiz types:
-    * listening comprehension: listen to voice then guess words (without seeing the original sentence, it will be visible only at the end)
+    * Listening comprehension: listen to voice then guess words (without seeing the original sentence, it will be visible only at the end)
 
 Maybe:
-* share progress with other users, global rating lists for different languages
+* Share progress with other users, global rating lists for different languages
 
 # Screenshots
 
