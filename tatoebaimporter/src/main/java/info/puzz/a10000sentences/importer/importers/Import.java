@@ -27,6 +27,7 @@ public class Import {
         List<Importer> importers = new ArrayList<>();
 
         String[][] tatoebaLanguagePairs = new String[][]{
+                new String[]{"ceb", "eng"},
                 new String[]{"pes", "eng"},
                 new String[]{"nob", "eng"},
                 new String[]{"ces", "eng"},
