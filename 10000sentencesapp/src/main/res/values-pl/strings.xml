@@ -1,0 +1,121 @@
+<resources>
+    <string name="app_name">10,000 sentences</string>
+
+    <string name="navigation_drawer_open">Otwórz szufladę nawigacji</string>
+    <string name="navigation_drawer_close">Zamknij szufladę nawigacji</string>
+
+    <string name="action_settings">Ustawienia</string>
+    <string name="title_activity_sentence_quiz">Aktywność Quiz Zdania </string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="download_senteces">Pobierz zdania</string>
+    <string name="random_sentence">Losowe zdanie</string>
+    <string name="download_collection">Pobierz kolekcję</string>
+    <string name="todo">Wszystko</string>
+    <string name="retry_again">Spróbuj ponownie później</string>
+    <string name="done">Gotowe</string>
+    <string name="finalize_sentence_title">Co dalej?</string>
+    <string name="correct">Popraw {fa-thumbs-o-up}</string>
+    <string name="repeat_later">Powtórz zdanie później</string>
+    <string name="continue_learning">Kontynuuj naukę</string>
+    <string name="too_many_errors">Za dużo błędów {fa-thumbs-o-down}</string>
+    <string name="title_activity_tmp">Aktywność Tmp</string>
+    <string name="start_quiz">Rozpocznij quiz</string>
+    <string name="about">O aplikacji</string>
+    <string name="help">Pomoc</string>
+    <string name="stats">Statystyki</string>
+    <string name="reload_languages">Przeładuj języki</string>
+    <string name="collections">Kolekcje</string>
+    <string name="no_newtork">Brak dostępnej sieci</string>
+    <string name="error_retrieving">Nie udało się pobrać danych</string>
+    <string name="imported">Importowanie</string>
+    <string name="no_sentence_found">Nie znaleziono zdań</string>
+    <string name="translate">Przetłumacz</string>
+    <string name="share">Otwórz za pomocą...</string>
+    <string name="select_text">Wybierz tekst</string>
+    <string name="empty">Ciąg pusty</string>
+    <string name="ignored">Ignoruj</string>
+    <string name="todo_sentences">WSZYSTKIE zdania</string>
+    <string name="done_sentences">ZROBIONE zdania</string>
+    <string name="repeat_sentences">POWTARZANE zdania</string>
+    <string name="ignored_sentences">ZIGNOROWANE zadania</string>
+    <string name="ignore_sentence">Zignoruj ​​to zdanie</string>
+    <string name="tts_not_inititialized">Zamiana tekstu na mowę nie została (jeszcze) zainicjowana</string>
+    <string name="tts_language_not_available">Nie zainstalowano języka zamiany tekstu na mowę</string>
+    <string name="settings">Ustawienia</string>
+    <string name="done_sentence">Oznacz jako wykonane</string>
+    <string name="todo_sentence">Oznacz jako WSZYSTKIE</string>
+    <string name="ignored_sentence">Oznacz jako IGNOROWANE</string>
+    <string name="repeat_sentence">Oznacz jako POWTÓRZ</string>
+    <string name="unexpected_error">Wystąpił nieoczekiwany błąd</string>
+    <string name="info_contents" formatted="false"><![CDATA[<p>     Ta aplikacja jest open source i jest licencjonowana na licencji Apache 2.0. Źródło jest dostępne tutaj: <a href=\"https://github.com/tkrajina/10000sentences\">github.com/tkrajina/10000sentences</a>. </p> <p>     Wszystkie materiały do ​​nauki języka są pobierane i przygotowywane z <a href=\"https://tatoeba.org\">Tatoeba website</a>, i jest licencjonowany jako Creative Commons Attribution 2.0.  </p> <hr> <p>     Wersja: <strong>%s / %s</version> </p>]]></string>
+    <string name="repeat">Powtórz</string>
+    <string name="app_description">Naucz się nowych słów...</string>
+    <string name="remove_collection">Usuń tę kolekcję</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Anuluj</string>
+    <string name="really_delete_collection" formatted="false"><![CDATA[Chcesz usunąć kolekcję?
+Jeśli naprawdę tego chcesz, wpisz: %s]]></string>
+    <string name="not_deleted">Nie usunięto</string>
+    <string name="collection_deleted">Kolekcja usunięta</string>
+    <string name="all_sentences">Zdania</string>
+    <string name="practice_known_sentences">Przećwicz znane zdania</string>
+    <string name="read_sentence">Przeczytaj zdanie</string>
+    <string name="sentences">Zdania</string>
+    <string name="downloaded_colections">Pobrane kolekcje</string>
+    <string name="for_">dla</string>
+    <string name="speakers">głośniki</string>
+    <string name="open_in_browser">Otwórz w przeglądarce</string>
+    <string name="error_opening_link">Błąd otwierania adresu url</string>
+    <string name="for_speakers_of">...dla prelegentów:</string>
+    <string name="time_spent_daily">Czas spędzony na ćwiczeniach:</string>
+    <string name="sentences_marked_as_done">Zdania oznaczone jako ZROBIONE:</string>
+    <string name="help_contents">## Jak to działa\n\nChodzi o to, aby przejść przez 10 000 zdań w języku, którego się uczysz. Najpierw zobaczysz zdanie w języku, który znasz, a następnie musisz odgadnąć słowa tego samego zdania w języku docelowym. Wystawiając Cię na nieznane słowa w prawdziwym kontekście (zdaniu) powoli (ale systematycznie) będziesz powiększać swoje słownictwo.\n\n## Czy mogę nauczyć się języka za pomocą tej aplikacji?\n\nTa aplikacja jest narzędziem pomocniczym, które pomoże Ci poszerzyć zasób słownictwa, wystawiając Cię na tysiące zdań. Oprócz korzystania z niego powinieneś również podążać innymi (bardziej tradycyjnymi) sposobami nauki języka: rozmowa z native speakerami, nauka gramatyki itp..\n\n## Przetłumacz słowa\n\nAby ta opcja działała, musisz mieć zainstalowany Tłumacz Google.\n\nJeśli używasz innej aplikacji do tłumaczenia, możesz ją otworzyć za pomocą opcji „Otwórz za pomocą...” w menu.\n\n## Adnotacje\n\nAplikacja umożliwia pisanie **adnotacji** na słowach. Ta sama adnotacja może zawierać więcej niż jedno słowo.\n\nAdnotacje najlepiej nadają się do tworzenia własnego słownika podczas nauki nowych zdań.\nJeśli używasz adnotacji takich jak słownik, upewnij się, że piszesz je w gramatycznie neutralny sposób.\nNa przykład, jeśli uczysz się włoskiego, będziesz musiał umieścić \'camminare\' (chodzić), \'cammino\' (chodzę), \'camminero\' (będę chodzić) pod jedną adnotacją (na przykład \'chodzić\').\n\nTa aplikacja nie jest w stanie rozpoznać, czy \'camminero\' (będzie chodzić) i \'camminavo\' (szedłem) to jedno i to samo słowo.\nOd Ciebie zależy, czy musi to być **jedna** adnotacja, ale ta podróż polegająca na \'uczeniu się\' słów jest częścią nauki języka.\n\n## Zamiana tekstu na mowę (TTS)\n\nWiększość telefonów z Androidem obsługuje funkcję zamiany tekstu na mowę (TTS) w niektórych językach. Niektóre języki mają bardzo słabą jakość głosu TTS. Sprawdź ustawienia telefonu, aby sprawdzić, czy istnieje możliwość pobrania TTS lepszej jakości. W niektórych językach dostępne są również dodatkowe aplikacje TTS dostępne w sklepie Google Play.\n</string>
+    <string name="annotation">Adnotacja słowna</string>
+    <string name="annotation_for_word">Adnotacja do</string>
+    <string name="annotation_colon">Adnotacja:</string>
+    <string name="annotate_words">Dodawanie adnotacji do słów</string>
+    <string name="save">Zapisz</string>
+    <string name="annotation_saved">Adnotacja została zapisana</string>
+    <string name="add_word_to_this_annotation">Dodać słowo do tej adnotacji?</string>
+    <string name="word_annotations">Adnotacje słowne</string>
+    <string name="annotations">Adnotacje</string>
+    <string name="delete">Usuń</string>
+    <string name="annotation_deleted">Adnotacja została usunięta</string>
+    <string name="remove_word_from_annotation">Usunąć słowo z adnotacji?</string>
+    <string name="words_colon">Słowa:</string>
+    <string name="add_to_annotation_explanation">Kliknij poniżej, jeśli chcesz dodać to słowo do istniejącej adnotacji:</string>
+    <string name="select_annotation">Wybierz adnotację</string>
+    <string name="annotation_empty">Adnotacja pusta</string>
+    <string name="all">Wszystkie</string>
+    <string name="word_to_clipboadr">Słowo w schowku</string>
+    <string name="share_word">Udostępnij słowo</string>
+    <string name="filter">Filtr:</string>
+    <string name="add_word">Dodaj słowo</string>
+    <string name="todo_desc">Nowe zdanie</string>
+    <string name="retry_again_desc">Ponawiam zdanie</string>
+    <string name="done_desc">Znane zdanie</string>
+    <string name="ignored_desc">Zignorowane zdanie</string>
+    <string name="skippped">Pomiń</string>
+    <string name="skipped_desc">Pomiń</string>
+    <string name="tts_settings">TUstawienia TTS</string>
+    <string name="not_downloaded">Nie ściągnięto</string>
+    <string name="first_steps">Następne kroki</string>
+    <string name="first_steps_contents"><![CDATA[<ul>
+<li> Pobierz zdania w swoim języku
+<li> Upewnij się, że masz zainstalowany Tłumacz Google
+<li> Ćwicz zdania...
+<li> Gdy napotkasz nieznane słowo – użyj adnotacji, aby stworzyć własny słownik
+</ul>]]></string>
+    <string name="redownload_collection">(Ponownie)pobierz kolekcję</string>
+    <string name="not_translate_app_found">Nie znaleziono aplikacji do tłumaczenia</string>
+    <string name="previous_sentence">Poprzednie zdanie</string>
+    <string name="cannot_find_sentence">Nie można znaleźć zdania</string>
+    <string name="stats_title" formatted="false">statystyki %d dni</string>
+    <string name="skip_sentences">Wygląda na to, że to dla Ciebie za łatwe, chcesz pominąć %d zdań?</string>
+    <string name="un_skip_sentences">Pomiń proste zdania</string>
+    <string name="skip_n_sentences" formatted="false">Pomiń %d zdań</string>
+    <string name="unskip_n_sentences">Cofnij %d pominiętych zdań</string>
+    <string name="skipped">Pominięte</string>
+    <string name="current_streak">Bieżąca passa dni: </string>
+</resources>
