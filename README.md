@@ -2,6 +2,8 @@
 
 10,000 sentences is an Android app to help you learn new words in a foreign language.
 
+APP DEVELOPMENT IS DISCONTINUED. I MADE A PROGRESSIVE-WEB-APP (PWA) VERSION INSTEAD: https://10000sentences.com
+
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/info.puzz.a10000sentences/)
